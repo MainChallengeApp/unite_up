@@ -1,78 +1,149 @@
-# AI Chat App
+# Dare U - Life Improvement Challenge App
 
-A beautiful, modern, and minimalistic Flutter chat application with AI assistant functionality.
+A beautiful, modern Flutter application that helps users improve their lives through daily challenges. Transform your life one challenge at a time!
 
-## Features
+## 🎯 Features
 
-- 🎨 **Modern UI Design**: Clean and minimalistic interface using Material Design 3
-- 💬 **AI Chat Interface**: Beautiful chat bubbles with smooth animations
-- 🌓 **Theme Toggle**: Switch between Light, Dark, and System themes
-- 📱 **Responsive Design**: Works seamlessly on all screen sizes
-- 🎭 **Mock AI Responses**: Simulated AI responses for demonstration
+### **Goal Selection**
+- Choose from predefined life improvement goals:
+  - 🏥 Become Healthier
+  - 👥 Improve Social Skills
+  - 🧠 Become More Intelligent
+  - 💪 Get Physically Fit
+  - 🎨 Boost Creativity
+  - ⚡ Increase Productivity
+  - 🧘 Practice Mindfulness
+  - ⭐ Custom Goal
 
-## Project Structure
+### **Daily Challenges**
+- Receive 3 personalized challenges daily based on your goal
+- Challenges come in 3 difficulty levels:
+  - 🌱 Easy
+  - 🌿 Medium
+  - 🌳 Hard
+- Select one challenge to complete each day
+
+### **Progress Tracking**
+- Submit your progress with notes
+- Upload proof with images, videos, or files (mocked for demo)
+- Track your journey through an event history timeline
+
+### **Event History**
+- All interactions stored in a beautiful chat-like interface
+- See your goal selection
+- View daily challenge offers
+- Track accepted challenges
+- Review progress submissions
+- Celebrate completed challenges
+
+### **Theme Modes**
+- Light Mode, Dark Mode, and System Default
+- Beautiful Material Design 3 UI
+- Smooth theme transitions
+
+## 📱 App Flow
+
+1. **First Launch**: Users are greeted with an onboarding screen to select their goal
+2. **Daily Challenges**: App presents 3 challenges based on the selected goal
+3. **Accept Challenge**: User selects one challenge to complete
+4. **Submit Progress**: User uploads progress with optional media attachments
+5. **Completion**: Challenge is marked as complete, ready for next day!
+
+## 🏗️ Project Structure
 
 ```
 lib/
-├── main.dart                      # App entry point
+├── main.dart                           # App entry point with routing
 ├── models/
-│   └── chat_message.dart         # Chat message data model
+│   ├── goal.dart                       # Goal categories and model
+│   ├── challenge.dart                  # Challenge model with difficulty
+│   ├── progress_entry.dart             # Progress tracking model
+│   └── event.dart                      # Event system for history
 ├── pages/
-│   ├── chat_page.dart            # Main chat interface
-│   └── settings_page.dart        # Settings with theme toggle
+│   ├── onboarding_page.dart            # Goal selection onboarding
+│   ├── chat_page.dart                  # Main event history timeline
+│   └── settings_page.dart              # Settings with theme toggle
 ├── providers/
-│   └── theme_provider.dart       # Theme state management
+│   ├── app_state_provider.dart         # App state management
+│   └── theme_provider.dart             # Theme state management
 ├── services/
-│   └── mock_ai_service.dart      # Mock AI response service
+│   └── challenge_service.dart          # Challenge generation service
 ├── theme/
-│   └── app_theme.dart            # App theme configurations
+│   └── app_theme.dart                  # App theme configurations
 └── widgets/
-    ├── chat_bubble.dart          # Custom chat bubble widget
-    └── chat_input.dart           # Chat input field widget
+    ├── event_card.dart                 # Main event router widget
+    ├── goal_selected_card.dart         # Goal selection event card
+    ├── challenges_offered_card.dart    # Daily challenges display card
+    ├── challenge_accepted_card.dart    # Challenge acceptance card
+    ├── progress_submitted_card.dart    # Progress submission card
+    ├── challenge_completed_card.dart   # Challenge completion card
+    ├── ai_message_card.dart            # AI message bubble
+    ├── user_message_card.dart          # User message bubble
+    └── progress_dialog.dart            # Progress submission dialog
 ```
 
-## Dependencies
+## 🎨 Design Highlights
 
-- **provider**: State management for theme switching
-- **flutter_chat_ui**: Beautiful chat UI components
-- **uuid**: Generate unique message IDs
-- **flutter_svg**: SVG support for icons
+- ✨ Clean, minimalistic, modern UI
+- 🎯 Gamified challenge system
+- 📊 Visual progress tracking
+- 🎭 Beautiful card-based layouts
+- 🌈 Indigo/purple color scheme
+- 📱 Responsive and adaptive design
+- 🔄 Smooth animations and transitions
 
-## Getting Started
+## 🚀 Getting Started
 
-1. Install dependencies:
+1. **Install dependencies:**
 ```bash
 flutter pub get
 ```
 
-2. Run the app:
+2. **Run the app:**
+
+For web (accessible from any device on your network):
 ```bash
-flutter run
+flutter run -d chrome --web-hostname 0.0.0.0 --web-port 8080
 ```
 
-## Theme Features
+Then access from your phone at: `http://YOUR_MAC_IP:8080`
 
-The app supports three theme modes:
-- **Light Mode**: Bright and clear interface with indigo accent colors
-- **Dark Mode**: Easy on the eyes with dark backgrounds
-- **System Default**: Automatically follows your device's theme settings
+For iOS (if device is connected):
+```bash
+flutter run -d ios
+```
 
-## UI Highlights
+For Android:
+```bash
+flutter run -d android
+```
 
-- Custom chat bubbles with user/AI avatars
-- Smooth scrolling and animations
-- Beautiful card-based settings interface
-- Real-time theme switching without restart
-- Elegant loading states and empty states
+## 📦 Dependencies
 
-## Screenshots
+- **provider**: State management for app state and themes
+- **Material Design 3**: Modern, beautiful UI components
 
-The app features:
-- A clean chat interface with message bubbles
-- Settings page with theme selection
-- Smooth transitions and animations
-- Modern color scheme (Indigo/Purple palette)
+## 💡 Key Concepts
+
+### Event-Driven Architecture
+All user interactions and system events are stored as events in a timeline, creating a comprehensive history of the user's improvement journey.
+
+### Mocked Data
+All challenges and file uploads are mocked for demonstration purposes. In a production version, this would integrate with:
+- Backend API for challenge generation
+- File storage for media uploads
+- User authentication
+- Progress analytics
+
+### Responsive Design
+The app adapts beautifully to different screen sizes and orientations, providing an excellent experience on phones, tablets, and web browsers.
+
+## 🎮 Challenge Categories
+
+Each goal category has 8+ unique challenges that are randomly presented to users daily, ensuring variety and sustained engagement.
 
 ---
 
-Built with ❤️ using Flutter
+**Built with ❤️ using Flutter and Material Design 3**
+
+*Dare yourself to improve, one challenge at a time! 🚀*

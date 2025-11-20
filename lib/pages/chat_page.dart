@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../models/chat_message.dart';
-import '../services/mock_ai_service.dart';
-import '../widgets/chat_bubble.dart';
-import '../widgets/chat_input.dart';
+import '../models/progress_entry.dart';
+import '../providers/app_state_provider.dart';
+import '../widgets/event_card.dart';
+import '../widgets/progress_dialog.dart';
 import 'settings_page.dart';
 
 class ChatPage extends StatefulWidget {
@@ -14,94 +15,80 @@ class ChatPage extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatPage> {
-  final List<ChatMessage> _messages = [];
   final ScrollController _scrollController = ScrollController();
-  bool _isLoading = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _messages.addAll(MockAIService.getInitialMessages());
-  }
+  final TextEditingController _messageController = TextEditingController();
 
   @override
   void dispose() {
     _scrollController.dispose();
+    _messageController.dispose();
     super.dispose();
   }
 
   void _scrollToBottom() {
     if (_scrollController.hasClients) {
-      Future.delayed(const Duration(milliseconds: 100), () {
-        _scrollController.animateTo(
-          _scrollController.position.maxScrollExtent,
-          duration: const Duration(milliseconds: 300),
-          curve: Curves.easeOut,
-        );
+      Future.delayed(const Duration(milliseconds: 300), () {
+        if (_scrollController.hasClients) {
+          _scrollController.animateTo(
+            _scrollController.position.maxScrollExtent,
+            duration: const Duration(milliseconds: 300),
+            curve: Curves.easeOut,
+          );
+        }
       });
     }
   }
 
-  Future<void> _handleSendMessage(String text) async {
-    if (text.trim().isEmpty) return;
-
-    final userMessage = ChatMessage(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      text: text,
-      isUser: true,
-      timestamp: DateTime.now(),
-    );
-
-    setState(() {
-      _messages.add(userMessage);
-      _isLoading = true;
+  void _showProgressDialog(String challengeId) {
+    showDialog(
+      context: context,
+      builder: (context) => ProgressDialog(challengeId: challengeId),
+    ).then((result) {
+      if (result != null && result is ProgressEntry) {
+        Provider.of<AppStateProvider>(
+          context,
+          listen: false,
+        ).submitProgress(result);
+        _scrollToBottom();
+      }
     });
+  }
 
+  void _sendMessage() {
+    if (_messageController.text.trim().isEmpty) return;
+
+    Provider.of<AppStateProvider>(
+      context,
+      listen: false,
+    ).addUserMessage(_messageController.text.trim());
+    _messageController.clear();
     _scrollToBottom();
-
-    try {
-      final aiResponse = await MockAIService.generateResponse(text);
-      setState(() {
-        _messages.add(aiResponse);
-        _isLoading = false;
-      });
-      _scrollToBottom();
-    } catch (e) {
-      setState(() {
-        _isLoading = false;
-      });
-    }
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final appState = Provider.of<AppStateProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: Row(
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            Container(
-              width: 10,
-              height: 10,
-              decoration: BoxDecoration(
-                color: Colors.green,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.green.withOpacity(0.5),
-                    blurRadius: 4,
-                    spreadRadius: 1,
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(width: 12),
             const Text(
-              'AI Assistant',
+              'Dare U',
               style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
             ),
+            if (appState.currentGoal != null)
+              Text(
+                appState.currentGoal!.displayName,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.normal,
+                  color: theme.iconTheme.color?.withOpacity(0.6),
+                ),
+              ),
           ],
         ),
         actions: [
@@ -121,18 +108,30 @@ class _ChatPageState extends State<ChatPage> {
       body: Column(
         children: [
           Expanded(
-            child: _messages.isEmpty
+            child: appState.events.isEmpty
                 ? _buildEmptyState(theme)
                 : ListView.builder(
                     controller: _scrollController,
                     padding: const EdgeInsets.only(top: 16, bottom: 16),
-                    itemCount: _messages.length,
+                    itemCount: appState.events.length,
                     itemBuilder: (context, index) {
-                      return ChatBubble(message: _messages[index]);
+                      final event = appState.events[index];
+                      return EventCard(
+                        event: event,
+                        onChallengeAccept: (challenge) {
+                          appState.acceptChallenge(challenge);
+                          _scrollToBottom();
+                        },
+                        onSubmitProgress: appState.hasActiveChallenge
+                            ? () => _showProgressDialog(
+                                appState.activeChallenge!.id,
+                              )
+                            : null,
+                      );
                     },
                   ),
           ),
-          ChatInput(onSendMessage: _handleSendMessage, isLoading: _isLoading),
+          _buildInputBar(theme, appState),
         ],
       ),
     );
@@ -151,14 +150,14 @@ class _ChatPageState extends State<ChatPage> {
               shape: BoxShape.circle,
             ),
             child: Icon(
-              Icons.chat_bubble_outline_rounded,
+              Icons.rocket_launch_rounded,
               size: 40,
               color: theme.colorScheme.primary,
             ),
           ),
           const SizedBox(height: 24),
           Text(
-            'Start a conversation',
+            'Ready to improve?',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w600,
@@ -169,13 +168,93 @@ class _ChatPageState extends State<ChatPage> {
           ),
           const SizedBox(height: 8),
           Text(
-            'Ask me anything and I\'ll do my best to help!',
+            'Your challenge journey will appear here',
             style: TextStyle(
               fontSize: 14,
               color: theme.iconTheme.color?.withOpacity(0.6),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildInputBar(ThemeData theme, AppStateProvider appState) {
+    // Only show input if onboarding is complete
+    if (!appState.hasCompletedOnboarding) {
+      return const SizedBox.shrink();
+    }
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      decoration: BoxDecoration(
+        color: theme.scaffoldBackgroundColor,
+        border: Border(
+          top: BorderSide(color: theme.dividerColor.withOpacity(0.1), width: 1),
+        ),
+      ),
+      child: SafeArea(
+        child: Row(
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: theme.cardColor,
+                  borderRadius: BorderRadius.circular(24),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.05),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
+                ),
+                child: TextField(
+                  controller: _messageController,
+                  maxLines: null,
+                  textInputAction: TextInputAction.send,
+                  onSubmitted: (_) => _sendMessage(),
+                  decoration: InputDecoration(
+                    hintText: 'Share your thoughts...',
+                    hintStyle: TextStyle(
+                      color: theme.iconTheme.color?.withOpacity(0.5),
+                    ),
+                    border: InputBorder.none,
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 12,
+                    ),
+                  ),
+                  style: TextStyle(
+                    color: theme.brightness == Brightness.dark
+                        ? Colors.white
+                        : const Color(0xFF1E293B),
+                    fontSize: 15,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: 12),
+            Material(
+              color: theme.colorScheme.primary,
+              borderRadius: BorderRadius.circular(24),
+              child: InkWell(
+                onTap: _sendMessage,
+                borderRadius: BorderRadius.circular(24),
+                child: Container(
+                  width: 48,
+                  height: 48,
+                  alignment: Alignment.center,
+                  child: const Icon(
+                    Icons.send_rounded,
+                    color: Colors.white,
+                    size: 20,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
