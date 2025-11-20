@@ -21,6 +21,7 @@
     "createAccount": "Create Account",
     "alreadyHaveAccount": "Already have an account?",
     "dontHaveAccount": "Don't have an account yet?",
+    "continueWith": "Continue with {provider}",
     "loginWithGoogle": "Continue with Google",
     "loginWithApple": "Continue with Apple",
     "loggedOutSuccessfully": "Logged out successfully",

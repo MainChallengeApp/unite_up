@@ -1,5 +1,6 @@
 import 'package:dare_u/core/constants/app_constants.dart';
 import 'package:dare_u/enums/auth_provider_enum.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -75,7 +76,9 @@ class SocialLoginButton extends StatelessWidget {
               FaIcon(icon, size: AppSizes.iconMedium, color: textColor),
             const SizedBox(width: AppSizes.spacing12),
             Text(
-              'Continue with ${provider.displayName}',
+              'auth.continueWith'.tr(
+                namedArgs: {'provider': provider.displayName},
+              ),
               style: TextStyle(
                 fontSize: AppSizes.fontBase,
                 fontWeight: FontWeight.w600,

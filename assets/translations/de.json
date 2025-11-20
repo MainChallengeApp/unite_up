@@ -21,6 +21,7 @@
     "createAccount": "Konto erstellen",
     "alreadyHaveAccount": "Hast du bereits ein Konto?",
     "dontHaveAccount": "Hast du noch kein Konto?",
+    "continueWith": "Mit {provider} fortfahren",
     "loginWithGoogle": "Mit Google fortfahren",
     "loginWithApple": "Mit Apple fortfahren",
     "loggedOutSuccessfully": "Erfolgreich abgemeldet",
