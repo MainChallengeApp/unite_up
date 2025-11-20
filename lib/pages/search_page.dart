@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../models/user.dart';
 import '../services/user_service.dart';
+import '../widgets/empty_state.dart';
+import '../widgets/user_card.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -32,35 +34,42 @@ class _SearchPageState extends State<SearchPage> {
   void _filterUsers() {
     final query = _searchController.text.toLowerCase();
     setState(() {
-      if (query.isEmpty) {
-        _filteredUsers = _allUsers;
-      } else {
-        _filteredUsers = _allUsers.where((user) {
-          return user.name.toLowerCase().contains(query) ||
-              user.username.toLowerCase().contains(query) ||
-              (user.bio?.toLowerCase().contains(query) ?? false);
-        }).toList();
-      }
+      _filteredUsers = query.isEmpty
+          ? _allUsers
+          : _allUsers
+                .where(
+                  (user) =>
+                      user.name.toLowerCase().contains(query) ||
+                      user.username.toLowerCase().contains(query) ||
+                      (user.bio?.toLowerCase().contains(query) ?? false),
+                )
+                .toList();
     });
   }
 
   void _toggleFollow(User user) {
     setState(() {
-      final index = _filteredUsers.indexWhere((u) => u.id == user.id);
-      if (index != -1) {
-        _filteredUsers[index] = user.copyWith(
-          isFollowing: !user.isFollowing,
-          followersCount: user.isFollowing
-              ? user.followersCount - 1
-              : user.followersCount + 1,
-        );
-      }
-
-      final allIndex = _allUsers.indexWhere((u) => u.id == user.id);
-      if (allIndex != -1) {
-        _allUsers[allIndex] = _filteredUsers[index];
-      }
+      _updateUser(user);
     });
+  }
+
+  void _updateUser(User user) {
+    final index = _filteredUsers.indexWhere((u) => u.id == user.id);
+    if (index == -1) return;
+
+    final updatedUser = user.copyWith(
+      isFollowing: !user.isFollowing,
+      followersCount: user.isFollowing
+          ? user.followersCount - 1
+          : user.followersCount + 1,
+    );
+
+    _filteredUsers[index] = updatedUser;
+
+    final allIndex = _allUsers.indexWhere((u) => u.id == user.id);
+    if (allIndex != -1) {
+      _allUsers[allIndex] = updatedUser;
+    }
   }
 
   @override
@@ -107,215 +116,25 @@ class _SearchPageState extends State<SearchPage> {
           ),
           Expanded(
             child: _filteredUsers.isEmpty
-                ? _buildEmptyState(theme)
+                ? const EmptyState(
+                    icon: Icons.search_off_rounded,
+                    title: 'No users found',
+                    subtitle: 'Try a different search term',
+                  )
                 : ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
                     itemCount: _filteredUsers.length,
                     itemBuilder: (context, index) {
-                      return _buildUserCard(_filteredUsers[index], theme);
+                      final user = _filteredUsers[index];
+                      return UserCard(
+                        user: user,
+                        onFollowToggle: () => _toggleFollow(user),
+                      );
                     },
                   ),
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildEmptyState(ThemeData theme) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 80,
-            height: 80,
-            decoration: BoxDecoration(
-              color: theme.colorScheme.primary.withOpacity(0.1),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              Icons.search_off_rounded,
-              size: 40,
-              color: theme.colorScheme.primary,
-            ),
-          ),
-          const SizedBox(height: 24),
-          Text(
-            'No users found',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              color: theme.brightness == Brightness.dark
-                  ? Colors.white
-                  : const Color(0xFF1E293B),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Try a different search term',
-            style: TextStyle(
-              fontSize: 14,
-              color: theme.iconTheme.color?.withOpacity(0.6),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildUserCard(User user, ThemeData theme) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color: theme.cardColor,
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.05),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Row(
-          children: [
-            Container(
-              width: 56,
-              height: 56,
-              decoration: BoxDecoration(
-                color: theme.colorScheme.primary.withOpacity(0.1),
-                shape: BoxShape.circle,
-              ),
-              child: Icon(
-                Icons.person_rounded,
-                size: 28,
-                color: theme.colorScheme.primary,
-              ),
-            ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    user.name,
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                      color: theme.brightness == Brightness.dark
-                          ? Colors.white
-                          : const Color(0xFF1E293B),
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const SizedBox(height: 2),
-                  Text(
-                    user.username,
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: theme.iconTheme.color?.withOpacity(0.6),
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  if (user.bio != null) ...[
-                    const SizedBox(height: 6),
-                    Text(
-                      user.bio!,
-                      style: TextStyle(
-                        fontSize: 13,
-                        color: theme.iconTheme.color?.withOpacity(0.7),
-                      ),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
-                  const SizedBox(height: 8),
-                  Wrap(
-                    spacing: 12,
-                    runSpacing: 4,
-                    children: [
-                      _buildStat(
-                        '${user.completedChallengesCount}',
-                        'Challenges',
-                        theme,
-                      ),
-                      _buildStat('${user.followersCount}', 'Followers', theme),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(width: 8),
-            Column(
-              children: [
-                ElevatedButton(
-                  onPressed: () => _toggleFollow(user),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: user.isFollowing
-                        ? theme.cardColor
-                        : theme.colorScheme.primary,
-                    foregroundColor: user.isFollowing
-                        ? theme.brightness == Brightness.dark
-                              ? Colors.white
-                              : const Color(0xFF1E293B)
-                        : Colors.white,
-                    elevation: 0,
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 10,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                      side: user.isFollowing
-                          ? BorderSide(
-                              color: theme.dividerColor.withOpacity(0.3),
-                              width: 1,
-                            )
-                          : BorderSide.none,
-                    ),
-                  ),
-                  child: Text(
-                    user.isFollowing ? 'Following' : 'Follow',
-                    style: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _buildStat(String value, String label, ThemeData theme) {
-    return Row(
-      children: [
-        Text(
-          value,
-          style: TextStyle(
-            fontSize: 14,
-            fontWeight: FontWeight.w600,
-            color: theme.brightness == Brightness.dark
-                ? Colors.white
-                : const Color(0xFF1E293B),
-          ),
-        ),
-        const SizedBox(width: 4),
-        Text(
-          label,
-          style: TextStyle(
-            fontSize: 12,
-            color: theme.iconTheme.color?.withOpacity(0.6),
-          ),
-        ),
-      ],
     );
   }
 }
