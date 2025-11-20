@@ -1,9 +1,8 @@
-import 'package:flutter/material.dart';
-
 import 'package:dare_u/models/user_model.dart';
 import 'package:dare_u/services/user_service.dart';
 import 'package:dare_u/widgets/empty_state.dart';
 import 'package:dare_u/widgets/user_card.dart';
+import 'package:flutter/material.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -79,62 +78,66 @@ class _SearchPageState extends State<SearchPage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Discover',
+          'Search',
           style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
         ),
       ),
-      body: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: TextField(
-              controller: _searchController,
-              decoration: InputDecoration(
-                hintText: 'Search users...',
-                prefixIcon: Icon(
-                  Icons.search_rounded,
-                  color: theme.iconTheme.color?.withOpacity(0.6),
-                ),
-                suffixIcon: _searchController.text.isNotEmpty
-                    ? IconButton(
-                        icon: const Icon(Icons.clear_rounded),
-                        onPressed: () {
-                          _searchController.clear();
-                        },
-                      )
-                    : null,
-                filled: true,
-                fillColor: theme.brightness == Brightness.dark
-                    ? theme.cardColor
-                    : theme.scaffoldBackgroundColor,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide.none,
-                ),
+      body: _buildSearchView(theme),
+    );
+  }
+
+  Widget _buildSearchView(ThemeData theme) {
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(16),
+          child: TextField(
+            controller: _searchController,
+            decoration: InputDecoration(
+              hintText: 'Search users...',
+              prefixIcon: Icon(
+                Icons.search_rounded,
+                color: theme.iconTheme.color?.withOpacity(0.6),
+              ),
+              suffixIcon: _searchController.text.isNotEmpty
+                  ? IconButton(
+                      icon: const Icon(Icons.clear_rounded),
+                      onPressed: () {
+                        _searchController.clear();
+                      },
+                    )
+                  : null,
+              filled: true,
+              fillColor: theme.brightness == Brightness.dark
+                  ? theme.cardColor
+                  : theme.scaffoldBackgroundColor,
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide.none,
               ),
             ),
           ),
-          Expanded(
-            child: _filteredUserModels.isEmpty
-                ? const EmptyState(
-                    icon: Icons.search_off_rounded,
-                    title: 'No users found',
-                    subtitle: 'Try a different search term',
-                  )
-                : ListView.builder(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    itemCount: _filteredUserModels.length,
-                    itemBuilder: (context, index) {
-                      final user = _filteredUserModels[index];
-                      return UserModelCard(
-                        user: user,
-                        onFollowToggle: () => _toggleFollow(user),
-                      );
-                    },
-                  ),
-          ),
-        ],
-      ),
+        ),
+        Expanded(
+          child: _filteredUserModels.isEmpty
+              ? const EmptyState(
+                  icon: Icons.search_off_rounded,
+                  title: 'No users found',
+                  subtitle: 'Try a different search term',
+                )
+              : ListView.builder(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  itemCount: _filteredUserModels.length,
+                  itemBuilder: (context, index) {
+                    final user = _filteredUserModels[index];
+                    return UserModelCard(
+                      user: user,
+                      onFollowToggle: () => _toggleFollow(user),
+                    );
+                  },
+                ),
+        ),
+      ],
     );
   }
 }

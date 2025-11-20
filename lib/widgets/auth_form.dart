@@ -39,8 +39,6 @@ class AuthForm extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const SizedBox(height: 40),
-          _buildAvatar(theme),
           const SizedBox(height: 32),
           _buildTitle(theme),
           const SizedBox(height: 8),
@@ -75,23 +73,6 @@ class AuthForm extends StatelessWidget {
           const SizedBox(height: 16),
           _buildToggleButton(),
         ],
-      ),
-    );
-  }
-
-  Widget _buildAvatar(ThemeData theme) {
-    return Container(
-      width: 80,
-      height: 80,
-      decoration: BoxDecoration(
-        color: theme.colorScheme.primary.withOpacity(0.1),
-        shape: BoxShape.circle,
-      ),
-      alignment: Alignment.center,
-      child: Icon(
-        Icons.person_rounded,
-        size: 40,
-        color: theme.colorScheme.primary,
       ),
     );
   }
