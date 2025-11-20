@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'pages/chat_page.dart';
+import 'pages/home_page.dart';
 import 'pages/onboarding_page.dart';
 import 'providers/app_state_provider.dart';
 import 'providers/theme_provider.dart';
@@ -44,12 +44,12 @@ class AppRouter extends StatelessWidget {
   Widget build(BuildContext context) {
     final appState = Provider.of<AppStateProvider>(context);
 
-    // Show onboarding if user hasn't completed it yet
-    if (!appState.hasCompletedOnboarding) {
+    // Show onboarding if user hasn't completed it yet and has no goals
+    if (!appState.hasCompletedOnboarding || !appState.hasGoals) {
       return const OnboardingPage();
     }
 
-    // Otherwise show the main chat page
-    return const ChatPage();
+    // Otherwise show the main home page with bottom navigation
+    return const HomePage();
   }
 }
