@@ -1,5 +1,5 @@
-import 'package:dare_u/enums/auth_provider_enum.dart';
 import 'package:dare_u/core/constants/app_constants.dart';
+import 'package:dare_u/enums/auth_provider_enum.dart';
 import 'package:dare_u/widgets/social_login_button.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -40,11 +40,16 @@ class AuthForm extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         children: [
           const SizedBox(height: AppSizes.spacing32),
+          _buildTitle(),
+          const SizedBox(height: AppSizes.spacing32),
           _buildSocialLoginButtons(),
           const SizedBox(height: AppSizes.spacing16),
           _buildDivider(),
           const SizedBox(height: AppSizes.spacing16),
-          if (!isLoginMode) ...[_buildNameField(), const SizedBox(height: AppSizes.spacing16)],
+          if (!isLoginMode) ...[
+            _buildNameField(),
+            const SizedBox(height: AppSizes.spacing16),
+          ],
           _buildEmailField(),
           const SizedBox(height: AppSizes.spacing16),
           _buildPasswordField(),
@@ -174,6 +179,21 @@ class AuthForm extends StatelessWidget {
               ? 'auth.dontHaveAccount'.tr()
               : 'auth.alreadyHaveAccount'.tr(),
         ),
+      ),
+    );
+  }
+
+  _buildTitle() {
+    return Center(
+      child: Text(
+        isLoginMode
+            ? 'auth.welcomeBack'.tr()
+            : 'auth.createYourNewAccount'.tr(),
+        style: const TextStyle(
+          fontSize: AppSizes.fontHuge,
+          fontWeight: FontWeight.w600,
+        ),
+        textAlign: TextAlign.center,
       ),
     );
   }

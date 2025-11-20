@@ -18,23 +18,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  Future<void> _handleLogout() async {
-    final appState = Provider.of<AppStateProvider>(context, listen: false);
-
-    try {
-      await appState.signOut();
-      _showSnackBar('auth.loggedOutSuccessfully'.tr());
-    } catch (e) {
-      _showSnackBar('Error: ${e.toString()}');
-    }
-  }
-
-  void _showSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), behavior: SnackBarBehavior.floating),
-    );
-  }
-
   void _navigateToSettings() {
     Navigator.push(
       context,
@@ -92,8 +75,6 @@ class _ProfilePageState extends State<ProfilePage> {
           const SizedBox(height: AppSizes.spacing32),
           _buildMenuItems(),
           const SizedBox(height: AppSizes.spacing32),
-          _buildLogoutButton(),
-          const SizedBox(height: AppSizes.spacing32),
         ],
       ),
     );
@@ -141,26 +122,6 @@ class _ProfilePageState extends State<ProfilePage> {
           onTap: _navigateToSettings,
         ),
       ],
-    );
-  }
-
-  Widget _buildLogoutButton() {
-    final theme = Theme.of(context);
-    return SizedBox(
-      width: double.infinity,
-      child: OutlinedButton.icon(
-        onPressed: _handleLogout,
-        icon: const Icon(Icons.logout_rounded),
-        label: Text('auth.signOut'.tr()),
-        style: OutlinedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(vertical: AppSizes.spacing14),
-          side: BorderSide(color: theme.colorScheme.error, width: AppSizes.borderMedium),
-          foregroundColor: theme.colorScheme.error,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
-          ),
-        ),
-      ),
     );
   }
 }

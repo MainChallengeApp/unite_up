@@ -18,6 +18,8 @@
   "auth": {
     "signIn": "Anmelden",
     "signOut": "Abmelden",
+    "welcomeBack": "Willkommen zurück!",
+    "createYourNewAccount": "Dein neues Konto!",
     "createAccount": "Konto erstellen",
     "alreadyHaveAccount": "Hast du bereits ein Konto?",
     "dontHaveAccount": "Hast du noch kein Konto?",
@@ -194,7 +196,8 @@
     "about": "Über",
     "version": "Version",
     "builtWith": "Erstellt mit",
-    "flutterMaterial": "Flutter & Material Design 3"
+    "flutterMaterial": "Flutter & Material Design 3",
+    "account": "Konto"
   },
   "empty": {
     "noData": "Keine Daten verfügbar"

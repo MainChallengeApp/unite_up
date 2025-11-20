@@ -1,11 +1,44 @@
-import 'package:dare_u/providers/theme_provider.dart';
 import 'package:dare_u/core/constants/app_constants.dart';
+import 'package:dare_u/providers/app_state_provider.dart';
+import 'package:dare_u/providers/theme_provider.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class SettingsPage extends StatelessWidget {
+class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
+
+  @override
+  State<SettingsPage> createState() => _SettingsPageState();
+}
+
+class _SettingsPageState extends State<SettingsPage> {
+  Future<void> _handleLogout() async {
+    final appState = Provider.of<AppStateProvider>(context, listen: false);
+
+    try {
+      await appState.signOut();
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('auth.loggedOutSuccessfully'.tr()),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+        // Pop back to profile which will show auth page
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Error: ${e.toString()}'),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+      }
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -16,7 +49,10 @@ class SettingsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           'settings.title'.tr(),
-          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: AppSizes.fontXLarge),
+          style: const TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: AppSizes.fontXLarge,
+          ),
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new_rounded),
@@ -51,7 +87,76 @@ class SettingsPage extends StatelessWidget {
             subtitle: 'settings.flutterMaterial'.tr(),
             theme: theme,
           ),
+          const SizedBox(height: AppSizes.spacing32),
+          _buildSectionTitle('settings.account'.tr(), theme),
+          const SizedBox(height: AppSizes.spacing12),
+          _buildLogoutButton(),
+          const SizedBox(height: AppSizes.spacing24),
         ],
+      ),
+    );
+  }
+
+  Widget _buildLogoutButton() {
+    final theme = Theme.of(context);
+    return Container(
+      decoration: BoxDecoration(
+        color: theme.cardColor,
+        borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: AppOpacity.veryLight),
+            blurRadius: AppSizes.blurMedium,
+            offset: AppSizes.shadowOffsetSmall,
+          ),
+        ],
+      ),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: _handleLogout,
+          borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
+          child: Padding(
+            padding: const EdgeInsets.all(AppSizes.spacing16),
+            child: Row(
+              children: [
+                Container(
+                  width: AppSizes.containerSmall,
+                  height: AppSizes.containerSmall,
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.error.withValues(
+                      alpha: AppOpacity.light,
+                    ),
+                    borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
+                  ),
+                  child: Icon(
+                    Icons.logout_rounded,
+                    color: theme.colorScheme.error,
+                    size: AppSizes.iconLarge,
+                  ),
+                ),
+                const SizedBox(width: AppSizes.spacing16),
+                Expanded(
+                  child: Text(
+                    'auth.signOut'.tr(),
+                    style: TextStyle(
+                      fontSize: AppSizes.fontLarge,
+                      fontWeight: FontWeight.w600,
+                      color: theme.colorScheme.error,
+                    ),
+                  ),
+                ),
+                Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  color: theme.colorScheme.error.withValues(
+                    alpha: AppOpacity.mostlyOpaque,
+                  ),
+                  size: AppSizes.iconMedium,
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
@@ -64,7 +169,9 @@ class SettingsPage extends StatelessWidget {
         style: TextStyle(
           fontSize: AppSizes.fontRegular,
           fontWeight: FontWeight.w600,
-          color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
+          color: theme.iconTheme.color?.withValues(
+            alpha: AppOpacity.mostlyOpaque,
+          ),
           letterSpacing: 0.5,
         ),
       ),
@@ -101,7 +208,8 @@ class SettingsPage extends StatelessWidget {
             isFirst: true,
           ),
           Divider(
-            height: AppSizes.dividerHeight,            thickness: 1,
+            height: AppSizes.dividerHeight,
+            thickness: 1,
             color: theme.dividerColor.withValues(alpha: AppOpacity.light),
           ),
           _buildThemeOption(
@@ -114,7 +222,8 @@ class SettingsPage extends StatelessWidget {
             theme: theme,
           ),
           Divider(
-            height: AppSizes.dividerHeight,            thickness: 1,
+            height: AppSizes.dividerHeight,
+            thickness: 1,
             color: theme.dividerColor.withValues(alpha: AppOpacity.light),
           ),
           _buildThemeOption(
@@ -134,7 +243,7 @@ class SettingsPage extends StatelessWidget {
 
   Widget _buildLanguageCard(BuildContext context, ThemeData theme) {
     final currentLocale = context.locale;
-    
+
     return Container(
       decoration: BoxDecoration(
         color: theme.cardColor,
@@ -160,7 +269,8 @@ class SettingsPage extends StatelessWidget {
             isFirst: true,
           ),
           Divider(
-            height: AppSizes.dividerHeight,            thickness: 1,
+            height: AppSizes.dividerHeight,
+            thickness: 1,
             color: theme.dividerColor.withValues(alpha: AppOpacity.light),
           ),
           _buildLanguageOption(
@@ -206,15 +316,21 @@ class SettingsPage extends StatelessWidget {
                 height: AppSizes.containerSmall,
                 decoration: BoxDecoration(
                   color: isSelected
-                      ? theme.colorScheme.primary.withValues(alpha: AppOpacity.light)
-                      : theme.colorScheme.primary.withValues(alpha: AppOpacity.veryLight),
+                      ? theme.colorScheme.primary.withValues(
+                          alpha: AppOpacity.light,
+                        )
+                      : theme.colorScheme.primary.withValues(
+                          alpha: AppOpacity.veryLight,
+                        ),
                   borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
                 ),
                 child: Icon(
                   icon,
                   color: isSelected
                       ? theme.colorScheme.primary
-                      : theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
+                      : theme.iconTheme.color?.withValues(
+                          alpha: AppOpacity.mostlyOpaque,
+                        ),
                   size: AppSizes.iconLarge,
                 ),
               ),
@@ -238,7 +354,9 @@ class SettingsPage extends StatelessWidget {
                       subtitle,
                       style: TextStyle(
                         fontSize: AppSizes.fontRegular,
-                        color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
+                        color: theme.iconTheme.color?.withValues(
+                          alpha: AppOpacity.mostlyOpaque,
+                        ),
                       ),
                     ),
                   ],
@@ -253,7 +371,9 @@ class SettingsPage extends StatelessWidget {
               else
                 Icon(
                   Icons.circle_outlined,
-                  color: theme.iconTheme.color?.withValues(alpha: AppOpacity.medium),
+                  color: theme.iconTheme.color?.withValues(
+                    alpha: AppOpacity.medium,
+                  ),
                   size: AppSizes.iconLarge,
                 ),
             ],
@@ -291,8 +411,12 @@ class SettingsPage extends StatelessWidget {
                 height: AppSizes.containerSmall,
                 decoration: BoxDecoration(
                   color: isSelected
-                      ? theme.colorScheme.primary.withValues(alpha: AppOpacity.light)
-                      : theme.colorScheme.primary.withValues(alpha: AppOpacity.veryLight),
+                      ? theme.colorScheme.primary.withValues(
+                          alpha: AppOpacity.light,
+                        )
+                      : theme.colorScheme.primary.withValues(
+                          alpha: AppOpacity.veryLight,
+                        ),
                   borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
                 ),
                 child: Center(
@@ -322,7 +446,9 @@ class SettingsPage extends StatelessWidget {
                       subtitle,
                       style: TextStyle(
                         fontSize: AppSizes.fontRegular,
-                        color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
+                        color: theme.iconTheme.color?.withValues(
+                          alpha: AppOpacity.mostlyOpaque,
+                        ),
                       ),
                     ),
                   ],
@@ -337,7 +463,9 @@ class SettingsPage extends StatelessWidget {
               else
                 Icon(
                   Icons.circle_outlined,
-                  color: theme.iconTheme.color?.withValues(alpha: AppOpacity.medium),
+                  color: theme.iconTheme.color?.withValues(
+                    alpha: AppOpacity.medium,
+                  ),
                   size: AppSizes.iconLarge,
                 ),
             ],
@@ -373,7 +501,9 @@ class SettingsPage extends StatelessWidget {
             width: AppSizes.containerSmall,
             height: AppSizes.containerSmall,
             decoration: BoxDecoration(
-              color: theme.colorScheme.primary.withValues(alpha: AppOpacity.light),
+              color: theme.colorScheme.primary.withValues(
+                alpha: AppOpacity.light,
+              ),
               borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
             ),
             child: Icon(
@@ -402,7 +532,9 @@ class SettingsPage extends StatelessWidget {
                   subtitle,
                   style: TextStyle(
                     fontSize: AppSizes.fontRegular,
-                    color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
+                    color: theme.iconTheme.color?.withValues(
+                      alpha: AppOpacity.mostlyOpaque,
+                    ),
                   ),
                 ),
               ],

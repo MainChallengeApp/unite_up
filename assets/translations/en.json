@@ -18,6 +18,8 @@
   "auth": {
     "signIn": "Sign In",
     "signOut": "Sign Out",
+    "welcomeBack": "Welcome Back!",
+    "createYourNewAccount": "Create Your New Account!",
     "createAccount": "Create Account",
     "alreadyHaveAccount": "Already have an account?",
     "dontHaveAccount": "Don't have an account yet?",
@@ -194,7 +196,8 @@
     "about": "About",
     "version": "Version",
     "builtWith": "Built with",
-    "flutterMaterial": "Flutter & Material Design 3"
+    "flutterMaterial": "Flutter & Material Design 3",
+    "account": "Account"
   },
   "empty": {
     "noData": "No data available"
