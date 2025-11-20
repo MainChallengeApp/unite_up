@@ -39,10 +39,10 @@ class _ChatPageState extends State<ChatPage> {
     }
   }
 
-  void _showProgressDialog(String challengeId) {
+  void _showProgressDialog() {
     showDialog(
       context: context,
-      builder: (context) => ProgressDialog(challengeId: challengeId),
+      builder: (context) => const ProgressDialog(),
     ).then((result) {
       if (result != null && result is ProgressEntryModel) {
         Provider.of<AppStateProvider>(
@@ -60,7 +60,7 @@ class _ChatPageState extends State<ChatPage> {
     Provider.of<AppStateProvider>(
       context,
       listen: false,
-    ).addUserMessage(_messageController.text.trim());
+    ).addMessage(_messageController.text.trim());
     _messageController.clear();
     _scrollToBottom();
   }
@@ -69,6 +69,7 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final appState = Provider.of<AppStateProvider>(context);
+    final challenge = appState.currentChallenge;
 
     return Scaffold(
       appBar: AppBar(
@@ -76,22 +77,49 @@ class _ChatPageState extends State<ChatPage> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Text(
-              'Dare U',
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
-            ),
-            if (appState.currentGoal != null)
-              Text(
-                appState.currentGoal!.displayName,
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.normal,
-                  color: theme.iconTheme.color?.withOpacity(0.6),
+            if (challenge != null) ...[
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    challenge.emoji,
+                    style: const TextStyle(fontSize: 18),
+                  ),
+                  const SizedBox(width: 8),
+                  Flexible(
+                    child: Text(
+                      challenge.name,
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18,
+                      ),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+                ],
+              ),
+              if (challenge.isGroup)
+                Text(
+                  '${challenge.memberCount} members',
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.normal,
+                    color: theme.iconTheme.color?.withOpacity(0.6),
+                  ),
                 ),
+            ] else
+              const Text(
+                'Challenge',
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
               ),
           ],
         ),
         actions: [
+          IconButton(
+            icon: const Icon(Icons.attach_file_rounded),
+            onPressed: _showProgressDialog,
+            tooltip: 'Add Progress',
+          ),
           IconButton(
             icon: const Icon(Icons.settings_outlined),
             onPressed: () {
@@ -118,15 +146,8 @@ class _ChatPageState extends State<ChatPage> {
                       final event = appState.events[index];
                       return EventCard(
                         event: event,
-                        onChallengeAccept: (challenge) {
-                          appState.acceptChallenge(challenge);
-                          _scrollToBottom();
-                        },
-                        onSubmitProgress: appState.hasActiveChallenge
-                            ? () => _showProgressDialog(
-                                appState.activeChallenge!.id,
-                              )
-                            : null,
+                        onChallengeAccept: null, // No more challenge acceptance
+                        onSubmitProgress: null, // Using toolbar button instead
                       );
                     },
                   ),
@@ -150,14 +171,14 @@ class _ChatPageState extends State<ChatPage> {
               shape: BoxShape.circle,
             ),
             child: Icon(
-              Icons.rocket_launch_rounded,
+              Icons.chat_bubble_outline_rounded,
               size: 40,
               color: theme.colorScheme.primary,
             ),
           ),
           const SizedBox(height: 24),
           Text(
-            'Ready to improve?',
+            'Start documenting!',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w600,
@@ -168,7 +189,7 @@ class _ChatPageState extends State<ChatPage> {
           ),
           const SizedBox(height: 8),
           Text(
-            'Your challenge journey will appear here',
+            'Share updates, images, and track your progress',
             style: TextStyle(
               fontSize: 14,
               color: theme.iconTheme.color?.withOpacity(0.6),
@@ -215,7 +236,7 @@ class _ChatPageState extends State<ChatPage> {
                   textInputAction: TextInputAction.send,
                   onSubmitted: (_) => _sendMessage(),
                   decoration: InputDecoration(
-                    hintText: 'Share your thoughts...',
+                    hintText: 'Share an update...',
                     hintStyle: TextStyle(
                       color: theme.iconTheme.color?.withOpacity(0.5),
                     ),

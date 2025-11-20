@@ -5,11 +5,8 @@ import 'package:dare_u/models/media_attachment_model.dart';
 import 'package:dare_u/models/progress_entry_model.dart';
 
 class ProgressDialog extends StatefulWidget {
-  final String challengeId;
-
   const ProgressDialog({
     super.key,
-    required this.challengeId,
   });
 
   @override
@@ -81,7 +78,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
 
     final entry = ProgressEntryModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
-      challengeId: widget.challengeId,
+      challengeId: 'current', // Not needed anymore but kept for model compatibility
       note: _noteController.text.trim(),
       attachments: _mockAttachments,
       createdAt: DateTime.now(),

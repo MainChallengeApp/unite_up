@@ -1,29 +1,34 @@
-import 'package:dare_u/models/goal_model.dart';
+import 'package:dare_u/models/challenge_chat_model.dart';
+import 'package:dare_u/pages/chat_page.dart';
+import 'package:dare_u/pages/create_challenge_page.dart';
 import 'package:dare_u/providers/app_state_provider.dart';
+import 'package:dare_u/widgets/empty_state.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'chat_page.dart';
-import 'onboarding_page.dart';
-
-class ChallengesPage extends StatelessWidget {
+class ChallengesPage extends StatefulWidget {
   const ChallengesPage({super.key});
 
-  void _navigateToGoalModelChat(BuildContext context, String goalId) {
+  @override
+  State<ChallengesPage> createState() => _ChallengesPageState();
+}
+
+class _ChallengesPageState extends State<ChallengesPage> {
+  void _navigateToChallengeChat(BuildContext context, String challengeId) {
     Provider.of<AppStateProvider>(
       context,
       listen: false,
-    ).selectGoalModel(goalId);
+    ).selectChallenge(challengeId);
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const ChatPage()),
     );
   }
 
-  void _createNewGoal(BuildContext context) {
+  void _createNewChallenge(BuildContext context) {
     Navigator.push(
       context,
-      MaterialPageRoute(builder: (context) => const OnboardingPage()),
+      MaterialPageRoute(builder: (context) => const CreateChallengePage()),
     );
   }
 
@@ -31,231 +36,152 @@ class ChallengesPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final appState = Provider.of<AppStateProvider>(context);
-    final goals = appState.goals;
+    final challenges = appState.challenges;
 
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'My Challenges',
+          'Challenges',
           style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
         ),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.add_rounded),
+            onPressed: () => _createNewChallenge(context),
+            tooltip: 'Create Challenge',
+          ),
+          const SizedBox(width: 8),
+        ],
       ),
-      body: goals.isEmpty
+      body: challenges.isEmpty
           ? _buildEmptyState(context, theme)
           : ListView.builder(
               padding: const EdgeInsets.all(16),
-              itemCount: goals.length,
+              itemCount: challenges.length,
               itemBuilder: (context, index) {
-                return _buildGoalModelCard(context, goals[index], theme);
+                return _buildChallengeCard(context, challenges[index], theme);
               },
             ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _createNewGoal(context),
-        icon: const Icon(Icons.add_rounded),
-        label: const Text('New Goal'),
-        backgroundColor: theme.colorScheme.primary,
-        foregroundColor: Colors.white,
-        elevation: 2,
-      ),
     );
   }
 
   Widget _buildEmptyState(BuildContext context, ThemeData theme) {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            width: 80,
-            height: 80,
-            decoration: BoxDecoration(
-              color: theme.colorScheme.primary.withOpacity(0.1),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              Icons.flag_rounded,
-              size: 40,
-              color: theme.colorScheme.primary,
-            ),
-          ),
-          const SizedBox(height: 24),
-          Text(
-            'No GoalModels Yet',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.w600,
-              color: theme.brightness == Brightness.dark
-                  ? Colors.white
-                  : const Color(0xFF1E293B),
-            ),
-          ),
-          const SizedBox(height: 8),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 48),
-            child: Text(
-              'Create your first goal to start your improvement journey',
-              textAlign: TextAlign.center,
-              style: TextStyle(
-                fontSize: 14,
-                color: theme.iconTheme.color?.withOpacity(0.6),
-              ),
-            ),
-          ),
-          const SizedBox(height: 32),
-          ElevatedButton.icon(
-            onPressed: () => _createNewGoal(context),
-            icon: const Icon(Icons.add_rounded),
-            label: const Text('Create GoalModel'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: theme.colorScheme.primary,
-              foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-              elevation: 0,
-            ),
-          ),
-        ],
-      ),
+    return EmptyState(
+      icon: Icons.flag_outlined,
+      title: 'No challenges yet',
+      subtitle: 'Create your first challenge to start your journey!',
+      buttonText: 'Create Challenge',
+      onButtonPressed: () => _createNewChallenge(context),
     );
   }
 
-  Widget _buildGoalModelCard(
+  Widget _buildChallengeCard(
     BuildContext context,
-    GoalModel goal,
+    ChallengeChatModel challenge,
     ThemeData theme,
   ) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: () => _navigateToGoalModelChat(context, goal.id),
-          borderRadius: BorderRadius.circular(16),
-          child: Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: theme.cardColor,
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
-                  blurRadius: 8,
-                  offset: const Offset(0, 2),
+    return Card(
+      margin: const EdgeInsets.only(bottom: 12),
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+        side: BorderSide(color: theme.dividerColor.withOpacity(0.2), width: 1),
+      ),
+      child: InkWell(
+        onTap: () => _navigateToChallengeChat(context, challenge.id),
+        borderRadius: BorderRadius.circular(16),
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Row(
+            children: [
+              Container(
+                width: 56,
+                height: 56,
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.primary.withOpacity(0.1),
+                  borderRadius: BorderRadius.circular(12),
                 ),
-              ],
-            ),
-            child: Row(
-              children: [
-                Container(
-                  width: 64,
-                  height: 64,
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      colors: [
-                        theme.colorScheme.primary.withOpacity(0.2),
-                        theme.colorScheme.secondary.withOpacity(0.2),
-                      ],
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ),
-                    borderRadius: BorderRadius.circular(16),
-                  ),
-                  alignment: Alignment.center,
+                child: Center(
                   child: Text(
-                    goal.category.emoji,
-                    style: const TextStyle(fontSize: 32),
+                    challenge.emoji,
+                    style: const TextStyle(fontSize: 28),
                   ),
                 ),
-                const SizedBox(width: 20),
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        goal.displayName,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w600,
-                          color: theme.brightness == Brightness.dark
-                              ? Colors.white
-                              : const Color(0xFF1E293B),
-                        ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      challenge.name,
+                      style: TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w600,
+                        color: theme.brightness == Brightness.dark
+                            ? Colors.white
+                            : const Color(0xFF1E293B),
                       ),
-                      const SizedBox(height: 6),
+                    ),
+                    const SizedBox(height: 4),
+                    if (challenge.description != null) ...[
                       Text(
-                        goal.category.description,
+                        challenge.description!,
                         style: TextStyle(
                           fontSize: 13,
                           color: theme.iconTheme.color?.withOpacity(0.6),
                         ),
-                        maxLines: 2,
+                        maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
-                      const SizedBox(height: 10),
-                      Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10,
-                              vertical: 4,
-                            ),
-                            decoration: BoxDecoration(
-                              color: theme.colorScheme.primary.withOpacity(0.1),
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                            child: Row(
-                              mainAxisSize: MainAxisSize.min,
-                              children: [
-                                Icon(
-                                  Icons.calendar_today_rounded,
-                                  size: 12,
-                                  color: theme.colorScheme.primary,
-                                ),
-                                const SizedBox(width: 6),
-                                Text(
-                                  _formatDate(goal.createdAt),
-                                  style: TextStyle(
-                                    fontSize: 11,
-                                    fontWeight: FontWeight.w600,
-                                    color: theme.colorScheme.primary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
-                      ),
+                      const SizedBox(height: 4),
                     ],
-                  ),
+                    Row(
+                      children: [
+                        Icon(
+                          challenge.isPersonal
+                              ? Icons.person_outline_rounded
+                              : Icons.people_outline_rounded,
+                          size: 16,
+                          color: theme.iconTheme.color?.withOpacity(0.5),
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          challenge.isPersonal
+                              ? 'Personal'
+                              : '${challenge.memberCount} members',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: theme.iconTheme.color?.withOpacity(0.6),
+                          ),
+                        ),
+                        const SizedBox(width: 12),
+                        Icon(
+                          Icons.chat_bubble_outline_rounded,
+                          size: 16,
+                          color: theme.iconTheme.color?.withOpacity(0.5),
+                        ),
+                        const SizedBox(width: 4),
+                        Text(
+                          '${challenge.events.length} messages',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: theme.iconTheme.color?.withOpacity(0.6),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
                 ),
-                Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: 20,
-                  color: theme.iconTheme.color?.withOpacity(0.4),
-                ),
-              ],
-            ),
+              ),
+              Icon(
+                Icons.chevron_right_rounded,
+                color: theme.iconTheme.color?.withOpacity(0.3),
+              ),
+            ],
           ),
         ),
       ),
     );
-  }
-
-  String _formatDate(DateTime date) {
-    final now = DateTime.now();
-    final difference = now.difference(date);
-
-    if (difference.inDays == 0) {
-      return 'Today';
-    } else if (difference.inDays == 1) {
-      return 'Yesterday';
-    } else if (difference.inDays < 7) {
-      return '${difference.inDays} days ago';
-    } else if (difference.inDays < 30) {
-      final weeks = (difference.inDays / 7).floor();
-      return '$weeks ${weeks == 1 ? 'week' : 'weeks'} ago';
-    } else {
-      final months = (difference.inDays / 30).floor();
-      return '$months ${months == 1 ? 'month' : 'months'} ago';
-    }
   }
 }

@@ -4,12 +4,16 @@ class EmptyState extends StatelessWidget {
   final IconData icon;
   final String title;
   final String subtitle;
+  final String? buttonText;
+  final VoidCallback? onButtonPressed;
 
   const EmptyState({
     super.key,
     required this.icon,
     required this.title,
     required this.subtitle,
+    this.buttonText,
+    this.onButtonPressed,
   });
 
   @override
@@ -27,11 +31,7 @@ class EmptyState extends StatelessWidget {
               color: theme.colorScheme.primary.withOpacity(0.1),
               shape: BoxShape.circle,
             ),
-            child: Icon(
-              icon,
-              size: 40,
-              color: theme.colorScheme.primary,
-            ),
+            child: Icon(icon, size: 40, color: theme.colorScheme.primary),
           ),
           const SizedBox(height: 24),
           Text(
@@ -52,9 +52,24 @@ class EmptyState extends StatelessWidget {
               color: theme.iconTheme.color?.withOpacity(0.6),
             ),
           ),
+          if (buttonText != null && onButtonPressed != null) ...[
+            const SizedBox(height: 32),
+            ElevatedButton(
+              onPressed: onButtonPressed,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: theme.colorScheme.primary,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 24,
+                  vertical: 14,
+                ),
+                elevation: 0,
+              ),
+              child: Text(buttonText!),
+            ),
+          ],
         ],
       ),
     );
   }
 }
-

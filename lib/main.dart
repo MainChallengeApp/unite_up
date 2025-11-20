@@ -43,8 +43,8 @@ class AppRouter extends StatelessWidget {
   Widget build(BuildContext context) {
     final appState = Provider.of<AppStateProvider>(context);
 
-    // Show onboarding if user hasn't completed it yet and has no goals
-    if (!appState.hasCompletedOnboarding || !appState.hasGoals) {
+    // Show onboarding if user hasn't completed it yet and has no challenges
+    if (!appState.hasCompletedOnboarding || !appState.hasChallenges) {
       return const OnboardingPage();
     }
 

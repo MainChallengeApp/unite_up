@@ -1,5 +1,5 @@
 import 'package:dare_u/enums/goal_category_enum.dart';
-import 'package:dare_u/models/goal_model.dart';
+import 'package:dare_u/models/challenge_chat_model.dart';
 import 'package:dare_u/providers/app_state_provider.dart';
 import 'package:dare_u/widgets/goal_card.dart';
 import 'package:flutter/material.dart';
@@ -22,19 +22,28 @@ class _OnboardingPageState extends State<OnboardingPage> {
     super.dispose();
   }
 
-  void _handleGoalSelection() {
+  void _handleChallengeCreation() {
     if (_selectedCategory == null) return;
 
-    final goal = GoalModel(
+    final appState = Provider.of<AppStateProvider>(context, listen: false);
+    final currentUserId = appState.currentUser?.id ?? 'user-1';
+
+    final challengeName = _selectedCategory == GoalCategoryEnum.custom
+        ? _customGoalController.text.trim()
+        : _selectedCategory!.displayName;
+
+    final challenge = ChallengeChatModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
+      name: challengeName,
+      description: _selectedCategory!.description,
       category: _selectedCategory!,
-      customName: _selectedCategory == GoalCategoryEnum.custom
-          ? _customGoalController.text.trim()
-          : null,
+      emoji: _selectedCategory!.emoji,
+      memberIds: [currentUserId], // Personal challenge - just the current user
+      creatorId: currentUserId,
       createdAt: DateTime.now(),
     );
 
-    Provider.of<AppStateProvider>(context, listen: false).setGoal(goal);
+    appState.addChallenge(challenge);
   }
 
   @override
@@ -65,7 +74,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'Transform your life one challenge at a time. Select your goal to get started with daily personalized challenges.',
+                      'Transform your life one challenge at a time. Create your first personal challenge to track your progress and document your journey.',
                       style: TextStyle(
                         fontSize: 16,
                         color: theme.iconTheme.color?.withOpacity(0.7),
@@ -74,7 +83,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     ),
                     const SizedBox(height: 40),
                     Text(
-                      'Choose your goal',
+                      'Choose your focus',
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
@@ -118,7 +127,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         _selectedCategory != null &&
                             (_selectedCategory != GoalCategoryEnum.custom ||
                                 _customGoalController.text.trim().isNotEmpty)
-                        ? _handleGoalSelection
+                        ? _handleChallengeCreation
                         : null,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: theme.colorScheme.primary,
@@ -130,7 +139,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       elevation: 0,
                     ),
                     child: const Text(
-                      'Start Your Journey',
+                      'Create Challenge',
                       style: TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
