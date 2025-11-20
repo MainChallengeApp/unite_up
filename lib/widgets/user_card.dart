@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:dare_u/models/user.dart';
+import 'package:dare_u/models/user_model.dart';
 
-class UserCard extends StatelessWidget {
-  final User user;
+class UserModelCard extends StatelessWidget {
+  final UserModel user;
   final VoidCallback onFollowToggle;
 
-  const UserCard({
+  const UserModelCard({
     super.key,
     required this.user,
     required this.onFollowToggle,
@@ -25,7 +25,7 @@ class UserCard extends StatelessWidget {
           children: [
             _buildAvatar(theme),
             const SizedBox(width: 16),
-            Expanded(child: _buildUserInfo(theme)),
+            Expanded(child: _buildUserModelInfo(theme)),
             const SizedBox(width: 8),
             _buildFollowButton(theme),
           ],
@@ -64,13 +64,13 @@ class UserCard extends StatelessWidget {
     );
   }
 
-  Widget _buildUserInfo(ThemeData theme) {
+  Widget _buildUserModelInfo(ThemeData theme) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildName(theme),
         const SizedBox(height: 2),
-        _buildUsername(theme),
+        _buildUserModelname(theme),
         if (user.bio != null) ...[
           const SizedBox(height: 6),
           _buildBio(theme),
@@ -96,7 +96,7 @@ class UserCard extends StatelessWidget {
     );
   }
 
-  Widget _buildUsername(ThemeData theme) {
+  Widget _buildUserModelname(ThemeData theme) {
     return Text(
       user.username,
       style: TextStyle(

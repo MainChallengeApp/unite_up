@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:dare_u/models/progress_entry.dart';
+import 'package:dare_u/models/progress_entry_model.dart';
 import 'package:dare_u/providers/app_state_provider.dart';
 import 'package:dare_u/widgets/event_card.dart';
 import 'package:dare_u/widgets/progress_dialog.dart';
@@ -44,7 +44,7 @@ class _ChatPageState extends State<ChatPage> {
       context: context,
       builder: (context) => ProgressDialog(challengeId: challengeId),
     ).then((result) {
-      if (result != null && result is ProgressEntry) {
+      if (result != null && result is ProgressEntryModel) {
         Provider.of<AppStateProvider>(
           context,
           listen: false,

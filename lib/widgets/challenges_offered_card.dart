@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:dare_u/models/challenge.dart';
-import 'package:dare_u/models/challenge_difficulty.dart';
-import 'package:dare_u/models/challenge_status.dart';
-import 'package:dare_u/models/event.dart';
+import 'package:dare_u/enums/challenge_status_enum.dart';
+import 'package:dare_u/models/challenge_model.dart';
+import 'package:dare_u/models/event_model.dart';
 
 class ChallengesOfferedCard extends StatelessWidget {
-  final Event event;
-  final Function(Challenge)? onChallengeAccept;
+  final EventModel event;
+  final Function(ChallengeModel)? onChallengeAccept;
 
   const ChallengesOfferedCard({
     super.key,
@@ -28,7 +27,7 @@ class ChallengesOfferedCard extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(bottom: 12, left: 4),
             child: Text(
-              '✨ Today\'s Challenges - Pick One',
+              '✨ Today\'s ChallengeModels - Pick One',
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
@@ -39,7 +38,7 @@ class ChallengesOfferedCard extends StatelessWidget {
           ...challenges.map(
             (challenge) => Padding(
               padding: const EdgeInsets.only(bottom: 12),
-              child: _buildChallengeCard(context, challenge, theme),
+              child: _buildChallengeModelCard(context, challenge, theme),
             ),
           ),
         ],
@@ -47,15 +46,15 @@ class ChallengesOfferedCard extends StatelessWidget {
     );
   }
 
-  Widget _buildChallengeCard(
+  Widget _buildChallengeModelCard(
     BuildContext context,
-    Challenge challenge,
+    ChallengeModel challenge,
     ThemeData theme,
   ) {
     return Material(
       color: Colors.transparent,
       child: InkWell(
-        onTap: challenge.status == ChallengeStatus.available
+        onTap: challenge.status == ChallengeStatusEnum.available
             ? () => onChallengeAccept?.call(challenge)
             : null,
         borderRadius: BorderRadius.circular(16),
@@ -87,10 +86,7 @@ class ChallengesOfferedCard extends StatelessWidget {
                       vertical: 4,
                     ),
                     decoration: BoxDecoration(
-                      color: _getDifficultyColor(
-                        challenge.difficulty,
-                        theme,
-                      ).withOpacity(0.1),
+                      color: challenge.difficulty.color.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(8),
                     ),
                     child: Row(
@@ -106,10 +102,7 @@ class ChallengesOfferedCard extends StatelessWidget {
                           style: TextStyle(
                             fontSize: 11,
                             fontWeight: FontWeight.w600,
-                            color: _getDifficultyColor(
-                              challenge.difficulty,
-                              theme,
-                            ),
+                            color: challenge.difficulty.color,
                           ),
                         ),
                       ],
@@ -137,7 +130,7 @@ class ChallengesOfferedCard extends StatelessWidget {
                   height: 1.4,
                 ),
               ),
-              if (challenge.status == ChallengeStatus.available) ...[
+              if (challenge.status == ChallengeStatusEnum.available) ...[
                 const SizedBox(height: 12),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
@@ -166,15 +159,5 @@ class ChallengesOfferedCard extends StatelessWidget {
     );
   }
 
-  Color _getDifficultyColor(ChallengeDifficulty difficulty, ThemeData theme) {
-    switch (difficulty) {
-      case ChallengeDifficulty.easy:
-        return Colors.green;
-      case ChallengeDifficulty.medium:
-        return Colors.orange;
-      case ChallengeDifficulty.hard:
-        return Colors.red;
-    }
-  }
 }
 

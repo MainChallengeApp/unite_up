@@ -1,9 +1,9 @@
-import 'package:dare_u/models/user.dart';
+import 'package:dare_u/models/user_model.dart';
 
-class UserService {
-  static List<User> getMockUsers() {
+class UserModelService {
+  static List<UserModel> getMockUserModels() {
     return [
-      User(
+      UserModel(
         id: '1',
         name: 'Alex Johnson',
         username: '@alexj',
@@ -12,7 +12,7 @@ class UserService {
         followingCount: 567,
         completedChallengesCount: 89,
       ),
-      User(
+      UserModel(
         id: '2',
         name: 'Maria Garcia',
         username: '@mariag',
@@ -21,7 +21,7 @@ class UserService {
         followingCount: 423,
         completedChallengesCount: 145,
       ),
-      User(
+      UserModel(
         id: '3',
         name: 'James Chen',
         username: '@jameschen',
@@ -30,7 +30,7 @@ class UserService {
         followingCount: 891,
         completedChallengesCount: 203,
       ),
-      User(
+      UserModel(
         id: '4',
         name: 'Sophie Williams',
         username: '@sophiew',
@@ -39,7 +39,7 @@ class UserService {
         followingCount: 1234,
         completedChallengesCount: 178,
       ),
-      User(
+      UserModel(
         id: '5',
         name: 'David Kim',
         username: '@davidk',
@@ -48,7 +48,7 @@ class UserService {
         followingCount: 987,
         completedChallengesCount: 267,
       ),
-      User(
+      UserModel(
         id: '6',
         name: 'Emma Brown',
         username: '@emmab',
@@ -57,7 +57,7 @@ class UserService {
         followingCount: 1543,
         completedChallengesCount: 112,
       ),
-      User(
+      UserModel(
         id: '7',
         name: 'Lucas Silva',
         username: '@lucass',
@@ -66,7 +66,7 @@ class UserService {
         followingCount: 2345,
         completedChallengesCount: 389,
       ),
-      User(
+      UserModel(
         id: '8',
         name: 'Olivia Taylor',
         username: '@oliviat',

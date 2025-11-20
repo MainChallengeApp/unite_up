@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:dare_u/models/user.dart';
+import 'package:dare_u/models/user_model.dart';
 import 'package:dare_u/services/user_service.dart';
 import 'package:dare_u/widgets/empty_state.dart';
 import 'package:dare_u/widgets/user_card.dart';
@@ -14,15 +14,15 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   final TextEditingController _searchController = TextEditingController();
-  List<User> _allUsers = [];
-  List<User> _filteredUsers = [];
+  List<UserModel> _allUserModels = [];
+  List<UserModel> _filteredUserModels = [];
 
   @override
   void initState() {
     super.initState();
-    _allUsers = UserService.getMockUsers();
-    _filteredUsers = _allUsers;
-    _searchController.addListener(_filterUsers);
+    _allUserModels = UserModelService.getMockUserModels();
+    _filteredUserModels = _allUserModels;
+    _searchController.addListener(_filterUserModels);
   }
 
   @override
@@ -31,12 +31,12 @@ class _SearchPageState extends State<SearchPage> {
     super.dispose();
   }
 
-  void _filterUsers() {
+  void _filterUserModels() {
     final query = _searchController.text.toLowerCase();
     setState(() {
-      _filteredUsers = query.isEmpty
-          ? _allUsers
-          : _allUsers
+      _filteredUserModels = query.isEmpty
+          ? _allUserModels
+          : _allUserModels
                 .where(
                   (user) =>
                       user.name.toLowerCase().contains(query) ||
@@ -47,28 +47,28 @@ class _SearchPageState extends State<SearchPage> {
     });
   }
 
-  void _toggleFollow(User user) {
+  void _toggleFollow(UserModel user) {
     setState(() {
-      _updateUser(user);
+      _updateUserModel(user);
     });
   }
 
-  void _updateUser(User user) {
-    final index = _filteredUsers.indexWhere((u) => u.id == user.id);
+  void _updateUserModel(UserModel user) {
+    final index = _filteredUserModels.indexWhere((u) => u.id == user.id);
     if (index == -1) return;
 
-    final updatedUser = user.copyWith(
+    final updatedUserModel = user.copyWith(
       isFollowing: !user.isFollowing,
       followersCount: user.isFollowing
           ? user.followersCount - 1
           : user.followersCount + 1,
     );
 
-    _filteredUsers[index] = updatedUser;
+    _filteredUserModels[index] = updatedUserModel;
 
-    final allIndex = _allUsers.indexWhere((u) => u.id == user.id);
+    final allIndex = _allUserModels.indexWhere((u) => u.id == user.id);
     if (allIndex != -1) {
-      _allUsers[allIndex] = updatedUser;
+      _allUserModels[allIndex] = updatedUserModel;
     }
   }
 
@@ -115,7 +115,7 @@ class _SearchPageState extends State<SearchPage> {
             ),
           ),
           Expanded(
-            child: _filteredUsers.isEmpty
+            child: _filteredUserModels.isEmpty
                 ? const EmptyState(
                     icon: Icons.search_off_rounded,
                     title: 'No users found',
@@ -123,10 +123,10 @@ class _SearchPageState extends State<SearchPage> {
                   )
                 : ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 16),
-                    itemCount: _filteredUsers.length,
+                    itemCount: _filteredUserModels.length,
                     itemBuilder: (context, index) {
-                      final user = _filteredUsers[index];
-                      return UserCard(
+                      final user = _filteredUserModels[index];
+                      return UserModelCard(
                         user: user,
                         onFollowToggle: () => _toggleFollow(user),
                       );

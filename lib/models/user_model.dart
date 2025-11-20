@@ -1,4 +1,4 @@
-class User {
+class UserModel {
   final String id;
   final String name;
   final String username;
@@ -9,7 +9,7 @@ class User {
   final int completedChallengesCount;
   final bool isFollowing;
 
-  User({
+  UserModel({
     required this.id,
     required this.name,
     required this.username,
@@ -21,7 +21,7 @@ class User {
     this.isFollowing = false,
   });
 
-  User copyWith({
+  UserModel copyWith({
     String? id,
     String? name,
     String? username,
@@ -32,7 +32,7 @@ class User {
     int? completedChallengesCount,
     bool? isFollowing,
   }) {
-    return User(
+    return UserModel(
       id: id ?? this.id,
       name: name ?? this.name,
       username: username ?? this.username,

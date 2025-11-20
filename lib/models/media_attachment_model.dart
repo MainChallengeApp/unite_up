@@ -1,13 +1,13 @@
-import 'package:dare_u/models/media_type.dart';
+import 'package:dare_u/enums/media_type_enum.dart';
 
-class MediaAttachment {
+class MediaAttachmentModel {
   final String id;
-  final MediaType type;
+  final MediaTypeEnum type;
   final String path;
   final String? fileName;
   final DateTime uploadedAt;
 
-  MediaAttachment({
+  MediaAttachmentModel({
     required this.id,
     required this.type,
     required this.path,

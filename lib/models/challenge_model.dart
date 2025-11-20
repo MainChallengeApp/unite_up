@@ -1,19 +1,19 @@
-import 'package:dare_u/models/challenge_difficulty.dart';
-import 'package:dare_u/models/challenge_status.dart';
-import 'package:dare_u/models/goal_category.dart';
+import 'package:dare_u/enums/challenge_difficulty_enum.dart';
+import 'package:dare_u/enums/challenge_status_enum.dart';
+import 'package:dare_u/enums/goal_category_enum.dart';
 
-class Challenge {
+class ChallengeModel {
   final String id;
-  final GoalCategory category;
+  final GoalCategoryEnum category;
   final String title;
   final String description;
-  final ChallengeDifficulty difficulty;
-  final ChallengeStatus status;
+  final ChallengeDifficultyEnum difficulty;
+  final ChallengeStatusEnum status;
   final DateTime createdAt;
   final DateTime? acceptedAt;
   final DateTime? completedAt;
 
-  Challenge({
+  ChallengeModel({
     required this.id,
     required this.category,
     required this.title,
@@ -25,18 +25,18 @@ class Challenge {
     this.completedAt,
   });
 
-  Challenge copyWith({
+  ChallengeModel copyWith({
     String? id,
-    GoalCategory? category,
+    GoalCategoryEnum? category,
     String? title,
     String? description,
-    ChallengeDifficulty? difficulty,
-    ChallengeStatus? status,
+    ChallengeDifficultyEnum? difficulty,
+    ChallengeStatusEnum? status,
     DateTime? createdAt,
     DateTime? acceptedAt,
     DateTime? completedAt,
   }) {
-    return Challenge(
+    return ChallengeModel(
       id: id ?? this.id,
       category: category ?? this.category,
       title: title ?? this.title,
@@ -49,3 +49,4 @@ class Challenge {
     );
   }
 }
+

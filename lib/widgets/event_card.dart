@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:dare_u/models/challenge.dart';
-import 'package:dare_u/models/event.dart';
-import 'package:dare_u/models/event_type.dart';
+import 'package:dare_u/enums/event_type_enum.dart';
+import 'package:dare_u/models/challenge_model.dart';
+import 'package:dare_u/models/event_model.dart';
 import 'package:dare_u/widgets/ai_message_card.dart';
 import 'challenge_accepted_card.dart';
 import 'challenge_completed_card.dart';
@@ -12,8 +12,8 @@ import 'progress_submitted_card.dart';
 import 'user_message_card.dart';
 
 class EventCard extends StatelessWidget {
-  final Event event;
-  final Function(Challenge)? onChallengeAccept;
+  final EventModel event;
+  final Function(ChallengeModel)? onChallengeAccept;
   final VoidCallback? onSubmitProgress;
 
   const EventCard({
@@ -26,25 +26,25 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     switch (event.type) {
-      case EventType.goalSelected:
+      case EventTypeEnum.goalSelected:
         return GoalSelectedCard(event: event);
-      case EventType.dailyChallengesOffered:
+      case EventTypeEnum.dailyChallengesOffered:
         return ChallengesOfferedCard(
           event: event,
           onChallengeAccept: onChallengeAccept,
         );
-      case EventType.challengeAccepted:
+      case EventTypeEnum.challengeAccepted:
         return ChallengeAcceptedCard(
           event: event,
           onSubmitProgress: onSubmitProgress,
         );
-      case EventType.progressSubmitted:
+      case EventTypeEnum.progressSubmitted:
         return ProgressSubmittedCard(event: event);
-      case EventType.challengeCompleted:
+      case EventTypeEnum.challengeCompleted:
         return ChallengeCompletedCard(event: event);
-      case EventType.aiMessage:
+      case EventTypeEnum.aiMessage:
         return AIMessageCard(event: event);
-      case EventType.userMessage:
+      case EventTypeEnum.userMessage:
         return UserMessageCard(event: event);
     }
   }

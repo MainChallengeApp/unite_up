@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 
-import 'package:dare_u/models/challenge.dart';
-import 'package:dare_u/models/challenge_status.dart';
-import 'package:dare_u/models/event.dart';
-import 'package:dare_u/models/goal.dart';
-import 'package:dare_u/models/progress_entry.dart';
+import 'package:dare_u/enums/challenge_status_enum.dart';
+import 'package:dare_u/models/challenge_model.dart';
+import 'package:dare_u/models/event_model.dart';
+import 'package:dare_u/models/goal_model.dart';
+import 'package:dare_u/models/progress_entry_model.dart';
 import 'package:dare_u/services/challenge_service.dart';
 
 class GoalData {
-  final Goal goal;
-  final List<Event> events;
-  final List<Challenge> todaysChallenges;
-  final Challenge? activeChallenge;
+  final GoalModel goal;
+  final List<EventModel> events;
+  final List<ChallengeModel> todaysChallenges;
+  final ChallengeModel? activeChallenge;
 
   GoalData({
     required this.goal,
@@ -21,10 +21,10 @@ class GoalData {
   });
 
   GoalData copyWith({
-    Goal? goal,
-    List<Event>? events,
-    List<Challenge>? todaysChallenges,
-    Challenge? activeChallenge,
+    GoalModel? goal,
+    List<EventModel>? events,
+    List<ChallengeModel>? todaysChallenges,
+    ChallengeModel? activeChallenge,
     bool clearActiveChallenge = false,
   }) {
     return GoalData(
@@ -43,17 +43,17 @@ class AppStateProvider extends ChangeNotifier {
   bool _hasCompletedOnboarding = false;
 
   // Getters
-  List<Goal> get goals => _goals.map((g) => g.goal).toList();
-  Goal? get currentGoal => _selectedGoalId != null
+  List<GoalModel> get goals => _goals.map((g) => g.goal).toList();
+  GoalModel? get currentGoal => _selectedGoalId != null
       ? _goals.firstWhere((g) => g.goal.id == _selectedGoalId).goal
       : null;
-  List<Event> get events => _selectedGoalId != null
+  List<EventModel> get events => _selectedGoalId != null
       ? _goals.firstWhere((g) => g.goal.id == _selectedGoalId).events
       : [];
-  List<Challenge> get todaysChallenges => _selectedGoalId != null
+  List<ChallengeModel> get todaysChallenges => _selectedGoalId != null
       ? _goals.firstWhere((g) => g.goal.id == _selectedGoalId).todaysChallenges
       : [];
-  Challenge? get activeChallenge => _selectedGoalId != null
+  ChallengeModel? get activeChallenge => _selectedGoalId != null
       ? _goals.firstWhere((g) => g.goal.id == _selectedGoalId).activeChallenge
       : null;
   bool get hasCompletedOnboarding => _hasCompletedOnboarding;
@@ -62,14 +62,14 @@ class AppStateProvider extends ChangeNotifier {
   bool get hasGoals => _goals.isNotEmpty;
 
   // Add a new goal
-  void addGoal(Goal goal) {
-    final events = <Event>[];
+  void addGoal(GoalModel goal) {
+    final events = <EventModel>[];
     
     // Add goal selection event
-    events.add(Event.goalSelected(goal));
+    events.add(EventModel.goalSelected(goal));
     
     // Add welcome message
-    events.add(Event.aiMessage(
+    events.add(EventModel.aiMessage(
       'Great choice! 🎉 You\'ve chosen to work on "${goal.displayName}". '
       'I\'ll provide you with daily challenges to help you achieve this goal. '
       'Let\'s get started with today\'s challenges!'
@@ -77,7 +77,7 @@ class AppStateProvider extends ChangeNotifier {
     
     // Generate challenges
     final challenges = ChallengeService.generateDailyChallenges(goal.category);
-    events.add(Event.dailyChallengesOffered(challenges));
+    events.add(EventModel.dailyChallengesOffered(challenges));
     
     final goalData = GoalData(
       goal: goal,
@@ -93,12 +93,12 @@ class AppStateProvider extends ChangeNotifier {
   }
 
   // Set goal and complete onboarding (for onboarding flow)
-  void setGoal(Goal goal) {
+  void setGoal(GoalModel goal) {
     addGoal(goal);
   }
 
   // Select a goal to view
-  void selectGoal(String goalId) {
+  void selectGoalModel(String goalId) {
     if (_goals.any((g) => g.goal.id == goalId)) {
       _selectedGoalId = goalId;
       notifyListeners();
@@ -106,20 +106,20 @@ class AppStateProvider extends ChangeNotifier {
   }
 
   // Accept a challenge
-  void acceptChallenge(Challenge challenge) {
+  void acceptChallenge(ChallengeModel challenge) {
     if (_selectedGoalId == null) return;
     
     final index = _goals.indexWhere((g) => g.goal.id == _selectedGoalId);
     if (index == -1) return;
     
     final updatedChallenge = challenge.copyWith(
-      status: ChallengeStatus.accepted,
+      status: ChallengeStatusEnum.accepted,
       acceptedAt: DateTime.now(),
     );
     
-    final events = List<Event>.from(_goals[index].events);
-    events.add(Event.challengeAccepted(updatedChallenge));
-    events.add(Event.aiMessage(
+    final events = List<EventModel>.from(_goals[index].events);
+    events.add(EventModel.challengeAccepted(updatedChallenge));
+    events.add(EventModel.aiMessage(
       'Perfect! You\'ve accepted: "${challenge.title}". '
       'Take your time and upload your progress when you\'re done. You got this! 💪'
     ));
@@ -133,23 +133,23 @@ class AppStateProvider extends ChangeNotifier {
   }
 
   // Submit progress
-  void submitProgress(ProgressEntry entry) {
+  void submitProgress(ProgressEntryModel entry) {
     if (_selectedGoalId == null) return;
     
     final index = _goals.indexWhere((g) => g.goal.id == _selectedGoalId);
     if (index == -1 || _goals[index].activeChallenge == null) return;
     
-    final events = List<Event>.from(_goals[index].events);
-    events.add(Event.progressSubmitted(entry));
+    final events = List<EventModel>.from(_goals[index].events);
+    events.add(EventModel.progressSubmitted(entry));
     
     // Mark challenge as completed
     final completedChallenge = _goals[index].activeChallenge!.copyWith(
-      status: ChallengeStatus.completed,
+      status: ChallengeStatusEnum.completed,
       completedAt: DateTime.now(),
     );
     
-    events.add(Event.challengeCompleted(completedChallenge));
-    events.add(Event.aiMessage(
+    events.add(EventModel.challengeCompleted(completedChallenge));
+    events.add(EventModel.aiMessage(
       'Amazing work! 🎉 You\'ve completed the challenge. '
       'I\'m so proud of you for taking action towards your goal! '
       'Come back tomorrow for new challenges.'
@@ -170,8 +170,8 @@ class AppStateProvider extends ChangeNotifier {
     final index = _goals.indexWhere((g) => g.goal.id == _selectedGoalId);
     if (index == -1) return;
     
-    final events = List<Event>.from(_goals[index].events);
-    events.add(Event.userMessage(message));
+    final events = List<EventModel>.from(_goals[index].events);
+    events.add(EventModel.userMessage(message));
     
     _goals[index] = _goals[index].copyWith(events: events);
     notifyListeners();
@@ -181,13 +181,13 @@ class AppStateProvider extends ChangeNotifier {
       final currentIndex = _goals.indexWhere((g) => g.goal.id == _selectedGoalId);
       if (currentIndex == -1) return;
       
-      final updatedEvents = List<Event>.from(_goals[currentIndex].events);
-      updatedEvents.add(Event.aiMessage(
+      final updatedEventModels = List<EventModel>.from(_goals[currentIndex].events);
+      updatedEventModels.add(EventModel.aiMessage(
         'I appreciate you sharing that! Remember, I\'m here to help you with your challenges. '
         'Keep pushing forward! 🌟'
       ));
       
-      _goals[currentIndex] = _goals[currentIndex].copyWith(events: updatedEvents);
+      _goals[currentIndex] = _goals[currentIndex].copyWith(events: updatedEventModels);
       notifyListeners();
     });
   }

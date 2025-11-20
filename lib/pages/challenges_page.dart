@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:dare_u/models/goal.dart';
+import 'package:dare_u/models/goal_model.dart';
 import 'package:dare_u/providers/app_state_provider.dart';
 import 'chat_page.dart';
 import 'onboarding_page.dart';
@@ -9,15 +9,15 @@ import 'onboarding_page.dart';
 class ChallengesPage extends StatelessWidget {
   const ChallengesPage({super.key});
 
-  void _navigateToGoalChat(BuildContext context, String goalId) {
-    Provider.of<AppStateProvider>(context, listen: false).selectGoal(goalId);
+  void _navigateToGoalModelChat(BuildContext context, String goalId) {
+    Provider.of<AppStateProvider>(context, listen: false).selectGoalModel(goalId);
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const ChatPage()),
     );
   }
 
-  void _createNewGoal(BuildContext context) {
+  void _createNewGoalModel(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const OnboardingPage()),
@@ -43,13 +43,13 @@ class ChallengesPage extends StatelessWidget {
               padding: const EdgeInsets.all(16),
               itemCount: goals.length,
               itemBuilder: (context, index) {
-                return _buildGoalCard(context, goals[index], theme);
+                return _buildGoalModelCard(context, goals[index], theme);
               },
             ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _createNewGoal(context),
+        onPressed: () => _createNewGoalModel(context),
         icon: const Icon(Icons.add_rounded),
-        label: const Text('New Goal'),
+        label: const Text('New GoalModel'),
         backgroundColor: theme.colorScheme.primary,
         foregroundColor: Colors.white,
         elevation: 2,
@@ -77,7 +77,7 @@ class ChallengesPage extends StatelessWidget {
           ),
           const SizedBox(height: 24),
           Text(
-            'No Goals Yet',
+            'No GoalModels Yet',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w600,
@@ -100,9 +100,9 @@ class ChallengesPage extends StatelessWidget {
           ),
           const SizedBox(height: 32),
           ElevatedButton.icon(
-            onPressed: () => _createNewGoal(context),
+            onPressed: () => _createNewGoalModel(context),
             icon: const Icon(Icons.add_rounded),
-            label: const Text('Create Goal'),
+            label: const Text('Create GoalModel'),
             style: ElevatedButton.styleFrom(
               backgroundColor: theme.colorScheme.primary,
               foregroundColor: Colors.white,
@@ -115,13 +115,13 @@ class ChallengesPage extends StatelessWidget {
     );
   }
 
-  Widget _buildGoalCard(BuildContext context, Goal goal, ThemeData theme) {
+  Widget _buildGoalModelCard(BuildContext context, GoalModel goal, ThemeData theme) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Material(
         color: Colors.transparent,
         child: InkWell(
-          onTap: () => _navigateToGoalChat(context, goal.id),
+          onTap: () => _navigateToGoalModelChat(context, goal.id),
           borderRadius: BorderRadius.circular(16),
           child: Container(
             padding: const EdgeInsets.all(20),

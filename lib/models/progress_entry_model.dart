@@ -1,13 +1,13 @@
-import 'package:dare_u/models/media_attachment.dart';
+import 'package:dare_u/models/media_attachment_model.dart';
 
-class ProgressEntry {
+class ProgressEntryModel {
   final String id;
   final String challengeId;
   final String note;
-  final List<MediaAttachment> attachments;
+  final List<MediaAttachmentModel> attachments;
   final DateTime createdAt;
 
-  ProgressEntry({
+  ProgressEntryModel({
     required this.id,
     required this.challengeId,
     required this.note,
@@ -15,3 +15,4 @@ class ProgressEntry {
     required this.createdAt,
   });
 }
+

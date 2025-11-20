@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:dare_u/models/event.dart';
+import 'package:dare_u/models/event_model.dart';
 
 class ChallengeAcceptedCard extends StatelessWidget {
-  final Event event;
+  final EventModel event;
   final VoidCallback? onSubmitProgress;
 
   const ChallengeAcceptedCard({

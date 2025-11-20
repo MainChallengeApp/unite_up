@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:dare_u/models/event.dart';
+import 'package:dare_u/models/event_model.dart';
 
 class ProgressSubmittedCard extends StatelessWidget {
-  final Event event;
+  final EventModel event;
 
   const ProgressSubmittedCard({super.key, required this.event});
 

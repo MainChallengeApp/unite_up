@@ -1,5 +1,5 @@
-import 'package:dare_u/models/goal.dart';
-import 'package:dare_u/models/goal_category.dart';
+import 'package:dare_u/enums/goal_category_enum.dart';
+import 'package:dare_u/models/goal_model.dart';
 import 'package:dare_u/providers/app_state_provider.dart';
 import 'package:dare_u/widgets/goal_card.dart';
 import 'package:flutter/material.dart';
@@ -13,7 +13,7 @@ class OnboardingPage extends StatefulWidget {
 }
 
 class _OnboardingPageState extends State<OnboardingPage> {
-  GoalCategory? _selectedCategory;
+  GoalCategoryEnum? _selectedCategory;
   final TextEditingController _customGoalController = TextEditingController();
 
   @override
@@ -25,10 +25,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
   void _handleGoalSelection() {
     if (_selectedCategory == null) return;
 
-    final goal = Goal(
+    final goal = GoalModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       category: _selectedCategory!,
-      customName: _selectedCategory == GoalCategory.custom
+      customName: _selectedCategory == GoalCategoryEnum.custom
           ? _customGoalController.text.trim()
           : null,
       createdAt: DateTime.now(),
@@ -83,13 +83,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       ),
                     ),
                     const SizedBox(height: 16),
-                    ...GoalCategory.values.map((category) {
+                    ...GoalCategoryEnum.values.map((category) {
                       return GoalCard(
                         category: category,
                         isSelected: _selectedCategory == category,
                         onTap: () =>
                             setState(() => _selectedCategory = category),
-                        customController: category == GoalCategory.custom
+                        customController: category == GoalCategoryEnum.custom
                             ? _customGoalController
                             : null,
                       );
@@ -116,7 +116,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   child: ElevatedButton(
                     onPressed:
                         _selectedCategory != null &&
-                            (_selectedCategory != GoalCategory.custom ||
+                            (_selectedCategory != GoalCategoryEnum.custom ||
                                 _customGoalController.text.trim().isNotEmpty)
                         ? _handleGoalSelection
                         : null,

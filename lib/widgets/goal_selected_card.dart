@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:dare_u/models/event.dart';
+import 'package:dare_u/models/event_model.dart';
 
 class GoalSelectedCard extends StatelessWidget {
-  final Event event;
+  final EventModel event;
 
   const GoalSelectedCard({super.key, required this.event});
 

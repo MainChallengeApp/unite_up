@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:dare_u/models/event.dart';
+import 'package:dare_u/models/event_model.dart';
 
 class AIMessageCard extends StatelessWidget {
-  final Event event;
+  final EventModel event;
 
   const AIMessageCard({super.key, required this.event});
 

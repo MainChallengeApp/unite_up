@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:dare_u/models/media_attachment.dart';
-import 'package:dare_u/models/media_type.dart';
-import 'package:dare_u/models/progress_entry.dart';
+import 'package:dare_u/enums/media_type_enum.dart';
+import 'package:dare_u/models/media_attachment_model.dart';
+import 'package:dare_u/models/progress_entry_model.dart';
 
 class ProgressDialog extends StatefulWidget {
   final String challengeId;
@@ -18,7 +18,7 @@ class ProgressDialog extends StatefulWidget {
 
 class _ProgressDialogState extends State<ProgressDialog> {
   final TextEditingController _noteController = TextEditingController();
-  final List<MediaAttachment> _mockAttachments = [];
+  final List<MediaAttachmentModel> _mockAttachments = [];
 
   @override
   void dispose() {
@@ -28,9 +28,9 @@ class _ProgressDialogState extends State<ProgressDialog> {
 
   void _addMockImage() {
     setState(() {
-      _mockAttachments.add(MediaAttachment(
+      _mockAttachments.add(MediaAttachmentModel(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
-        type: MediaType.image,
+        type: MediaTypeEnum.image,
         path: 'mock/path/image_${_mockAttachments.length + 1}.jpg',
         fileName: 'image_${_mockAttachments.length + 1}.jpg',
         uploadedAt: DateTime.now(),
@@ -40,9 +40,9 @@ class _ProgressDialogState extends State<ProgressDialog> {
 
   void _addMockVideo() {
     setState(() {
-      _mockAttachments.add(MediaAttachment(
+      _mockAttachments.add(MediaAttachmentModel(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
-        type: MediaType.video,
+        type: MediaTypeEnum.video,
         path: 'mock/path/video_${_mockAttachments.length + 1}.mp4',
         fileName: 'video_${_mockAttachments.length + 1}.mp4',
         uploadedAt: DateTime.now(),
@@ -52,9 +52,9 @@ class _ProgressDialogState extends State<ProgressDialog> {
 
   void _addMockFile() {
     setState(() {
-      _mockAttachments.add(MediaAttachment(
+      _mockAttachments.add(MediaAttachmentModel(
         id: DateTime.now().millisecondsSinceEpoch.toString(),
-        type: MediaType.file,
+        type: MediaTypeEnum.file,
         path: 'mock/path/document_${_mockAttachments.length + 1}.pdf',
         fileName: 'document_${_mockAttachments.length + 1}.pdf',
         uploadedAt: DateTime.now(),
@@ -79,7 +79,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
       return;
     }
 
-    final entry = ProgressEntry(
+    final entry = ProgressEntryModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       challengeId: widget.challengeId,
       note: _noteController.text.trim(),
@@ -331,13 +331,13 @@ class _ProgressDialogState extends State<ProgressDialog> {
     );
   }
 
-  IconData _getMediaIcon(MediaType type) {
+  IconData _getMediaIcon(MediaTypeEnum type) {
     switch (type) {
-      case MediaType.image:
+      case MediaTypeEnum.image:
         return Icons.image_rounded;
-      case MediaType.video:
+      case MediaTypeEnum.video:
         return Icons.videocam_rounded;
-      case MediaType.file:
+      case MediaTypeEnum.file:
         return Icons.attach_file_rounded;
     }
   }

@@ -1,9 +1,8 @@
+import 'package:dare_u/enums/goal_category_enum.dart';
 import 'package:flutter/material.dart';
 
-import 'package:dare_u/models/goal_category.dart';
-
 class GoalCard extends StatelessWidget {
-  final GoalCategory category;
+  final GoalCategoryEnum category;
   final bool isSelected;
   final VoidCallback onTap;
   final TextEditingController? customController;
@@ -19,7 +18,7 @@ class GoalCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final isCustom = category == GoalCategory.custom;
+    final isCustom = category == GoalCategoryEnum.custom;
 
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
@@ -85,10 +84,7 @@ class GoalCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(12),
       ),
       alignment: Alignment.center,
-      child: Text(
-        category.emoji,
-        style: const TextStyle(fontSize: 28),
-      ),
+      child: Text(category.emoji, style: const TextStyle(fontSize: 28)),
     );
   }
 
@@ -149,4 +145,3 @@ class GoalCard extends StatelessWidget {
     );
   }
 }
-
