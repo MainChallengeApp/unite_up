@@ -1,0 +1,169 @@
+{
+  "@@locale": "en",
+  "appTitle": "Dare U",
+  "@appTitle": {
+    "description": "The application title"
+  },
+  
+  "welcomeTo": "Welcome to\nDare U!",
+  "onboardingDescription": "Transform your life one challenge at a time. Create your first personal challenge to track your progress and document your journey.",
+  "chooseFocus": "Choose your focus",
+  "createChallenge": "Create Challenge",
+  "startYourJourney": "Start Your Journey",
+  
+  "challenges": "Challenges",
+  "search": "Search",
+  "profile": "Profile",
+  "settings": "Settings",
+  
+  "noChallengesYet": "No challenges yet",
+  "createFirstChallenge": "Create your first challenge to start your journey!",
+  
+  "personal": "Personal",
+  "group": "Group",
+  "members": "Members",
+  "messages": "messages",
+  "member": "{count, plural, =1{member} other{members}}",
+  "@member": {
+    "description": "Member count",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  
+  "createNewChallenge": "Create Challenge",
+  "chooseThumbnail": "Choose Thumbnail",
+  "changeThumbnail": "Change Thumbnail",
+  "category": "Category",
+  "title": "Title",
+  "description": "Description",
+  "enterGroupName": "Enter group name",
+  "enterChallengeName": "Enter challenge name",
+  "whatIsGroupAbout": "What is this group about?",
+  "whatToAchieve": "What do you want to achieve?",
+  "addMembers": "Add",
+  "noMembersAdded": "No members added yet",
+  "createPersonalChallenge": "Create Personal Challenge",
+  "createGroupChallenge": "Create Group Challenge",
+  "pleaseEnterTitle": "Please enter a title",
+  "challengeCreated": "Challenge \"{name}\" created!",
+  "@challengeCreated": {
+    "description": "Challenge creation success message",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "groupChallengeCreated": "Group challenge \"{name}\" created!",
+  "@groupChallengeCreated": {
+    "description": "Group challenge creation success message",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "personalChallengeCreated": "Personal challenge \"{name}\" created!",
+  "@personalChallengeCreated": {
+    "description": "Personal challenge creation success message",
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  
+  "startDocumenting": "Start documenting!",
+  "shareUpdates": "Share updates, images, and track your progress",
+  "shareAnUpdate": "Share an update...",
+  "addProgress": "Add Progress",
+  
+  "searchUsers": "Search users...",
+  "noUsersFound": "No users found",
+  "tryDifferentSearch": "Try a different search term",
+  
+  "follow": "Follow",
+  "following": "Following",
+  "followers": "Followers",
+  "goals": "Goals",
+  
+  "createAccount": "Create Account",
+  "signIn": "Sign In",
+  "signOut": "Sign Out",
+  "continueWith": "Continue with {provider}",
+  "@continueWith": {
+    "description": "Social login button text",
+    "placeholders": {
+      "provider": {
+        "type": "String"
+      }
+    }
+  },
+  "orContinueWith": "Or continue with",
+  "name": "Name",
+  "email": "Email",
+  "password": "Password",
+  "enterName": "Enter your name",
+  "enterEmail": "Enter your email",
+  "enterPassword": "Enter your password",
+  "alreadyHaveAccount": "Already have an account?",
+  "dontHaveAccount": "Don't have an account?",
+  "successfullyLoggedIn": "Successfully logged in!",
+  "accountCreatedSuccessfully": "Account created successfully!",
+  "authenticationFailed": "Authentication failed: {error}",
+  "@authenticationFailed": {
+    "description": "Authentication error message",
+    "placeholders": {
+      "error": {
+        "type": "String"
+      }
+    }
+  },
+  "loggedOutSuccessfully": "Logged out successfully",
+  
+  "achievements": "Achievements",
+  "viewAccomplishments": "View your accomplishments",
+  "statistics": "Statistics",
+  "trackProgress": "Track your progress",
+  "notifications": "Notifications",
+  "manageAlerts": "Manage your alerts",
+  "appPreferences": "App preferences",
+  
+  "theme": "Theme",
+  "language": "Language",
+  "light": "Light",
+  "dark": "Dark",
+  "system": "System",
+  "selectTheme": "Select theme mode",
+  "selectLanguage": "Select language",
+  
+  "submitProgress": "Submit Progress",
+  "addNote": "Add a note about your progress...",
+  "attachments": "Attachments",
+  "addImage": "Add Image",
+  "addVideo": "Add Video",
+  "addFile": "Add File",
+  "submit": "Submit",
+  "cancel": "Cancel",
+  
+  "becomeHealthier": "Become Healthier",
+  "focusOnNutrition": "Focus on nutrition, sleep, and wellness",
+  "improveSocialSkills": "Improve Social Skills",
+  "buildConnections": "Build connections and communication skills",
+  "becomeMoreIntelligent": "Become More Intelligent",
+  "learnNewThings": "Learn new things and expand knowledge",
+  "getPhysicallyFit": "Get Physically Fit",
+  "buildStrength": "Build strength and endurance",
+  "boostCreativity": "Boost Creativity",
+  "expressYourself": "Express yourself and think outside the box",
+  "increaseProductivity": "Increase Productivity",
+  "getMoreDone": "Get more done and manage time better",
+  "practiceMindfulness": "Practice Mindfulness",
+  "bePresent": "Be present and reduce stress",
+  "customGoal": "Custom Goal",
+  "defineOwnPath": "Define your own path to improvement"
+}
+

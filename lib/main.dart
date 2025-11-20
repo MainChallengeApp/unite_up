@@ -1,9 +1,12 @@
+import 'package:dare_u/l10n/app_localizations.dart';
 import 'package:dare_u/pages/home_page.dart';
 import 'package:dare_u/pages/onboarding_page.dart';
 import 'package:dare_u/providers/app_state_provider.dart';
+import 'package:dare_u/providers/locale_provider.dart';
 import 'package:dare_u/providers/theme_provider.dart';
 import 'package:dare_u/theme/app_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:provider/provider.dart';
 
 void main() {
@@ -11,6 +14,7 @@ void main() {
     MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => ThemeProvider()),
+        ChangeNotifierProvider(create: (_) => LocaleProvider()),
         ChangeNotifierProvider(create: (_) => AppStateProvider()),
       ],
       child: const MyApp(),
@@ -24,6 +28,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
+    final localeProvider = Provider.of<LocaleProvider>(context);
 
     return MaterialApp(
       title: 'Dare U',
@@ -31,6 +36,14 @@ class MyApp extends StatelessWidget {
       theme: AppTheme.lightTheme,
       darkTheme: AppTheme.darkTheme,
       themeMode: themeProvider.themeMode,
+      locale: localeProvider.locale,
+      localizationsDelegates: [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [Locale('en'), Locale('de')],
       home: const AppRouter(),
     );
   }

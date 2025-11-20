@@ -1,3 +1,4 @@
+import 'package:dare_u/l10n/app_localizations.dart';
 import 'package:dare_u/models/user_model.dart';
 import 'package:dare_u/services/user_service.dart';
 import 'package:dare_u/widgets/empty_state.dart';
@@ -77,9 +78,9 @@ class _SearchPageState extends State<SearchPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Search',
-          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+        title: Text(
+          AppLocalizations.of(context)?.search ?? 'Search',
+          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
         ),
       ),
       body: _buildSearchView(theme),
