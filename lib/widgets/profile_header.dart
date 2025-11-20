@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dare_u/core/constants/app_constants.dart';
 
 class ProfileHeader extends StatelessWidget {
   final String name;
@@ -16,11 +17,11 @@ class ProfileHeader extends StatelessWidget {
 
     return Column(
       children: [
-        const SizedBox(height: 20),
+        const SizedBox(height: AppSizes.spacing20),
         _buildAvatar(theme),
-        const SizedBox(height: 20),
+        const SizedBox(height: AppSizes.spacing20),
         _buildName(theme),
-        const SizedBox(height: 4),
+        const SizedBox(height: AppSizes.spacing4),
         _buildEmail(theme),
       ],
     );
@@ -28,13 +29,13 @@ class ProfileHeader extends StatelessWidget {
 
   Widget _buildAvatar(ThemeData theme) {
     return Container(
-      width: 100,
-      height: 100,
+      width: AppSizes.size100,
+      height: AppSizes.size100,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            theme.colorScheme.primary.withValues(alpha: 0.3),
-            theme.colorScheme.secondary.withValues(alpha: 0.3),
+            theme.colorScheme.primary.withValues(alpha: AppOpacity.medium),
+            theme.colorScheme.secondary.withValues(alpha: AppOpacity.medium),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -43,7 +44,7 @@ class ProfileHeader extends StatelessWidget {
       ),
       child: Icon(
         Icons.person_rounded,
-        size: 50,
+        size: AppSizes.size50,
         color: theme.colorScheme.primary,
       ),
     );
@@ -53,7 +54,7 @@ class ProfileHeader extends StatelessWidget {
     return Text(
       name,
       style: TextStyle(
-        fontSize: 24,
+        fontSize: AppSizes.iconLarge,
         fontWeight: FontWeight.bold,
         color: theme.brightness == Brightness.dark
             ? Colors.white
@@ -66,8 +67,8 @@ class ProfileHeader extends StatelessWidget {
     return Text(
       email,
       style: TextStyle(
-        fontSize: 14,
-        color: theme.iconTheme.color?.withValues(alpha: 0.6),
+        fontSize: AppSizes.fontMedium,
+        color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:dare_u/enums/goal_category_enum.dart';
+import 'package:dare_u/core/constants/app_constants.dart';
 import 'package:dare_u/models/challenge_chat_model.dart';
 import 'package:dare_u/models/user_model.dart';
 import 'package:dare_u/providers/app_state_provider.dart';
@@ -55,8 +56,8 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
       builder: (context) => AlertDialog(
         title: Text('challenges.create.chooseThumbnail'.tr()),
         content: Wrap(
-          spacing: 12,
-          runSpacing: 12,
+          spacing: AppSizes.spacing12,
+          runSpacing: AppSizes.spacing12,
           children: _availableEmojis.map((emoji) {
             return InkWell(
               onTap: () {
@@ -64,22 +65,22 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                 Navigator.pop(context);
               },
               child: Container(
-                width: 56,
-                height: 56,
+                width: AppSizes.containerMedium,
+                height: AppSizes.containerMedium,
                 decoration: BoxDecoration(
                   color: emoji == _selectedEmoji
-                      ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.2)
+                      ? Theme.of(context).colorScheme.primary.withValues(alpha: AppOpacity.subtle)
                       : Colors.transparent,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
                   border: Border.all(
                     color: emoji == _selectedEmoji
                         ? Theme.of(context).colorScheme.primary
                         : Colors.transparent,
-                    width: 2,
+                    width: AppSizes.borderThick,
                   ),
                 ),
                 alignment: Alignment.center,
-                child: Text(emoji, style: const TextStyle(fontSize: 32)),
+                child: Text(emoji, style: const TextStyle(fontSize: AppSizes.emojiXLarge)),
               ),
             );
           }).toList(),
@@ -185,61 +186,61 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
       appBar: AppBar(
         title: Text(
           'challenges.createNewChallenge'.tr(),
-          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: AppSizes.fontXLarge),
         ),
       ),
       body: SingleChildScrollView(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(AppSizes.spacing24),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const SizedBox(height: 32),
+            const SizedBox(height: AppSizes.spacing32),
             Center(
               child: Column(
                 children: [
                   InkWell(
                     onTap: _showEmojiPicker,
-                    borderRadius: BorderRadius.circular(20),
+                    borderRadius: BorderRadius.circular(AppSizes.radiusXLarge),
                     child: Container(
-                      width: 120,
-                      height: 120,
+                      width: AppSizes.containerHuge,
+                      height: AppSizes.containerHuge,
                       decoration: BoxDecoration(
-                        color: theme.colorScheme.primary.withValues(alpha: 0.1),
-                        borderRadius: BorderRadius.circular(20),
+                        color: theme.colorScheme.primary.withValues(alpha: AppOpacity.light),
+                        borderRadius: BorderRadius.circular(AppSizes.radiusXLarge),
                         border: Border.all(
-                          color: theme.dividerColor.withValues(alpha: 0.3),
-                          width: 2,
+                          color: theme.dividerColor.withValues(alpha: AppOpacity.medium),
+                          width: AppSizes.borderThick,
                         ),
                       ),
                       child: Center(
                         child: Text(
                           _selectedEmoji,
-                          style: const TextStyle(fontSize: 64),
+                          style: const TextStyle(fontSize: AppSizes.emojiHuge),
                         ),
                       ),
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: AppSizes.spacing12),
                   TextButton.icon(
                     onPressed: _showEmojiPicker,
-                    icon: const Icon(Icons.edit_rounded, size: 16),
+                    icon: const Icon(Icons.edit_rounded, size: AppSizes.iconSmall),
                     label: Text('challenges.create.changeThumbnail'.tr()),
                   ),
                 ],
               ),
             ),
-            const SizedBox(height: 32),
+            const SizedBox(height: AppSizes.spacing32),
             Text(
               'challenges.create.category'.tr(),
               style: TextStyle(
-                fontSize: 14,
+                fontSize: AppSizes.fontMedium,
                 fontWeight: FontWeight.w600,
                 color: theme.brightness == Brightness.dark
                     ? Colors.white
                     : const Color(0xFF1E293B),
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSizes.spacing8),
             DropdownButtonFormField<GoalCategoryEnum>(
               initialValue: _selectedCategory,
               decoration: InputDecoration(
@@ -248,7 +249,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                     ? theme.cardColor
                     : theme.scaffoldBackgroundColor,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
                   borderSide: BorderSide.none,
                 ),
               ),
@@ -260,9 +261,9 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                       children: [
                         Text(
                           category.emoji,
-                          style: const TextStyle(fontSize: 20),
+                          style: const TextStyle(fontSize: AppSizes.fontXXLarge),
                         ),
-                        const SizedBox(width: 12),
+                        const SizedBox(width: AppSizes.spacing12),
                         Text(category.displayName(context)),
                       ],
                     ),
@@ -275,18 +276,18 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                 }
               },
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: AppSizes.spacing24),
             Text(
               'challenges.create.titleLabel'.tr(),
               style: TextStyle(
-                fontSize: 14,
+                fontSize: AppSizes.fontMedium,
                 fontWeight: FontWeight.w600,
                 color: theme.brightness == Brightness.dark
                     ? Colors.white
                     : const Color(0xFF1E293B),
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSizes.spacing8),
             TextField(
               controller: _titleController,
               decoration: InputDecoration(
@@ -296,23 +297,23 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                     ? theme.cardColor
                     : theme.scaffoldBackgroundColor,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
                   borderSide: BorderSide.none,
                 ),
               ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: AppSizes.spacing24),
             Text(
               'challenges.create.descriptionLabel'.tr(),
               style: TextStyle(
-                fontSize: 14,
+                fontSize: AppSizes.fontMedium,
                 fontWeight: FontWeight.w600,
                 color: theme.brightness == Brightness.dark
                     ? Colors.white
                     : const Color(0xFF1E293B),
               ),
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSizes.spacing8),
             TextField(
               controller: _descriptionController,
               decoration: InputDecoration(
@@ -322,20 +323,20 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                     ? theme.cardColor
                     : theme.scaffoldBackgroundColor,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
                   borderSide: BorderSide.none,
                 ),
               ),
               maxLines: 3,
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: AppSizes.spacing24),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   'challenges.create.members'.tr(),
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: AppSizes.fontMedium,
                     fontWeight: FontWeight.w600,
                     color: theme.brightness == Brightness.dark
                         ? Colors.white
@@ -344,26 +345,26 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                 ),
                 TextButton.icon(
                   onPressed: _showMembersPicker,
-                  icon: const Icon(Icons.person_add_rounded, size: 16),
+                  icon: const Icon(Icons.person_add_rounded, size: AppSizes.iconSmall),
                   label: Text('common.add'.tr()),
                 ),
               ],
             ),
-            const SizedBox(height: 8),
+            const SizedBox(height: AppSizes.spacing8),
             if (_selectedMembers.isEmpty)
               Container(
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.all(AppSizes.spacing24),
                 decoration: BoxDecoration(
                   color: theme.brightness == Brightness.dark
                       ? theme.cardColor
                       : theme.scaffoldBackgroundColor,
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
                 ),
                 child: Center(
                   child: Text(
                     'challenges.create.noMembersAdded'.tr(),
                     style: TextStyle(
-                      color: theme.iconTheme.color?.withValues(alpha: 0.5),
+                      color: theme.iconTheme.color?.withValues(alpha: AppOpacity.semiTransparent),
                     ),
                   ),
                 ),
@@ -372,21 +373,21 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
               ..._selectedMembers.map(
                 (member) => _buildMemberChip(member, theme),
               ),
-            const SizedBox(height: 32),
+            const SizedBox(height: AppSizes.spacing32),
             SizedBox(
               width: double.infinity,
               child: FilledButton(
                 onPressed: _createChallenge,
                 style: FilledButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  padding: const EdgeInsets.symmetric(vertical: AppSizes.spacing16),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
+                    borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
                   ),
                 ),
                 child: Text(
                   'challenges.createChallenge'.tr(),
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: AppSizes.fontLarge,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -400,21 +401,21 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
 
   Widget _buildMemberChip(UserModel member, ThemeData theme) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      margin: const EdgeInsets.only(bottom: AppSizes.spacing8),
+      padding: const EdgeInsets.symmetric(horizontal: AppSizes.spacing12, vertical: AppSizes.spacing8),
       decoration: BoxDecoration(
         color: theme.brightness == Brightness.dark
             ? theme.cardColor
             : theme.scaffoldBackgroundColor,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
       ),
       child: Row(
         children: [
           CircleAvatar(
-            radius: 16,
-            child: Text(member.name[0], style: const TextStyle(fontSize: 14)),
+            radius: AppSizes.spacing16,
+            child: Text(member.name[0], style: const TextStyle(fontSize: AppSizes.fontMedium)),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: AppSizes.spacing12),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -422,7 +423,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                 Text(
                   member.name,
                   style: TextStyle(
-                    fontSize: 14,
+                    fontSize: AppSizes.fontMedium,
                     fontWeight: FontWeight.w500,
                     color: theme.brightness == Brightness.dark
                         ? Colors.white
@@ -432,15 +433,15 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                 Text(
                   member.username,
                   style: TextStyle(
-                    fontSize: 12,
-                    color: theme.iconTheme.color?.withValues(alpha: 0.6),
+                    fontSize: AppSizes.fontSmall,
+                    color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
                   ),
                 ),
               ],
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.close_rounded, size: 20),
+            icon: const Icon(Icons.close_rounded, size: AppSizes.iconMedium),
             onPressed: () {
               setState(() {
                 _selectedMembers.remove(member);

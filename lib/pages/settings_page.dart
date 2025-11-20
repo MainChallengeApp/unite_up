@@ -1,4 +1,5 @@
 import 'package:dare_u/providers/theme_provider.dart';
+import 'package:dare_u/core/constants/app_constants.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -15,7 +16,7 @@ class SettingsPage extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           'settings.title'.tr(),
-          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: AppSizes.fontXLarge),
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new_rounded),
@@ -23,18 +24,18 @@ class SettingsPage extends StatelessWidget {
         ),
       ),
       body: ListView(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppSizes.spacing16),
         children: [
           _buildSectionTitle('settings.appearance'.tr(), theme),
-          const SizedBox(height: 12),
+          const SizedBox(height: AppSizes.spacing12),
           _buildThemeCard(context, themeProvider, theme),
-          const SizedBox(height: 32),
+          const SizedBox(height: AppSizes.spacing32),
           _buildSectionTitle('settings.language'.tr(), theme),
-          const SizedBox(height: 12),
+          const SizedBox(height: AppSizes.spacing12),
           _buildLanguageCard(context, theme),
-          const SizedBox(height: 32),
+          const SizedBox(height: AppSizes.spacing32),
           _buildSectionTitle('settings.about'.tr(), theme),
-          const SizedBox(height: 12),
+          const SizedBox(height: AppSizes.spacing12),
           _buildInfoCard(
             context,
             icon: Icons.info_outline_rounded,
@@ -42,7 +43,7 @@ class SettingsPage extends StatelessWidget {
             subtitle: '1.0.0',
             theme: theme,
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: AppSizes.spacing12),
           _buildInfoCard(
             context,
             icon: Icons.code_rounded,
@@ -57,13 +58,13 @@ class SettingsPage extends StatelessWidget {
 
   Widget _buildSectionTitle(String title, ThemeData theme) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4),
+      padding: const EdgeInsets.symmetric(horizontal: AppSizes.spacing4),
       child: Text(
         title,
         style: TextStyle(
-          fontSize: 13,
+          fontSize: AppSizes.fontRegular,
           fontWeight: FontWeight.w600,
-          color: theme.iconTheme.color?.withValues(alpha: 0.6),
+          color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
           letterSpacing: 0.5,
         ),
       ),
@@ -78,12 +79,12 @@ class SettingsPage extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: theme.cardColor,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+            color: Colors.black.withValues(alpha: AppOpacity.veryLight),
+            blurRadius: AppSizes.blurMedium,
+            offset: AppSizes.shadowOffsetSmall,
           ),
         ],
       ),
@@ -100,9 +101,8 @@ class SettingsPage extends StatelessWidget {
             isFirst: true,
           ),
           Divider(
-            height: 1,
-            thickness: 1,
-            color: theme.dividerColor.withValues(alpha: 0.1),
+            height: AppSizes.dividerHeight,            thickness: 1,
+            color: theme.dividerColor.withValues(alpha: AppOpacity.light),
           ),
           _buildThemeOption(
             context,
@@ -114,9 +114,8 @@ class SettingsPage extends StatelessWidget {
             theme: theme,
           ),
           Divider(
-            height: 1,
-            thickness: 1,
-            color: theme.dividerColor.withValues(alpha: 0.1),
+            height: AppSizes.dividerHeight,            thickness: 1,
+            color: theme.dividerColor.withValues(alpha: AppOpacity.light),
           ),
           _buildThemeOption(
             context,
@@ -139,12 +138,12 @@ class SettingsPage extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: theme.cardColor,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+            color: Colors.black.withValues(alpha: AppOpacity.veryLight),
+            blurRadius: AppSizes.blurMedium,
+            offset: AppSizes.shadowOffsetSmall,
           ),
         ],
       ),
@@ -161,9 +160,8 @@ class SettingsPage extends StatelessWidget {
             isFirst: true,
           ),
           Divider(
-            height: 1,
-            thickness: 1,
-            color: theme.dividerColor.withValues(alpha: 0.1),
+            height: AppSizes.dividerHeight,            thickness: 1,
+            color: theme.dividerColor.withValues(alpha: AppOpacity.light),
           ),
           _buildLanguageOption(
             context,
@@ -200,27 +198,27 @@ class SettingsPage extends StatelessWidget {
           bottom: isLast ? const Radius.circular(16) : Radius.zero,
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(AppSizes.spacing16),
           child: Row(
             children: [
               Container(
-                width: 48,
-                height: 48,
+                width: AppSizes.containerSmall,
+                height: AppSizes.containerSmall,
                 decoration: BoxDecoration(
                   color: isSelected
-                      ? theme.colorScheme.primary.withValues(alpha: 0.1)
-                      : theme.colorScheme.primary.withValues(alpha: 0.05),
-                  borderRadius: BorderRadius.circular(12),
+                      ? theme.colorScheme.primary.withValues(alpha: AppOpacity.light)
+                      : theme.colorScheme.primary.withValues(alpha: AppOpacity.veryLight),
+                  borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
                 ),
                 child: Icon(
                   icon,
                   color: isSelected
                       ? theme.colorScheme.primary
-                      : theme.iconTheme.color?.withValues(alpha: 0.6),
-                  size: 24,
+                      : theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
+                  size: AppSizes.iconLarge,
                 ),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: AppSizes.spacing16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -228,19 +226,19 @@ class SettingsPage extends StatelessWidget {
                     Text(
                       title,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: AppSizes.fontLarge,
                         fontWeight: FontWeight.w600,
                         color: theme.brightness == Brightness.dark
                             ? Colors.white
                             : const Color(0xFF1E293B),
                       ),
                     ),
-                    const SizedBox(height: 2),
+                    const SizedBox(height: AppSizes.spacing2),
                     Text(
                       subtitle,
                       style: TextStyle(
-                        fontSize: 13,
-                        color: theme.iconTheme.color?.withValues(alpha: 0.6),
+                        fontSize: AppSizes.fontRegular,
+                        color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
                       ),
                     ),
                   ],
@@ -250,13 +248,13 @@ class SettingsPage extends StatelessWidget {
                 Icon(
                   Icons.check_circle_rounded,
                   color: theme.colorScheme.primary,
-                  size: 24,
+                  size: AppSizes.iconLarge,
                 )
               else
                 Icon(
                   Icons.circle_outlined,
-                  color: theme.iconTheme.color?.withValues(alpha: 0.3),
-                  size: 24,
+                  color: theme.iconTheme.color?.withValues(alpha: AppOpacity.medium),
+                  size: AppSizes.iconLarge,
                 ),
             ],
           ),
@@ -285,26 +283,26 @@ class SettingsPage extends StatelessWidget {
           bottom: isLast ? const Radius.circular(16) : Radius.zero,
         ),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(AppSizes.spacing16),
           child: Row(
             children: [
               Container(
-                width: 48,
-                height: 48,
+                width: AppSizes.containerSmall,
+                height: AppSizes.containerSmall,
                 decoration: BoxDecoration(
                   color: isSelected
-                      ? theme.colorScheme.primary.withValues(alpha: 0.1)
-                      : theme.colorScheme.primary.withValues(alpha: 0.05),
-                  borderRadius: BorderRadius.circular(12),
+                      ? theme.colorScheme.primary.withValues(alpha: AppOpacity.light)
+                      : theme.colorScheme.primary.withValues(alpha: AppOpacity.veryLight),
+                  borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
                 ),
                 child: Center(
                   child: Text(
                     flag,
-                    style: const TextStyle(fontSize: 24),
+                    style: const TextStyle(fontSize: AppSizes.iconLarge),
                   ),
                 ),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: AppSizes.spacing16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -312,19 +310,19 @@ class SettingsPage extends StatelessWidget {
                     Text(
                       title,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: AppSizes.fontLarge,
                         fontWeight: FontWeight.w600,
                         color: theme.brightness == Brightness.dark
                             ? Colors.white
                             : const Color(0xFF1E293B),
                       ),
                     ),
-                    const SizedBox(height: 2),
+                    const SizedBox(height: AppSizes.spacing2),
                     Text(
                       subtitle,
                       style: TextStyle(
-                        fontSize: 13,
-                        color: theme.iconTheme.color?.withValues(alpha: 0.6),
+                        fontSize: AppSizes.fontRegular,
+                        color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
                       ),
                     ),
                   ],
@@ -334,13 +332,13 @@ class SettingsPage extends StatelessWidget {
                 Icon(
                   Icons.check_circle_rounded,
                   color: theme.colorScheme.primary,
-                  size: 24,
+                  size: AppSizes.iconLarge,
                 )
               else
                 Icon(
                   Icons.circle_outlined,
-                  color: theme.iconTheme.color?.withValues(alpha: 0.3),
-                  size: 24,
+                  color: theme.iconTheme.color?.withValues(alpha: AppOpacity.medium),
+                  size: AppSizes.iconLarge,
                 ),
             ],
           ),
@@ -357,34 +355,34 @@ class SettingsPage extends StatelessWidget {
     required ThemeData theme,
   }) {
     return Container(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppSizes.spacing16),
       decoration: BoxDecoration(
         color: theme.cardColor,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+            color: Colors.black.withValues(alpha: AppOpacity.veryLight),
+            blurRadius: AppSizes.blurMedium,
+            offset: AppSizes.shadowOffsetSmall,
           ),
         ],
       ),
       child: Row(
         children: [
           Container(
-            width: 48,
-            height: 48,
+            width: AppSizes.containerSmall,
+            height: AppSizes.containerSmall,
             decoration: BoxDecoration(
-              color: theme.colorScheme.primary.withValues(alpha: 0.1),
-              borderRadius: BorderRadius.circular(12),
+              color: theme.colorScheme.primary.withValues(alpha: AppOpacity.light),
+              borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
             ),
             child: Icon(
               icon,
               color: theme.colorScheme.primary,
-              size: 24,
+              size: AppSizes.iconLarge,
             ),
           ),
-          const SizedBox(width: 16),
+          const SizedBox(width: AppSizes.spacing16),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -392,19 +390,19 @@ class SettingsPage extends StatelessWidget {
                 Text(
                   title,
                   style: TextStyle(
-                    fontSize: 16,
+                    fontSize: AppSizes.fontLarge,
                     fontWeight: FontWeight.w600,
                     color: theme.brightness == Brightness.dark
                         ? Colors.white
                         : const Color(0xFF1E293B),
                   ),
                 ),
-                const SizedBox(height: 2),
+                const SizedBox(height: AppSizes.spacing2),
                 Text(
                   subtitle,
                   style: TextStyle(
-                    fontSize: 13,
-                    color: theme.iconTheme.color?.withValues(alpha: 0.6),
+                    fontSize: AppSizes.fontRegular,
+                    color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
                   ),
                 ),
               ],

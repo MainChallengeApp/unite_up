@@ -1,3 +1,4 @@
+import 'package:dare_u/core/constants/app_constants.dart';
 import 'package:dare_u/enums/auth_provider_enum.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -45,16 +46,16 @@ class SocialLoginButton extends StatelessWidget {
         style: ElevatedButton.styleFrom(
           backgroundColor: backgroundColor,
           foregroundColor: textColor,
-          padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
-          elevation: 2,
+          padding: const EdgeInsets.all(AppSizes.spacing16),
+          elevation: AppSizes.elevationLow,
           shadowColor: Colors.black26,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
             side: BorderSide(
               color: isGoogle
-                  ? theme.dividerColor.withValues(alpha: 0.3)
+                  ? theme.dividerColor.withValues(alpha: AppOpacity.medium)
                   : Colors.transparent,
-              width: 1,
+              width: AppSizes.borderThin,
             ),
           ),
         ),
@@ -63,20 +64,20 @@ class SocialLoginButton extends StatelessWidget {
           children: [
             if (isLoading)
               SizedBox(
-                width: 20,
-                height: 20,
+                width: AppSizes.iconMedium,
+                height: AppSizes.iconMedium,
                 child: CircularProgressIndicator(
                   strokeWidth: 2,
                   valueColor: AlwaysStoppedAnimation<Color>(textColor),
                 ),
               )
             else
-              FaIcon(icon, size: 20, color: textColor),
-            const SizedBox(width: 12),
+              FaIcon(icon, size: AppSizes.iconMedium, color: textColor),
+            const SizedBox(width: AppSizes.spacing12),
             Text(
               'Continue with ${provider.displayName}',
               style: TextStyle(
-                fontSize: 15,
+                fontSize: AppSizes.fontBase,
                 fontWeight: FontWeight.w600,
                 color: textColor,
               ),

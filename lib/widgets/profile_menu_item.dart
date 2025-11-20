@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dare_u/core/constants/app_constants.dart';
 
 class ProfileMenuItem extends StatelessWidget {
   final IconData icon;
@@ -22,36 +23,36 @@ class ProfileMenuItem extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
         child: Container(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(AppSizes.spacing16),
           decoration: BoxDecoration(
             color: theme.cardColor,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.05),
-                blurRadius: 8,
-                offset: const Offset(0, 2),
+                color: Colors.black.withValues(alpha: AppOpacity.veryLight),
+                blurRadius: AppSizes.blurMedium,
+                offset: AppSizes.shadowOffsetSmall,
               ),
             ],
           ),
           child: Row(
             children: [
               Container(
-                width: 48,
-                height: 48,
+                width: AppSizes.containerSmall,
+                height: AppSizes.containerSmall,
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.primary.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(12),
+                  color: theme.colorScheme.primary.withValues(alpha: AppOpacity.light),
+                  borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
                 ),
                 child: Icon(
                   icon,
                   color: theme.colorScheme.primary,
-                  size: 24,
+                  size: AppSizes.iconLarge,
                 ),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: AppSizes.spacing16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -59,19 +60,19 @@ class ProfileMenuItem extends StatelessWidget {
                     Text(
                       title,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: AppSizes.fontLarge,
                         fontWeight: FontWeight.w600,
                         color: theme.brightness == Brightness.dark
                             ? Colors.white
                             : const Color(0xFF1E293B),
                       ),
                     ),
-                    const SizedBox(height: 2),
+                    const SizedBox(height: AppSizes.spacing2),
                     Text(
                       subtitle,
                       style: TextStyle(
-                        fontSize: 13,
-                        color: theme.iconTheme.color?.withValues(alpha: 0.6),
+                        fontSize: AppSizes.fontRegular,
+                        color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
                       ),
                     ),
                   ],
@@ -79,7 +80,7 @@ class ProfileMenuItem extends StatelessWidget {
               ),
               Icon(
                 Icons.arrow_forward_ios_rounded,
-                size: 16,
+                size: AppSizes.iconSmall,
                 color: theme.iconTheme.color?.withValues(alpha: 0.4),
               ),
             ],

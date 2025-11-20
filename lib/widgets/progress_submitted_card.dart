@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:dare_u/models/event_model.dart';
+import 'package:dare_u/core/constants/app_constants.dart';
 
 class ProgressSubmittedCard extends StatelessWidget {
   final EventModel event;
@@ -13,17 +14,17 @@ class ProgressSubmittedCard extends StatelessWidget {
     final progress = event.progressEntry!;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: AppSizes.spacing16, vertical: AppSizes.spacing8),
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppSizes.spacing16),
         decoration: BoxDecoration(
           color: theme.cardColor,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
+              color: Colors.black.withValues(alpha: AppOpacity.veryLight),
+              blurRadius: AppSizes.blurMedium,
+              offset: AppSizes.shadowOffsetSmall,
             ),
           ],
         ),
@@ -35,13 +36,13 @@ class ProgressSubmittedCard extends StatelessWidget {
                 Icon(
                   Icons.upload_rounded,
                   color: theme.colorScheme.primary,
-                  size: 20,
+                  size: AppSizes.iconMedium,
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: AppSizes.spacing8),
                 Text(
                   'Progress Submitted',
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: AppSizes.fontSmall,
                     fontWeight: FontWeight.w600,
                     color: theme.colorScheme.primary,
                   ),
@@ -49,11 +50,11 @@ class ProgressSubmittedCard extends StatelessWidget {
               ],
             ),
             if (progress.note.isNotEmpty) ...[
-              const SizedBox(height: 12),
+              const SizedBox(height: AppSizes.spacing12),
               Text(
                 progress.note,
                 style: TextStyle(
-                  fontSize: 14,
+                  fontSize: AppSizes.fontMedium,
                   color: theme.brightness == Brightness.dark
                       ? Colors.white
                       : const Color(0xFF1E293B),
@@ -61,10 +62,10 @@ class ProgressSubmittedCard extends StatelessWidget {
               ),
             ],
             if (progress.attachments.isNotEmpty) ...[
-              const SizedBox(height: 12),
+              const SizedBox(height: AppSizes.spacing12),
               Wrap(
-                spacing: 8,
-                runSpacing: 8,
+                spacing: AppSizes.spacing8,
+                runSpacing: AppSizes.spacing8,
                 children: progress.attachments.map((attachment) {
                   return Container(
                     padding: const EdgeInsets.symmetric(
@@ -72,22 +73,22 @@ class ProgressSubmittedCard extends StatelessWidget {
                       vertical: 6,
                     ),
                     decoration: BoxDecoration(
-                      color: theme.colorScheme.primary.withValues(alpha: 0.1),
-                      borderRadius: BorderRadius.circular(8),
+                      color: theme.colorScheme.primary.withValues(alpha: AppOpacity.light),
+                      borderRadius: BorderRadius.circular(AppSizes.radiusSmall),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(
                           _getMediaIcon(attachment.type),
-                          size: 14,
+                          size: AppSizes.spacing14,
                           color: theme.colorScheme.primary,
                         ),
-                        const SizedBox(width: 6),
+                        const SizedBox(width: AppSizes.spacing6),
                         Text(
                           attachment.fileName ?? 'Attachment',
                           style: TextStyle(
-                            fontSize: 12,
+                            fontSize: AppSizes.fontSmall,
                             color: theme.colorScheme.primary,
                             fontWeight: FontWeight.w500,
                           ),

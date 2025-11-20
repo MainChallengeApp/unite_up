@@ -1,4 +1,5 @@
 import 'package:dare_u/models/user_model.dart';
+import 'package:dare_u/core/constants/app_constants.dart';
 import 'package:dare_u/pages/auth_page.dart';
 import 'package:dare_u/providers/app_state_provider.dart';
 import 'package:dare_u/services/user_service.dart';
@@ -57,7 +58,7 @@ class _SearchPageState extends State<SearchPage> {
               'search.title'.tr(),
               style: const TextStyle(
                 fontWeight: FontWeight.w600,
-                fontSize: 18,
+                fontSize: AppSizes.fontXLarge,
               ),
             ),
           ),
@@ -73,14 +74,14 @@ class _SearchPageState extends State<SearchPage> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(AppSizes.spacing16),
           child: TextField(
             controller: _searchController,
             decoration: InputDecoration(
               hintText: 'search.searchUsers'.tr(),
               prefixIcon: Icon(
                 Icons.search_rounded,
-                color: theme.iconTheme.color?.withValues(alpha: 0.6),
+                color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
               ),
               suffixIcon: _searchController.text.isNotEmpty
                   ? IconButton(
@@ -95,7 +96,7 @@ class _SearchPageState extends State<SearchPage> {
                   ? theme.cardColor
                   : theme.scaffoldBackgroundColor,
               border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
+                borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
                 borderSide: BorderSide.none,
               ),
             ),
@@ -109,7 +110,7 @@ class _SearchPageState extends State<SearchPage> {
                   subtitle: 'search.tryDifferentSearch'.tr(),
                 )
               : ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: AppSizes.spacing16),
                   itemCount: _filteredUserModels.length,
                   itemBuilder: (context, index) {
                     final user = _filteredUserModels[index];

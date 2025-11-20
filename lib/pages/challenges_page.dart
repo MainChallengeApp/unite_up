@@ -1,4 +1,5 @@
 import 'package:dare_u/models/challenge_chat_model.dart';
+import 'package:dare_u/core/constants/app_constants.dart';
 import 'package:dare_u/pages/chat_page.dart';
 import 'package:dare_u/pages/create_challenge_page.dart';
 import 'package:dare_u/providers/app_state_provider.dart';
@@ -43,7 +44,7 @@ class _ChallengesPageState extends State<ChallengesPage> {
       appBar: AppBar(
         title: Text(
           'challenges.title'.tr(),
-          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: AppSizes.fontXLarge),
         ),
         actions: [
           IconButton(
@@ -51,13 +52,13 @@ class _ChallengesPageState extends State<ChallengesPage> {
             onPressed: () => _createNewChallenge(context),
             tooltip: 'challenges.createNewChallenge'.tr(),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: AppSizes.spacing8),
         ],
       ),
       body: challenges.isEmpty
           ? _buildEmptyState(context, theme)
           : ListView.builder(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.all(AppSizes.spacing16),
               itemCount: challenges.length,
               itemBuilder: (context, index) {
                 return _buildChallengeCard(context, challenges[index], theme);
@@ -82,37 +83,37 @@ class _ChallengesPageState extends State<ChallengesPage> {
     ThemeData theme,
   ) {
     return Card(
-      margin: const EdgeInsets.only(bottom: 12),
-      elevation: 0,
+      margin: const EdgeInsets.only(bottom: AppSizes.spacing12),
+      elevation: AppSizes.elevationNone,
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
         side: BorderSide(
-          color: theme.dividerColor.withValues(alpha: 0.2),
-          width: 1,
+          color: theme.dividerColor.withValues(alpha: AppOpacity.subtle),
+          width: AppSizes.borderThin,
         ),
       ),
       child: InkWell(
         onTap: () => _navigateToChallengeChat(context, challenge.id),
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
         child: Padding(
-          padding: const EdgeInsets.all(16),
+          padding: const EdgeInsets.all(AppSizes.spacing16),
           child: Row(
             children: [
               Container(
-                width: 56,
-                height: 56,
+                width: AppSizes.containerMedium,
+                height: AppSizes.containerMedium,
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.primary.withValues(alpha: 0.1),
-                  borderRadius: BorderRadius.circular(12),
+                  color: theme.colorScheme.primary.withValues(alpha: AppOpacity.light),
+                  borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
                 ),
                 child: Center(
                   child: Text(
                     challenge.emoji,
-                    style: const TextStyle(fontSize: 28),
+                    style: const TextStyle(fontSize: AppSizes.emojiLarge),
                   ),
                 ),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: AppSizes.spacing16),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -120,7 +121,7 @@ class _ChallengesPageState extends State<ChallengesPage> {
                     Text(
                       challenge.name,
                       style: TextStyle(
-                        fontSize: 16,
+                        fontSize: AppSizes.fontLarge,
                         fontWeight: FontWeight.w600,
                         color: theme.brightness == Brightness.dark
                             ? Colors.white
@@ -129,49 +130,49 @@ class _ChallengesPageState extends State<ChallengesPage> {
                     ),
                     if (challenge.description != null &&
                         challenge.description!.isNotEmpty) ...[
-                      const SizedBox(height: 4),
+                      const SizedBox(height: AppSizes.spacing4),
                       Text(
                         challenge.description!,
                         style: TextStyle(
-                          fontSize: 13,
-                          color: theme.iconTheme.color?.withValues(alpha: 0.6),
+                          fontSize: AppSizes.fontRegular,
+                          color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
                         ),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
                     ],
-                    const SizedBox(height: 8),
+                    const SizedBox(height: AppSizes.spacing8),
                     Row(
                       children: [
                         Icon(
                           challenge.isPersonal
                               ? Icons.person_outline_rounded
                               : Icons.people_outline_rounded,
-                          size: 16,
-                          color: theme.iconTheme.color?.withValues(alpha: 0.5),
+                          size: AppSizes.iconSmall,
+                          color: theme.iconTheme.color?.withValues(alpha: AppOpacity.semiTransparent),
                         ),
-                        const SizedBox(width: 4),
+                        const SizedBox(width: AppSizes.spacing4),
                         Text(
                           challenge.isPersonal
                               ? 'challenges.personal'.tr()
                               : 'challenges.member'.tr(namedArgs: {'count': challenge.memberCount.toString()}),
                           style: TextStyle(
-                            fontSize: 12,
-                            color: theme.iconTheme.color?.withValues(alpha: 0.6),
+                            fontSize: AppSizes.fontSmall,
+                            color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
                           ),
                         ),
-                        const SizedBox(width: 12),
+                        const SizedBox(width: AppSizes.spacing12),
                         Icon(
                           Icons.chat_bubble_outline_rounded,
-                          size: 16,
-                          color: theme.iconTheme.color?.withValues(alpha: 0.5),
+                          size: AppSizes.iconSmall,
+                          color: theme.iconTheme.color?.withValues(alpha: AppOpacity.semiTransparent),
                         ),
-                        const SizedBox(width: 4),
+                        const SizedBox(width: AppSizes.spacing4),
                         Text(
                           '${challenge.events.length} ${'challenges.messages'.tr()}',
                           style: TextStyle(
-                            fontSize: 12,
-                            color: theme.iconTheme.color?.withValues(alpha: 0.6),
+                            fontSize: AppSizes.fontSmall,
+                            color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
                           ),
                         ),
                       ],
@@ -181,7 +182,7 @@ class _ChallengesPageState extends State<ChallengesPage> {
               ),
               Icon(
                 Icons.chevron_right_rounded,
-                color: theme.iconTheme.color?.withValues(alpha: 0.3),
+                color: theme.iconTheme.color?.withValues(alpha: AppOpacity.medium),
               ),
             ],
           ),

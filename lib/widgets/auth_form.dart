@@ -1,4 +1,5 @@
 import 'package:dare_u/enums/auth_provider_enum.dart';
+import 'package:dare_u/core/constants/app_constants.dart';
 import 'package:dare_u/widgets/social_login_button.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -34,22 +35,22 @@ class AuthForm extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(24),
+      padding: const EdgeInsets.all(AppSizes.spacing24),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const SizedBox(height: 32),
+          const SizedBox(height: AppSizes.spacing32),
           _buildSocialLoginButtons(),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppSizes.spacing16),
           _buildDivider(),
-          const SizedBox(height: 16),
-          if (!isLoginMode) ...[_buildNameField(), const SizedBox(height: 16)],
+          const SizedBox(height: AppSizes.spacing16),
+          if (!isLoginMode) ...[_buildNameField(), const SizedBox(height: AppSizes.spacing16)],
           _buildEmailField(),
-          const SizedBox(height: 16),
+          const SizedBox(height: AppSizes.spacing16),
           _buildPasswordField(),
-          const SizedBox(height: 24),
+          const SizedBox(height: AppSizes.spacing24),
           _buildSubmitButton(Theme.of(context)),
-          const SizedBox(height: 24),
+          const SizedBox(height: AppSizes.spacing24),
           _buildToggleButton(),
         ],
       ),
@@ -102,18 +103,18 @@ class AuthForm extends StatelessWidget {
     return Builder(
       builder: (context) => SizedBox(
         width: double.infinity,
-        height: 52,
+        height: AppSizes.size52,
         child: FilledButton(
           onPressed: isLoading ? null : onSubmit,
           style: FilledButton.styleFrom(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
+              borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
             ),
           ),
           child: isLoading
               ? const SizedBox(
-                  width: 20,
-                  height: 20,
+                  width: AppSizes.iconMedium,
+                  height: AppSizes.iconMedium,
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
                     color: Colors.white,
@@ -122,7 +123,7 @@ class AuthForm extends StatelessWidget {
               : Text(
                   isLoginMode ? 'auth.signIn'.tr() : 'auth.createAccount'.tr(),
                   style: const TextStyle(
-                    fontSize: 16,
+                    fontSize: AppSizes.fontLarge,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -136,8 +137,8 @@ class AuthForm extends StatelessWidget {
       children: [
         Expanded(child: Divider()),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: 16),
-          child: Text('or', style: TextStyle(fontSize: 14)),
+          padding: EdgeInsets.symmetric(horizontal: AppSizes.spacing16),
+          child: Text('or', style: TextStyle(fontSize: AppSizes.fontMedium)),
         ),
         Expanded(child: Divider()),
       ],
@@ -153,7 +154,7 @@ class AuthForm extends StatelessWidget {
             onPressed: onGoogleSignIn!,
             isLoading: isGoogleLoading,
           ),
-        const SizedBox(height: 12),
+        const SizedBox(height: AppSizes.spacing12),
         if (onAppleSignIn != null)
           SocialLoginButton(
             provider: AuthProviderEnum.apple,

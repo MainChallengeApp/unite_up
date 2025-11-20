@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dare_u/core/constants/app_constants.dart';
 
 class EmptyState extends StatelessWidget {
   final IconData icon;
@@ -25,35 +26,35 @@ class EmptyState extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 80,
-            height: 80,
+            width: AppSizes.containerLarge,
+            height: AppSizes.containerLarge,
             decoration: BoxDecoration(
-              color: theme.colorScheme.primary.withValues(alpha: 0.1),
+              color: theme.colorScheme.primary.withValues(alpha: AppOpacity.light),
               shape: BoxShape.circle,
             ),
-            child: Icon(icon, size: 40, color: theme.colorScheme.primary),
+            child: Icon(icon, size: AppSizes.iconXXLarge, color: theme.colorScheme.primary),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: AppSizes.spacing24),
           Text(
             title,
             style: TextStyle(
-              fontSize: 20,
+              fontSize: AppSizes.fontXXLarge,
               fontWeight: FontWeight.w600,
               color: theme.brightness == Brightness.dark
                   ? Colors.white
                   : const Color(0xFF1E293B),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSizes.spacing8),
           Text(
             subtitle,
             style: TextStyle(
-              fontSize: 14,
-              color: theme.iconTheme.color?.withValues(alpha: 0.6),
+              fontSize: AppSizes.fontMedium,
+              color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
             ),
           ),
           if (buttonText != null && onButtonPressed != null) ...[
-            const SizedBox(height: 32),
+            const SizedBox(height: AppSizes.spacing32),
             ElevatedButton(
               onPressed: onButtonPressed,
               style: ElevatedButton.styleFrom(
@@ -63,7 +64,7 @@ class EmptyState extends StatelessWidget {
                   horizontal: 24,
                   vertical: 14,
                 ),
-                elevation: 0,
+                elevation: AppSizes.elevationNone,
               ),
               child: Text(buttonText!),
             ),

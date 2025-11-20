@@ -1,4 +1,5 @@
 import 'package:dare_u/pages/auth_page.dart';
+import 'package:dare_u/core/constants/app_constants.dart';
 import 'package:dare_u/providers/app_state_provider.dart';
 import 'package:dare_u/widgets/profile_header.dart';
 import 'package:dare_u/widgets/profile_menu_item.dart';
@@ -59,7 +60,7 @@ class _ProfilePageState extends State<ProfilePage> {
     return AppBar(
       title: Text(
         'profile.title'.tr(),
-        style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+        style: const TextStyle(fontWeight: FontWeight.w600, fontSize: AppSizes.fontXLarge),
       ),
       actions: isAuthenticated
           ? [
@@ -68,7 +69,7 @@ class _ProfilePageState extends State<ProfilePage> {
                 onPressed: _navigateToSettings,
                 tooltip: 'settings.title'.tr(),
               ),
-              const SizedBox(width: 8),
+              const SizedBox(width: AppSizes.spacing8),
             ]
           : null,
     );
@@ -82,17 +83,17 @@ class _ProfilePageState extends State<ProfilePage> {
     final user = appState.currentUser!;
 
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(AppSizes.spacing16),
       child: Column(
         children: [
           ProfileHeader(name: user.displayName, email: user.email),
-          const SizedBox(height: 32),
+          const SizedBox(height: AppSizes.spacing32),
           _buildStatsRow(),
-          const SizedBox(height: 32),
+          const SizedBox(height: AppSizes.spacing32),
           _buildMenuItems(),
-          const SizedBox(height: 32),
+          const SizedBox(height: AppSizes.spacing32),
           _buildLogoutButton(),
-          const SizedBox(height: 32),
+          const SizedBox(height: AppSizes.spacing32),
         ],
       ),
     );
@@ -118,21 +119,21 @@ class _ProfilePageState extends State<ProfilePage> {
           subtitle: 'profile.menu.viewAccomplishments'.tr(),
           onTap: () {},
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: AppSizes.spacing12),
         ProfileMenuItem(
           icon: Icons.bar_chart_rounded,
           title: 'profile.menu.statistics'.tr(),
           subtitle: 'profile.menu.trackProgress'.tr(),
           onTap: () {},
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: AppSizes.spacing12),
         ProfileMenuItem(
           icon: Icons.notifications_outlined,
           title: 'profile.menu.notifications'.tr(),
           subtitle: 'profile.menu.manageAlerts'.tr(),
           onTap: () {},
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: AppSizes.spacing12),
         ProfileMenuItem(
           icon: Icons.settings_outlined,
           title: 'profile.menu.settings'.tr(),
@@ -152,11 +153,11 @@ class _ProfilePageState extends State<ProfilePage> {
         icon: const Icon(Icons.logout_rounded),
         label: Text('auth.signOut'.tr()),
         style: OutlinedButton.styleFrom(
-          padding: const EdgeInsets.symmetric(vertical: 14),
-          side: BorderSide(color: theme.colorScheme.error, width: 1.5),
+          padding: const EdgeInsets.symmetric(vertical: AppSizes.spacing14),
+          side: BorderSide(color: theme.colorScheme.error, width: AppSizes.borderMedium),
           foregroundColor: theme.colorScheme.error,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
+            borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
           ),
         ),
       ),

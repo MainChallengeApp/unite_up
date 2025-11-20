@@ -1,4 +1,5 @@
 import 'package:dare_u/enums/media_type_enum.dart';
+import 'package:dare_u/core/constants/app_constants.dart';
 import 'package:dare_u/models/media_attachment_model.dart';
 import 'package:dare_u/models/progress_entry_model.dart';
 import 'package:easy_localization/easy_localization.dart';
@@ -98,7 +99,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
     return AlertDialog(
       backgroundColor: theme.scaffoldBackgroundColor,
       surfaceTintColor: Colors.transparent,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSizes.radiusLarge)),
       title: Text(
         'progress.title'.tr(),
         style: TextStyle(
@@ -116,14 +117,14 @@ class _ProgressDialogState extends State<ProgressDialog> {
             Text(
               'progress.addNote'.tr(),
               style: TextStyle(
-                fontSize: 14,
+                fontSize: AppSizes.fontMedium,
                 fontWeight: FontWeight.w600,
                 color: theme.brightness == Brightness.dark
                     ? Colors.white
                     : const Color(0xFF1E293B),
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: AppSizes.spacing12),
             TextField(
               controller: _noteController,
               maxLines: 4,
@@ -134,24 +135,24 @@ class _ProgressDialogState extends State<ProgressDialog> {
                     ? theme.cardColor
                     : theme.scaffoldBackgroundColor,
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
                   borderSide: BorderSide.none,
                 ),
               ),
               textCapitalization: TextCapitalization.sentences,
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppSizes.spacing16),
             Text(
               'progress.addProof'.tr(),
               style: TextStyle(
-                fontSize: 14,
+                fontSize: AppSizes.fontMedium,
                 fontWeight: FontWeight.w600,
                 color: theme.brightness == Brightness.dark
                     ? Colors.white
                     : const Color(0xFF1E293B),
               ),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: AppSizes.spacing12),
             Row(
               children: [
                 Expanded(
@@ -162,7 +163,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
                     onTap: _addMockImage,
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: AppSizes.spacing8),
                 Expanded(
                   child: _buildUploadButton(
                     context,
@@ -171,7 +172,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
                     onTap: _addMockVideo,
                   ),
                 ),
-                const SizedBox(width: 8),
+                const SizedBox(width: AppSizes.spacing8),
                 Expanded(
                   child: _buildUploadButton(
                     context,
@@ -182,7 +183,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
                 ),
               ],
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: AppSizes.spacing16),
             if (_mockAttachments.isNotEmpty)
               Column(
                 children: _mockAttachments
@@ -215,12 +216,12 @@ class _ProgressDialogState extends State<ProgressDialog> {
     final theme = Theme.of(context);
     return OutlinedButton.icon(
       onPressed: onTap,
-      icon: Icon(icon, size: 18),
+      icon: Icon(icon, size: AppSizes.size18),
       label: Text(label),
       style: OutlinedButton.styleFrom(
         foregroundColor: theme.colorScheme.primary,
-        side: BorderSide(color: theme.colorScheme.primary.withValues(alpha: 0.5)),
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        side: BorderSide(color: theme.colorScheme.primary.withValues(alpha: AppOpacity.semiTransparent)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSizes.radiusMedium)),
       ),
     );
   }
@@ -228,12 +229,12 @@ class _ProgressDialogState extends State<ProgressDialog> {
   Widget _buildAttachmentPreview(
       MediaAttachmentModel attachment, ThemeData theme) {
     return Container(
-      margin: const EdgeInsets.only(bottom: 8),
-      padding: const EdgeInsets.all(8),
+      margin: const EdgeInsets.only(bottom: AppSizes.spacing8),
+      padding: const EdgeInsets.all(AppSizes.spacing8),
       decoration: BoxDecoration(
         color: theme.cardColor,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: theme.dividerColor.withValues(alpha: 0.1)),
+        borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
+        border: Border.all(color: theme.dividerColor.withValues(alpha: AppOpacity.light)),
       ),
       child: Row(
         children: [
@@ -243,10 +244,10 @@ class _ProgressDialogState extends State<ProgressDialog> {
                 : attachment.type == MediaTypeEnum.video
                     ? Icons.videocam_rounded
                     : Icons.insert_drive_file_rounded,
-            color: theme.iconTheme.color?.withValues(alpha: 0.7),
-            size: 24,
+            color: theme.iconTheme.color?.withValues(alpha: AppOpacity.almostOpaque),
+            size: AppSizes.iconLarge,
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: AppSizes.spacing12),
           Expanded(
             child: Text(
               attachment.fileName ?? 'progress.unnamed'.tr(),

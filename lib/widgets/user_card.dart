@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:dare_u/models/user_model.dart';
+import 'package:dare_u/core/constants/app_constants.dart';
 
 class UserModelCard extends StatelessWidget {
   final UserModel user;
@@ -17,16 +18,16 @@ class UserModelCard extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Padding(
-      padding: const EdgeInsets.only(bottom: 12),
+      padding: const EdgeInsets.only(bottom: AppSizes.spacing12),
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.all(AppSizes.spacing16),
         decoration: _buildBoxDecoration(theme),
         child: Row(
           children: [
             _buildAvatar(theme),
-            const SizedBox(width: 16),
+            const SizedBox(width: AppSizes.spacing16),
             Expanded(child: _buildUserModelInfo(theme)),
-            const SizedBox(width: 8),
+            const SizedBox(width: AppSizes.spacing8),
             _buildFollowButton(theme),
           ],
         ),
@@ -37,12 +38,12 @@ class UserModelCard extends StatelessWidget {
   BoxDecoration _buildBoxDecoration(ThemeData theme) {
     return BoxDecoration(
       color: theme.cardColor,
-      borderRadius: BorderRadius.circular(16),
+      borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
       boxShadow: [
         BoxShadow(
-          color: Colors.black.withValues(alpha: 0.05),
-          blurRadius: 8,
-          offset: const Offset(0, 2),
+          color: Colors.black.withValues(alpha: AppOpacity.veryLight),
+          blurRadius: AppSizes.blurMedium,
+          offset: AppSizes.shadowOffsetSmall,
         ),
       ],
     );
@@ -50,15 +51,15 @@ class UserModelCard extends StatelessWidget {
 
   Widget _buildAvatar(ThemeData theme) {
     return Container(
-      width: 56,
-      height: 56,
+      width: AppSizes.containerMedium,
+      height: AppSizes.containerMedium,
       decoration: BoxDecoration(
-        color: theme.colorScheme.primary.withValues(alpha: 0.1),
+        color: theme.colorScheme.primary.withValues(alpha: AppOpacity.light),
         shape: BoxShape.circle,
       ),
       child: Icon(
         Icons.person_rounded,
-        size: 28,
+        size: AppSizes.emojiLarge,
         color: theme.colorScheme.primary,
       ),
     );
@@ -69,13 +70,13 @@ class UserModelCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _buildName(theme),
-        const SizedBox(height: 2),
+        const SizedBox(height: AppSizes.spacing2),
         _buildUserModelname(theme),
         if (user.bio != null) ...[
-          const SizedBox(height: 6),
+          const SizedBox(height: AppSizes.spacing6),
           _buildBio(theme),
         ],
-        const SizedBox(height: 8),
+        const SizedBox(height: AppSizes.spacing8),
         _buildStats(theme),
       ],
     );
@@ -85,7 +86,7 @@ class UserModelCard extends StatelessWidget {
     return Text(
       user.name,
       style: TextStyle(
-        fontSize: 16,
+        fontSize: AppSizes.fontLarge,
         fontWeight: FontWeight.w600,
         color: theme.brightness == Brightness.dark
             ? Colors.white
@@ -100,8 +101,8 @@ class UserModelCard extends StatelessWidget {
     return Text(
       user.username,
       style: TextStyle(
-        fontSize: 13,
-        color: theme.iconTheme.color?.withValues(alpha: 0.6),
+        fontSize: AppSizes.fontRegular,
+        color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
       ),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
@@ -112,8 +113,8 @@ class UserModelCard extends StatelessWidget {
     return Text(
       user.bio!,
       style: TextStyle(
-        fontSize: 13,
-        color: theme.iconTheme.color?.withValues(alpha: 0.7),
+        fontSize: AppSizes.fontRegular,
+        color: theme.iconTheme.color?.withValues(alpha: AppOpacity.almostOpaque),
       ),
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
@@ -122,8 +123,8 @@ class UserModelCard extends StatelessWidget {
 
   Widget _buildStats(ThemeData theme) {
     return Wrap(
-      spacing: 12,
-      runSpacing: 4,
+      spacing: AppSizes.spacing12,
+      runSpacing: AppSizes.spacing4,
       children: [
         _buildStat(
           '${user.completedChallengesCount}',
@@ -142,19 +143,19 @@ class UserModelCard extends StatelessWidget {
         Text(
           value,
           style: TextStyle(
-            fontSize: 14,
+            fontSize: AppSizes.fontMedium,
             fontWeight: FontWeight.w600,
             color: theme.brightness == Brightness.dark
                 ? Colors.white
                 : const Color(0xFF1E293B),
           ),
         ),
-        const SizedBox(width: 4),
+        const SizedBox(width: AppSizes.spacing4),
         Text(
           label,
           style: TextStyle(
-            fontSize: 12,
-            color: theme.iconTheme.color?.withValues(alpha: 0.6),
+            fontSize: AppSizes.fontSmall,
+            color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
           ),
         ),
       ],
@@ -175,14 +176,14 @@ class UserModelCard extends StatelessWidget {
                     ? Colors.white
                     : const Color(0xFF1E293B)
                 : Colors.white,
-            elevation: 0,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            elevation: AppSizes.elevationNone,
+            padding: const EdgeInsets.symmetric(horizontal: AppSizes.spacing16, vertical: AppSizes.spacing10),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(10),
               side: user.isFollowing
                   ? BorderSide(
-                      color: theme.dividerColor.withValues(alpha: 0.3),
-                      width: 1,
+                      color: theme.dividerColor.withValues(alpha: AppOpacity.medium),
+                      width: AppSizes.borderThin,
                     )
                   : BorderSide.none,
             ),
@@ -190,7 +191,7 @@ class UserModelCard extends StatelessWidget {
           child: Text(
             user.isFollowing ? 'Following' : 'Follow',
             style: const TextStyle(
-              fontSize: 14,
+              fontSize: AppSizes.fontMedium,
               fontWeight: FontWeight.w600,
             ),
           ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:dare_u/core/constants/app_constants.dart';
 
 class ProfileStatCard extends StatelessWidget {
   final String value;
@@ -15,15 +16,15 @@ class ProfileStatCard extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+      padding: const EdgeInsets.symmetric(horizontal: AppSizes.spacing24, vertical: AppSizes.spacing16),
       decoration: BoxDecoration(
         color: theme.cardColor,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
+            color: Colors.black.withValues(alpha: AppOpacity.veryLight),
+            blurRadius: AppSizes.blurMedium,
+            offset: AppSizes.shadowOffsetSmall,
           ),
         ],
       ),
@@ -32,17 +33,17 @@ class ProfileStatCard extends StatelessWidget {
           Text(
             value,
             style: TextStyle(
-              fontSize: 24,
+              fontSize: AppSizes.iconLarge,
               fontWeight: FontWeight.bold,
               color: theme.colorScheme.primary,
             ),
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: AppSizes.spacing4),
           Text(
             label,
             style: TextStyle(
-              fontSize: 12,
-              color: theme.iconTheme.color?.withValues(alpha: 0.6),
+              fontSize: AppSizes.fontSmall,
+              color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
             ),
           ),
         ],

@@ -1,4 +1,5 @@
 import 'package:dare_u/enums/goal_category_enum.dart';
+import 'package:dare_u/core/constants/app_constants.dart';
 import 'package:dare_u/models/challenge_chat_model.dart';
 import 'package:dare_u/providers/app_state_provider.dart';
 import 'package:dare_u/widgets/goal_card.dart';
@@ -57,42 +58,42 @@ class _OnboardingPageState extends State<OnboardingPage> {
           children: [
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.all(24),
+                padding: const EdgeInsets.all(AppSizes.spacing24),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 20),
+                    const SizedBox(height: AppSizes.spacing20),
                     Text(
                       'onboarding.welcomeTo'.tr(),
                       style: TextStyle(
-                        fontSize: 36,
+                        fontSize: AppSizes.fontHuge,
                         fontWeight: FontWeight.bold,
-                        height: 1.2,
+                        height: AppSizes.lineHeightTight,
                         color: theme.brightness == Brightness.dark
                             ? Colors.white
                             : const Color(0xFF1E293B),
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppSizes.spacing16),
                     Text(
                       'onboarding.description'.tr(),
                       style: TextStyle(
-                        fontSize: 16,
-                        color: theme.iconTheme.color?.withValues(alpha: 0.7),
-                        height: 1.5,
+                        fontSize: AppSizes.fontLarge,
+                        color: theme.iconTheme.color?.withValues(alpha: AppOpacity.almostOpaque),
+                        height: AppSizes.lineHeightNormal,
                       ),
                     ),
-                    const SizedBox(height: 40),
+                    const SizedBox(height: AppSizes.spacing40),
                     Text(
                       'onboarding.chooseFocus'.tr(),
                       style: TextStyle(
-                        fontSize: 14,
+                        fontSize: AppSizes.fontMedium,
                         fontWeight: FontWeight.w600,
-                        color: theme.iconTheme.color?.withValues(alpha: 0.6),
+                        color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
                         letterSpacing: 0.5,
                       ),
                     ),
-                    const SizedBox(height: 16),
+                    const SizedBox(height: AppSizes.spacing16),
                     ...GoalCategoryEnum.values.map((category) {
                       return GoalCard(
                         category: category,
@@ -109,13 +110,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
               ),
             ),
             Container(
-              padding: const EdgeInsets.all(24),
+              padding: const EdgeInsets.all(AppSizes.spacing24),
               decoration: BoxDecoration(
                 color: theme.scaffoldBackgroundColor,
                 border: Border(
                   top: BorderSide(
-                    color: theme.dividerColor.withValues(alpha: 0.1),
-                    width: 1,
+                    color: theme.dividerColor.withValues(alpha: AppOpacity.light),
+                    width: AppSizes.borderThin,
                   ),
                 ),
               ),
@@ -133,16 +134,16 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: theme.colorScheme.primary,
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      padding: const EdgeInsets.symmetric(vertical: AppSizes.spacing16),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
+                        borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
                       ),
-                      elevation: 0,
+                      elevation: AppSizes.elevationNone,
                     ),
                     child: Text(
                       'onboarding.startJourney'.tr(),
                       style: const TextStyle(
-                        fontSize: 16,
+                        fontSize: AppSizes.fontLarge,
                         fontWeight: FontWeight.w600,
                       ),
                     ),

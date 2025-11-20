@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:dare_u/models/event_model.dart';
+import 'package:dare_u/core/constants/app_constants.dart';
 
 class UserMessageCard extends StatelessWidget {
   final EventModel event;
@@ -12,14 +13,14 @@ class UserMessageCard extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: AppSizes.spacing16, vertical: AppSizes.spacing8),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Flexible(
             child: Container(
-              padding: const EdgeInsets.all(14),
+              padding: const EdgeInsets.all(AppSizes.spacing14),
               decoration: BoxDecoration(
                 color: theme.colorScheme.primary,
                 borderRadius: const BorderRadius.only(
@@ -30,33 +31,33 @@ class UserMessageCard extends StatelessWidget {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.05),
-                    blurRadius: 8,
-                    offset: const Offset(0, 2),
+                    color: Colors.black.withValues(alpha: AppOpacity.veryLight),
+                    blurRadius: AppSizes.blurMedium,
+                    offset: AppSizes.shadowOffsetSmall,
                   ),
                 ],
               ),
               child: Text(
                 event.message!,
                 style: const TextStyle(
-                  fontSize: 14,
+                  fontSize: AppSizes.fontMedium,
                   color: Colors.white,
-                  height: 1.4,
+                  height: AppSizes.lineHeightRelaxed,
                 ),
               ),
             ),
           ),
-          const SizedBox(width: 12),
+          const SizedBox(width: AppSizes.spacing12),
           Container(
-            width: 32,
-            height: 32,
+            width: AppSizes.iconXLarge,
+            height: AppSizes.iconXLarge,
             decoration: BoxDecoration(
-              color: theme.colorScheme.primary.withValues(alpha: 0.1),
+              color: theme.colorScheme.primary.withValues(alpha: AppOpacity.light),
               shape: BoxShape.circle,
             ),
             child: Icon(
               Icons.person_rounded,
-              size: 16,
+              size: AppSizes.iconSmall,
               color: theme.colorScheme.primary,
             ),
           ),

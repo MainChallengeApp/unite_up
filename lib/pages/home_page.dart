@@ -1,4 +1,5 @@
 import 'package:dare_u/providers/app_state_provider.dart';
+import 'package:dare_u/core/constants/app_constants.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -79,9 +80,9 @@ class _HomePageState extends State<HomePage> {
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: 0.1),
-                  blurRadius: 8,
-                  offset: const Offset(0, -2),
+                  color: Colors.black.withValues(alpha: AppOpacity.light),
+                  blurRadius: AppSizes.blurMedium,
+                  offset: AppSizes.shadowOffsetUp,
                 ),
               ],
             ),
@@ -93,10 +94,10 @@ class _HomePageState extends State<HomePage> {
                   ? const Color(0xFF1E293B)
                   : Colors.white,
               selectedItemColor: theme.colorScheme.primary,
-              unselectedItemColor: theme.iconTheme.color?.withValues(alpha: 0.5),
+              unselectedItemColor: theme.iconTheme.color?.withValues(alpha: AppOpacity.semiTransparent),
               selectedFontSize: 12,
               unselectedFontSize: 12,
-              elevation: 0,
+              elevation: AppSizes.elevationNone,
               items: navItems,
             ),
           ),

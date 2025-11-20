@@ -1,4 +1,5 @@
 import 'package:dare_u/models/progress_entry_model.dart';
+import 'package:dare_u/core/constants/app_constants.dart';
 import 'package:dare_u/providers/app_state_provider.dart';
 import 'package:dare_u/widgets/event_card.dart';
 import 'package:dare_u/widgets/progress_dialog.dart';
@@ -84,15 +85,15 @@ class _ChatPageState extends State<ChatPage> {
                 children: [
                   Text(
                     challenge.emoji,
-                    style: const TextStyle(fontSize: 18),
+                    style: const TextStyle(fontSize: AppSizes.fontXLarge),
                   ),
-                  const SizedBox(width: 8),
+                  const SizedBox(width: AppSizes.spacing8),
                   Flexible(
                     child: Text(
                       challenge.name,
                       style: const TextStyle(
                         fontWeight: FontWeight.w600,
-                        fontSize: 18,
+                        fontSize: AppSizes.fontXLarge,
                       ),
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -103,15 +104,15 @@ class _ChatPageState extends State<ChatPage> {
                 Text(
                   'challenges.member'.tr(namedArgs: {'count': challenge.memberCount.toString()}),
                   style: TextStyle(
-                    fontSize: 12,
+                    fontSize: AppSizes.fontSmall,
                     fontWeight: FontWeight.normal,
-                    color: theme.iconTheme.color?.withValues(alpha: 0.6),
+                    color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
                   ),
                 ),
             ] else
               Text(
                 'chat.title'.tr(),
-                style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+                style: const TextStyle(fontWeight: FontWeight.w600, fontSize: AppSizes.fontXLarge),
               ),
           ],
         ),
@@ -131,7 +132,7 @@ class _ChatPageState extends State<ChatPage> {
             },
             tooltip: 'settings.title'.tr(),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: AppSizes.spacing8),
         ],
       ),
       body: Column(
@@ -141,7 +142,7 @@ class _ChatPageState extends State<ChatPage> {
                 ? _buildEmptyState(theme)
                 : ListView.builder(
                     controller: _scrollController,
-                    padding: const EdgeInsets.only(top: 16, bottom: 16),
+                    padding: const EdgeInsets.only(top: AppSizes.spacing16, bottom: AppSizes.spacing16),
                     itemCount: appState.events.length,
                     itemBuilder: (context, index) {
                       final event = appState.events[index];
@@ -165,35 +166,35 @@ class _ChatPageState extends State<ChatPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            width: 80,
-            height: 80,
+            width: AppSizes.containerLarge,
+            height: AppSizes.containerLarge,
             decoration: BoxDecoration(
-              color: theme.colorScheme.primary.withValues(alpha: 0.1),
+              color: theme.colorScheme.primary.withValues(alpha: AppOpacity.light),
               shape: BoxShape.circle,
             ),
             child: Icon(
               Icons.chat_bubble_outline_rounded,
-              size: 40,
+              size: AppSizes.iconXXLarge,
               color: theme.colorScheme.primary,
             ),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: AppSizes.spacing24),
           Text(
             'chat.startDocumenting'.tr(),
             style: TextStyle(
-              fontSize: 20,
+              fontSize: AppSizes.fontXXLarge,
               fontWeight: FontWeight.w600,
               color: theme.brightness == Brightness.dark
                   ? Colors.white
                   : const Color(0xFF1E293B),
             ),
           ),
-          const SizedBox(height: 8),
+          const SizedBox(height: AppSizes.spacing8),
           Text(
             'chat.shareUpdates'.tr(),
             style: TextStyle(
-              fontSize: 14,
-              color: theme.iconTheme.color?.withValues(alpha: 0.6),
+              fontSize: AppSizes.fontMedium,
+              color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
             ),
           ),
         ],
@@ -207,11 +208,11 @@ class _ChatPageState extends State<ChatPage> {
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: AppSizes.spacing16, vertical: AppSizes.spacing12),
       decoration: BoxDecoration(
         color: theme.scaffoldBackgroundColor,
         border: Border(
-          top: BorderSide(color: theme.dividerColor.withValues(alpha: 0.1), width: 1),
+          top: BorderSide(color: theme.dividerColor.withValues(alpha: AppOpacity.light), width: AppSizes.borderThin),
         ),
       ),
       child: SafeArea(
@@ -221,12 +222,12 @@ class _ChatPageState extends State<ChatPage> {
               child: Container(
                 decoration: BoxDecoration(
                   color: theme.cardColor,
-                  borderRadius: BorderRadius.circular(24),
+                  borderRadius: BorderRadius.circular(AppSizes.radiusCircle),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.05),
-                      blurRadius: 8,
-                      offset: const Offset(0, 2),
+                      color: Colors.black.withValues(alpha: AppOpacity.veryLight),
+                      blurRadius: AppSizes.blurMedium,
+                      offset: AppSizes.shadowOffsetSmall,
                     ),
                   ],
                 ),
@@ -238,7 +239,7 @@ class _ChatPageState extends State<ChatPage> {
                   decoration: InputDecoration(
                     hintText: 'chat.shareAnUpdate'.tr(),
                     hintStyle: TextStyle(
-                      color: theme.iconTheme.color?.withValues(alpha: 0.5),
+                      color: theme.iconTheme.color?.withValues(alpha: AppOpacity.semiTransparent),
                     ),
                     border: InputBorder.none,
                     contentPadding: const EdgeInsets.symmetric(
@@ -250,26 +251,26 @@ class _ChatPageState extends State<ChatPage> {
                     color: theme.brightness == Brightness.dark
                         ? Colors.white
                         : const Color(0xFF1E293B),
-                    fontSize: 15,
+                    fontSize: AppSizes.fontBase,
                   ),
                 ),
               ),
             ),
-            const SizedBox(width: 12),
+            const SizedBox(width: AppSizes.spacing12),
             Material(
               color: theme.colorScheme.primary,
-              borderRadius: BorderRadius.circular(24),
+              borderRadius: BorderRadius.circular(AppSizes.radiusCircle),
               child: InkWell(
                 onTap: _sendMessage,
-                borderRadius: BorderRadius.circular(24),
+                borderRadius: BorderRadius.circular(AppSizes.radiusCircle),
                 child: Container(
-                  width: 48,
-                  height: 48,
+                  width: AppSizes.containerSmall,
+                  height: AppSizes.containerSmall,
                   alignment: Alignment.center,
                   child: const Icon(
                     Icons.send_rounded,
                     color: Colors.white,
-                    size: 20,
+                    size: AppSizes.iconMedium,
                   ),
                 ),
               ),
