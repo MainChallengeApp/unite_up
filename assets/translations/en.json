@@ -127,12 +127,17 @@
     "journeyWillAppearHere": "Your challenge journey will appear here"
   },
   "progress": {
+    "title": "Submit Progress",
     "submitProgress": "Submit Progress",
     "addNote": "Add a note about your progress...",
+    "describeProgress": "Describe your progress...",
     "describeWhatYouDid": "Describe what you did...",
     "attachments": "Attachments",
     "addProof": "Add proof (optional)",
     "pleaseAddNoteOrAttach": "Please add a note or attach a file",
+    "image": "Image",
+    "video": "Video",
+    "file": "File",
     "types": {
       "image": "Image",
       "video": "Video",

@@ -127,12 +127,17 @@
     "journeyWillAppearHere": "Deine Challenge-Reise wird hier erscheinen"
   },
   "progress": {
+    "title": "Fortschritt einreichen",
     "submitProgress": "Fortschritt einreichen",
     "addNote": "Füge eine Notiz über deinen Fortschritt hinzu...",
+    "describeProgress": "Beschreibe deinen Fortschritt...",
     "describeWhatYouDid": "Beschreibe, was du getan hast...",
     "attachments": "Anhänge",
     "addProof": "Nachweis hinzufügen (optional)",
     "pleaseAddNoteOrAttach": "Bitte füge eine Notiz hinzu oder hänge eine Datei an",
+    "image": "Bild",
+    "video": "Video",
+    "file": "Datei",
     "types": {
       "image": "Bild",
       "video": "Video",
