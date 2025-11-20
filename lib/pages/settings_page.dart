@@ -1,7 +1,7 @@
+import 'package:dare_u/providers/theme_provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:dare_u/providers/locale_provider.dart';
-import 'package:dare_u/providers/theme_provider.dart';
 
 class SettingsPage extends StatelessWidget {
   const SettingsPage({super.key});
@@ -10,16 +10,12 @@ class SettingsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final themeProvider = Provider.of<ThemeProvider>(context);
-    final localeProvider = Provider.of<LocaleProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Settings',
-          style: TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: 18,
-          ),
+        title: Text(
+          'settings.title'.tr(),
+          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
         ),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back_ios_new_rounded),
@@ -29,20 +25,20 @@ class SettingsPage extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
-          _buildSectionTitle('Appearance', theme),
+          _buildSectionTitle('settings.appearance'.tr(), theme),
           const SizedBox(height: 12),
           _buildThemeCard(context, themeProvider, theme),
           const SizedBox(height: 32),
-          _buildSectionTitle('Language', theme),
+          _buildSectionTitle('settings.language'.tr(), theme),
           const SizedBox(height: 12),
-          _buildLanguageCard(context, localeProvider, theme),
+          _buildLanguageCard(context, theme),
           const SizedBox(height: 32),
-          _buildSectionTitle('About', theme),
+          _buildSectionTitle('settings.about'.tr(), theme),
           const SizedBox(height: 12),
           _buildInfoCard(
             context,
             icon: Icons.info_outline_rounded,
-            title: 'Version',
+            title: 'settings.version'.tr(),
             subtitle: '1.0.0',
             theme: theme,
           ),
@@ -50,8 +46,8 @@ class SettingsPage extends StatelessWidget {
           _buildInfoCard(
             context,
             icon: Icons.code_rounded,
-            title: 'Built with',
-            subtitle: 'Flutter & Material Design 3',
+            title: 'settings.builtWith'.tr(),
+            subtitle: 'settings.flutterMaterial'.tr(),
             theme: theme,
           ),
         ],
@@ -67,7 +63,7 @@ class SettingsPage extends StatelessWidget {
         style: TextStyle(
           fontSize: 13,
           fontWeight: FontWeight.w600,
-          color: theme.iconTheme.color?.withOpacity(0.6),
+          color: theme.iconTheme.color?.withValues(alpha: 0.6),
           letterSpacing: 0.5,
         ),
       ),
@@ -85,7 +81,7 @@ class SettingsPage extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -96,8 +92,8 @@ class SettingsPage extends StatelessWidget {
           _buildThemeOption(
             context,
             icon: Icons.light_mode_rounded,
-            title: 'Light Mode',
-            subtitle: 'Bright and clear interface',
+            title: 'settings.theme.light.name'.tr(),
+            subtitle: 'settings.theme.light.description'.tr(),
             isSelected: themeProvider.themeMode == ThemeMode.light,
             onTap: () => themeProvider.setThemeMode(ThemeMode.light),
             theme: theme,
@@ -106,13 +102,13 @@ class SettingsPage extends StatelessWidget {
           Divider(
             height: 1,
             thickness: 1,
-            color: theme.dividerColor.withOpacity(0.1),
+            color: theme.dividerColor.withValues(alpha: 0.1),
           ),
           _buildThemeOption(
             context,
             icon: Icons.dark_mode_rounded,
-            title: 'Dark Mode',
-            subtitle: 'Easy on the eyes at night',
+            title: 'settings.theme.dark.name'.tr(),
+            subtitle: 'settings.theme.dark.description'.tr(),
             isSelected: themeProvider.themeMode == ThemeMode.dark,
             onTap: () => themeProvider.setThemeMode(ThemeMode.dark),
             theme: theme,
@@ -120,15 +116,62 @@ class SettingsPage extends StatelessWidget {
           Divider(
             height: 1,
             thickness: 1,
-            color: theme.dividerColor.withOpacity(0.1),
+            color: theme.dividerColor.withValues(alpha: 0.1),
           ),
           _buildThemeOption(
             context,
             icon: Icons.brightness_auto_rounded,
-            title: 'System Default',
-            subtitle: 'Follows your device settings',
+            title: 'settings.theme.system.name'.tr(),
+            subtitle: 'settings.theme.system.description'.tr(),
             isSelected: themeProvider.themeMode == ThemeMode.system,
             onTap: () => themeProvider.setThemeMode(ThemeMode.system),
+            theme: theme,
+            isLast: true,
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildLanguageCard(BuildContext context, ThemeData theme) {
+    final currentLocale = context.locale;
+    
+    return Container(
+      decoration: BoxDecoration(
+        color: theme.cardColor,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.05),
+            blurRadius: 8,
+            offset: const Offset(0, 2),
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          _buildLanguageOption(
+            context,
+            flag: '🇺🇸',
+            title: 'settings.languages.english.name'.tr(),
+            subtitle: 'settings.languages.english.subtitle'.tr(),
+            isSelected: currentLocale.languageCode == 'en',
+            onTap: () => context.setLocale(const Locale('en')),
+            theme: theme,
+            isFirst: true,
+          ),
+          Divider(
+            height: 1,
+            thickness: 1,
+            color: theme.dividerColor.withValues(alpha: 0.1),
+          ),
+          _buildLanguageOption(
+            context,
+            flag: '🇩🇪',
+            title: 'settings.languages.german.name'.tr(),
+            subtitle: 'settings.languages.german.subtitle'.tr(),
+            isSelected: currentLocale.languageCode == 'de',
+            onTap: () => context.setLocale(const Locale('de')),
             theme: theme,
             isLast: true,
           ),
@@ -165,15 +208,15 @@ class SettingsPage extends StatelessWidget {
                 height: 48,
                 decoration: BoxDecoration(
                   color: isSelected
-                      ? theme.colorScheme.primary.withOpacity(0.1)
-                      : theme.colorScheme.primary.withOpacity(0.05),
+                      ? theme.colorScheme.primary.withValues(alpha: 0.1)
+                      : theme.colorScheme.primary.withValues(alpha: 0.05),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
                   icon,
                   color: isSelected
                       ? theme.colorScheme.primary
-                      : theme.iconTheme.color?.withOpacity(0.5),
+                      : theme.iconTheme.color?.withValues(alpha: 0.6),
                   size: 24,
                 ),
               ),
@@ -197,7 +240,7 @@ class SettingsPage extends StatelessWidget {
                       subtitle,
                       style: TextStyle(
                         fontSize: 13,
-                        color: theme.iconTheme.color?.withOpacity(0.6),
+                        color: theme.iconTheme.color?.withValues(alpha: 0.6),
                       ),
                     ),
                   ],
@@ -212,7 +255,7 @@ class SettingsPage extends StatelessWidget {
               else
                 Icon(
                   Icons.circle_outlined,
-                  color: theme.iconTheme.color?.withOpacity(0.3),
+                  color: theme.iconTheme.color?.withValues(alpha: 0.3),
                   size: 24,
                 ),
             ],
@@ -222,61 +265,9 @@ class SettingsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildLanguageCard(
-    BuildContext context,
-    LocaleProvider localeProvider,
-    ThemeData theme,
-  ) {
-    return Container(
-      decoration: BoxDecoration(
-        color: theme.cardColor,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.05),
-            blurRadius: 8,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        children: LocaleProvider.supportedLocales.asMap().entries.map((entry) {
-          final index = entry.key;
-          final locale = entry.value;
-          final isFirst = index == 0;
-          final isLast = index == LocaleProvider.supportedLocales.length - 1;
-          final isSelected = localeProvider.locale == locale;
-          final languageName = LocaleProvider.getLanguageName(locale.languageCode);
-
-          return Column(
-            children: [
-              if (index > 0)
-                Divider(
-                  height: 1,
-                  thickness: 1,
-                  color: theme.dividerColor.withOpacity(0.1),
-                ),
-              _buildLanguageOption(
-                context,
-                icon: Icons.language_rounded,
-                title: languageName,
-                subtitle: locale.languageCode.toUpperCase(),
-                isSelected: isSelected,
-                onTap: () => localeProvider.setLocale(locale),
-                theme: theme,
-                isFirst: isFirst,
-                isLast: isLast,
-              ),
-            ],
-          );
-        }).toList(),
-      ),
-    );
-  }
-
   Widget _buildLanguageOption(
     BuildContext context, {
-    required IconData icon,
+    required String flag,
     required String title,
     required String subtitle,
     required bool isSelected,
@@ -302,16 +293,15 @@ class SettingsPage extends StatelessWidget {
                 height: 48,
                 decoration: BoxDecoration(
                   color: isSelected
-                      ? theme.colorScheme.primary.withOpacity(0.1)
-                      : theme.colorScheme.primary.withOpacity(0.05),
+                      ? theme.colorScheme.primary.withValues(alpha: 0.1)
+                      : theme.colorScheme.primary.withValues(alpha: 0.05),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: Icon(
-                  icon,
-                  color: isSelected
-                      ? theme.colorScheme.primary
-                      : theme.iconTheme.color?.withOpacity(0.5),
-                  size: 24,
+                child: Center(
+                  child: Text(
+                    flag,
+                    style: const TextStyle(fontSize: 24),
+                  ),
                 ),
               ),
               const SizedBox(width: 16),
@@ -334,7 +324,7 @@ class SettingsPage extends StatelessWidget {
                       subtitle,
                       style: TextStyle(
                         fontSize: 13,
-                        color: theme.iconTheme.color?.withOpacity(0.6),
+                        color: theme.iconTheme.color?.withValues(alpha: 0.6),
                       ),
                     ),
                   ],
@@ -349,7 +339,7 @@ class SettingsPage extends StatelessWidget {
               else
                 Icon(
                   Icons.circle_outlined,
-                  color: theme.iconTheme.color?.withOpacity(0.3),
+                  color: theme.iconTheme.color?.withValues(alpha: 0.3),
                   size: 24,
                 ),
             ],
@@ -373,7 +363,7 @@ class SettingsPage extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -385,7 +375,7 @@ class SettingsPage extends StatelessWidget {
             width: 48,
             height: 48,
             decoration: BoxDecoration(
-              color: theme.colorScheme.primary.withOpacity(0.1),
+              color: theme.colorScheme.primary.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
@@ -414,7 +404,7 @@ class SettingsPage extends StatelessWidget {
                   subtitle,
                   style: TextStyle(
                     fontSize: 13,
-                    color: theme.iconTheme.color?.withOpacity(0.6),
+                    color: theme.iconTheme.color?.withValues(alpha: 0.6),
                   ),
                 ),
               ],
@@ -425,4 +415,3 @@ class SettingsPage extends StatelessWidget {
     );
   }
 }
-

@@ -1,10 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import 'package:dare_u/models/progress_entry_model.dart';
 import 'package:dare_u/providers/app_state_provider.dart';
 import 'package:dare_u/widgets/event_card.dart';
 import 'package:dare_u/widgets/progress_dialog.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
 import 'settings_page.dart';
 
 class ChatPage extends StatefulWidget {
@@ -44,7 +45,7 @@ class _ChatPageState extends State<ChatPage> {
       context: context,
       builder: (context) => const ProgressDialog(),
     ).then((result) {
-      if (result != null && result is ProgressEntryModel) {
+      if (result != null && result is ProgressEntryModel && mounted) {
         Provider.of<AppStateProvider>(
           context,
           listen: false,
@@ -100,17 +101,17 @@ class _ChatPageState extends State<ChatPage> {
               ),
               if (challenge.isGroup)
                 Text(
-                  '${challenge.memberCount} members',
+                  'challenges.member'.tr(namedArgs: {'count': challenge.memberCount.toString()}),
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.normal,
-                    color: theme.iconTheme.color?.withOpacity(0.6),
+                    color: theme.iconTheme.color?.withValues(alpha: 0.6),
                   ),
                 ),
             ] else
-              const Text(
-                'Challenge',
-                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+              Text(
+                'chat.title'.tr(),
+                style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
               ),
           ],
         ),
@@ -118,7 +119,7 @@ class _ChatPageState extends State<ChatPage> {
           IconButton(
             icon: const Icon(Icons.attach_file_rounded),
             onPressed: _showProgressDialog,
-            tooltip: 'Add Progress',
+            tooltip: 'chat.addProgress'.tr(),
           ),
           IconButton(
             icon: const Icon(Icons.settings_outlined),
@@ -128,7 +129,7 @@ class _ChatPageState extends State<ChatPage> {
                 MaterialPageRoute(builder: (context) => const SettingsPage()),
               );
             },
-            tooltip: 'Settings',
+            tooltip: 'settings.title'.tr(),
           ),
           const SizedBox(width: 8),
         ],
@@ -146,8 +147,8 @@ class _ChatPageState extends State<ChatPage> {
                       final event = appState.events[index];
                       return EventCard(
                         event: event,
-                        onChallengeAccept: null, // No more challenge acceptance
-                        onSubmitProgress: null, // Using toolbar button instead
+                        onChallengeAccept: null,
+                        onSubmitProgress: _showProgressDialog,
                       );
                     },
                   ),
@@ -167,7 +168,7 @@ class _ChatPageState extends State<ChatPage> {
             width: 80,
             height: 80,
             decoration: BoxDecoration(
-              color: theme.colorScheme.primary.withOpacity(0.1),
+              color: theme.colorScheme.primary.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(
@@ -178,7 +179,7 @@ class _ChatPageState extends State<ChatPage> {
           ),
           const SizedBox(height: 24),
           Text(
-            'Start documenting!',
+            'chat.startDocumenting'.tr(),
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.w600,
@@ -189,10 +190,10 @@ class _ChatPageState extends State<ChatPage> {
           ),
           const SizedBox(height: 8),
           Text(
-            'Share updates, images, and track your progress',
+            'chat.shareUpdates'.tr(),
             style: TextStyle(
               fontSize: 14,
-              color: theme.iconTheme.color?.withOpacity(0.6),
+              color: theme.iconTheme.color?.withValues(alpha: 0.6),
             ),
           ),
         ],
@@ -201,7 +202,6 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Widget _buildInputBar(ThemeData theme, AppStateProvider appState) {
-    // Only show input if onboarding is complete
     if (!appState.hasCompletedOnboarding) {
       return const SizedBox.shrink();
     }
@@ -211,7 +211,7 @@ class _ChatPageState extends State<ChatPage> {
       decoration: BoxDecoration(
         color: theme.scaffoldBackgroundColor,
         border: Border(
-          top: BorderSide(color: theme.dividerColor.withOpacity(0.1), width: 1),
+          top: BorderSide(color: theme.dividerColor.withValues(alpha: 0.1), width: 1),
         ),
       ),
       child: SafeArea(
@@ -224,7 +224,7 @@ class _ChatPageState extends State<ChatPage> {
                   borderRadius: BorderRadius.circular(24),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
+                      color: Colors.black.withValues(alpha: 0.05),
                       blurRadius: 8,
                       offset: const Offset(0, 2),
                     ),
@@ -236,9 +236,9 @@ class _ChatPageState extends State<ChatPage> {
                   textInputAction: TextInputAction.send,
                   onSubmitted: (_) => _sendMessage(),
                   decoration: InputDecoration(
-                    hintText: 'Share an update...',
+                    hintText: 'chat.shareAnUpdate'.tr(),
                     hintStyle: TextStyle(
-                      color: theme.iconTheme.color?.withOpacity(0.5),
+                      color: theme.iconTheme.color?.withValues(alpha: 0.5),
                     ),
                     border: InputBorder.none,
                     contentPadding: const EdgeInsets.symmetric(

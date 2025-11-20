@@ -1,9 +1,12 @@
-import 'package:dare_u/l10n/app_localizations.dart';
 import 'package:dare_u/models/user_model.dart';
+import 'package:dare_u/pages/auth_page.dart';
+import 'package:dare_u/providers/app_state_provider.dart';
 import 'package:dare_u/services/user_service.dart';
 import 'package:dare_u/widgets/empty_state.dart';
 import 'package:dare_u/widgets/user_card.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -14,19 +17,19 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPageState extends State<SearchPage> {
   final TextEditingController _searchController = TextEditingController();
-  List<UserModel> _allUserModels = [];
   List<UserModel> _filteredUserModels = [];
+  final List<UserModel> _allUserModels = UserModelService.getMockUserModels();
 
   @override
   void initState() {
     super.initState();
-    _allUserModels = UserModelService.getMockUserModels();
     _filteredUserModels = _allUserModels;
     _searchController.addListener(_filterUserModels);
   }
 
   @override
   void dispose() {
+    _searchController.removeListener(_filterUserModels);
     _searchController.dispose();
     super.dispose();
   }
@@ -37,53 +40,32 @@ class _SearchPageState extends State<SearchPage> {
       _filteredUserModels = query.isEmpty
           ? _allUserModels
           : _allUserModels
-                .where(
-                  (user) =>
-                      user.name.toLowerCase().contains(query) ||
-                      user.username.toLowerCase().contains(query) ||
-                      (user.bio?.toLowerCase().contains(query) ?? false),
-                )
-                .toList();
+              .where((user) =>
+                  user.name.toLowerCase().contains(query) ||
+                  user.username.toLowerCase().contains(query))
+              .toList();
     });
-  }
-
-  void _toggleFollow(UserModel user) {
-    setState(() {
-      _updateUserModel(user);
-    });
-  }
-
-  void _updateUserModel(UserModel user) {
-    final index = _filteredUserModels.indexWhere((u) => u.id == user.id);
-    if (index == -1) return;
-
-    final updatedUserModel = user.copyWith(
-      isFollowing: !user.isFollowing,
-      followersCount: user.isFollowing
-          ? user.followersCount - 1
-          : user.followersCount + 1,
-    );
-
-    _filteredUserModels[index] = updatedUserModel;
-
-    final allIndex = _allUserModels.indexWhere((u) => u.id == user.id);
-    if (allIndex != -1) {
-      _allUserModels[allIndex] = updatedUserModel;
-    }
   }
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          AppLocalizations.of(context)?.search ?? 'Search',
-          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
-        ),
-      ),
-      body: _buildSearchView(theme),
+    return Consumer<AppStateProvider>(
+      builder: (context, appState, child) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text(
+              'search.title'.tr(),
+              style: const TextStyle(
+                fontWeight: FontWeight.w600,
+                fontSize: 18,
+              ),
+            ),
+          ),
+          body: appState.isAuthenticated
+              ? _buildSearchView(Theme.of(context))
+              : const AuthPage(),
+        );
+      },
     );
   }
 
@@ -95,10 +77,10 @@ class _SearchPageState extends State<SearchPage> {
           child: TextField(
             controller: _searchController,
             decoration: InputDecoration(
-              hintText: 'Search users...',
+              hintText: 'search.searchUsers'.tr(),
               prefixIcon: Icon(
                 Icons.search_rounded,
-                color: theme.iconTheme.color?.withOpacity(0.6),
+                color: theme.iconTheme.color?.withValues(alpha: 0.6),
               ),
               suffixIcon: _searchController.text.isNotEmpty
                   ? IconButton(
@@ -121,10 +103,10 @@ class _SearchPageState extends State<SearchPage> {
         ),
         Expanded(
           child: _filteredUserModels.isEmpty
-              ? const EmptyState(
+              ? EmptyState(
                   icon: Icons.search_off_rounded,
-                  title: 'No users found',
-                  subtitle: 'Try a different search term',
+                  title: 'search.noUsersFound'.tr(),
+                  subtitle: 'search.tryDifferentSearch'.tr(),
                 )
               : ListView.builder(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -133,7 +115,7 @@ class _SearchPageState extends State<SearchPage> {
                     final user = _filteredUserModels[index];
                     return UserModelCard(
                       user: user,
-                      onFollowToggle: () => _toggleFollow(user),
+                      onFollowToggle: () {},
                     );
                   },
                 ),

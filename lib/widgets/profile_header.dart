@@ -33,8 +33,8 @@ class ProfileHeader extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [
-            theme.colorScheme.primary.withOpacity(0.3),
-            theme.colorScheme.secondary.withOpacity(0.3),
+            theme.colorScheme.primary.withValues(alpha: 0.3),
+            theme.colorScheme.secondary.withValues(alpha: 0.3),
           ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
@@ -67,7 +67,7 @@ class ProfileHeader extends StatelessWidget {
       email,
       style: TextStyle(
         fontSize: 14,
-        color: theme.iconTheme.color?.withOpacity(0.6),
+        color: theme.iconTheme.color?.withValues(alpha: 0.6),
       ),
     );
   }

@@ -1,7 +1,8 @@
+import 'package:dare_u/providers/app_state_provider.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:dare_u/providers/app_state_provider.dart';
 import 'challenges_page.dart';
 import 'profile_page.dart';
 import 'search_page.dart';
@@ -14,7 +15,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  int _selectedIndex = 0; // Start with first available page
+  int _selectedIndex = 0;
 
   void _onItemTapped(int index) {
     setState(() {
@@ -28,44 +29,41 @@ class _HomePageState extends State<HomePage> {
       builder: (context, appState, child) {
         final isAuthenticated = appState.isAuthenticated;
 
-        // Build pages list based on authentication
         final pages = isAuthenticated
             ? const [SearchPage(), ChallengesPage(), ProfilePage()]
             : const [ChallengesPage(), ProfilePage()];
 
-        // Build navigation items based on authentication
         final navItems = isAuthenticated
-            ? const [
+            ? [
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.search_rounded),
-                  activeIcon: Icon(Icons.search_rounded),
-                  label: 'Search',
+                  icon: const Icon(Icons.search_rounded),
+                  activeIcon: const Icon(Icons.search_rounded),
+                  label: 'navigation.search'.tr(),
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.flag_outlined),
-                  activeIcon: Icon(Icons.flag_rounded),
-                  label: 'Challenges',
+                  icon: const Icon(Icons.flag_outlined),
+                  activeIcon: const Icon(Icons.flag_rounded),
+                  label: 'navigation.challenges'.tr(),
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.person_outline_rounded),
-                  activeIcon: Icon(Icons.person_rounded),
-                  label: 'Profile',
+                  icon: const Icon(Icons.person_outline_rounded),
+                  activeIcon: const Icon(Icons.person_rounded),
+                  label: 'navigation.profile'.tr(),
                 ),
               ]
-            : const [
+            : [
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.flag_outlined),
-                  activeIcon: Icon(Icons.flag_rounded),
-                  label: 'Challenges',
+                  icon: const Icon(Icons.flag_outlined),
+                  activeIcon: const Icon(Icons.flag_rounded),
+                  label: 'navigation.challenges'.tr(),
                 ),
                 BottomNavigationBarItem(
-                  icon: Icon(Icons.person_outline_rounded),
-                  activeIcon: Icon(Icons.person_rounded),
-                  label: 'Profile',
+                  icon: const Icon(Icons.person_outline_rounded),
+                  activeIcon: const Icon(Icons.person_rounded),
+                  label: 'navigation.profile'.tr(),
                 ),
               ];
 
-        // Ensure selected index is valid for current number of pages
         if (_selectedIndex >= pages.length) {
           _selectedIndex = 0;
         }
@@ -81,7 +79,7 @@ class _HomePageState extends State<HomePage> {
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.1),
+                  color: Colors.black.withValues(alpha: 0.1),
                   blurRadius: 8,
                   offset: const Offset(0, -2),
                 ),
@@ -95,7 +93,7 @@ class _HomePageState extends State<HomePage> {
                   ? const Color(0xFF1E293B)
                   : Colors.white,
               selectedItemColor: theme.colorScheme.primary,
-              unselectedItemColor: theme.iconTheme.color?.withOpacity(0.5),
+              unselectedItemColor: theme.iconTheme.color?.withValues(alpha: 0.5),
               selectedFontSize: 12,
               unselectedFontSize: 12,
               elevation: 0,
@@ -107,4 +105,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
-

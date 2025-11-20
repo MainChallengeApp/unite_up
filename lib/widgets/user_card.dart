@@ -40,7 +40,7 @@ class UserModelCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(16),
       boxShadow: [
         BoxShadow(
-          color: Colors.black.withOpacity(0.05),
+          color: Colors.black.withValues(alpha: 0.05),
           blurRadius: 8,
           offset: const Offset(0, 2),
         ),
@@ -53,7 +53,7 @@ class UserModelCard extends StatelessWidget {
       width: 56,
       height: 56,
       decoration: BoxDecoration(
-        color: theme.colorScheme.primary.withOpacity(0.1),
+        color: theme.colorScheme.primary.withValues(alpha: 0.1),
         shape: BoxShape.circle,
       ),
       child: Icon(
@@ -101,7 +101,7 @@ class UserModelCard extends StatelessWidget {
       user.username,
       style: TextStyle(
         fontSize: 13,
-        color: theme.iconTheme.color?.withOpacity(0.6),
+        color: theme.iconTheme.color?.withValues(alpha: 0.6),
       ),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
@@ -113,7 +113,7 @@ class UserModelCard extends StatelessWidget {
       user.bio!,
       style: TextStyle(
         fontSize: 13,
-        color: theme.iconTheme.color?.withOpacity(0.7),
+        color: theme.iconTheme.color?.withValues(alpha: 0.7),
       ),
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
@@ -154,7 +154,7 @@ class UserModelCard extends StatelessWidget {
           label,
           style: TextStyle(
             fontSize: 12,
-            color: theme.iconTheme.color?.withOpacity(0.6),
+            color: theme.iconTheme.color?.withValues(alpha: 0.6),
           ),
         ),
       ],
@@ -181,7 +181,7 @@ class UserModelCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(10),
               side: user.isFollowing
                   ? BorderSide(
-                      color: theme.dividerColor.withOpacity(0.3),
+                      color: theme.dividerColor.withValues(alpha: 0.3),
                       width: 1,
                     )
                   : BorderSide.none,

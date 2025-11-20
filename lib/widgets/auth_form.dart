@@ -1,5 +1,6 @@
 import 'package:dare_u/enums/auth_provider_enum.dart';
 import 'package:dare_u/widgets/social_login_button.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class AuthForm extends StatelessWidget {
@@ -32,159 +33,147 @@ class AuthForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return SingleChildScrollView(
       padding: const EdgeInsets.all(24),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisSize: MainAxisSize.min,
         children: [
           const SizedBox(height: 32),
-          _buildTitle(theme),
-          const SizedBox(height: 8),
-          _buildSubtitle(theme),
-          const SizedBox(height: 40),
-          if (onGoogleSignIn != null) ...[
-            SocialLoginButton(
-              provider: AuthProviderEnum.google,
-              onPressed: onGoogleSignIn!,
-              isLoading: isGoogleLoading,
-            ),
-            const SizedBox(height: 12),
-          ],
-          if (onAppleSignIn != null) ...[
-            SocialLoginButton(
-              provider: AuthProviderEnum.apple,
-              onPressed: onAppleSignIn!,
-              isLoading: isAppleLoading,
-            ),
-            const SizedBox(height: 24),
-          ],
-          if (onGoogleSignIn != null || onAppleSignIn != null) ...[
-            _buildDivider(theme),
-            const SizedBox(height: 24),
-          ],
+          _buildSocialLoginButtons(),
+          const SizedBox(height: 16),
+          _buildDivider(),
+          const SizedBox(height: 16),
           if (!isLoginMode) ...[_buildNameField(), const SizedBox(height: 16)],
           _buildEmailField(),
           const SizedBox(height: 16),
           _buildPasswordField(),
           const SizedBox(height: 24),
-          _buildSubmitButton(theme),
-          const SizedBox(height: 16),
+          _buildSubmitButton(Theme.of(context)),
+          const SizedBox(height: 24),
           _buildToggleButton(),
         ],
       ),
     );
   }
 
-  Widget _buildTitle(ThemeData theme) {
-    return Text(
-      isLoginMode ? 'Welcome Back!' : 'Create Account',
-      textAlign: TextAlign.center,
-      style: TextStyle(
-        fontSize: 28,
-        fontWeight: FontWeight.bold,
-        color: theme.brightness == Brightness.dark
-            ? Colors.white
-            : const Color(0xFF1E293B),
-      ),
-    );
-  }
-
-  Widget _buildSubtitle(ThemeData theme) {
-    return Text(
-      isLoginMode
-          ? 'Sign in to continue your journey'
-          : 'Start your improvement journey today',
-      textAlign: TextAlign.center,
-      style: TextStyle(
-        fontSize: 14,
-        color: theme.iconTheme.color?.withOpacity(0.6),
-      ),
-    );
-  }
-
   Widget _buildNameField() {
-    return TextField(
-      controller: nameController,
-      decoration: const InputDecoration(
-        labelText: 'Full Name',
-        hintText: 'Enter your full name',
-        prefixIcon: Icon(Icons.person_outline_rounded),
+    return Builder(
+      builder: (context) => TextField(
+        controller: nameController,
+        decoration: InputDecoration(
+          labelText: 'auth.fields.fullName'.tr(),
+          hintText: 'auth.fields.enterFullName'.tr(),
+          prefixIcon: const Icon(Icons.person_outline_rounded),
+        ),
+        textCapitalization: TextCapitalization.words,
       ),
-      textCapitalization: TextCapitalization.words,
     );
   }
 
   Widget _buildEmailField() {
-    return TextField(
-      controller: emailController,
-      decoration: const InputDecoration(
-        labelText: 'Email',
-        hintText: 'Enter your email',
-        prefixIcon: Icon(Icons.email_outlined),
+    return Builder(
+      builder: (context) => TextField(
+        controller: emailController,
+        decoration: InputDecoration(
+          labelText: 'auth.fields.email'.tr(),
+          hintText: 'auth.fields.enterEmail'.tr(),
+          prefixIcon: const Icon(Icons.email_outlined),
+        ),
+        keyboardType: TextInputType.emailAddress,
       ),
-      keyboardType: TextInputType.emailAddress,
     );
   }
 
   Widget _buildPasswordField() {
-    return TextField(
-      controller: passwordController,
-      decoration: const InputDecoration(
-        labelText: 'Password',
-        hintText: 'Enter your password',
-        prefixIcon: Icon(Icons.lock_outline_rounded),
+    return Builder(
+      builder: (context) => TextField(
+        controller: passwordController,
+        decoration: InputDecoration(
+          labelText: 'auth.fields.password'.tr(),
+          hintText: 'auth.fields.enterPassword'.tr(),
+          prefixIcon: const Icon(Icons.lock_outline_rounded),
+        ),
+        obscureText: true,
       ),
-      obscureText: true,
     );
   }
 
   Widget _buildSubmitButton(ThemeData theme) {
-    return ElevatedButton(
-      onPressed: onSubmit,
-      style: ElevatedButton.styleFrom(
-        backgroundColor: theme.colorScheme.primary,
-        foregroundColor: Colors.white,
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        elevation: 0,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+    return Builder(
+      builder: (context) => SizedBox(
+        width: double.infinity,
+        height: 52,
+        child: FilledButton(
+          onPressed: isLoading ? null : onSubmit,
+          style: FilledButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+          ),
+          child: isLoading
+              ? const SizedBox(
+                  width: 20,
+                  height: 20,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2,
+                    color: Colors.white,
+                  ),
+                )
+              : Text(
+                  isLoginMode ? 'auth.signIn'.tr() : 'auth.createAccount'.tr(),
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+        ),
       ),
-      child: Text(
-        isLoginMode ? 'Sign In' : 'Create Account',
-        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-      ),
+    );
+  }
+
+  Widget _buildDivider() {
+    return const Row(
+      children: [
+        Expanded(child: Divider()),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: Text('or', style: TextStyle(fontSize: 14)),
+        ),
+        Expanded(child: Divider()),
+      ],
+    );
+  }
+
+  Widget _buildSocialLoginButtons() {
+    return Column(
+      children: [
+        if (onGoogleSignIn != null)
+          SocialLoginButton(
+            provider: AuthProviderEnum.google,
+            onPressed: onGoogleSignIn!,
+            isLoading: isGoogleLoading,
+          ),
+        const SizedBox(height: 12),
+        if (onAppleSignIn != null)
+          SocialLoginButton(
+            provider: AuthProviderEnum.apple,
+            onPressed: onAppleSignIn!,
+            isLoading: isAppleLoading,
+          ),
+      ],
     );
   }
 
   Widget _buildToggleButton() {
-    return TextButton(
-      onPressed: onToggleMode,
-      child: Text(
-        isLoginMode
-            ? 'Don\'t have an account? Sign Up'
-            : 'Already have an account? Sign In',
-      ),
-    );
-  }
-
-  Widget _buildDivider(ThemeData theme) {
-    return Row(
-      children: [
-        Expanded(child: Divider(color: theme.dividerColor)),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Text(
-            'OR',
-            style: TextStyle(
-              color: theme.iconTheme.color?.withOpacity(0.5),
-              fontSize: 12,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+    return Builder(
+      builder: (context) => TextButton(
+        onPressed: onToggleMode,
+        child: Text(
+          isLoginMode
+              ? 'auth.dontHaveAccount'.tr()
+              : 'auth.alreadyHaveAccount'.tr(),
         ),
-        Expanded(child: Divider(color: theme.dividerColor)),
-      ],
+      ),
     );
   }
 }

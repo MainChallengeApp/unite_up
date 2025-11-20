@@ -3,6 +3,7 @@ import 'package:dare_u/providers/app_state_provider.dart';
 import 'package:dare_u/widgets/profile_header.dart';
 import 'package:dare_u/widgets/profile_menu_item.dart';
 import 'package:dare_u/widgets/profile_stat_card.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -21,7 +22,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     try {
       await appState.signOut();
-      _showSnackBar('Logged out successfully');
+      _showSnackBar('auth.loggedOutSuccessfully'.tr());
     } catch (e) {
       _showSnackBar('Error: ${e.toString()}');
     }
@@ -56,16 +57,16 @@ class _ProfilePageState extends State<ProfilePage> {
 
   AppBar _buildAppBar(bool isAuthenticated) {
     return AppBar(
-      title: const Text(
-        'Profile',
-        style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+      title: Text(
+        'profile.title'.tr(),
+        style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
       ),
       actions: isAuthenticated
           ? [
               IconButton(
                 icon: const Icon(Icons.settings_outlined),
                 onPressed: _navigateToSettings,
-                tooltip: 'Settings',
+                tooltip: 'settings.title'.tr(),
               ),
               const SizedBox(width: 8),
             ]
@@ -98,12 +99,12 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _buildStatsRow() {
-    return const Row(
+    return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        ProfileStatCard(value: '12', label: 'Goals'),
-        ProfileStatCard(value: '89', label: 'Challenges'),
-        ProfileStatCard(value: '245', label: 'Followers'),
+        ProfileStatCard(value: '12', label: 'profile.stats.goals'.tr()),
+        ProfileStatCard(value: '89', label: 'profile.stats.challenges'.tr()),
+        ProfileStatCard(value: '245', label: 'profile.stats.followers'.tr()),
       ],
     );
   }
@@ -113,29 +114,29 @@ class _ProfilePageState extends State<ProfilePage> {
       children: [
         ProfileMenuItem(
           icon: Icons.emoji_events_rounded,
-          title: 'Achievements',
-          subtitle: 'View your accomplishments',
+          title: 'profile.menu.achievements'.tr(),
+          subtitle: 'profile.menu.viewAccomplishments'.tr(),
           onTap: () {},
         ),
         const SizedBox(height: 12),
         ProfileMenuItem(
           icon: Icons.bar_chart_rounded,
-          title: 'Statistics',
-          subtitle: 'Track your progress',
+          title: 'profile.menu.statistics'.tr(),
+          subtitle: 'profile.menu.trackProgress'.tr(),
           onTap: () {},
         ),
         const SizedBox(height: 12),
         ProfileMenuItem(
           icon: Icons.notifications_outlined,
-          title: 'Notifications',
-          subtitle: 'Manage your alerts',
+          title: 'profile.menu.notifications'.tr(),
+          subtitle: 'profile.menu.manageAlerts'.tr(),
           onTap: () {},
         ),
         const SizedBox(height: 12),
         ProfileMenuItem(
           icon: Icons.settings_outlined,
-          title: 'Settings',
-          subtitle: 'App preferences',
+          title: 'profile.menu.settings'.tr(),
+          subtitle: 'profile.menu.appPreferences'.tr(),
           onTap: _navigateToSettings,
         ),
       ],
@@ -149,7 +150,7 @@ class _ProfilePageState extends State<ProfilePage> {
       child: OutlinedButton.icon(
         onPressed: _handleLogout,
         icon: const Icon(Icons.logout_rounded),
-        label: const Text('Sign Out'),
+        label: Text('auth.signOut'.tr()),
         style: OutlinedButton.styleFrom(
           padding: const EdgeInsets.symmetric(vertical: 14),
           side: BorderSide(color: theme.colorScheme.error, width: 1.5),

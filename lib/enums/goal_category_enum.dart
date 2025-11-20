@@ -1,49 +1,26 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+
 enum GoalCategoryEnum {
-  health(
-    'Become Healthier',
-    '🏥',
-    'Focus on nutrition, sleep, and wellness',
-  ),
-  social(
-    'Improve Social Skills',
-    '👥',
-    'Build connections and communication skills',
-  ),
-  intelligence(
-    'Become More Intelligent',
-    '🧠',
-    'Learn new things and expand knowledge',
-  ),
-  fitness(
-    'Get Physically Fit',
-    '💪',
-    'Build strength and endurance',
-  ),
-  creativity(
-    'Boost Creativity',
-    '🎨',
-    'Express yourself and think outside the box',
-  ),
-  productivity(
-    'Increase Productivity',
-    '⚡',
-    'Get more done and manage time better',
-  ),
-  mindfulness(
-    'Practice Mindfulness',
-    '🧘',
-    'Be present and reduce stress',
-  ),
-  custom(
-    'Custom Goal',
-    '⭐',
-    'Define your own path to improvement',
-  );
+  health('goals.categories.health', '🏥'),
+  social('goals.categories.social', '👥'),
+  intelligence('goals.categories.intelligence', '🧠'),
+  fitness('goals.categories.fitness', '💪'),
+  creativity('goals.categories.creativity', '🎨'),
+  productivity('goals.categories.productivity', '⚡'),
+  mindfulness('goals.categories.mindfulness', '🧘'),
+  custom('goals.categories.custom', '⭐');
 
-  final String displayName;
+  final String translationKey;
   final String emoji;
-  final String description;
 
-  const GoalCategoryEnum(this.displayName, this.emoji, this.description);
+  const GoalCategoryEnum(this.translationKey, this.emoji);
+
+  String displayName(BuildContext context) {
+    return '$translationKey.name'.tr();
+  }
+
+  String description(BuildContext context) {
+    return '$translationKey.description'.tr();
+  }
 }
-

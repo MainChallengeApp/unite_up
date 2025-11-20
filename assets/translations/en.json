@@ -1,0 +1,201 @@
+{
+  "app": {
+    "title": "Dare U"
+  },
+  "common": {
+    "cancel": "Cancel",
+    "done": "Done",
+    "add": "Add",
+    "submit": "Submit",
+    "create": "Create",
+    "delete": "Delete",
+    "edit": "Edit",
+    "save": "Save",
+    "search": "Search",
+    "yes": "Yes",
+    "no": "No"
+  },
+  "auth": {
+    "signIn": "Sign In",
+    "signOut": "Sign Out",
+    "createAccount": "Create Account",
+    "alreadyHaveAccount": "Already have an account?",
+    "dontHaveAccount": "Don't have an account yet?",
+    "loginWithGoogle": "Continue with Google",
+    "loginWithApple": "Continue with Apple",
+    "loggedOutSuccessfully": "Logged out successfully",
+    "accountCreatedSuccessfully": "Account created successfully!",
+    "authenticationFailed": "Authentication failed. Please try again.",
+    "fields": {
+      "fullName": "Full Name",
+      "enterFullName": "Enter your full name",
+      "email": "Email",
+      "enterEmail": "Enter your email",
+      "password": "Password",
+      "enterPassword": "Enter your password"
+    }
+  },
+  "navigation": {
+    "search": "Search",
+    "challenges": "Challenges",
+    "profile": "Profile"
+  },
+  "onboarding": {
+    "welcomeTo": "Welcome to\nDare U!",
+    "description": "Transform your life one challenge at a time. Create your first personal challenge to track your progress and document your journey.",
+    "chooseFocus": "Choose your focus",
+    "startJourney": "Create Challenge"
+  },
+  "goals": {
+    "categories": {
+      "health": {
+        "name": "Become Healthier",
+        "description": "Focus on nutrition, sleep, and wellness"
+      },
+      "social": {
+        "name": "Improve Social Skills",
+        "description": "Build connections and communication skills"
+      },
+      "intelligence": {
+        "name": "Become More Intelligent",
+        "description": "Learn new things and expand knowledge"
+      },
+      "fitness": {
+        "name": "Get Physically Fit",
+        "description": "Build strength and endurance"
+      },
+      "creativity": {
+        "name": "Boost Creativity",
+        "description": "Express yourself and think outside the box"
+      },
+      "productivity": {
+        "name": "Increase Productivity",
+        "description": "Get more done and manage time better"
+      },
+      "mindfulness": {
+        "name": "Practice Mindfulness",
+        "description": "Be present and reduce stress"
+      },
+      "custom": {
+        "name": "Custom Goal",
+        "description": "Define your own path to improvement"
+      }
+    },
+    "describeCustomGoal": "Describe your custom goal..."
+  },
+  "challenges": {
+    "title": "Challenges",
+    "noChallengesYet": "No challenges yet",
+    "createFirstChallenge": "Create your first challenge to start your journey!",
+    "createChallenge": "Create Challenge",
+    "createNewChallenge": "Create New Challenge",
+    "createGroup": "Create Group",
+    "personal": "Personal",
+    "group": "Group",
+    "member": "{count, plural, =1{1 member} other{{count} members}}",
+    "messages": "messages",
+    "groupCreated": "Group \"{name}\" created!",
+    "create": {
+      "title": "Create Challenge",
+      "chooseThumbnail": "Choose Thumbnail",
+      "changeThumbnail": "Change Thumbnail",
+      "category": "Category",
+      "categoryLabel": "Goal Category",
+      "selectCategory": "Select a category for your challenge",
+      "titleLabel": "Title",
+      "enterGroupName": "Enter group name",
+      "enterChallengeName": "Enter challenge name",
+      "descriptionLabel": "Description",
+      "whatIsGroupAbout": "What is this group about?",
+      "members": "Members",
+      "addMembers": "Add Members",
+      "noMembersAdded": "No members added yet",
+      "pleaseEnterTitle": "Please enter a title",
+      "pleaseSelectCategory": "Please select a category"
+    }
+  },
+  "chat": {
+    "title": "Challenge",
+    "startDocumenting": "Start documenting!",
+    "shareUpdates": "Share updates, images, and track your progress",
+    "shareAnUpdate": "Share an update...",
+    "addProgress": "Add Progress",
+    "readyToImprove": "Ready to improve yourself?",
+    "journeyWillAppearHere": "Your challenge journey will appear here"
+  },
+  "progress": {
+    "submitProgress": "Submit Progress",
+    "addNote": "Add a note about your progress...",
+    "describeWhatYouDid": "Describe what you did...",
+    "attachments": "Attachments",
+    "addProof": "Add proof (optional)",
+    "pleaseAddNoteOrAttach": "Please add a note or attach a file",
+    "types": {
+      "image": "Image",
+      "video": "Video",
+      "file": "File"
+    }
+  },
+  "search": {
+    "title": "Search",
+    "searchUsers": "Search users...",
+    "noUsersFound": "No users found",
+    "tryDifferentSearch": "Try a different search term"
+  },
+  "profile": {
+    "title": "Profile",
+    "stats": {
+      "goals": "Goals",
+      "challenges": "Challenges",
+      "followers": "Followers"
+    },
+    "menu": {
+      "achievements": "Achievements",
+      "viewAccomplishments": "View your accomplishments",
+      "statistics": "Statistics",
+      "trackProgress": "Track your progress",
+      "notifications": "Notifications",
+      "manageAlerts": "Manage your alerts",
+      "settings": "Settings",
+      "appPreferences": "App preferences"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "appearance": "Appearance",
+    "selectTheme": "Select theme mode",
+    "theme": {
+      "light": {
+        "name": "Light Mode",
+        "description": "Bright and clear interface"
+      },
+      "dark": {
+        "name": "Dark Mode",
+        "description": "Easy on the eyes at night"
+      },
+      "system": {
+        "name": "System Default",
+        "description": "Follows your device settings"
+      }
+    },
+    "language": "Language",
+    "selectLanguage": "Select language",
+    "languages": {
+      "english": {
+        "name": "English",
+        "subtitle": "English language"
+      },
+      "german": {
+        "name": "German",
+        "subtitle": "Deutsche Sprache"
+      }
+    },
+    "about": "About",
+    "version": "Version",
+    "builtWith": "Built with",
+    "flutterMaterial": "Flutter & Material Design 3"
+  },
+  "empty": {
+    "noData": "No data available"
+  }
+}

@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
 import 'package:dare_u/enums/goal_category_enum.dart';
 import 'package:dare_u/models/challenge_chat_model.dart';
 import 'package:dare_u/models/user_model.dart';
 import 'package:dare_u/providers/app_state_provider.dart';
 import 'package:dare_u/services/user_service.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class CreateChallengePage extends StatefulWidget {
   const CreateChallengePage({super.key});
@@ -21,8 +21,6 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
   final List<UserModel> _availableUsers = [];
   String _selectedEmoji = '🎯';
   GoalCategoryEnum _selectedCategory = GoalCategoryEnum.health;
-  bool _isGroup = false;
-
   final List<String> _availableEmojis = [
     '🎯',
     '💪',
@@ -55,7 +53,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Choose Thumbnail'),
+        title: Text('challenges.create.chooseThumbnail'.tr()),
         content: Wrap(
           spacing: 12,
           runSpacing: 12,
@@ -70,7 +68,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                 height: 56,
                 decoration: BoxDecoration(
                   color: emoji == _selectedEmoji
-                      ? Theme.of(context).colorScheme.primary.withOpacity(0.2)
+                      ? Theme.of(context).colorScheme.primary.withValues(alpha: 0.2)
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(12),
                   border: Border.all(
@@ -81,10 +79,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                   ),
                 ),
                 alignment: Alignment.center,
-                child: Text(
-                  emoji,
-                  style: const TextStyle(fontSize: 32),
-                ),
+                child: Text(emoji, style: const TextStyle(fontSize: 32)),
               ),
             );
           }).toList(),
@@ -97,7 +92,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
     showDialog(
       context: context,
       builder: (context) => AlertDialog(
-        title: const Text('Add Members'),
+        title: Text('challenges.create.addMembers'.tr()),
         content: SizedBox(
           width: double.maxFinite,
           child: ListView.builder(
@@ -118,7 +113,6 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                     }
                   });
                   Navigator.pop(context);
-                  // Reopen to show updated state
                   Future.delayed(
                     const Duration(milliseconds: 100),
                     _showMembersPicker,
@@ -126,9 +120,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                 },
                 title: Text(user.name),
                 subtitle: Text(user.username),
-                secondary: CircleAvatar(
-                  child: Text(user.name[0]),
-                ),
+                secondary: CircleAvatar(child: Text(user.name[0])),
               );
             },
           ),
@@ -136,7 +128,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context),
-            child: const Text('Done'),
+            child: Text('common.done'.tr()),
           ),
         ],
       ),
@@ -146,8 +138,8 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
   void _createChallenge() {
     if (_titleController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Please enter a title'),
+        SnackBar(
+          content: Text('challenges.create.pleaseEnterTitle'.tr()),
           behavior: SnackBarBehavior.floating,
         ),
       );
@@ -157,14 +149,9 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
     final appState = Provider.of<AppStateProvider>(context, listen: false);
     final currentUserId = appState.currentUser?.id ?? 'user-1';
 
-    // Build member IDs list
     final memberIds = <String>[];
-    if (_isGroup) {
-      memberIds.add(currentUserId); // Always include creator
-      memberIds.addAll(_selectedMembers.map((m) => m.id));
-    } else {
-      memberIds.add(currentUserId); // Personal challenge - just the creator
-    }
+    memberIds.add(currentUserId);
+    memberIds.addAll(_selectedMembers.map((m) => m.id));
 
     final challenge = ChallengeChatModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
@@ -180,16 +167,11 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
     );
 
     appState.addChallenge(challenge);
-
     Navigator.pop(context);
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(
-          _isGroup
-              ? 'Group challenge "${challenge.name}" created!'
-              : 'Personal challenge "${challenge.name}" created!',
-        ),
+        content: Text('challenges.challengeCreated'.tr(namedArgs: {'name': challenge.name})),
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -201,9 +183,9 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text(
-          'Create Challenge',
-          style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
+        title: Text(
+          'challenges.createNewChallenge'.tr(),
+          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
         ),
       ),
       body: SingleChildScrollView(
@@ -211,87 +193,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Challenge Type Toggle
-            Container(
-              padding: const EdgeInsets.all(4),
-              decoration: BoxDecoration(
-                color: theme.brightness == Brightness.dark
-                    ? theme.cardColor
-                    : theme.scaffoldBackgroundColor,
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: InkWell(
-                      onTap: () => setState(() => _isGroup = false),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        decoration: BoxDecoration(
-                          color: !_isGroup
-                              ? theme.colorScheme.primary
-                              : Colors.transparent,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.person_outline_rounded,
-                              size: 18,
-                              color: !_isGroup ? Colors.white : null,
-                            ),
-                            const SizedBox(width: 8),
-                            Text(
-                              'Personal',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: !_isGroup ? Colors.white : null,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Expanded(
-                    child: InkWell(
-                      onTap: () => setState(() => _isGroup = true),
-                      child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 12),
-                        decoration: BoxDecoration(
-                          color: _isGroup
-                              ? theme.colorScheme.primary
-                              : Colors.transparent,
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.people_outline_rounded,
-                              size: 18,
-                              color: _isGroup ? Colors.white : null,
-                            ),
-                            const SizedBox(width: 8),
-                            Text(
-                              'Group',
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                color: _isGroup ? Colors.white : null,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
             const SizedBox(height: 32),
-
-            // Thumbnail Section
             Center(
               child: Column(
                 children: [
@@ -302,10 +204,10 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                       width: 120,
                       height: 120,
                       decoration: BoxDecoration(
-                        color: theme.colorScheme.primary.withOpacity(0.1),
+                        color: theme.colorScheme.primary.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(20),
                         border: Border.all(
-                          color: theme.dividerColor.withOpacity(0.3),
+                          color: theme.dividerColor.withValues(alpha: 0.3),
                           width: 2,
                         ),
                       ),
@@ -321,16 +223,14 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                   TextButton.icon(
                     onPressed: _showEmojiPicker,
                     icon: const Icon(Icons.edit_rounded, size: 16),
-                    label: const Text('Change Thumbnail'),
+                    label: Text('challenges.create.changeThumbnail'.tr()),
                   ),
                 ],
               ),
             ),
             const SizedBox(height: 32),
-
-            // Category Selection
             Text(
-              'Category',
+              'challenges.create.category'.tr(),
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
@@ -341,7 +241,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
             ),
             const SizedBox(height: 8),
             DropdownButtonFormField<GoalCategoryEnum>(
-              value: _selectedCategory,
+              initialValue: _selectedCategory,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: theme.brightness == Brightness.dark
@@ -355,12 +255,17 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
               items: GoalCategoryEnum.values.map((category) {
                 return DropdownMenuItem(
                   value: category,
-                  child: Row(
-                    children: [
-                      Text(category.emoji, style: const TextStyle(fontSize: 20)),
-                      const SizedBox(width: 12),
-                      Text(category.displayName),
-                    ],
+                  child: Builder(
+                    builder: (context) => Row(
+                      children: [
+                        Text(
+                          category.emoji,
+                          style: const TextStyle(fontSize: 20),
+                        ),
+                        const SizedBox(width: 12),
+                        Text(category.displayName(context)),
+                      ],
+                    ),
                   ),
                 );
               }).toList(),
@@ -371,10 +276,8 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
               },
             ),
             const SizedBox(height: 24),
-
-            // Title Field
             Text(
-              'Title',
+              'challenges.create.titleLabel'.tr(),
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
@@ -387,7 +290,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
             TextField(
               controller: _titleController,
               decoration: InputDecoration(
-                hintText: _isGroup ? 'Enter group name' : 'Enter challenge name',
+                hintText: 'challenges.create.enterChallengeName'.tr(),
                 filled: true,
                 fillColor: theme.brightness == Brightness.dark
                     ? theme.cardColor
@@ -399,10 +302,8 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
               ),
             ),
             const SizedBox(height: 24),
-
-            // Description Field
             Text(
-              'Description',
+              'challenges.create.descriptionLabel'.tr(),
               style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w600,
@@ -415,9 +316,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
             TextField(
               controller: _descriptionController,
               decoration: InputDecoration(
-                hintText: _isGroup
-                    ? 'What is this group about?'
-                    : 'What do you want to achieve?',
+                hintText: 'challenges.create.whatIsGroupAbout'.tr(),
                 filled: true,
                 fillColor: theme.brightness == Brightness.dark
                     ? theme.cardColor
@@ -429,56 +328,51 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
               ),
               maxLines: 3,
             ),
-
-            // Members Section (only for group challenges)
-            if (_isGroup) ...[
-              const SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Members',
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600,
-                      color: theme.brightness == Brightness.dark
-                          ? Colors.white
-                          : const Color(0xFF1E293B),
-                    ),
-                  ),
-                  TextButton.icon(
-                    onPressed: _showMembersPicker,
-                    icon: const Icon(Icons.person_add_rounded, size: 16),
-                    label: const Text('Add'),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 8),
-              if (_selectedMembers.isEmpty)
-                Container(
-                  padding: const EdgeInsets.all(24),
-                  decoration: BoxDecoration(
+            const SizedBox(height: 24),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'challenges.create.members'.tr(),
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600,
                     color: theme.brightness == Brightness.dark
-                        ? theme.cardColor
-                        : theme.scaffoldBackgroundColor,
-                    borderRadius: BorderRadius.circular(12),
+                        ? Colors.white
+                        : const Color(0xFF1E293B),
                   ),
-                  child: Center(
-                    child: Text(
-                      'No members added yet',
-                      style: TextStyle(
-                        color: theme.iconTheme.color?.withOpacity(0.5),
-                      ),
+                ),
+                TextButton.icon(
+                  onPressed: _showMembersPicker,
+                  icon: const Icon(Icons.person_add_rounded, size: 16),
+                  label: Text('common.add'.tr()),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            if (_selectedMembers.isEmpty)
+              Container(
+                padding: const EdgeInsets.all(24),
+                decoration: BoxDecoration(
+                  color: theme.brightness == Brightness.dark
+                      ? theme.cardColor
+                      : theme.scaffoldBackgroundColor,
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                child: Center(
+                  child: Text(
+                    'challenges.create.noMembersAdded'.tr(),
+                    style: TextStyle(
+                      color: theme.iconTheme.color?.withValues(alpha: 0.5),
                     ),
                   ),
-                )
-              else
-                ..._selectedMembers.map((member) => _buildMemberChip(member, theme)),
-            ],
-
+                ),
+              )
+            else
+              ..._selectedMembers.map(
+                (member) => _buildMemberChip(member, theme),
+              ),
             const SizedBox(height: 32),
-
-            // Create Button
             SizedBox(
               width: double.infinity,
               child: FilledButton(
@@ -490,7 +384,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                   ),
                 ),
                 child: Text(
-                  _isGroup ? 'Create Group Challenge' : 'Create Personal Challenge',
+                  'challenges.createChallenge'.tr(),
                   style: const TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.w600,
@@ -518,10 +412,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
         children: [
           CircleAvatar(
             radius: 16,
-            child: Text(
-              member.name[0],
-              style: const TextStyle(fontSize: 14),
-            ),
+            child: Text(member.name[0], style: const TextStyle(fontSize: 14)),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -542,7 +433,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                   member.username,
                   style: TextStyle(
                     fontSize: 12,
-                    color: theme.iconTheme.color?.withOpacity(0.6),
+                    color: theme.iconTheme.color?.withValues(alpha: 0.6),
                   ),
                 ),
               ],
@@ -563,4 +454,3 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
     );
   }
 }
-

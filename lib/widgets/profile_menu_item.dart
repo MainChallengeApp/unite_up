@@ -30,7 +30,7 @@ class ProfileMenuItem extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: Colors.black.withValues(alpha: 0.05),
                 blurRadius: 8,
                 offset: const Offset(0, 2),
               ),
@@ -42,7 +42,7 @@ class ProfileMenuItem extends StatelessWidget {
                 width: 48,
                 height: 48,
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.primary.withOpacity(0.1),
+                  color: theme.colorScheme.primary.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(
@@ -71,7 +71,7 @@ class ProfileMenuItem extends StatelessWidget {
                       subtitle,
                       style: TextStyle(
                         fontSize: 13,
-                        color: theme.iconTheme.color?.withOpacity(0.6),
+                        color: theme.iconTheme.color?.withValues(alpha: 0.6),
                       ),
                     ),
                   ],
@@ -80,7 +80,7 @@ class ProfileMenuItem extends StatelessWidget {
               Icon(
                 Icons.arrow_forward_ios_rounded,
                 size: 16,
-                color: theme.iconTheme.color?.withOpacity(0.4),
+                color: theme.iconTheme.color?.withValues(alpha: 0.4),
               ),
             ],
           ),

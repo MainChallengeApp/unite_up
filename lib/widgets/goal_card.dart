@@ -1,4 +1,5 @@
 import 'package:dare_u/enums/goal_category_enum.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
 class GoalCard extends StatelessWidget {
@@ -30,7 +31,7 @@ class GoalCard extends StatelessWidget {
             InkWell(
               onTap: onTap,
               borderRadius: BorderRadius.circular(12),
-              child: _buildCardContent(theme),
+              child: _buildCardContent(theme, context),
             ),
             if (isCustom && isSelected && customController != null) ...[
               const SizedBox(height: 16),
@@ -45,7 +46,7 @@ class GoalCard extends StatelessWidget {
   BoxDecoration _buildDecoration(ThemeData theme) {
     return BoxDecoration(
       color: isSelected
-          ? theme.colorScheme.primary.withOpacity(0.1)
+          ? theme.colorScheme.primary.withValues(alpha: 0.1)
           : theme.cardColor,
       borderRadius: BorderRadius.circular(16),
       border: Border.all(
@@ -54,7 +55,7 @@ class GoalCard extends StatelessWidget {
       ),
       boxShadow: [
         BoxShadow(
-          color: Colors.black.withOpacity(0.05),
+          color: Colors.black.withValues(alpha: 0.05),
           blurRadius: 8,
           offset: const Offset(0, 2),
         ),
@@ -62,12 +63,12 @@ class GoalCard extends StatelessWidget {
     );
   }
 
-  Widget _buildCardContent(ThemeData theme) {
+  Widget _buildCardContent(ThemeData theme, BuildContext context) {
     return Row(
       children: [
         _buildIcon(theme),
         const SizedBox(width: 16),
-        Expanded(child: _buildText(theme)),
+        Expanded(child: _buildText(theme, context)),
         _buildCheckIcon(theme),
       ],
     );
@@ -79,8 +80,8 @@ class GoalCard extends StatelessWidget {
       height: 56,
       decoration: BoxDecoration(
         color: isSelected
-            ? theme.colorScheme.primary.withOpacity(0.2)
-            : theme.colorScheme.primary.withOpacity(0.1),
+            ? theme.colorScheme.primary.withValues(alpha: 0.2)
+            : theme.colorScheme.primary.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
       ),
       alignment: Alignment.center,
@@ -88,12 +89,12 @@ class GoalCard extends StatelessWidget {
     );
   }
 
-  Widget _buildText(ThemeData theme) {
+  Widget _buildText(ThemeData theme, BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          category.displayName,
+          category.displayName(context),
           style: TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.w600,
@@ -104,10 +105,10 @@ class GoalCard extends StatelessWidget {
         ),
         const SizedBox(height: 4),
         Text(
-          category.description,
+          category.description(context),
           style: TextStyle(
             fontSize: 13,
-            color: theme.iconTheme.color?.withOpacity(0.6),
+            color: theme.iconTheme.color?.withValues(alpha: 0.6),
           ),
         ),
       ],
@@ -119,7 +120,7 @@ class GoalCard extends StatelessWidget {
       isSelected ? Icons.check_circle : Icons.circle_outlined,
       color: isSelected
           ? theme.colorScheme.primary
-          : theme.iconTheme.color?.withOpacity(0.3),
+          : theme.iconTheme.color?.withValues(alpha: 0.3),
       size: 24,
     );
   }
@@ -128,7 +129,7 @@ class GoalCard extends StatelessWidget {
     return TextField(
       controller: customController,
       decoration: InputDecoration(
-        hintText: 'Describe your custom goal...',
+        hintText: 'goals.describeCustomGoal'.tr(),
         filled: true,
         fillColor: theme.scaffoldBackgroundColor,
         border: OutlineInputBorder(

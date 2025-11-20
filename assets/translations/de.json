@@ -1,0 +1,201 @@
+{
+  "app": {
+    "title": "Dare U"
+  },
+  "common": {
+    "cancel": "Abbrechen",
+    "done": "Fertig",
+    "add": "Hinzufügen",
+    "submit": "Absenden",
+    "create": "Erstellen",
+    "delete": "Löschen",
+    "edit": "Bearbeiten",
+    "save": "Speichern",
+    "search": "Suchen",
+    "yes": "Ja",
+    "no": "Nein"
+  },
+  "auth": {
+    "signIn": "Anmelden",
+    "signOut": "Abmelden",
+    "createAccount": "Konto erstellen",
+    "alreadyHaveAccount": "Hast du bereits ein Konto?",
+    "dontHaveAccount": "Hast du noch kein Konto?",
+    "loginWithGoogle": "Mit Google fortfahren",
+    "loginWithApple": "Mit Apple fortfahren",
+    "loggedOutSuccessfully": "Erfolgreich abgemeldet",
+    "accountCreatedSuccessfully": "Konto erfolgreich erstellt!",
+    "authenticationFailed": "Authentifizierung fehlgeschlagen. Bitte versuche es erneut.",
+    "fields": {
+      "fullName": "Vollständiger Name",
+      "enterFullName": "Gib deinen vollständigen Namen ein",
+      "email": "E-Mail",
+      "enterEmail": "Gib deine E-Mail ein",
+      "password": "Passwort",
+      "enterPassword": "Gib dein Passwort ein"
+    }
+  },
+  "navigation": {
+    "search": "Suchen",
+    "challenges": "Challenges",
+    "profile": "Profil"
+  },
+  "onboarding": {
+    "welcomeTo": "Willkommen bei\nDare U!",
+    "description": "Verändere dein Leben eine Challenge nach der anderen. Erstelle deine erste persönliche Challenge, um deinen Fortschritt zu verfolgen und deine Reise zu dokumentieren.",
+    "chooseFocus": "Wähle deinen Fokus",
+    "startJourney": "Challenge erstellen"
+  },
+  "goals": {
+    "categories": {
+      "health": {
+        "name": "Gesünder werden",
+        "description": "Fokus auf Ernährung, Schlaf und Wohlbefinden"
+      },
+      "social": {
+        "name": "Soziale Fähigkeiten verbessern",
+        "description": "Baue Verbindungen und Kommunikationsfähigkeiten auf"
+      },
+      "intelligence": {
+        "name": "Intelligenter werden",
+        "description": "Lerne neue Dinge und erweitere dein Wissen"
+      },
+      "fitness": {
+        "name": "Körperlich fit werden",
+        "description": "Baue Kraft und Ausdauer auf"
+      },
+      "creativity": {
+        "name": "Kreativität steigern",
+        "description": "Drücke dich aus und denke über den Tellerrand hinaus"
+      },
+      "productivity": {
+        "name": "Produktivität steigern",
+        "description": "Erledige mehr und manage deine Zeit besser"
+      },
+      "mindfulness": {
+        "name": "Achtsamkeit praktizieren",
+        "description": "Sei präsent und reduziere Stress"
+      },
+      "custom": {
+        "name": "Eigenes Ziel",
+        "description": "Definiere deinen eigenen Weg zur Verbesserung"
+      }
+    },
+    "describeCustomGoal": "Beschreibe dein eigenes Ziel..."
+  },
+  "challenges": {
+    "title": "Challenges",
+    "noChallengesYet": "Noch keine Challenges",
+    "createFirstChallenge": "Erstelle deine erste Challenge, um deine Reise zu beginnen!",
+    "createChallenge": "Challenge erstellen",
+    "createNewChallenge": "Neue Challenge erstellen",
+    "createGroup": "Gruppen erstellen",
+    "personal": "Persönlich",
+    "group": "Gruppe",
+    "member": "{count, plural, =1{1 Mitglied} other{{count} Mitglieder}}",
+    "messages": "Nachrichten",
+    "groupCreated": "Gruppe \"{name}\" erstellt!",
+    "create": {
+      "title": "Challenge erstellen",
+      "chooseThumbnail": "Vorschaubild wählen",
+      "changeThumbnail": "Vorschaubild ändern",
+      "category": "Kategorie",
+      "categoryLabel": "Zielkategorie",
+      "selectCategory": "Wähle eine Kategorie für deine Challenge",
+      "titleLabel": "Titel",
+      "enterGroupName": "Gruppennamen eingeben",
+      "enterChallengeName": "Challenge-Namen eingeben",
+      "descriptionLabel": "Beschreibung",
+      "whatIsGroupAbout": "Worum geht es in dieser Gruppe?",
+      "members": "Mitglieder",
+      "addMembers": "Mitglieder hinzufügen",
+      "noMembersAdded": "Noch keine Mitglieder hinzugefügt",
+      "pleaseEnterTitle": "Bitte gib einen Titel ein",
+      "pleaseSelectCategory": "Bitte wähle eine Kategorie"
+    }
+  },
+  "chat": {
+    "title": "Challenge",
+    "startDocumenting": "Beginne zu dokumentieren!",
+    "shareUpdates": "Teile Updates, Bilder und verfolge deinen Fortschritt",
+    "shareAnUpdate": "Teile ein Update...",
+    "addProgress": "Fortschritt hinzufügen",
+    "readyToImprove": "Bereit, dich zu verbessern?",
+    "journeyWillAppearHere": "Deine Challenge-Reise wird hier erscheinen"
+  },
+  "progress": {
+    "submitProgress": "Fortschritt einreichen",
+    "addNote": "Füge eine Notiz über deinen Fortschritt hinzu...",
+    "describeWhatYouDid": "Beschreibe, was du getan hast...",
+    "attachments": "Anhänge",
+    "addProof": "Nachweis hinzufügen (optional)",
+    "pleaseAddNoteOrAttach": "Bitte füge eine Notiz hinzu oder hänge eine Datei an",
+    "types": {
+      "image": "Bild",
+      "video": "Video",
+      "file": "Datei"
+    }
+  },
+  "search": {
+    "title": "Suchen",
+    "searchUsers": "Benutzer suchen...",
+    "noUsersFound": "Keine Benutzer gefunden",
+    "tryDifferentSearch": "Versuche einen anderen Suchbegriff"
+  },
+  "profile": {
+    "title": "Profil",
+    "stats": {
+      "goals": "Ziele",
+      "challenges": "Challenges",
+      "followers": "Follower"
+    },
+    "menu": {
+      "achievements": "Erfolge",
+      "viewAccomplishments": "Sieh dir deine Erfolge an",
+      "statistics": "Statistiken",
+      "trackProgress": "Verfolge deinen Fortschritt",
+      "notifications": "Benachrichtigungen",
+      "manageAlerts": "Verwalte deine Benachrichtigungen",
+      "settings": "Einstellungen",
+      "appPreferences": "App-Einstellungen"
+    }
+  },
+  "settings": {
+    "title": "Einstellungen",
+    "appearance": "Aussehen",
+    "selectTheme": "Wähle den Theme-Modus",
+    "theme": {
+      "light": {
+        "name": "Heller Modus",
+        "description": "Helle und klare Oberfläche"
+      },
+      "dark": {
+        "name": "Dunkler Modus",
+        "description": "Angenehm für die Augen bei Nacht"
+      },
+      "system": {
+        "name": "Systemstandard",
+        "description": "Folgt den Geräteeinstellungen"
+      }
+    },
+    "language": "Sprache",
+    "selectLanguage": "Sprache auswählen",
+    "languages": {
+      "english": {
+        "name": "Englisch",
+        "subtitle": "English language"
+      },
+      "german": {
+        "name": "Deutsch",
+        "subtitle": "Deutsche Sprache"
+      }
+    },
+    "about": "Über",
+    "version": "Version",
+    "builtWith": "Erstellt mit",
+    "flutterMaterial": "Flutter & Material Design 3"
+  },
+  "empty": {
+    "noData": "Keine Daten verfügbar"
+  }
+}

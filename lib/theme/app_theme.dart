@@ -25,7 +25,6 @@ class AppTheme {
       primary: _lightPrimary,
       secondary: _lightSecondary,
       surface: _lightSurface,
-      background: _lightBackground,
     ),
     appBarTheme: const AppBarTheme(
       elevation: 0,
@@ -36,18 +35,14 @@ class AppTheme {
     ),
     cardTheme: CardThemeData(
       elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       color: _lightCardColor,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         elevation: 0,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
@@ -66,9 +61,7 @@ class AppTheme {
         borderSide: const BorderSide(color: _lightPrimary, width: 2),
       ),
     ),
-    iconTheme: const IconThemeData(
-      color: Color(0xFF64748B),
-    ),
+    iconTheme: const IconThemeData(color: Color(0xFF64748B)),
   );
 
   static ThemeData darkTheme = ThemeData(
@@ -81,7 +74,6 @@ class AppTheme {
       primary: _darkPrimary,
       secondary: _darkSecondary,
       surface: _darkSurface,
-      background: _darkBackground,
     ),
     appBarTheme: const AppBarTheme(
       elevation: 0,
@@ -92,18 +84,14 @@ class AppTheme {
     ),
     cardTheme: CardThemeData(
       elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       color: _darkCardColor,
     ),
     elevatedButtonTheme: ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         elevation: 0,
         padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
     ),
     inputDecorationTheme: InputDecorationTheme(
@@ -122,9 +110,6 @@ class AppTheme {
         borderSide: const BorderSide(color: _darkPrimary, width: 2),
       ),
     ),
-    iconTheme: const IconThemeData(
-      color: Color(0xFF94A3B8),
-    ),
+    iconTheme: const IconThemeData(color: Color(0xFF94A3B8)),
   );
 }
-

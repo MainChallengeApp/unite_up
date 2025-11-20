@@ -28,7 +28,7 @@ class EmptyState extends StatelessWidget {
             width: 80,
             height: 80,
             decoration: BoxDecoration(
-              color: theme.colorScheme.primary.withOpacity(0.1),
+              color: theme.colorScheme.primary.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(icon, size: 40, color: theme.colorScheme.primary),
@@ -49,7 +49,7 @@ class EmptyState extends StatelessWidget {
             subtitle,
             style: TextStyle(
               fontSize: 14,
-              color: theme.iconTheme.color?.withOpacity(0.6),
+              color: theme.iconTheme.color?.withValues(alpha: 0.6),
             ),
           ),
           if (buttonText != null && onButtonPressed != null) ...[

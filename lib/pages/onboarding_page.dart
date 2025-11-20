@@ -2,6 +2,7 @@ import 'package:dare_u/enums/goal_category_enum.dart';
 import 'package:dare_u/models/challenge_chat_model.dart';
 import 'package:dare_u/providers/app_state_provider.dart';
 import 'package:dare_u/widgets/goal_card.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -30,15 +31,15 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
     final challengeName = _selectedCategory == GoalCategoryEnum.custom
         ? _customGoalController.text.trim()
-        : _selectedCategory!.displayName;
+        : _selectedCategory!.displayName(context);
 
     final challenge = ChallengeChatModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
       name: challengeName,
-      description: _selectedCategory!.description,
+      description: _selectedCategory!.description(context),
       category: _selectedCategory!,
       emoji: _selectedCategory!.emoji,
-      memberIds: [currentUserId], // Personal challenge - just the current user
+      memberIds: [currentUserId],
       creatorId: currentUserId,
       createdAt: DateTime.now(),
     );
@@ -62,7 +63,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                   children: [
                     const SizedBox(height: 20),
                     Text(
-                      'Welcome to\nDare U!',
+                      'onboarding.welcomeTo'.tr(),
                       style: TextStyle(
                         fontSize: 36,
                         fontWeight: FontWeight.bold,
@@ -74,20 +75,20 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     ),
                     const SizedBox(height: 16),
                     Text(
-                      'Transform your life one challenge at a time. Create your first personal challenge to track your progress and document your journey.',
+                      'onboarding.description'.tr(),
                       style: TextStyle(
                         fontSize: 16,
-                        color: theme.iconTheme.color?.withOpacity(0.7),
+                        color: theme.iconTheme.color?.withValues(alpha: 0.7),
                         height: 1.5,
                       ),
                     ),
                     const SizedBox(height: 40),
                     Text(
-                      'Choose your focus',
+                      'onboarding.chooseFocus'.tr(),
                       style: TextStyle(
                         fontSize: 14,
                         fontWeight: FontWeight.w600,
-                        color: theme.iconTheme.color?.withOpacity(0.6),
+                        color: theme.iconTheme.color?.withValues(alpha: 0.6),
                         letterSpacing: 0.5,
                       ),
                     ),
@@ -113,7 +114,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 color: theme.scaffoldBackgroundColor,
                 border: Border(
                   top: BorderSide(
-                    color: theme.dividerColor.withOpacity(0.1),
+                    color: theme.dividerColor.withValues(alpha: 0.1),
                     width: 1,
                   ),
                 ),
@@ -138,9 +139,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       ),
                       elevation: 0,
                     ),
-                    child: const Text(
-                      'Create Challenge',
-                      style: TextStyle(
+                    child: Text(
+                      'onboarding.startJourney'.tr(),
+                      style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.w600,
                       ),

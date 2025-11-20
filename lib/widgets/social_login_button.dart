@@ -52,7 +52,7 @@ class SocialLoginButton extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             side: BorderSide(
               color: isGoogle
-                  ? theme.dividerColor.withOpacity(0.3)
+                  ? theme.dividerColor.withValues(alpha: 0.3)
                   : Colors.transparent,
               width: 1,
             ),
