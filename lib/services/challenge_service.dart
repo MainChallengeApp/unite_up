@@ -1,6 +1,9 @@
 import 'dart:math';
-import '../models/goal.dart';
-import '../models/challenge.dart';
+
+import 'package:dare_u/models/challenge.dart';
+import 'package:dare_u/models/challenge_difficulty.dart';
+import 'package:dare_u/models/challenge_status.dart';
+import 'package:dare_u/models/goal_category.dart';
 
 class ChallengeService {
   static final Map<GoalCategory, List<Map<String, dynamic>>> _challengeDatabase = {

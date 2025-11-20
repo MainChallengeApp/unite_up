@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../models/user.dart';
-import '../services/user_service.dart';
-import '../widgets/empty_state.dart';
-import '../widgets/user_card.dart';
+import 'package:dare_u/models/user.dart';
+import 'package:dare_u/services/user_service.dart';
+import 'package:dare_u/widgets/empty_state.dart';
+import 'package:dare_u/widgets/user_card.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});

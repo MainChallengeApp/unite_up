@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../models/challenge.dart';
-import '../models/event.dart';
+import 'package:dare_u/models/challenge.dart';
+import 'package:dare_u/models/challenge_difficulty.dart';
+import 'package:dare_u/models/challenge_status.dart';
+import 'package:dare_u/models/event.dart';
 
 class ChallengesOfferedCard extends StatelessWidget {
   final Event event;

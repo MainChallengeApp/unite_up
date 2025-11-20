@@ -1,24 +1,4 @@
-enum MediaType {
-  image,
-  video,
-  file;
-}
-
-class MediaAttachment {
-  final String id;
-  final MediaType type;
-  final String path;
-  final String? fileName;
-  final DateTime uploadedAt;
-
-  MediaAttachment({
-    required this.id,
-    required this.type,
-    required this.path,
-    this.fileName,
-    required this.uploadedAt,
-  });
-}
+import 'package:dare_u/models/media_attachment.dart';
 
 class ProgressEntry {
   final String id;
@@ -35,4 +15,3 @@ class ProgressEntry {
     required this.createdAt,
   });
 }
-

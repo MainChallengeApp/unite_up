@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
-import '../models/goal.dart';
-import '../models/challenge.dart';
-import '../models/event.dart';
-import '../models/progress_entry.dart';
-import '../services/challenge_service.dart';
+
+import 'package:dare_u/models/challenge.dart';
+import 'package:dare_u/models/challenge_status.dart';
+import 'package:dare_u/models/event.dart';
+import 'package:dare_u/models/goal.dart';
+import 'package:dare_u/models/progress_entry.dart';
+import 'package:dare_u/services/challenge_service.dart';
 
 class GoalData {
   final Goal goal;

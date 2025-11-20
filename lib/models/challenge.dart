@@ -1,39 +1,6 @@
-import 'goal.dart';
-
-enum ChallengeStatus {
-  available,
-  accepted,
-  completed,
-  skipped;
-}
-
-enum ChallengeDifficulty {
-  easy,
-  medium,
-  hard;
-
-  String get displayName {
-    switch (this) {
-      case ChallengeDifficulty.easy:
-        return 'Easy';
-      case ChallengeDifficulty.medium:
-        return 'Medium';
-      case ChallengeDifficulty.hard:
-        return 'Hard';
-    }
-  }
-
-  String get emoji {
-    switch (this) {
-      case ChallengeDifficulty.easy:
-        return '🌱';
-      case ChallengeDifficulty.medium:
-        return '🌿';
-      case ChallengeDifficulty.hard:
-        return '🌳';
-    }
-  }
-}
+import 'package:dare_u/models/challenge_difficulty.dart';
+import 'package:dare_u/models/challenge_status.dart';
+import 'package:dare_u/models/goal_category.dart';
 
 class Challenge {
   final String id;
@@ -82,4 +49,3 @@ class Challenge {
     );
   }
 }
-

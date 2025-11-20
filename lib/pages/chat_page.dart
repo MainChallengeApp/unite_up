@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/progress_entry.dart';
-import '../providers/app_state_provider.dart';
-import '../widgets/event_card.dart';
-import '../widgets/progress_dialog.dart';
+import 'package:dare_u/models/progress_entry.dart';
+import 'package:dare_u/providers/app_state_provider.dart';
+import 'package:dare_u/widgets/event_card.dart';
+import 'package:dare_u/widgets/progress_dialog.dart';
 import 'settings_page.dart';
 
 class ChatPage extends StatefulWidget {

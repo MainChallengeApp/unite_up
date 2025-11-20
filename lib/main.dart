@@ -1,11 +1,10 @@
+import 'package:dare_u/pages/home_page.dart';
+import 'package:dare_u/pages/onboarding_page.dart';
+import 'package:dare_u/providers/app_state_provider.dart';
+import 'package:dare_u/providers/theme_provider.dart';
+import 'package:dare_u/theme/app_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import 'pages/home_page.dart';
-import 'pages/onboarding_page.dart';
-import 'providers/app_state_provider.dart';
-import 'providers/theme_provider.dart';
-import 'theme/app_theme.dart';
 
 void main() {
   runApp(

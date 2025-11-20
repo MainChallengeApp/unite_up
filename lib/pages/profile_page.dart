@@ -1,9 +1,9 @@
+import 'package:dare_u/widgets/auth_form.dart';
+import 'package:dare_u/widgets/profile_header.dart';
+import 'package:dare_u/widgets/profile_menu_item.dart';
+import 'package:dare_u/widgets/profile_stat_card.dart';
 import 'package:flutter/material.dart';
 
-import '../widgets/auth_form.dart';
-import '../widgets/profile_header.dart';
-import '../widgets/profile_menu_item.dart';
-import '../widgets/profile_stat_card.dart';
 import 'settings_page.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -15,7 +15,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   bool _isLoggedIn = false;
-  bool _isLoginMode = true;
+  bool _isLoginMode = false;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();

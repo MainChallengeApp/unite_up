@@ -1,9 +1,9 @@
+import 'package:dare_u/models/goal.dart';
+import 'package:dare_u/models/goal_category.dart';
+import 'package:dare_u/providers/app_state_provider.dart';
+import 'package:dare_u/widgets/goal_card.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
-import '../models/goal.dart';
-import '../providers/app_state_provider.dart';
-import '../widgets/goal_card.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});

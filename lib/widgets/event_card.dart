@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 
-import '../models/challenge.dart';
-import '../models/event.dart';
-import 'ai_message_card.dart';
+import 'package:dare_u/models/challenge.dart';
+import 'package:dare_u/models/event.dart';
+import 'package:dare_u/models/event_type.dart';
+import 'package:dare_u/widgets/ai_message_card.dart';
 import 'challenge_accepted_card.dart';
 import 'challenge_completed_card.dart';
 import 'challenges_offered_card.dart';

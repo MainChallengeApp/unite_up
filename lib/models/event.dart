@@ -1,32 +1,23 @@
-import 'goal.dart';
-import 'challenge.dart';
-import 'progress_entry.dart';
-
-enum EventType {
-  goalSelected,
-  dailyChallengesOffered,
-  challengeAccepted,
-  progressSubmitted,
-  challengeCompleted,
-  aiMessage,
-  userMessage;
-}
+import 'package:dare_u/models/challenge.dart';
+import 'package:dare_u/models/event_type.dart';
+import 'package:dare_u/models/goal.dart';
+import 'package:dare_u/models/progress_entry.dart';
 
 class Event {
   final String id;
   final EventType type;
   final DateTime timestamp;
-  
+
   // For text messages
   final String? message;
-  
+
   // For goal selection
   final Goal? goal;
-  
+
   // For challenges
   final List<Challenge>? challenges;
   final Challenge? selectedChallenge;
-  
+
   // For progress
   final ProgressEntry? progressEntry;
 
@@ -104,4 +95,3 @@ class Event {
     );
   }
 }
-

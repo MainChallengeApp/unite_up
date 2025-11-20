@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/goal.dart';
+import 'package:dare_u/models/goal_category.dart';
 
 class GoalCard extends StatelessWidget {
   final GoalCategory category;

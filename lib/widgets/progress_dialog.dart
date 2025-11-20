@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import '../models/progress_entry.dart';
+
+import 'package:dare_u/models/media_attachment.dart';
+import 'package:dare_u/models/media_type.dart';
+import 'package:dare_u/models/progress_entry.dart';
 
 class ProgressDialog extends StatefulWidget {
   final String challengeId;

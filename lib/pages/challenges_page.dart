@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../models/goal.dart';
-import '../providers/app_state_provider.dart';
+import 'package:dare_u/models/goal.dart';
+import 'package:dare_u/providers/app_state_provider.dart';
 import 'chat_page.dart';
 import 'onboarding_page.dart';
 
