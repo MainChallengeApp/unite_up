@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:dare_u/models/event_model.dart';
 import 'package:dare_u/core/constants/app_constants.dart';
+import 'package:dare_u/widgets/app_card_container.dart';
 
 class ProgressSubmittedCard extends StatelessWidget {
   final EventModel event;
@@ -13,22 +14,10 @@ class ProgressSubmittedCard extends StatelessWidget {
     final theme = Theme.of(context);
     final progress = event.progressEntry!;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSizes.spacing16, vertical: AppSizes.spacing8),
-      child: Container(
-        padding: const EdgeInsets.all(AppSizes.spacing16),
-        decoration: BoxDecoration(
-          color: theme.cardColor,
-          borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: AppOpacity.veryLight),
-              blurRadius: AppSizes.blurMedium,
-              offset: AppSizes.shadowOffsetSmall,
-            ),
-          ],
-        ),
-        child: Column(
+    return AppCardContainer(
+      margin: const EdgeInsets.symmetric(horizontal: AppSizes.spacing16, vertical: AppSizes.spacing8),
+      padding: const EdgeInsets.all(AppSizes.spacing16),
+      child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
@@ -101,7 +90,6 @@ class ProgressSubmittedCard extends StatelessWidget {
             ],
           ],
         ),
-      ),
     );
   }
 

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:dare_u/models/user_model.dart';
 import 'package:dare_u/core/constants/app_constants.dart';
+import 'package:dare_u/widgets/app_card_container.dart';
 
 class UserModelCard extends StatelessWidget {
   final UserModel user;
@@ -17,35 +18,18 @@ class UserModelCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Padding(
-      padding: const EdgeInsets.only(bottom: AppSizes.spacing12),
-      child: Container(
-        padding: const EdgeInsets.all(AppSizes.spacing16),
-        decoration: _buildBoxDecoration(theme),
-        child: Row(
-          children: [
-            _buildAvatar(theme),
-            const SizedBox(width: AppSizes.spacing16),
-            Expanded(child: _buildUserModelInfo(theme)),
-            const SizedBox(width: AppSizes.spacing8),
-            _buildFollowButton(theme),
-          ],
-        ),
+    return AppCardContainer(
+      margin: const EdgeInsets.only(bottom: AppSizes.spacing12),
+      padding: const EdgeInsets.all(AppSizes.spacing16),
+      child: Row(
+        children: [
+          _buildAvatar(theme),
+          const SizedBox(width: AppSizes.spacing16),
+          Expanded(child: _buildUserModelInfo(theme)),
+          const SizedBox(width: AppSizes.spacing8),
+          _buildFollowButton(theme),
+        ],
       ),
-    );
-  }
-
-  BoxDecoration _buildBoxDecoration(ThemeData theme) {
-    return BoxDecoration(
-      color: theme.cardColor,
-      borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
-      boxShadow: [
-        BoxShadow(
-          color: Colors.black.withValues(alpha: AppOpacity.veryLight),
-          blurRadius: AppSizes.blurMedium,
-          offset: AppSizes.shadowOffsetSmall,
-        ),
-      ],
     );
   }
 

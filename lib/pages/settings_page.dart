@@ -1,6 +1,10 @@
 import 'package:dare_u/core/constants/app_constants.dart';
 import 'package:dare_u/providers/app_state_provider.dart';
 import 'package:dare_u/providers/theme_provider.dart';
+import 'package:dare_u/widgets/app_card_container.dart';
+import 'package:dare_u/widgets/settings_card.dart';
+import 'package:dare_u/widgets/settings_emoji_container.dart';
+import 'package:dare_u/widgets/settings_icon_container.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -99,64 +103,23 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Widget _buildLogoutButton() {
     final theme = Theme.of(context);
-    return Container(
-      decoration: BoxDecoration(
-        color: theme.cardColor,
-        borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: AppOpacity.veryLight),
-            blurRadius: AppSizes.blurMedium,
-            offset: AppSizes.shadowOffsetSmall,
-          ),
-        ],
-      ),
-      child: Material(
-        color: Colors.transparent,
-        child: InkWell(
-          onTap: _handleLogout,
-          borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
-          child: Padding(
-            padding: const EdgeInsets.all(AppSizes.spacing16),
-            child: Row(
-              children: [
-                Container(
-                  width: AppSizes.containerSmall,
-                  height: AppSizes.containerSmall,
-                  decoration: BoxDecoration(
-                    color: theme.colorScheme.error.withValues(
-                      alpha: AppOpacity.light,
-                    ),
-                    borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
-                  ),
-                  child: Icon(
-                    Icons.logout_rounded,
-                    color: theme.colorScheme.error,
-                    size: AppSizes.iconLarge,
-                  ),
-                ),
-                const SizedBox(width: AppSizes.spacing16),
-                Expanded(
-                  child: Text(
-                    'auth.signOut'.tr(),
-                    style: TextStyle(
-                      fontSize: AppSizes.fontLarge,
-                      fontWeight: FontWeight.w600,
-                      color: theme.colorScheme.error,
-                    ),
-                  ),
-                ),
-                Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  color: theme.colorScheme.error.withValues(
-                    alpha: AppOpacity.mostlyOpaque,
-                  ),
-                  size: AppSizes.iconMedium,
-                ),
-              ],
-            ),
-          ),
+    return SettingsCard(
+      icon: SettingsIconContainer(
+        icon: Icons.logout_rounded,
+        color: theme.colorScheme.error,
+        backgroundColor: theme.colorScheme.error.withValues(
+          alpha: AppOpacity.light,
         ),
+      ),
+      title: 'auth.signOut'.tr(),
+      titleColor: theme.colorScheme.error,
+      onTap: _handleLogout,
+      trailing: Icon(
+        Icons.arrow_forward_ios_rounded,
+        color: theme.colorScheme.error.withValues(
+          alpha: AppOpacity.mostlyOpaque,
+        ),
+        size: AppSizes.iconMedium,
       ),
     );
   }
@@ -183,18 +146,7 @@ class _SettingsPageState extends State<SettingsPage> {
     ThemeProvider themeProvider,
     ThemeData theme,
   ) {
-    return Container(
-      decoration: BoxDecoration(
-        color: theme.cardColor,
-        borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: AppOpacity.veryLight),
-            blurRadius: AppSizes.blurMedium,
-            offset: AppSizes.shadowOffsetSmall,
-          ),
-        ],
-      ),
+    return AppCardContainer(
       child: Column(
         children: [
           _buildThemeOption(
@@ -244,18 +196,7 @@ class _SettingsPageState extends State<SettingsPage> {
   Widget _buildLanguageCard(BuildContext context, ThemeData theme) {
     final currentLocale = context.locale;
 
-    return Container(
-      decoration: BoxDecoration(
-        color: theme.cardColor,
-        borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: AppOpacity.veryLight),
-            blurRadius: AppSizes.blurMedium,
-            offset: AppSizes.shadowOffsetSmall,
-          ),
-        ],
-      ),
+    return AppCardContainer(
       child: Column(
         children: [
           _buildLanguageOption(
@@ -311,28 +252,21 @@ class _SettingsPageState extends State<SettingsPage> {
           padding: const EdgeInsets.all(AppSizes.spacing16),
           child: Row(
             children: [
-              Container(
-                width: AppSizes.containerSmall,
-                height: AppSizes.containerSmall,
-                decoration: BoxDecoration(
-                  color: isSelected
-                      ? theme.colorScheme.primary.withValues(
-                          alpha: AppOpacity.light,
-                        )
-                      : theme.colorScheme.primary.withValues(
-                          alpha: AppOpacity.veryLight,
-                        ),
-                  borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
-                ),
-                child: Icon(
-                  icon,
-                  color: isSelected
-                      ? theme.colorScheme.primary
-                      : theme.iconTheme.color?.withValues(
-                          alpha: AppOpacity.mostlyOpaque,
-                        ),
-                  size: AppSizes.iconLarge,
-                ),
+              SettingsIconContainer(
+                icon: icon,
+                color: isSelected
+                    ? theme.colorScheme.primary
+                    : theme.iconTheme.color?.withValues(
+                            alpha: AppOpacity.mostlyOpaque,
+                          ) ??
+                          theme.colorScheme.primary,
+                backgroundColor: isSelected
+                    ? theme.colorScheme.primary.withValues(
+                        alpha: AppOpacity.light,
+                      )
+                    : theme.colorScheme.primary.withValues(
+                        alpha: AppOpacity.veryLight,
+                      ),
               ),
               const SizedBox(width: AppSizes.spacing16),
               Expanded(
@@ -406,25 +340,15 @@ class _SettingsPageState extends State<SettingsPage> {
           padding: const EdgeInsets.all(AppSizes.spacing16),
           child: Row(
             children: [
-              Container(
-                width: AppSizes.containerSmall,
-                height: AppSizes.containerSmall,
-                decoration: BoxDecoration(
-                  color: isSelected
-                      ? theme.colorScheme.primary.withValues(
-                          alpha: AppOpacity.light,
-                        )
-                      : theme.colorScheme.primary.withValues(
-                          alpha: AppOpacity.veryLight,
-                        ),
-                  borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
-                ),
-                child: Center(
-                  child: Text(
-                    flag,
-                    style: const TextStyle(fontSize: AppSizes.iconLarge),
-                  ),
-                ),
+              SettingsEmojiContainer(
+                emoji: flag,
+                backgroundColor: isSelected
+                    ? theme.colorScheme.primary.withValues(
+                        alpha: AppOpacity.light,
+                      )
+                    : theme.colorScheme.primary.withValues(
+                        alpha: AppOpacity.veryLight,
+                      ),
               ),
               const SizedBox(width: AppSizes.spacing16),
               Expanded(
@@ -482,66 +406,16 @@ class _SettingsPageState extends State<SettingsPage> {
     required String subtitle,
     required ThemeData theme,
   }) {
-    return Container(
-      padding: const EdgeInsets.all(AppSizes.spacing16),
-      decoration: BoxDecoration(
-        color: theme.cardColor,
-        borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: AppOpacity.veryLight),
-            blurRadius: AppSizes.blurMedium,
-            offset: AppSizes.shadowOffsetSmall,
-          ),
-        ],
+    return SettingsCard(
+      icon: SettingsIconContainer(
+        icon: icon,
+        color: theme.colorScheme.primary,
+        backgroundColor: theme.colorScheme.primary.withValues(
+          alpha: AppOpacity.light,
+        ),
       ),
-      child: Row(
-        children: [
-          Container(
-            width: AppSizes.containerSmall,
-            height: AppSizes.containerSmall,
-            decoration: BoxDecoration(
-              color: theme.colorScheme.primary.withValues(
-                alpha: AppOpacity.light,
-              ),
-              borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
-            ),
-            child: Icon(
-              icon,
-              color: theme.colorScheme.primary,
-              size: AppSizes.iconLarge,
-            ),
-          ),
-          const SizedBox(width: AppSizes.spacing16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  title,
-                  style: TextStyle(
-                    fontSize: AppSizes.fontLarge,
-                    fontWeight: FontWeight.w600,
-                    color: theme.brightness == Brightness.dark
-                        ? Colors.white
-                        : const Color(0xFF1E293B),
-                  ),
-                ),
-                const SizedBox(height: AppSizes.spacing2),
-                Text(
-                  subtitle,
-                  style: TextStyle(
-                    fontSize: AppSizes.fontRegular,
-                    color: theme.iconTheme.color?.withValues(
-                      alpha: AppOpacity.mostlyOpaque,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+      title: title,
+      subtitle: subtitle,
     );
   }
 }

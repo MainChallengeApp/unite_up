@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dare_u/core/constants/app_constants.dart';
+import 'package:dare_u/widgets/app_card_container.dart';
 
 class ProfileStatCard extends StatelessWidget {
   final String value;
@@ -15,19 +16,8 @@ class ProfileStatCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Container(
+    return AppCardContainer(
       padding: const EdgeInsets.symmetric(horizontal: AppSizes.spacing24, vertical: AppSizes.spacing16),
-      decoration: BoxDecoration(
-        color: theme.cardColor,
-        borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: AppOpacity.veryLight),
-            blurRadius: AppSizes.blurMedium,
-            offset: AppSizes.shadowOffsetSmall,
-          ),
-        ],
-      ),
       child: Column(
         children: [
           Text(
