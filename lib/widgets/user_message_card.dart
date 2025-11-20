@@ -1,7 +1,6 @@
-import 'package:flutter/material.dart';
-
-import 'package:dare_u/models/event_model.dart';
 import 'package:dare_u/core/constants/app_constants.dart';
+import 'package:dare_u/models/event_model.dart';
+import 'package:flutter/material.dart';
 
 class UserMessageCard extends StatelessWidget {
   final EventModel event;
@@ -13,7 +12,10 @@ class UserMessageCard extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSizes.spacing16, vertical: AppSizes.spacing8),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSizes.spacing16,
+        vertical: AppSizes.spacing8,
+      ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
@@ -52,11 +54,13 @@ class UserMessageCard extends StatelessWidget {
             width: AppSizes.iconXLarge,
             height: AppSizes.iconXLarge,
             decoration: BoxDecoration(
-              color: theme.colorScheme.primary.withValues(alpha: AppOpacity.light),
+              color: theme.colorScheme.primary.withValues(
+                alpha: AppOpacity.light,
+              ),
               shape: BoxShape.circle,
             ),
             child: Icon(
-              Icons.person_rounded,
+              AppIcons.person,
               size: AppSizes.iconSmall,
               color: theme.colorScheme.primary,
             ),

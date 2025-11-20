@@ -48,7 +48,7 @@ class _ChallengesPageState extends State<ChallengesPage> {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.add_rounded),
+            icon: const Icon(AppIcons.add),
             onPressed: () => _createNewChallenge(context),
             tooltip: 'challenges.createNewChallenge'.tr(),
           ),
@@ -69,7 +69,7 @@ class _ChallengesPageState extends State<ChallengesPage> {
 
   Widget _buildEmptyState(BuildContext context, ThemeData theme) {
     return EmptyState(
-      icon: Icons.flag_outlined,
+      icon: AppIcons.flagOutline,
       title: 'challenges.noChallengesYet'.tr(),
       subtitle: 'challenges.createFirstChallenge'.tr(),
       buttonText: 'challenges.createChallenge'.tr(),
@@ -146,8 +146,8 @@ class _ChallengesPageState extends State<ChallengesPage> {
                       children: [
                         Icon(
                           challenge.isPersonal
-                              ? Icons.person_outline_rounded
-                              : Icons.people_outline_rounded,
+                              ? AppIcons.personOutline
+                              : AppIcons.people,
                           size: AppSizes.iconSmall,
                           color: theme.iconTheme.color?.withValues(alpha: AppOpacity.semiTransparent),
                         ),
@@ -163,7 +163,7 @@ class _ChallengesPageState extends State<ChallengesPage> {
                         ),
                         const SizedBox(width: AppSizes.spacing12),
                         Icon(
-                          Icons.chat_bubble_outline_rounded,
+                          AppIcons.chat,
                           size: AppSizes.iconSmall,
                           color: theme.iconTheme.color?.withValues(alpha: AppOpacity.semiTransparent),
                         ),
@@ -181,7 +181,7 @@ class _ChallengesPageState extends State<ChallengesPage> {
                 ),
               ),
               Icon(
-                Icons.chevron_right_rounded,
+                AppIcons.chevronRight,
                 color: theme.iconTheme.color?.withValues(alpha: AppOpacity.medium),
               ),
             ],

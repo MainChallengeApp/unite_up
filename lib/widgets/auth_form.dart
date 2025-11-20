@@ -69,7 +69,7 @@ class AuthForm extends StatelessWidget {
         decoration: InputDecoration(
           labelText: 'auth.fields.fullName'.tr(),
           hintText: 'auth.fields.enterFullName'.tr(),
-          prefixIcon: const Icon(Icons.person_outline_rounded),
+          prefixIcon: const Icon(AppIcons.personOutline),
         ),
         textCapitalization: TextCapitalization.words,
       ),
@@ -83,7 +83,7 @@ class AuthForm extends StatelessWidget {
         decoration: InputDecoration(
           labelText: 'auth.fields.email'.tr(),
           hintText: 'auth.fields.enterEmail'.tr(),
-          prefixIcon: const Icon(Icons.email_outlined),
+          prefixIcon: const Icon(AppIcons.email),
         ),
         keyboardType: TextInputType.emailAddress,
       ),
@@ -97,7 +97,7 @@ class AuthForm extends StatelessWidget {
         decoration: InputDecoration(
           labelText: 'auth.fields.password'.tr(),
           hintText: 'auth.fields.enterPassword'.tr(),
-          prefixIcon: const Icon(Icons.lock_outline_rounded),
+          prefixIcon: const Icon(AppIcons.lock),
         ),
         obscureText: true,
       ),

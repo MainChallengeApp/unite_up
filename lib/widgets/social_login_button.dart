@@ -29,15 +29,15 @@ class SocialLoginButton extends StatelessWidget {
     if (isGoogle) {
       backgroundColor = Colors.white;
       textColor = Colors.black87;
-      icon = FontAwesomeIcons.google;
+      icon = AppIcons.google;
     } else if (isApple) {
       backgroundColor = Colors.black;
       textColor = Colors.white;
-      icon = FontAwesomeIcons.apple;
+      icon = AppIcons.apple;
     } else {
       backgroundColor = theme.colorScheme.surface;
       textColor = theme.colorScheme.onSurface;
-      icon = Icons.login;
+      icon = AppIcons.login;
     }
 
     return SizedBox(

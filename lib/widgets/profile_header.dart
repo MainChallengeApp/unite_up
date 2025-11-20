@@ -43,7 +43,7 @@ class ProfileHeader extends StatelessWidget {
         shape: BoxShape.circle,
       ),
       child: Icon(
-        Icons.person_rounded,
+        AppIcons.person,
         size: AppSizes.size50,
         color: theme.colorScheme.primary,
       ),

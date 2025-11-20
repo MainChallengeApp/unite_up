@@ -158,7 +158,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
                 Expanded(
                   child: _buildUploadButton(
                     context,
-                    icon: Icons.image_rounded,
+                    icon: AppIcons.image,
                     label: 'progress.image'.tr(),
                     onTap: _addMockImage,
                   ),
@@ -167,7 +167,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
                 Expanded(
                   child: _buildUploadButton(
                     context,
-                    icon: Icons.videocam_rounded,
+                    icon: AppIcons.video,
                     label: 'progress.video'.tr(),
                     onTap: _addMockVideo,
                   ),
@@ -176,7 +176,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
                 Expanded(
                   child: _buildUploadButton(
                     context,
-                    icon: Icons.attach_file_rounded,
+                    icon: AppIcons.attachFile,
                     label: 'progress.file'.tr(),
                     onTap: _addMockFile,
                   ),
@@ -240,10 +240,10 @@ class _ProgressDialogState extends State<ProgressDialog> {
         children: [
           Icon(
             attachment.type == MediaTypeEnum.image
-                ? Icons.image_rounded
+                ? AppIcons.image
                 : attachment.type == MediaTypeEnum.video
-                    ? Icons.videocam_rounded
-                    : Icons.insert_drive_file_rounded,
+                    ? AppIcons.video
+                    : AppIcons.file,
             color: theme.iconTheme.color?.withValues(alpha: AppOpacity.almostOpaque),
             size: AppSizes.iconLarge,
           ),
@@ -260,7 +260,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.close_rounded),
+            icon: const Icon(AppIcons.close),
             onPressed: () => _removeAttachment(attachment.id),
             color: theme.colorScheme.error,
           ),

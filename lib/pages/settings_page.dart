@@ -59,7 +59,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
         ),
         leading: IconButton(
-          icon: const Icon(Icons.arrow_back_ios_new_rounded),
+          icon: const Icon(AppIcons.arrowBack),
           onPressed: () => Navigator.pop(context),
         ),
       ),
@@ -78,7 +78,7 @@ class _SettingsPageState extends State<SettingsPage> {
           const SizedBox(height: AppSizes.spacing12),
           _buildInfoCard(
             context,
-            icon: Icons.info_outline_rounded,
+            icon: AppIcons.info,
             title: 'settings.version'.tr(),
             subtitle: '1.0.0',
             theme: theme,
@@ -86,7 +86,7 @@ class _SettingsPageState extends State<SettingsPage> {
           const SizedBox(height: AppSizes.spacing12),
           _buildInfoCard(
             context,
-            icon: Icons.code_rounded,
+            icon: AppIcons.code,
             title: 'settings.builtWith'.tr(),
             subtitle: 'settings.flutterMaterial'.tr(),
             theme: theme,
@@ -105,7 +105,7 @@ class _SettingsPageState extends State<SettingsPage> {
     final theme = Theme.of(context);
     return SettingsCard(
       icon: SettingsIconContainer(
-        icon: Icons.logout_rounded,
+        icon: AppIcons.logout,
         color: theme.colorScheme.error,
         backgroundColor: theme.colorScheme.error.withValues(
           alpha: AppOpacity.light,
@@ -115,7 +115,7 @@ class _SettingsPageState extends State<SettingsPage> {
       titleColor: theme.colorScheme.error,
       onTap: _handleLogout,
       trailing: Icon(
-        Icons.arrow_forward_ios_rounded,
+        AppIcons.arrowForward,
         color: theme.colorScheme.error.withValues(
           alpha: AppOpacity.mostlyOpaque,
         ),
@@ -151,7 +151,7 @@ class _SettingsPageState extends State<SettingsPage> {
         children: [
           _buildThemeOption(
             context,
-            icon: Icons.light_mode_rounded,
+            icon: AppIcons.lightMode,
             title: 'settings.theme.light.name'.tr(),
             subtitle: 'settings.theme.light.description'.tr(),
             isSelected: themeProvider.themeMode == ThemeMode.light,
@@ -166,7 +166,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           _buildThemeOption(
             context,
-            icon: Icons.dark_mode_rounded,
+            icon: AppIcons.darkMode,
             title: 'settings.theme.dark.name'.tr(),
             subtitle: 'settings.theme.dark.description'.tr(),
             isSelected: themeProvider.themeMode == ThemeMode.dark,
@@ -180,7 +180,7 @@ class _SettingsPageState extends State<SettingsPage> {
           ),
           _buildThemeOption(
             context,
-            icon: Icons.brightness_auto_rounded,
+            icon: AppIcons.autoMode,
             title: 'settings.theme.system.name'.tr(),
             subtitle: 'settings.theme.system.description'.tr(),
             isSelected: themeProvider.themeMode == ThemeMode.system,
@@ -298,13 +298,13 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               if (isSelected)
                 Icon(
-                  Icons.check_circle_rounded,
+                  AppIcons.checkCircle,
                   color: theme.colorScheme.primary,
                   size: AppSizes.iconLarge,
                 )
               else
                 Icon(
-                  Icons.circle_outlined,
+                  AppIcons.circle,
                   color: theme.iconTheme.color?.withValues(
                     alpha: AppOpacity.medium,
                   ),
@@ -380,13 +380,13 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
               if (isSelected)
                 Icon(
-                  Icons.check_circle_rounded,
+                  AppIcons.checkCircle,
                   color: theme.colorScheme.primary,
                   size: AppSizes.iconLarge,
                 )
               else
                 Icon(
-                  Icons.circle_outlined,
+                  AppIcons.circle,
                   color: theme.iconTheme.color?.withValues(
                     alpha: AppOpacity.medium,
                   ),

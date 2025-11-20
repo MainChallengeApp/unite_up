@@ -42,7 +42,7 @@ class UserModelCard extends StatelessWidget {
         shape: BoxShape.circle,
       ),
       child: Icon(
-        Icons.person_rounded,
+        AppIcons.person,
         size: AppSizes.emojiLarge,
         color: theme.colorScheme.primary,
       ),

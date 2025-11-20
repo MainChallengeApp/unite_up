@@ -1,5 +1,5 @@
-import 'package:dare_u/enums/goal_category_enum.dart';
 import 'package:dare_u/core/constants/app_constants.dart';
+import 'package:dare_u/enums/goal_category_enum.dart';
 import 'package:dare_u/models/challenge_chat_model.dart';
 import 'package:dare_u/models/user_model.dart';
 import 'package:dare_u/providers/app_state_provider.dart';
@@ -69,7 +69,9 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                 height: AppSizes.containerMedium,
                 decoration: BoxDecoration(
                   color: emoji == _selectedEmoji
-                      ? Theme.of(context).colorScheme.primary.withValues(alpha: AppOpacity.subtle)
+                      ? Theme.of(context).colorScheme.primary.withValues(
+                          alpha: AppOpacity.subtle,
+                        )
                       : Colors.transparent,
                   borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
                   border: Border.all(
@@ -80,7 +82,10 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                   ),
                 ),
                 alignment: Alignment.center,
-                child: Text(emoji, style: const TextStyle(fontSize: AppSizes.emojiXLarge)),
+                child: Text(
+                  emoji,
+                  style: const TextStyle(fontSize: AppSizes.emojiXLarge),
+                ),
               ),
             );
           }).toList(),
@@ -172,7 +177,9 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
 
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text('challenges.challengeCreated'.tr(namedArgs: {'name': challenge.name})),
+        content: Text(
+          'challenges.challengeCreated'.tr(namedArgs: {'name': challenge.name}),
+        ),
         behavior: SnackBarBehavior.floating,
       ),
     );
@@ -184,9 +191,16 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(AppIcons.arrowBack),
+          onPressed: () => Navigator.pop(context),
+        ),
         title: Text(
           'challenges.createNewChallenge'.tr(),
-          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: AppSizes.fontXLarge),
+          style: const TextStyle(
+            fontWeight: FontWeight.w600,
+            fontSize: AppSizes.fontXLarge,
+          ),
         ),
       ),
       body: SingleChildScrollView(
@@ -205,10 +219,16 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                       width: AppSizes.containerHuge,
                       height: AppSizes.containerHuge,
                       decoration: BoxDecoration(
-                        color: theme.colorScheme.primary.withValues(alpha: AppOpacity.light),
-                        borderRadius: BorderRadius.circular(AppSizes.radiusXLarge),
+                        color: theme.colorScheme.primary.withValues(
+                          alpha: AppOpacity.light,
+                        ),
+                        borderRadius: BorderRadius.circular(
+                          AppSizes.radiusXLarge,
+                        ),
                         border: Border.all(
-                          color: theme.dividerColor.withValues(alpha: AppOpacity.medium),
+                          color: theme.dividerColor.withValues(
+                            alpha: AppOpacity.medium,
+                          ),
                           width: AppSizes.borderThick,
                         ),
                       ),
@@ -223,7 +243,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                   const SizedBox(height: AppSizes.spacing12),
                   TextButton.icon(
                     onPressed: _showEmojiPicker,
-                    icon: const Icon(Icons.edit_rounded, size: AppSizes.iconSmall),
+                    icon: const Icon(AppIcons.edit, size: AppSizes.iconSmall),
                     label: Text('challenges.create.changeThumbnail'.tr()),
                   ),
                 ],
@@ -261,7 +281,9 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                       children: [
                         Text(
                           category.emoji,
-                          style: const TextStyle(fontSize: AppSizes.fontXXLarge),
+                          style: const TextStyle(
+                            fontSize: AppSizes.fontXXLarge,
+                          ),
                         ),
                         const SizedBox(width: AppSizes.spacing12),
                         Text(category.displayName(context)),
@@ -345,7 +367,10 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                 ),
                 TextButton.icon(
                   onPressed: _showMembersPicker,
-                  icon: const Icon(Icons.person_add_rounded, size: AppSizes.iconSmall),
+                  icon: const Icon(
+                    AppIcons.personAdd,
+                    size: AppSizes.iconSmall,
+                  ),
                   label: Text('common.add'.tr()),
                 ),
               ],
@@ -364,7 +389,9 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                   child: Text(
                     'challenges.create.noMembersAdded'.tr(),
                     style: TextStyle(
-                      color: theme.iconTheme.color?.withValues(alpha: AppOpacity.semiTransparent),
+                      color: theme.iconTheme.color?.withValues(
+                        alpha: AppOpacity.semiTransparent,
+                      ),
                     ),
                   ),
                 ),
@@ -379,7 +406,9 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
               child: FilledButton(
                 onPressed: _createChallenge,
                 style: FilledButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: AppSizes.spacing16),
+                  padding: const EdgeInsets.symmetric(
+                    vertical: AppSizes.spacing16,
+                  ),
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
                   ),
@@ -402,7 +431,10 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
   Widget _buildMemberChip(UserModel member, ThemeData theme) {
     return Container(
       margin: const EdgeInsets.only(bottom: AppSizes.spacing8),
-      padding: const EdgeInsets.symmetric(horizontal: AppSizes.spacing12, vertical: AppSizes.spacing8),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSizes.spacing12,
+        vertical: AppSizes.spacing8,
+      ),
       decoration: BoxDecoration(
         color: theme.brightness == Brightness.dark
             ? theme.cardColor
@@ -413,7 +445,10 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
         children: [
           CircleAvatar(
             radius: AppSizes.spacing16,
-            child: Text(member.name[0], style: const TextStyle(fontSize: AppSizes.fontMedium)),
+            child: Text(
+              member.name[0],
+              style: const TextStyle(fontSize: AppSizes.fontMedium),
+            ),
           ),
           const SizedBox(width: AppSizes.spacing12),
           Expanded(
@@ -434,14 +469,16 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                   member.username,
                   style: TextStyle(
                     fontSize: AppSizes.fontSmall,
-                    color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
+                    color: theme.iconTheme.color?.withValues(
+                      alpha: AppOpacity.mostlyOpaque,
+                    ),
                   ),
                 ),
               ],
             ),
           ),
           IconButton(
-            icon: const Icon(Icons.close_rounded, size: AppSizes.iconMedium),
+            icon: const Icon(AppIcons.close, size: AppSizes.iconMedium),
             onPressed: () {
               setState(() {
                 _selectedMembers.remove(member);

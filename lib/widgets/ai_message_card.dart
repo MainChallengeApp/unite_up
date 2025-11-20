@@ -25,7 +25,7 @@ class AIMessageCard extends StatelessWidget {
               shape: BoxShape.circle,
             ),
             child: Icon(
-              Icons.auto_awesome_rounded,
+              AppIcons.ai,
               size: AppSizes.iconSmall,
               color: theme.colorScheme.secondary,
             ),

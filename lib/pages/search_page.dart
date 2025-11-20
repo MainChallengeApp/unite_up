@@ -80,12 +80,12 @@ class _SearchPageState extends State<SearchPage> {
             decoration: InputDecoration(
               hintText: 'search.searchUsers'.tr(),
               prefixIcon: Icon(
-                Icons.search_rounded,
+                AppIcons.search,
                 color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
               ),
               suffixIcon: _searchController.text.isNotEmpty
                   ? IconButton(
-                      icon: const Icon(Icons.clear_rounded),
+                      icon: const Icon(AppIcons.clear),
                       onPressed: () {
                         _searchController.clear();
                       },
@@ -105,7 +105,7 @@ class _SearchPageState extends State<SearchPage> {
         Expanded(
           child: _filteredUserModels.isEmpty
               ? EmptyState(
-                  icon: Icons.search_off_rounded,
+                  icon: AppIcons.searchOff,
                   title: 'search.noUsersFound'.tr(),
                   subtitle: 'search.tryDifferentSearch'.tr(),
                 )

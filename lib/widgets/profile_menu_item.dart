@@ -74,7 +74,7 @@ class ProfileMenuItem extends StatelessWidget {
                   ),
                 ),
                 Icon(
-                  Icons.arrow_forward_ios_rounded,
+                  AppIcons.arrowForward,
                   size: AppSizes.iconSmall,
                   color: theme.iconTheme.color?.withValues(alpha: 0.4),
                 ),

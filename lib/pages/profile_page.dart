@@ -48,7 +48,7 @@ class _ProfilePageState extends State<ProfilePage> {
       actions: isAuthenticated
           ? [
               IconButton(
-                icon: const Icon(Icons.settings_outlined),
+                icon: const Icon(AppIcons.settings),
                 onPressed: _navigateToSettings,
                 tooltip: 'settings.title'.tr(),
               ),
@@ -95,28 +95,28 @@ class _ProfilePageState extends State<ProfilePage> {
     return Column(
       children: [
         ProfileMenuItem(
-          icon: Icons.emoji_events_rounded,
+          icon: AppIcons.trophy,
           title: 'profile.menu.achievements'.tr(),
           subtitle: 'profile.menu.viewAccomplishments'.tr(),
           onTap: () {},
         ),
         const SizedBox(height: AppSizes.spacing12),
         ProfileMenuItem(
-          icon: Icons.bar_chart_rounded,
+          icon: AppIcons.stats,
           title: 'profile.menu.statistics'.tr(),
           subtitle: 'profile.menu.trackProgress'.tr(),
           onTap: () {},
         ),
         const SizedBox(height: AppSizes.spacing12),
         ProfileMenuItem(
-          icon: Icons.notifications_outlined,
+          icon: AppIcons.notifications,
           title: 'profile.menu.notifications'.tr(),
           subtitle: 'profile.menu.manageAlerts'.tr(),
           onTap: () {},
         ),
         const SizedBox(height: AppSizes.spacing12),
         ProfileMenuItem(
-          icon: Icons.settings_outlined,
+          icon: AppIcons.settings,
           title: 'profile.menu.settings'.tr(),
           subtitle: 'profile.menu.appPreferences'.tr(),
           onTap: _navigateToSettings,

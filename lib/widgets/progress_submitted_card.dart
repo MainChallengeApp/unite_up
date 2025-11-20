@@ -23,7 +23,7 @@ class ProgressSubmittedCard extends StatelessWidget {
             Row(
               children: [
                 Icon(
-                  Icons.upload_rounded,
+                  AppIcons.upload,
                   color: theme.colorScheme.primary,
                   size: AppSizes.iconMedium,
                 ),
@@ -96,11 +96,11 @@ class ProgressSubmittedCard extends StatelessWidget {
   IconData _getMediaIcon(type) {
     switch (type.toString()) {
       case 'MediaType.image':
-        return Icons.image_rounded;
+        return AppIcons.image;
       case 'MediaType.video':
-        return Icons.videocam_rounded;
+        return AppIcons.video;
       default:
-        return Icons.attach_file_rounded;
+        return AppIcons.attachFile;
     }
   }
 }

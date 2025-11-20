@@ -118,7 +118,7 @@ class GoalCard extends StatelessWidget {
 
   Widget _buildCheckIcon(ThemeData theme) {
     return Icon(
-      isSelected ? Icons.check_circle : Icons.circle_outlined,
+      isSelected ? AppIcons.checkCircleOutline : AppIcons.circle,
       color: isSelected
           ? theme.colorScheme.primary
           : theme.iconTheme.color?.withValues(alpha: AppOpacity.medium),

@@ -37,30 +37,30 @@ class _HomePageState extends State<HomePage> {
         final navItems = isAuthenticated
             ? [
                 BottomNavigationBarItem(
-                  icon: const Icon(Icons.search_rounded),
-                  activeIcon: const Icon(Icons.search_rounded),
+                  icon: const Icon(AppIcons.search),
+                  activeIcon: const Icon(AppIcons.search),
                   label: 'navigation.search'.tr(),
                 ),
                 BottomNavigationBarItem(
-                  icon: const Icon(Icons.flag_outlined),
-                  activeIcon: const Icon(Icons.flag_rounded),
+                  icon: const Icon(AppIcons.flagOutline),
+                  activeIcon: const Icon(AppIcons.flag),
                   label: 'navigation.challenges'.tr(),
                 ),
                 BottomNavigationBarItem(
-                  icon: const Icon(Icons.person_outline_rounded),
-                  activeIcon: const Icon(Icons.person_rounded),
+                  icon: const Icon(AppIcons.personOutline),
+                  activeIcon: const Icon(AppIcons.person),
                   label: 'navigation.profile'.tr(),
                 ),
               ]
             : [
                 BottomNavigationBarItem(
-                  icon: const Icon(Icons.flag_outlined),
-                  activeIcon: const Icon(Icons.flag_rounded),
+                  icon: const Icon(AppIcons.flagOutline),
+                  activeIcon: const Icon(AppIcons.flag),
                   label: 'navigation.challenges'.tr(),
                 ),
                 BottomNavigationBarItem(
-                  icon: const Icon(Icons.person_outline_rounded),
-                  activeIcon: const Icon(Icons.person_rounded),
+                  icon: const Icon(AppIcons.personOutline),
+                  activeIcon: const Icon(AppIcons.person),
                   label: 'navigation.profile'.tr(),
                 ),
               ];

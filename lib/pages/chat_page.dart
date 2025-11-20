@@ -1,5 +1,5 @@
-import 'package:dare_u/models/progress_entry_model.dart';
 import 'package:dare_u/core/constants/app_constants.dart';
+import 'package:dare_u/models/progress_entry_model.dart';
 import 'package:dare_u/providers/app_state_provider.dart';
 import 'package:dare_u/widgets/event_card.dart';
 import 'package:dare_u/widgets/progress_dialog.dart';
@@ -75,6 +75,10 @@ class _ChatPageState extends State<ChatPage> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(AppIcons.arrowBack),
+          onPressed: () => Navigator.pop(context),
+        ),
         title: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisSize: MainAxisSize.min,
@@ -102,28 +106,35 @@ class _ChatPageState extends State<ChatPage> {
               ),
               if (challenge.isGroup)
                 Text(
-                  'challenges.member'.tr(namedArgs: {'count': challenge.memberCount.toString()}),
+                  'challenges.member'.tr(
+                    namedArgs: {'count': challenge.memberCount.toString()},
+                  ),
                   style: TextStyle(
                     fontSize: AppSizes.fontSmall,
                     fontWeight: FontWeight.normal,
-                    color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
+                    color: theme.iconTheme.color?.withValues(
+                      alpha: AppOpacity.mostlyOpaque,
+                    ),
                   ),
                 ),
             ] else
               Text(
                 'chat.title'.tr(),
-                style: const TextStyle(fontWeight: FontWeight.w600, fontSize: AppSizes.fontXLarge),
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: AppSizes.fontXLarge,
+                ),
               ),
           ],
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.attach_file_rounded),
+            icon: const Icon(AppIcons.attachFile),
             onPressed: _showProgressDialog,
             tooltip: 'chat.addProgress'.tr(),
           ),
           IconButton(
-            icon: const Icon(Icons.settings_outlined),
+            icon: const Icon(AppIcons.settings),
             onPressed: () {
               Navigator.push(
                 context,
@@ -142,7 +153,10 @@ class _ChatPageState extends State<ChatPage> {
                 ? _buildEmptyState(theme)
                 : ListView.builder(
                     controller: _scrollController,
-                    padding: const EdgeInsets.only(top: AppSizes.spacing16, bottom: AppSizes.spacing16),
+                    padding: const EdgeInsets.only(
+                      top: AppSizes.spacing16,
+                      bottom: AppSizes.spacing16,
+                    ),
                     itemCount: appState.events.length,
                     itemBuilder: (context, index) {
                       final event = appState.events[index];
@@ -169,11 +183,13 @@ class _ChatPageState extends State<ChatPage> {
             width: AppSizes.containerLarge,
             height: AppSizes.containerLarge,
             decoration: BoxDecoration(
-              color: theme.colorScheme.primary.withValues(alpha: AppOpacity.light),
+              color: theme.colorScheme.primary.withValues(
+                alpha: AppOpacity.light,
+              ),
               shape: BoxShape.circle,
             ),
             child: Icon(
-              Icons.chat_bubble_outline_rounded,
+              AppIcons.chat,
               size: AppSizes.iconXXLarge,
               color: theme.colorScheme.primary,
             ),
@@ -194,7 +210,9 @@ class _ChatPageState extends State<ChatPage> {
             'chat.shareUpdates'.tr(),
             style: TextStyle(
               fontSize: AppSizes.fontMedium,
-              color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
+              color: theme.iconTheme.color?.withValues(
+                alpha: AppOpacity.mostlyOpaque,
+              ),
             ),
           ),
         ],
@@ -208,11 +226,17 @@ class _ChatPageState extends State<ChatPage> {
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: AppSizes.spacing16, vertical: AppSizes.spacing12),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSizes.spacing16,
+        vertical: AppSizes.spacing12,
+      ),
       decoration: BoxDecoration(
         color: theme.scaffoldBackgroundColor,
         border: Border(
-          top: BorderSide(color: theme.dividerColor.withValues(alpha: AppOpacity.light), width: AppSizes.borderThin),
+          top: BorderSide(
+            color: theme.dividerColor.withValues(alpha: AppOpacity.light),
+            width: AppSizes.borderThin,
+          ),
         ),
       ),
       child: SafeArea(
@@ -225,7 +249,9 @@ class _ChatPageState extends State<ChatPage> {
                   borderRadius: BorderRadius.circular(AppSizes.radiusCircle),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(alpha: AppOpacity.veryLight),
+                      color: Colors.black.withValues(
+                        alpha: AppOpacity.veryLight,
+                      ),
                       blurRadius: AppSizes.blurMedium,
                       offset: AppSizes.shadowOffsetSmall,
                     ),
@@ -239,7 +265,9 @@ class _ChatPageState extends State<ChatPage> {
                   decoration: InputDecoration(
                     hintText: 'chat.shareAnUpdate'.tr(),
                     hintStyle: TextStyle(
-                      color: theme.iconTheme.color?.withValues(alpha: AppOpacity.semiTransparent),
+                      color: theme.iconTheme.color?.withValues(
+                        alpha: AppOpacity.semiTransparent,
+                      ),
                     ),
                     border: InputBorder.none,
                     contentPadding: const EdgeInsets.symmetric(
@@ -268,7 +296,7 @@ class _ChatPageState extends State<ChatPage> {
                   height: AppSizes.containerSmall,
                   alignment: Alignment.center,
                   child: const Icon(
-                    Icons.send_rounded,
+                    AppIcons.send,
                     color: Colors.white,
                     size: AppSizes.iconMedium,
                   ),
