@@ -1,8 +1,10 @@
+import 'package:dare_u/providers/app_state_provider.dart';
 import 'package:dare_u/widgets/auth_form.dart';
 import 'package:dare_u/widgets/profile_header.dart';
 import 'package:dare_u/widgets/profile_menu_item.dart';
 import 'package:dare_u/widgets/profile_stat_card.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import 'settings_page.dart';
 
@@ -14,8 +16,10 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  bool _isLoggedIn = false;
   bool _isLoginMode = false;
+  bool _isLoading = false;
+  bool _isGoogleLoading = false;
+  bool _isAppleLoading = false;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
@@ -28,23 +32,87 @@ class _ProfilePageState extends State<ProfilePage> {
     super.dispose();
   }
 
-  void _handleAuth() {
-    setState(() => _isLoggedIn = true);
-    _showSnackBar(
-      _isLoginMode
-          ? 'Successfully logged in!'
-          : 'Account created successfully!',
-    );
-  }
+  Future<void> _handleEmailAuth() async {
+    final appState = Provider.of<AppStateProvider>(context, listen: false);
 
-  void _handleLogout() {
-    setState(() {
-      _isLoggedIn = false;
+    if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
+      _showSnackBar('Please fill in all fields');
+      return;
+    }
+
+    if (!_isLoginMode && _nameController.text.isEmpty) {
+      _showSnackBar('Please enter your name');
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      if (_isLoginMode) {
+        await appState.signInWithEmail(
+          _emailController.text.trim(),
+          _passwordController.text,
+        );
+        _showSnackBar('Successfully logged in!');
+      } else {
+        await appState.signUpWithEmail(
+          _emailController.text.trim(),
+          _passwordController.text,
+          _nameController.text.trim(),
+        );
+        _showSnackBar('Account created successfully!');
+      }
+
       _emailController.clear();
       _passwordController.clear();
       _nameController.clear();
-    });
-    _showSnackBar('Logged out successfully');
+    } catch (e) {
+      _showSnackBar('Error: ${e.toString()}');
+    } finally {
+      setState(() => _isLoading = false);
+    }
+  }
+
+  Future<void> _handleGoogleSignIn() async {
+    final appState = Provider.of<AppStateProvider>(context, listen: false);
+    setState(() => _isGoogleLoading = true);
+
+    try {
+      await appState.signInWithGoogle();
+      _showSnackBar('Signed in with Google!');
+    } catch (e) {
+      _showSnackBar('Error: ${e.toString()}');
+    } finally {
+      if (mounted) setState(() => _isGoogleLoading = false);
+    }
+  }
+
+  Future<void> _handleAppleSignIn() async {
+    final appState = Provider.of<AppStateProvider>(context, listen: false);
+    setState(() => _isAppleLoading = true);
+
+    try {
+      await appState.signInWithApple();
+      _showSnackBar('Signed in with Apple!');
+    } catch (e) {
+      _showSnackBar('Error: ${e.toString()}');
+    } finally {
+      if (mounted) setState(() => _isAppleLoading = false);
+    }
+  }
+
+  Future<void> _handleLogout() async {
+    final appState = Provider.of<AppStateProvider>(context, listen: false);
+    setState(() => _isLoading = true);
+
+    try {
+      await appState.signOut();
+      _showSnackBar('Logged out successfully');
+    } catch (e) {
+      _showSnackBar('Error: ${e.toString()}');
+    } finally {
+      setState(() => _isLoading = false);
+    }
   }
 
   void _showSnackBar(String message) {
@@ -62,19 +130,25 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildAppBar(),
-      body: _isLoggedIn ? _buildProfileView() : _buildAuthView(),
+    return Consumer<AppStateProvider>(
+      builder: (context, appState, child) {
+        return Scaffold(
+          appBar: _buildAppBar(appState.isAuthenticated),
+          body: appState.isAuthenticated
+              ? _buildProfileView(appState)
+              : _buildAuthView(),
+        );
+      },
     );
   }
 
-  AppBar _buildAppBar() {
+  AppBar _buildAppBar(bool isAuthenticated) {
     return AppBar(
       title: const Text(
         'Profile',
         style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18),
       ),
-      actions: _isLoggedIn
+      actions: isAuthenticated
           ? [
               IconButton(
                 icon: const Icon(Icons.settings_outlined),
@@ -93,24 +167,24 @@ class _ProfilePageState extends State<ProfilePage> {
       nameController: _nameController,
       emailController: _emailController,
       passwordController: _passwordController,
-      onSubmit: _handleAuth,
+      onSubmit: _handleEmailAuth,
       onToggleMode: () => setState(() => _isLoginMode = !_isLoginMode),
+      onGoogleSignIn: _handleGoogleSignIn,
+      onAppleSignIn: _handleAppleSignIn,
+      isLoading: _isLoading,
+      isGoogleLoading: _isGoogleLoading,
+      isAppleLoading: _isAppleLoading,
     );
   }
 
-  Widget _buildProfileView() {
+  Widget _buildProfileView(AppStateProvider appState) {
+    final user = appState.currentUser!;
+
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
-          ProfileHeader(
-            name: _nameController.text.isEmpty
-                ? 'Demo User'
-                : _nameController.text,
-            email: _emailController.text.isEmpty
-                ? 'demo@dareU.com'
-                : _emailController.text,
-          ),
+          ProfileHeader(name: user.displayName, email: user.email),
           const SizedBox(height: 32),
           _buildStatsRow(),
           const SizedBox(height: 32),

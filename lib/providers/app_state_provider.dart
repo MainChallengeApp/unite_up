@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:dare_u/enums/challenge_status_enum.dart';
+import 'package:dare_u/models/authenticated_user_model.dart';
 import 'package:dare_u/models/challenge_model.dart';
 import 'package:dare_u/models/event_model.dart';
 import 'package:dare_u/models/goal_model.dart';
 import 'package:dare_u/models/progress_entry_model.dart';
+import 'package:dare_u/services/auth_service.dart';
 import 'package:dare_u/services/challenge_service.dart';
 
 class GoalData {
@@ -38,11 +40,14 @@ class GoalData {
 }
 
 class AppStateProvider extends ChangeNotifier {
+  final AuthService _authService = AuthService();
   final List<GoalData> _goals = [];
   String? _selectedGoalId;
   bool _hasCompletedOnboarding = false;
 
   // Getters
+  AuthenticatedUserModel? get currentUser => _authService.currentUser;
+  bool get isAuthenticated => _authService.isAuthenticated;
   List<GoalModel> get goals => _goals.map((g) => g.goal).toList();
   GoalModel? get currentGoal => _selectedGoalId != null
       ? _goals.firstWhere((g) => g.goal.id == _selectedGoalId).goal
@@ -190,6 +195,32 @@ class AppStateProvider extends ChangeNotifier {
       _goals[currentIndex] = _goals[currentIndex].copyWith(events: updatedEventModels);
       notifyListeners();
     });
+  }
+
+  // Authentication methods
+  Future<void> signInWithGoogle() async {
+    await _authService.signInWithGoogle();
+    notifyListeners();
+  }
+
+  Future<void> signInWithApple() async {
+    await _authService.signInWithApple();
+    notifyListeners();
+  }
+
+  Future<void> signInWithEmail(String email, String password) async {
+    await _authService.signInWithEmail(email, password);
+    notifyListeners();
+  }
+
+  Future<void> signUpWithEmail(String email, String password, String name) async {
+    await _authService.signUpWithEmail(email, password, name);
+    notifyListeners();
+  }
+
+  Future<void> signOut() async {
+    await _authService.signOut();
+    notifyListeners();
   }
 
   // Reset for testing (optional)

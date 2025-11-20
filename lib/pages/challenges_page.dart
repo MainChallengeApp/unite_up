@@ -1,8 +1,8 @@
+import 'package:dare_u/models/goal_model.dart';
+import 'package:dare_u/providers/app_state_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import 'package:dare_u/models/goal_model.dart';
-import 'package:dare_u/providers/app_state_provider.dart';
 import 'chat_page.dart';
 import 'onboarding_page.dart';
 
@@ -10,14 +10,17 @@ class ChallengesPage extends StatelessWidget {
   const ChallengesPage({super.key});
 
   void _navigateToGoalModelChat(BuildContext context, String goalId) {
-    Provider.of<AppStateProvider>(context, listen: false).selectGoalModel(goalId);
+    Provider.of<AppStateProvider>(
+      context,
+      listen: false,
+    ).selectGoalModel(goalId);
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const ChatPage()),
     );
   }
 
-  void _createNewGoalModel(BuildContext context) {
+  void _createNewGoal(BuildContext context) {
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const OnboardingPage()),
@@ -47,9 +50,9 @@ class ChallengesPage extends StatelessWidget {
               },
             ),
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => _createNewGoalModel(context),
+        onPressed: () => _createNewGoal(context),
         icon: const Icon(Icons.add_rounded),
-        label: const Text('New GoalModel'),
+        label: const Text('New Goal'),
         backgroundColor: theme.colorScheme.primary,
         foregroundColor: Colors.white,
         elevation: 2,
@@ -100,7 +103,7 @@ class ChallengesPage extends StatelessWidget {
           ),
           const SizedBox(height: 32),
           ElevatedButton.icon(
-            onPressed: () => _createNewGoalModel(context),
+            onPressed: () => _createNewGoal(context),
             icon: const Icon(Icons.add_rounded),
             label: const Text('Create GoalModel'),
             style: ElevatedButton.styleFrom(
@@ -115,7 +118,11 @@ class ChallengesPage extends StatelessWidget {
     );
   }
 
-  Widget _buildGoalModelCard(BuildContext context, GoalModel goal, ThemeData theme) {
+  Widget _buildGoalModelCard(
+    BuildContext context,
+    GoalModel goal,
+    ThemeData theme,
+  ) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 12),
       child: Material(
@@ -252,4 +259,3 @@ class ChallengesPage extends StatelessWidget {
     }
   }
 }
-

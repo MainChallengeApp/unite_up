@@ -1,3 +1,5 @@
+import 'package:dare_u/enums/auth_provider_enum.dart';
+import 'package:dare_u/widgets/social_login_button.dart';
 import 'package:flutter/material.dart';
 
 class AuthForm extends StatelessWidget {
@@ -7,6 +9,11 @@ class AuthForm extends StatelessWidget {
   final TextEditingController passwordController;
   final VoidCallback onSubmit;
   final VoidCallback onToggleMode;
+  final VoidCallback? onGoogleSignIn;
+  final VoidCallback? onAppleSignIn;
+  final bool isLoading;
+  final bool isGoogleLoading;
+  final bool isAppleLoading;
 
   const AuthForm({
     super.key,
@@ -16,6 +23,11 @@ class AuthForm extends StatelessWidget {
     required this.passwordController,
     required this.onSubmit,
     required this.onToggleMode,
+    this.onGoogleSignIn,
+    this.onAppleSignIn,
+    this.isLoading = false,
+    this.isGoogleLoading = false,
+    this.isAppleLoading = false,
   });
 
   @override
@@ -34,10 +46,27 @@ class AuthForm extends StatelessWidget {
           const SizedBox(height: 8),
           _buildSubtitle(theme),
           const SizedBox(height: 40),
-          if (!isLoginMode) ...[
-            _buildNameField(),
-            const SizedBox(height: 16),
+          if (onGoogleSignIn != null) ...[
+            SocialLoginButton(
+              provider: AuthProviderEnum.google,
+              onPressed: onGoogleSignIn!,
+              isLoading: isGoogleLoading,
+            ),
+            const SizedBox(height: 12),
           ],
+          if (onAppleSignIn != null) ...[
+            SocialLoginButton(
+              provider: AuthProviderEnum.apple,
+              onPressed: onAppleSignIn!,
+              isLoading: isAppleLoading,
+            ),
+            const SizedBox(height: 24),
+          ],
+          if (onGoogleSignIn != null || onAppleSignIn != null) ...[
+            _buildDivider(theme),
+            const SizedBox(height: 24),
+          ],
+          if (!isLoginMode) ...[_buildNameField(), const SizedBox(height: 16)],
           _buildEmailField(),
           const SizedBox(height: 16),
           _buildPasswordField(),
@@ -138,16 +167,11 @@ class AuthForm extends StatelessWidget {
         foregroundColor: Colors.white,
         padding: const EdgeInsets.symmetric(vertical: 16),
         elevation: 0,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
       child: Text(
         isLoginMode ? 'Sign In' : 'Create Account',
-        style: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.w600,
-        ),
+        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
       ),
     );
   }
@@ -162,5 +186,24 @@ class AuthForm extends StatelessWidget {
       ),
     );
   }
-}
 
+  Widget _buildDivider(ThemeData theme) {
+    return Row(
+      children: [
+        Expanded(child: Divider(color: theme.dividerColor)),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Text(
+            'OR',
+            style: TextStyle(
+              color: theme.iconTheme.color?.withOpacity(0.5),
+              fontSize: 12,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        Expanded(child: Divider(color: theme.dividerColor)),
+      ],
+    );
+  }
+}
