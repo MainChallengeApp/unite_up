@@ -248,6 +248,7 @@ class _ChatPageState extends State<ChatPage> {
       ),
       child: SafeArea(
         child: Row(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Material(
               color: theme.cardColor,
