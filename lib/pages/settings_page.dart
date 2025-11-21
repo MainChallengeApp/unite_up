@@ -1,3 +1,6 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
 import 'package:unite_up/providers/theme_provider.dart';
@@ -5,9 +8,6 @@ import 'package:unite_up/widgets/app_card_container.dart';
 import 'package:unite_up/widgets/settings_card.dart';
 import 'package:unite_up/widgets/settings_emoji_container.dart';
 import 'package:unite_up/widgets/settings_icon_container.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -81,14 +81,6 @@ class _SettingsPageState extends State<SettingsPage> {
             icon: AppIcons.info,
             title: 'settings.version'.tr(),
             subtitle: '1.0.0',
-            theme: theme,
-          ),
-          const SizedBox(height: AppSizes.spacing12),
-          _buildInfoCard(
-            context,
-            icon: AppIcons.code,
-            title: 'settings.builtWith'.tr(),
-            subtitle: 'settings.flutterMaterial'.tr(),
             theme: theme,
           ),
           const SizedBox(height: AppSizes.spacing32),

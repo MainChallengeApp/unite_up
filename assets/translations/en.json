@@ -200,8 +200,6 @@
     },
     "about": "About",
     "version": "Version",
-    "builtWith": "Built with",
-    "flutterMaterial": "Flutter & Material Design 3",
     "account": "Account"
   },
   "empty": {
