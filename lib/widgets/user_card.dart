@@ -1,7 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-
-import 'package:unite_up/models/user_model.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
+import 'package:unite_up/models/user_model.dart';
 import 'package:unite_up/widgets/app_card_container.dart';
 
 class UserModelCard extends StatelessWidget {
@@ -19,7 +19,7 @@ class UserModelCard extends StatelessWidget {
     final theme = Theme.of(context);
 
     return AppCardContainer(
-      margin: const EdgeInsets.only(bottom: AppSizes.spacing12),
+      margin: const EdgeInsets.only(bottom: AppSizes.spacing16),
       padding: const EdgeInsets.all(AppSizes.spacing16),
       child: Row(
         children: [
@@ -86,7 +86,9 @@ class UserModelCard extends StatelessWidget {
       user.username,
       style: TextStyle(
         fontSize: AppSizes.fontRegular,
-        color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
+        color: theme.iconTheme.color?.withValues(
+          alpha: AppOpacity.mostlyOpaque,
+        ),
       ),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
@@ -98,7 +100,9 @@ class UserModelCard extends StatelessWidget {
       user.bio!,
       style: TextStyle(
         fontSize: AppSizes.fontRegular,
-        color: theme.iconTheme.color?.withValues(alpha: AppOpacity.almostOpaque),
+        color: theme.iconTheme.color?.withValues(
+          alpha: AppOpacity.almostOpaque,
+        ),
       ),
       maxLines: 2,
       overflow: TextOverflow.ellipsis,
@@ -110,11 +114,7 @@ class UserModelCard extends StatelessWidget {
       spacing: AppSizes.spacing12,
       runSpacing: AppSizes.spacing4,
       children: [
-        _buildStat(
-          '${user.completedChallengesCount}',
-          'Challenges',
-          theme,
-        ),
+        _buildStat('${user.completedChallengesCount}', 'Challenges', theme),
         _buildStat('${user.followersCount}', 'Followers', theme),
       ],
     );
@@ -139,7 +139,9 @@ class UserModelCard extends StatelessWidget {
           label,
           style: TextStyle(
             fontSize: AppSizes.fontSmall,
-            color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
+            color: theme.iconTheme.color?.withValues(
+              alpha: AppOpacity.mostlyOpaque,
+            ),
           ),
         ),
       ],
@@ -147,41 +149,41 @@ class UserModelCard extends StatelessWidget {
   }
 
   Widget _buildFollowButton(ThemeData theme) {
-    return Column(
-      children: [
-        ElevatedButton(
-          onPressed: onFollowToggle,
-          style: ElevatedButton.styleFrom(
-            backgroundColor: user.isFollowing
-                ? theme.cardColor
-                : theme.colorScheme.primary,
-            foregroundColor: user.isFollowing
-                ? theme.brightness == Brightness.dark
-                    ? Colors.white
-                    : const Color(0xFF1E293B)
-                : Colors.white,
-            elevation: AppSizes.elevationNone,
-            padding: const EdgeInsets.symmetric(horizontal: AppSizes.spacing16, vertical: AppSizes.spacing10),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-              side: user.isFollowing
-                  ? BorderSide(
-                      color: theme.dividerColor.withValues(alpha: AppOpacity.medium),
-                      width: AppSizes.borderThin,
-                    )
-                  : BorderSide.none,
-            ),
-          ),
-          child: Text(
-            user.isFollowing ? 'Following' : 'Follow',
-            style: const TextStyle(
-              fontSize: AppSizes.fontMedium,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
+    return ElevatedButton(
+      onPressed: onFollowToggle,
+      style: ElevatedButton.styleFrom(
+        backgroundColor: user.isFollowing
+            ? theme.cardColor
+            : theme.colorScheme.primary,
+        foregroundColor: user.isFollowing
+            ? theme.brightness == Brightness.dark
+                  ? Colors.white
+                  : const Color(0xFF1E293B)
+            : Colors.white,
+        elevation: AppSizes.elevationNone,
+        padding: const EdgeInsets.symmetric(
+          horizontal: AppSizes.spacing16,
+          vertical: AppSizes.spacing10,
         ),
-      ],
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(AppSizes.radiusSmall),
+          side: user.isFollowing
+              ? BorderSide(
+                  color: theme.dividerColor.withValues(
+                    alpha: AppOpacity.medium,
+                  ),
+                  width: AppSizes.borderThin,
+                )
+              : BorderSide.none,
+        ),
+      ),
+      child: Text(
+        user.isFollowing ? 'profile.following'.tr() : 'profile.follow'.tr(),
+        style: const TextStyle(
+          fontSize: AppSizes.fontMedium,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
     );
   }
 }
-

@@ -1,13 +1,13 @@
-import 'package:unite_up/models/user_model.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
+import 'package:unite_up/models/user_model.dart';
 import 'package:unite_up/pages/auth_page.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
 import 'package:unite_up/services/user_service.dart';
 import 'package:unite_up/widgets/empty_state.dart';
 import 'package:unite_up/widgets/user_card.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class SearchPage extends StatefulWidget {
   const SearchPage({super.key});
@@ -41,10 +41,24 @@ class _SearchPageState extends State<SearchPage> {
       _filteredUserModels = query.isEmpty
           ? _allUserModels
           : _allUserModels
-              .where((user) =>
-                  user.name.toLowerCase().contains(query) ||
-                  user.username.toLowerCase().contains(query))
-              .toList();
+                .where(
+                  (user) =>
+                      user.name.toLowerCase().contains(query) ||
+                      user.username.toLowerCase().contains(query),
+                )
+                .toList();
+    });
+  }
+
+  void _toggleFollow(UserModel user) {
+    setState(() {
+      final index = _allUserModels.indexWhere((u) => u.id == user.id);
+      if (index != -1) {
+        _allUserModels[index] = _allUserModels[index].copyWith(
+          isFollowing: !_allUserModels[index].isFollowing,
+        );
+      }
+      _filterUserModels();
     });
   }
 
@@ -74,14 +88,20 @@ class _SearchPageState extends State<SearchPage> {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.all(AppSizes.spacing16),
+          padding: const EdgeInsets.only(
+            left: AppSizes.spacing16,
+            right: AppSizes.spacing16,
+            bottom: AppSizes.spacing16,
+          ),
           child: TextField(
             controller: _searchController,
             decoration: InputDecoration(
               hintText: 'search.searchUsers'.tr(),
               prefixIcon: Icon(
                 AppIcons.search,
-                color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
+                color: theme.iconTheme.color?.withValues(
+                  alpha: AppOpacity.mostlyOpaque,
+                ),
               ),
               suffixIcon: _searchController.text.isNotEmpty
                   ? IconButton(
@@ -110,13 +130,15 @@ class _SearchPageState extends State<SearchPage> {
                   subtitle: 'search.tryDifferentSearch'.tr(),
                 )
               : ListView.builder(
-                  padding: const EdgeInsets.symmetric(horizontal: AppSizes.spacing16),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSizes.spacing16,
+                  ),
                   itemCount: _filteredUserModels.length,
                   itemBuilder: (context, index) {
                     final user = _filteredUserModels[index];
                     return UserModelCard(
                       user: user,
-                      onFollowToggle: () {},
+                      onFollowToggle: () => _toggleFollow(user),
                     );
                   },
                 ),

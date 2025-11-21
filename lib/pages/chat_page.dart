@@ -92,73 +92,63 @@ class _ChatPageState extends State<ChatPage> {
           icon: const Icon(AppIcons.arrowBack),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Row(
+        title: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
+            if (challenge != null) ...[
+              Row(
                 children: [
-                  if (challenge != null) ...[
-                    Row(
-                      children: [
-                        Container(
-                          width: AppSizes.iconXXLarge,
-                          height: AppSizes.iconXXLarge,
-                          decoration: BoxDecoration(
-                            color: theme.colorScheme.primary.withValues(
-                              alpha: AppOpacity.light,
-                            ),
-                            shape: BoxShape.circle,
-                          ),
-                          child: Center(
-                            child: Text(
-                              challenge.emoji,
-                              style: const TextStyle(
-                                fontSize: AppSizes.fontLarge,
-                              ),
-                            ),
-                          ),
-                        ),
-                        const SizedBox(width: AppSizes.spacing8),
-                        Flexible(
-                          child: Text(
-                            challenge.name,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w600,
-                              fontSize: AppSizes.fontLarge,
-                            ),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        ),
-                      ],
-                    ),
-                    if (challenge.isGroup)
-                      Text(
-                        'challenges.member'.tr(
-                          namedArgs: {
-                            'count': challenge.memberCount.toString(),
-                          },
-                        ),
-                        style: TextStyle(
-                          fontSize: AppSizes.fontSmall,
-                          fontWeight: FontWeight.normal,
-                          color: theme.iconTheme.color?.withValues(
-                            alpha: AppOpacity.mostlyOpaque,
-                          ),
-                        ),
+                  Container(
+                    width: AppSizes.iconXXLarge,
+                    height: AppSizes.iconXXLarge,
+                    decoration: BoxDecoration(
+                      color: theme.colorScheme.primary.withValues(
+                        alpha: AppOpacity.light,
                       ),
-                  ] else
-                    Text(
-                      'chat.title'.tr(),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Center(
+                      child: Text(
+                        challenge.emoji,
+                        style: const TextStyle(fontSize: AppSizes.fontLarge),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: AppSizes.spacing8),
+                  Flexible(
+                    child: Text(
+                      challenge.name,
                       style: const TextStyle(
                         fontWeight: FontWeight.w600,
                         fontSize: AppSizes.fontLarge,
                       ),
+                      overflow: TextOverflow.ellipsis,
                     ),
+                  ),
                 ],
               ),
-            ),
+              if (challenge.isGroup)
+                Text(
+                  'challenges.member'.tr(
+                    namedArgs: {'count': challenge.memberCount.toString()},
+                  ),
+                  style: TextStyle(
+                    fontSize: AppSizes.fontSmall,
+                    fontWeight: FontWeight.normal,
+                    color: theme.iconTheme.color?.withValues(
+                      alpha: AppOpacity.mostlyOpaque,
+                    ),
+                  ),
+                ),
+            ] else
+              Text(
+                'chat.title'.tr(),
+                style: const TextStyle(
+                  fontWeight: FontWeight.w600,
+                  fontSize: AppSizes.fontLarge,
+                ),
+              ),
           ],
         ),
       ),
@@ -261,10 +251,10 @@ class _ChatPageState extends State<ChatPage> {
           children: [
             Material(
               color: theme.cardColor,
-              borderRadius: BorderRadius.circular(AppSizes.radiusCircle),
+              borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
               child: InkWell(
                 onTap: _showUploadOptions,
-                borderRadius: BorderRadius.circular(AppSizes.radiusCircle),
+                borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
                 child: Container(
                   width: AppSizes.containerSmall,
                   height: AppSizes.containerSmall,
@@ -282,7 +272,7 @@ class _ChatPageState extends State<ChatPage> {
               child: Container(
                 decoration: BoxDecoration(
                   color: theme.cardColor,
-                  borderRadius: BorderRadius.circular(AppSizes.radiusCircle),
+                  borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
                   boxShadow: [
                     BoxShadow(
                       color: Colors.black.withValues(
@@ -323,10 +313,10 @@ class _ChatPageState extends State<ChatPage> {
             const SizedBox(width: AppSizes.spacing12),
             Material(
               color: theme.colorScheme.primary,
-              borderRadius: BorderRadius.circular(AppSizes.radiusCircle),
+              borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
               child: InkWell(
                 onTap: _sendMessage,
-                borderRadius: BorderRadius.circular(AppSizes.radiusCircle),
+                borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
                 child: Container(
                   width: AppSizes.containerSmall,
                   height: AppSizes.containerSmall,

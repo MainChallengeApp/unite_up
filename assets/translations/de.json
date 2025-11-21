@@ -156,6 +156,8 @@
   },
   "profile": {
     "title": "Profil",
+    "follow": "Folgen",
+    "following": "Folgst du",
     "stats": {
       "goals": "Ziele",
       "challenges": "Challenges",
