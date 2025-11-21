@@ -1,7 +1,7 @@
-import 'package:dare_u/enums/media_type_enum.dart';
-import 'package:dare_u/core/constants/app_constants.dart';
-import 'package:dare_u/models/media_attachment_model.dart';
-import 'package:dare_u/models/progress_entry_model.dart';
+import 'package:unite_up/enums/media_type_enum.dart';
+import 'package:unite_up/core/constants/app_constants.dart';
+import 'package:unite_up/models/media_attachment_model.dart';
+import 'package:unite_up/models/progress_entry_model.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 

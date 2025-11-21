@@ -1,4 +1,4 @@
-import 'package:dare_u/enums/media_type_enum.dart';
+import 'package:unite_up/enums/media_type_enum.dart';
 
 class MediaAttachmentModel {
   final String id;

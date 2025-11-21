@@ -1,5 +1,5 @@
-import 'package:dare_u/providers/app_state_provider.dart';
-import 'package:dare_u/widgets/auth_form.dart';
+import 'package:unite_up/providers/app_state_provider.dart';
+import 'package:unite_up/widgets/auth_form.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 

@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:dare_u/models/authenticated_user_model.dart';
-import 'package:dare_u/models/challenge_chat_model.dart';
-import 'package:dare_u/models/event_model.dart';
-import 'package:dare_u/models/progress_entry_model.dart';
-import 'package:dare_u/services/auth_service.dart';
+import 'package:unite_up/models/authenticated_user_model.dart';
+import 'package:unite_up/models/challenge_chat_model.dart';
+import 'package:unite_up/models/event_model.dart';
+import 'package:unite_up/models/progress_entry_model.dart';
+import 'package:unite_up/services/auth_service.dart';
 
 class AppStateProvider extends ChangeNotifier {
   final AuthService _authService = AuthService();

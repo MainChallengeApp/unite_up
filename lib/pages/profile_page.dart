@@ -1,9 +1,9 @@
-import 'package:dare_u/pages/auth_page.dart';
-import 'package:dare_u/core/constants/app_constants.dart';
-import 'package:dare_u/providers/app_state_provider.dart';
-import 'package:dare_u/widgets/profile_header.dart';
-import 'package:dare_u/widgets/profile_menu_item.dart';
-import 'package:dare_u/widgets/profile_stat_card.dart';
+import 'package:unite_up/pages/auth_page.dart';
+import 'package:unite_up/core/constants/app_constants.dart';
+import 'package:unite_up/providers/app_state_provider.dart';
+import 'package:unite_up/widgets/profile_header.dart';
+import 'package:unite_up/widgets/profile_menu_item.dart';
+import 'package:unite_up/widgets/profile_stat_card.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

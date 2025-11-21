@@ -1,4 +1,4 @@
-import 'package:dare_u/enums/auth_provider_enum.dart';
+import 'package:unite_up/enums/auth_provider_enum.dart';
 
 class AuthenticatedUserModel {
   final String id;

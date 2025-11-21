@@ -1,6 +1,6 @@
-import 'package:dare_u/enums/challenge_difficulty_enum.dart';
-import 'package:dare_u/enums/challenge_status_enum.dart';
-import 'package:dare_u/enums/goal_category_enum.dart';
+import 'package:unite_up/enums/challenge_difficulty_enum.dart';
+import 'package:unite_up/enums/challenge_status_enum.dart';
+import 'package:unite_up/enums/goal_category_enum.dart';
 
 class ChallengeModel {
   final String id;

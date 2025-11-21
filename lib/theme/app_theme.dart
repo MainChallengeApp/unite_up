@@ -1,4 +1,4 @@
-import 'package:dare_u/core/constants/app_constants.dart';
+import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:flutter/material.dart';
 
 class AppTheme {

@@ -1,5 +1,5 @@
-import 'package:dare_u/enums/auth_provider_enum.dart';
-import 'package:dare_u/models/authenticated_user_model.dart';
+import 'package:unite_up/enums/auth_provider_enum.dart';
+import 'package:unite_up/models/authenticated_user_model.dart';
 
 class AuthService {
   AuthenticatedUserModel? _currentUser;

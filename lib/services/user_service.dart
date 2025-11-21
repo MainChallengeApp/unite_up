@@ -1,4 +1,4 @@
-import 'package:dare_u/models/user_model.dart';
+import 'package:unite_up/models/user_model.dart';
 
 class UserModelService {
   static List<UserModel> getMockUserModels() {

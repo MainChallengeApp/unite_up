@@ -1,8 +1,8 @@
-import 'package:dare_u/enums/goal_category_enum.dart';
-import 'package:dare_u/core/constants/app_constants.dart';
-import 'package:dare_u/models/challenge_chat_model.dart';
-import 'package:dare_u/providers/app_state_provider.dart';
-import 'package:dare_u/widgets/goal_card.dart';
+import 'package:unite_up/enums/goal_category_enum.dart';
+import 'package:unite_up/core/constants/app_constants.dart';
+import 'package:unite_up/models/challenge_chat_model.dart';
+import 'package:unite_up/providers/app_state_provider.dart';
+import 'package:unite_up/widgets/goal_card.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

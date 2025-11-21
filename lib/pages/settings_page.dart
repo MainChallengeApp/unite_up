@@ -1,10 +1,10 @@
-import 'package:dare_u/core/constants/app_constants.dart';
-import 'package:dare_u/providers/app_state_provider.dart';
-import 'package:dare_u/providers/theme_provider.dart';
-import 'package:dare_u/widgets/app_card_container.dart';
-import 'package:dare_u/widgets/settings_card.dart';
-import 'package:dare_u/widgets/settings_emoji_container.dart';
-import 'package:dare_u/widgets/settings_icon_container.dart';
+import 'package:unite_up/core/constants/app_constants.dart';
+import 'package:unite_up/providers/app_state_provider.dart';
+import 'package:unite_up/providers/theme_provider.dart';
+import 'package:unite_up/widgets/app_card_container.dart';
+import 'package:unite_up/widgets/settings_card.dart';
+import 'package:unite_up/widgets/settings_emoji_container.dart';
+import 'package:unite_up/widgets/settings_icon_container.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

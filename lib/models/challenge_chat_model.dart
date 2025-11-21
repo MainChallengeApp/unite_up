@@ -1,5 +1,5 @@
-import 'package:dare_u/enums/goal_category_enum.dart';
-import 'package:dare_u/models/event_model.dart';
+import 'package:unite_up/enums/goal_category_enum.dart';
+import 'package:unite_up/models/event_model.dart';
 
 class ChallengeChatModel {
   final String id;

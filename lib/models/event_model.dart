@@ -1,5 +1,5 @@
-import 'package:dare_u/enums/event_type_enum.dart';
-import 'package:dare_u/models/progress_entry_model.dart';
+import 'package:unite_up/enums/event_type_enum.dart';
+import 'package:unite_up/models/progress_entry_model.dart';
 
 class EventModel {
   final String id;

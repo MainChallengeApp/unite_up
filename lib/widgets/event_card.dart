@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-import 'package:dare_u/enums/event_type_enum.dart';
-import 'package:dare_u/models/event_model.dart';
-import 'package:dare_u/widgets/ai_message_card.dart';
-import 'package:dare_u/widgets/progress_submitted_card.dart';
-import 'package:dare_u/widgets/user_message_card.dart';
+import 'package:unite_up/enums/event_type_enum.dart';
+import 'package:unite_up/models/event_model.dart';
+import 'package:unite_up/widgets/ai_message_card.dart';
+import 'package:unite_up/widgets/progress_submitted_card.dart';
+import 'package:unite_up/widgets/user_message_card.dart';
 
 class EventCard extends StatelessWidget {
   final EventModel event;

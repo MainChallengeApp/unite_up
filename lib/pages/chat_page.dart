@@ -1,8 +1,8 @@
-import 'package:dare_u/core/constants/app_constants.dart';
-import 'package:dare_u/models/progress_entry_model.dart';
-import 'package:dare_u/providers/app_state_provider.dart';
-import 'package:dare_u/widgets/event_card.dart';
-import 'package:dare_u/widgets/progress_dialog.dart';
+import 'package:unite_up/core/constants/app_constants.dart';
+import 'package:unite_up/models/progress_entry_model.dart';
+import 'package:unite_up/providers/app_state_provider.dart';
+import 'package:unite_up/widgets/event_card.dart';
+import 'package:unite_up/widgets/progress_dialog.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

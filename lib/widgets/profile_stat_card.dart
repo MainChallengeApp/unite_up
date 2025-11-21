@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:dare_u/core/constants/app_constants.dart';
-import 'package:dare_u/widgets/app_card_container.dart';
+import 'package:unite_up/core/constants/app_constants.dart';
+import 'package:unite_up/widgets/app_card_container.dart';
 
 class ProfileStatCard extends StatelessWidget {
   final String value;

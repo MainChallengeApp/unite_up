@@ -1,10 +1,10 @@
-import 'package:dare_u/models/user_model.dart';
-import 'package:dare_u/core/constants/app_constants.dart';
-import 'package:dare_u/pages/auth_page.dart';
-import 'package:dare_u/providers/app_state_provider.dart';
-import 'package:dare_u/services/user_service.dart';
-import 'package:dare_u/widgets/empty_state.dart';
-import 'package:dare_u/widgets/user_card.dart';
+import 'package:unite_up/models/user_model.dart';
+import 'package:unite_up/core/constants/app_constants.dart';
+import 'package:unite_up/pages/auth_page.dart';
+import 'package:unite_up/providers/app_state_provider.dart';
+import 'package:unite_up/services/user_service.dart';
+import 'package:unite_up/widgets/empty_state.dart';
+import 'package:unite_up/widgets/user_card.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

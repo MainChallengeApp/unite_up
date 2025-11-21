@@ -1,4 +1,4 @@
-import 'package:dare_u/models/media_attachment_model.dart';
+import 'package:unite_up/models/media_attachment_model.dart';
 
 class ProgressEntryModel {
   final String id;

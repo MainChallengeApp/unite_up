@@ -1,8 +1,8 @@
-import 'package:dare_u/pages/home_page.dart';
-import 'package:dare_u/pages/onboarding_page.dart';
-import 'package:dare_u/providers/app_state_provider.dart';
-import 'package:dare_u/providers/theme_provider.dart';
-import 'package:dare_u/theme/app_theme.dart';
+import 'package:unite_up/pages/home_page.dart';
+import 'package:unite_up/pages/onboarding_page.dart';
+import 'package:unite_up/providers/app_state_provider.dart';
+import 'package:unite_up/providers/theme_provider.dart';
+import 'package:unite_up/theme/app_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';

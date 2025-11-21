@@ -1,6 +1,6 @@
-import 'package:dare_u/core/constants/app_constants.dart';
-import 'package:dare_u/enums/auth_provider_enum.dart';
-import 'package:dare_u/widgets/social_login_button.dart';
+import 'package:unite_up/core/constants/app_constants.dart';
+import 'package:unite_up/enums/auth_provider_enum.dart';
+import 'package:unite_up/widgets/social_login_button.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
