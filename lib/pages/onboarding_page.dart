@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:unite_up/enums/goal_category_enum.dart';
 import 'package:unite_up/models/challenge_chat_model.dart';
+import 'package:unite_up/pages/chat_page.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
 import 'package:unite_up/widgets/goal_card.dart';
 
@@ -46,6 +47,11 @@ class _OnboardingPageState extends State<OnboardingPage> {
     );
 
     appState.addChallenge(challenge);
+
+    // Navigate to chat page immediately
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (context) => const ChatPage()));
   }
 
   @override
