@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-
-import 'package:unite_up/models/event_model.dart';
+import 'package:intl/intl.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
+import 'package:unite_up/models/event_model.dart';
 
 class AIMessageCard extends StatelessWidget {
   final EventModel event;
@@ -13,7 +13,10 @@ class AIMessageCard extends StatelessWidget {
     final theme = Theme.of(context);
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: AppSizes.spacing16, vertical: AppSizes.spacing8),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSizes.spacing16,
+        vertical: AppSizes.spacing8,
+      ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
@@ -21,7 +24,9 @@ class AIMessageCard extends StatelessWidget {
             width: AppSizes.iconXLarge,
             height: AppSizes.iconXLarge,
             decoration: BoxDecoration(
-              color: theme.colorScheme.secondary.withValues(alpha: AppOpacity.light),
+              color: theme.colorScheme.secondary.withValues(
+                alpha: AppOpacity.light,
+              ),
               shape: BoxShape.circle,
             ),
             child: Icon(
@@ -50,15 +55,36 @@ class AIMessageCard extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Text(
-                event.message!,
-                style: TextStyle(
-                  fontSize: AppSizes.fontMedium,
-                  color: theme.brightness == Brightness.dark
-                      ? Colors.white
-                      : const Color(0xFF1E293B),
-                  height: AppSizes.lineHeightRelaxed,
-                ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Flexible(
+                    child: Text(
+                      event.message!,
+                      style: TextStyle(
+                        fontSize: AppSizes.fontMedium,
+                        color: theme.brightness == Brightness.dark
+                            ? Colors.white
+                            : const Color(0xFF1E293B),
+                        height: AppSizes.lineHeightRelaxed,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: AppSizes.spacing8),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Text(
+                      DateFormat('HH:mm').format(event.timestamp),
+                      style: TextStyle(
+                        fontSize: AppSizes.fontSmall,
+                        color: theme.iconTheme.color?.withValues(
+                          alpha: AppOpacity.mostlyOpaque,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

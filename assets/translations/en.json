@@ -124,7 +124,11 @@
     "shareAnUpdate": "Share an update...",
     "addProgress": "Add Progress",
     "readyToImprove": "Ready to improve yourself?",
-    "journeyWillAppearHere": "Your challenge journey will appear here"
+    "journeyWillAppearHere": "Your challenge journey will appear here",
+    "uploadImage": "Upload Image",
+    "uploadVideo": "Upload Video",
+    "uploadAudio": "Upload Audio",
+    "uploadFile": "Upload File"
   },
   "progress": {
     "title": "Submit Progress",

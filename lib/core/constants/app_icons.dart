@@ -51,6 +51,7 @@ class AppIcons {
   // ============================================================================
   static const IconData image = Icons.image_rounded;
   static const IconData video = Icons.videocam_rounded;
+  static const IconData audio = Icons.audiotrack_rounded;
   static const IconData attachFile = Icons.attach_file_rounded;
   static const IconData file = Icons.insert_drive_file_rounded;
 

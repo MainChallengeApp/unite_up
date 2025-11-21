@@ -124,7 +124,11 @@
     "shareAnUpdate": "Teile ein Update...",
     "addProgress": "Fortschritt hinzufügen",
     "readyToImprove": "Bereit, dich zu verbessern?",
-    "journeyWillAppearHere": "Deine Challenge-Reise wird hier erscheinen"
+    "journeyWillAppearHere": "Deine Challenge-Reise wird hier erscheinen",
+    "uploadImage": "Bild hochladen",
+    "uploadVideo": "Video hochladen",
+    "uploadAudio": "Audio hochladen",
+    "uploadFile": "Datei hochladen"
   },
   "progress": {
     "title": "Fortschritt einreichen",

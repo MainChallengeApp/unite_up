@@ -1,6 +1,7 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:unite_up/models/event_model.dart';
-import 'package:flutter/material.dart';
 
 class UserMessageCard extends StatelessWidget {
   final EventModel event;
@@ -26,10 +27,10 @@ class UserMessageCard extends StatelessWidget {
               decoration: BoxDecoration(
                 color: theme.colorScheme.primary,
                 borderRadius: const BorderRadius.only(
-                  topLeft: Radius.circular(16),
-                  topRight: Radius.circular(16),
-                  bottomLeft: Radius.circular(16),
-                  bottomRight: Radius.circular(4),
+                  topLeft: Radius.circular(AppSizes.radiusLarge),
+                  topRight: Radius.circular(AppSizes.radiusLarge),
+                  bottomLeft: Radius.circular(AppSizes.radiusLarge),
+                  bottomRight: Radius.circular(AppSizes.radiusTiny),
                 ),
                 boxShadow: [
                   BoxShadow(
@@ -39,13 +40,31 @@ class UserMessageCard extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Text(
-                event.message!,
-                style: const TextStyle(
-                  fontSize: AppSizes.fontMedium,
-                  color: Colors.white,
-                  height: AppSizes.lineHeightRelaxed,
-                ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Flexible(
+                    child: Text(
+                      event.message!,
+                      style: const TextStyle(
+                        fontSize: AppSizes.fontMedium,
+                        color: Colors.white,
+                        height: AppSizes.lineHeightRelaxed,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: AppSizes.spacing8),
+                  Text(
+                    DateFormat('HH:mm').format(event.timestamp),
+                    style: TextStyle(
+                      fontSize: AppSizes.fontSmall,
+                      color: Colors.white.withValues(
+                        alpha: AppOpacity.mostlyOpaque,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             ),
           ),

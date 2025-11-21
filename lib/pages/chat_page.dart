@@ -1,13 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:unite_up/models/progress_entry_model.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
 import 'package:unite_up/widgets/event_card.dart';
 import 'package:unite_up/widgets/progress_dialog.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-
-import 'settings_page.dart';
+import 'package:unite_up/widgets/upload_selection_sheet.dart';
 
 class ChatPage extends StatefulWidget {
   const ChatPage({super.key});
@@ -67,6 +66,20 @@ class _ChatPageState extends State<ChatPage> {
     _scrollToBottom();
   }
 
+  void _showUploadOptions() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => const UploadSelectionSheet(),
+      backgroundColor: Colors.transparent,
+    ).then((result) {
+      if (result != null && mounted) {
+        // Handle the upload type selection
+        // For now, just show the progress dialog
+        _showProgressDialog();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -79,72 +92,75 @@ class _ChatPageState extends State<ChatPage> {
           icon: const Icon(AppIcons.arrowBack),
           onPressed: () => Navigator.pop(context),
         ),
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
+        title: Row(
           children: [
-            if (challenge != null) ...[
-              Row(
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Text(
-                    challenge.emoji,
-                    style: const TextStyle(fontSize: AppSizes.fontXLarge),
-                  ),
-                  const SizedBox(width: AppSizes.spacing8),
-                  Flexible(
-                    child: Text(
-                      challenge.name,
+                  if (challenge != null) ...[
+                    Row(
+                      children: [
+                        Container(
+                          width: AppSizes.iconXXLarge,
+                          height: AppSizes.iconXXLarge,
+                          decoration: BoxDecoration(
+                            color: theme.colorScheme.primary.withValues(
+                              alpha: AppOpacity.light,
+                            ),
+                            shape: BoxShape.circle,
+                          ),
+                          child: Center(
+                            child: Text(
+                              challenge.emoji,
+                              style: const TextStyle(
+                                fontSize: AppSizes.fontLarge,
+                              ),
+                            ),
+                          ),
+                        ),
+                        const SizedBox(width: AppSizes.spacing8),
+                        Flexible(
+                          child: Text(
+                            challenge.name,
+                            style: const TextStyle(
+                              fontWeight: FontWeight.w600,
+                              fontSize: AppSizes.fontLarge,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                    if (challenge.isGroup)
+                      Text(
+                        'challenges.member'.tr(
+                          namedArgs: {
+                            'count': challenge.memberCount.toString(),
+                          },
+                        ),
+                        style: TextStyle(
+                          fontSize: AppSizes.fontSmall,
+                          fontWeight: FontWeight.normal,
+                          color: theme.iconTheme.color?.withValues(
+                            alpha: AppOpacity.mostlyOpaque,
+                          ),
+                        ),
+                      ),
+                  ] else
+                    Text(
+                      'chat.title'.tr(),
                       style: const TextStyle(
                         fontWeight: FontWeight.w600,
-                        fontSize: AppSizes.fontXLarge,
+                        fontSize: AppSizes.fontLarge,
                       ),
-                      overflow: TextOverflow.ellipsis,
                     ),
-                  ),
                 ],
               ),
-              if (challenge.isGroup)
-                Text(
-                  'challenges.member'.tr(
-                    namedArgs: {'count': challenge.memberCount.toString()},
-                  ),
-                  style: TextStyle(
-                    fontSize: AppSizes.fontSmall,
-                    fontWeight: FontWeight.normal,
-                    color: theme.iconTheme.color?.withValues(
-                      alpha: AppOpacity.mostlyOpaque,
-                    ),
-                  ),
-                ),
-            ] else
-              Text(
-                'chat.title'.tr(),
-                style: const TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: AppSizes.fontXLarge,
-                ),
-              ),
+            ),
           ],
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(AppIcons.attachFile),
-            onPressed: _showProgressDialog,
-            tooltip: 'chat.addProgress'.tr(),
-          ),
-          IconButton(
-            icon: const Icon(AppIcons.settings),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const SettingsPage()),
-              );
-            },
-            tooltip: 'settings.title'.tr(),
-          ),
-          const SizedBox(width: AppSizes.spacing8),
-        ],
       ),
       body: Column(
         children: [
@@ -153,6 +169,7 @@ class _ChatPageState extends State<ChatPage> {
                 ? _buildEmptyState(theme)
                 : ListView.builder(
                     controller: _scrollController,
+                    physics: const AlwaysScrollableScrollPhysics(),
                     padding: const EdgeInsets.only(
                       top: AppSizes.spacing16,
                       bottom: AppSizes.spacing16,
@@ -242,6 +259,25 @@ class _ChatPageState extends State<ChatPage> {
       child: SafeArea(
         child: Row(
           children: [
+            Material(
+              color: theme.cardColor,
+              borderRadius: BorderRadius.circular(AppSizes.radiusCircle),
+              child: InkWell(
+                onTap: _showUploadOptions,
+                borderRadius: BorderRadius.circular(AppSizes.radiusCircle),
+                child: Container(
+                  width: AppSizes.containerSmall,
+                  height: AppSizes.containerSmall,
+                  alignment: Alignment.center,
+                  child: Icon(
+                    AppIcons.add,
+                    color: theme.colorScheme.primary,
+                    size: AppSizes.iconMedium,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: AppSizes.spacing12),
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
