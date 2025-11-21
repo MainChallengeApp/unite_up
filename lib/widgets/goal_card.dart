@@ -1,13 +1,14 @@
-import 'package:unite_up/enums/goal_category_enum.dart';
-import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:unite_up/core/constants/app_constants.dart';
+import 'package:unite_up/enums/goal_category_enum.dart';
 
 class GoalCard extends StatelessWidget {
   final GoalCategoryEnum category;
   final bool isSelected;
   final VoidCallback onTap;
   final TextEditingController? customController;
+  final Function(String)? onChangedTextField;
 
   const GoalCard({
     super.key,
@@ -15,6 +16,7 @@ class GoalCard extends StatelessWidget {
     required this.isSelected,
     required this.onTap,
     this.customController,
+    this.onChangedTextField,
   });
 
   @override
@@ -86,7 +88,10 @@ class GoalCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
       ),
       alignment: Alignment.center,
-      child: Text(category.emoji, style: const TextStyle(fontSize: AppSizes.emojiLarge)),
+      child: Text(
+        category.emoji,
+        style: const TextStyle(fontSize: AppSizes.emojiLarge),
+      ),
     );
   }
 
@@ -109,7 +114,9 @@ class GoalCard extends StatelessWidget {
           category.description(context),
           style: TextStyle(
             fontSize: AppSizes.fontRegular,
-            color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
+            color: theme.iconTheme.color?.withValues(
+              alpha: AppOpacity.mostlyOpaque,
+            ),
           ),
         ),
       ],
@@ -129,6 +136,7 @@ class GoalCard extends StatelessWidget {
   Widget _buildCustomInput(ThemeData theme) {
     return TextField(
       controller: customController,
+      onChanged: onChangedTextField,
       decoration: InputDecoration(
         hintText: 'goals.describeCustomGoal'.tr(),
         filled: true,

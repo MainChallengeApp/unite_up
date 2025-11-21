@@ -1,11 +1,11 @@
-import 'package:unite_up/enums/goal_category_enum.dart';
-import 'package:unite_up/core/constants/app_constants.dart';
-import 'package:unite_up/models/challenge_chat_model.dart';
-import 'package:unite_up/providers/app_state_provider.dart';
-import 'package:unite_up/widgets/goal_card.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:unite_up/core/constants/app_constants.dart';
+import 'package:unite_up/enums/goal_category_enum.dart';
+import 'package:unite_up/models/challenge_chat_model.dart';
+import 'package:unite_up/providers/app_state_provider.dart';
+import 'package:unite_up/widgets/goal_card.dart';
 
 class OnboardingPage extends StatefulWidget {
   const OnboardingPage({super.key});
@@ -79,7 +79,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       'onboarding.description'.tr(),
                       style: TextStyle(
                         fontSize: AppSizes.fontLarge,
-                        color: theme.iconTheme.color?.withValues(alpha: AppOpacity.almostOpaque),
+                        color: theme.iconTheme.color?.withValues(
+                          alpha: AppOpacity.almostOpaque,
+                        ),
                         height: AppSizes.lineHeightNormal,
                       ),
                     ),
@@ -89,7 +91,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       style: TextStyle(
                         fontSize: AppSizes.fontMedium,
                         fontWeight: FontWeight.w600,
-                        color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
+                        color: theme.iconTheme.color?.withValues(
+                          alpha: AppOpacity.mostlyOpaque,
+                        ),
                         letterSpacing: 0.5,
                       ),
                     ),
@@ -103,6 +107,11 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         customController: category == GoalCategoryEnum.custom
                             ? _customGoalController
                             : null,
+                        onChangedTextField: category == GoalCategoryEnum.custom
+                            ? (value) => setState(
+                                () => _customGoalController.text = value,
+                              )
+                            : null,
                       );
                     }),
                   ],
@@ -115,7 +124,9 @@ class _OnboardingPageState extends State<OnboardingPage> {
                 color: theme.scaffoldBackgroundColor,
                 border: Border(
                   top: BorderSide(
-                    color: theme.dividerColor.withValues(alpha: AppOpacity.light),
+                    color: theme.dividerColor.withValues(
+                      alpha: AppOpacity.light,
+                    ),
                     width: AppSizes.borderThin,
                   ),
                 ),
@@ -134,9 +145,13 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: theme.colorScheme.primary,
                       foregroundColor: Colors.white,
-                      padding: const EdgeInsets.symmetric(vertical: AppSizes.spacing16),
+                      padding: const EdgeInsets.symmetric(
+                        vertical: AppSizes.spacing16,
+                      ),
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
+                        borderRadius: BorderRadius.circular(
+                          AppSizes.radiusMedium,
+                        ),
                       ),
                       elevation: AppSizes.elevationNone,
                     ),
