@@ -1,16 +1,18 @@
-# Dare U - Life Improvement Challenge App
+# Unite Up - Life Improvement Challenge App
 
 A beautiful, modern Flutter application that helps users improve their lives through daily challenges. Transform your life one challenge at a time!
 
 ## 🎯 Features
 
 ### **🔍 Search & Connect**
+
 - Discover other users on their improvement journey
 - Follow/connect with community members
 - See user stats (challenges completed, followers, etc.)
 - Search by name, username, or bio
 
 ### **🎯 Multiple Goals**
+
 - Create and manage multiple improvement goals
 - Choose from 8 predefined categories or create custom goals:
   - 🏥 Become Healthier
@@ -25,6 +27,7 @@ A beautiful, modern Flutter application that helps users improve their lives thr
 - Each goal has its own event history and challenges
 
 ### **💪 Daily Challenges**
+
 - Receive 3 personalized challenges daily for each goal
 - Challenges come in 3 difficulty levels:
   - 🌱 Easy
@@ -33,12 +36,14 @@ A beautiful, modern Flutter application that helps users improve their lives thr
 - Select one challenge to complete each day
 
 ### **📊 Progress Tracking**
+
 - Submit your progress with notes
 - Upload proof with images, videos, or files (mocked for demo)
 - Track your journey through an event history timeline
 - View all goals in one place
 
 ### **📱 Event History**
+
 - All interactions stored in a beautiful chat-like interface
 - See your goal selection
 - View daily challenge offers
@@ -47,12 +52,14 @@ A beautiful, modern Flutter application that helps users improve their lives thr
 - Celebrate completed challenges
 
 ### **👤 Profile & Authentication**
+
 - Create account or login (mocked for demo)
 - View your profile stats
 - Access achievements and statistics
 - Manage notifications and settings
 
 ### **🎨 Theme Modes**
+
 - Light Mode, Dark Mode, and System Default
 - Beautiful Material Design 3 UI
 - Smooth theme transitions
@@ -126,6 +133,7 @@ lib/
 ## 🚀 Getting Started
 
 1. **Install dependencies:**
+
 ```bash
 flutter pub get
 ```
@@ -133,6 +141,7 @@ flutter pub get
 2. **Run the app:**
 
 For web (accessible from any device on your network):
+
 ```bash
 flutter run -d chrome --web-hostname 0.0.0.0 --web-port 8080
 ```
@@ -140,11 +149,13 @@ flutter run -d chrome --web-hostname 0.0.0.0 --web-port 8080
 Then access from your phone at: `http://YOUR_MAC_IP:8080`
 
 For iOS (if device is connected):
+
 ```bash
 flutter run -d ios
 ```
 
 For Android:
+
 ```bash
 flutter run -d android
 ```
@@ -157,17 +168,22 @@ flutter run -d android
 ## 💡 Key Concepts
 
 ### Event-Driven Architecture
+
 All user interactions and system events are stored as events in a timeline, creating a comprehensive history of the user's improvement journey. Each goal maintains its own independent event history.
 
 ### Multi-Goal Support
+
 Users can create and manage multiple goals simultaneously, each with its own:
+
 - Event history and timeline
 - Daily challenges
 - Active challenge tracking
 - Progress submissions
 
 ### Mocked Data
+
 All challenges, file uploads, and user data are mocked for demonstration purposes. In a production version, this would integrate with:
+
 - Backend API for challenge generation and user management
 - File storage for media uploads
 - Real user authentication and social features
@@ -175,6 +191,7 @@ All challenges, file uploads, and user data are mocked for demonstration purpose
 - Push notifications for daily challenges
 
 ### Responsive Design
+
 The app adapts beautifully to different screen sizes and orientations, providing an excellent experience on phones, tablets, and web browsers.
 
 ## 🎮 Challenge Categories
@@ -185,4 +202,4 @@ Each goal category has 8+ unique challenges that are randomly presented to users
 
 **Built with ❤️ using Flutter and Material Design 3**
 
-*Dare yourself to improve, one challenge at a time! 🚀*
+_Dare yourself to improve, one challenge at a time! 🚀_

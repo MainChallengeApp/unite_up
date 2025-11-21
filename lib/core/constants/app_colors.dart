@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Centralized color constants for the Dare U app
+/// Centralized color constants for the Unite Up app
 class AppColors {
   // Private constructor to prevent instantiation
   AppColors._();
@@ -31,4 +31,3 @@ class AppColors {
   static const Color transparent = Colors.transparent;
   static const Color error = Colors.red;
 }
-

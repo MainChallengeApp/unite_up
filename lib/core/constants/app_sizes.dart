@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Centralized size constants for the Dare U app
+/// Centralized size constants for the Unite Up app
 class AppSizes {
   // Private constructor to prevent instantiation
   AppSizes._();

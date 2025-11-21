@@ -1,6 +1,6 @@
 {
   "app": {
-    "title": "Dare U"
+    "title": "Unite Up"
   },
   "common": {
     "cancel": "Cancel",
@@ -44,7 +44,7 @@
     "profile": "Profile"
   },
   "onboarding": {
-    "welcomeTo": "Welcome to\nDare U!",
+    "welcomeTo": "Welcome to\nUnite Up!",
     "description": "Transform your life one challenge at a time. Create your first personal challenge to track your progress and document your journey.",
     "chooseFocus": "Choose your focus",
     "startJourney": "Create Challenge"

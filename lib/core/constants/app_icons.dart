@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-/// Centralized icon definitions for the Dare U app.
+/// Centralized icon definitions for the Unite Up app.
 /// All icons used throughout the app are defined here for consistency and reusability.
 class AppIcons {
   // Private constructor to prevent instantiation

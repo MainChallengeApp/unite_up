@@ -1,4 +1,4 @@
-/// Centralized duration constants for the Dare U app
+/// Centralized duration constants for the Unite Up app
 class AppDurations {
   // Private constructor to prevent instantiation
   AppDurations._();
@@ -18,4 +18,3 @@ class AppDurations {
   static const Duration timeoutMedium = Duration(seconds: 10);
   static const Duration timeoutLong = Duration(seconds: 30);
 }
-

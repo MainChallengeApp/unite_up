@@ -1,4 +1,4 @@
-/// Centralized opacity constants for the Dare U app
+/// Centralized opacity constants for the Unite Up app
 class AppOpacity {
   // Private constructor to prevent instantiation
   AppOpacity._();
