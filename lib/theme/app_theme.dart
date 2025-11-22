@@ -1,5 +1,5 @@
-import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:unite_up/core/constants/app_constants.dart';
 
 class AppTheme {
   static ThemeData lightTheme = ThemeData(
@@ -42,6 +42,10 @@ class AppTheme {
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: AppColors.lightSurface,
+      hintStyle: const TextStyle(
+        color: AppColors.lightHint,
+        fontSize: AppSizes.fontBase,
+      ),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
         borderSide: BorderSide.none,
@@ -98,6 +102,10 @@ class AppTheme {
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: AppColors.darkSurface,
+      hintStyle: const TextStyle(
+        color: AppColors.darkHint,
+        fontSize: AppSizes.fontBase,
+      ),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
         borderSide: BorderSide.none,
