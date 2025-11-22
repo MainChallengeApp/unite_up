@@ -89,7 +89,8 @@
   "challenges": {
     "title": "Challenges",
     "noChallengesYet": "Noch keine Challenges",
-    "createFirstChallenge": "Erstelle deine erste Challenge, um deine Reise zu beginnen!",
+    "emptySubtitle": "Verfolge deine Ziele und dokumentiere deinen Fortschritt",
+    "createFirstChallenge": "Erstelle deine erste Challenge, um deine Reise zu einem besseren Ich zu beginnen!",
     "createChallenge": "Challenge erstellen",
     "createNewChallenge": "Neue Challenge erstellen",
     "createGroup": "Gruppen erstellen",

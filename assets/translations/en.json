@@ -89,7 +89,8 @@
   "challenges": {
     "title": "Challenges",
     "noChallengesYet": "No challenges yet",
-    "createFirstChallenge": "Create your first challenge to start your journey!",
+    "emptySubtitle": "Track your goals and document your progress",
+    "createFirstChallenge": "Create your first challenge to start your journey towards a better you!",
     "createChallenge": "Create Challenge",
     "createNewChallenge": "Create New Challenge",
     "createGroup": "Create Group",

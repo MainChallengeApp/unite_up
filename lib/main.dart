@@ -1,11 +1,10 @@
-import 'package:unite_up/pages/home_page.dart';
-import 'package:unite_up/pages/onboarding_page.dart';
-import 'package:unite_up/providers/app_state_provider.dart';
-import 'package:unite_up/providers/theme_provider.dart';
-import 'package:unite_up/theme/app_theme.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:unite_up/pages/home_page.dart';
+import 'package:unite_up/providers/app_state_provider.dart';
+import 'package:unite_up/providers/theme_provider.dart';
+import 'package:unite_up/theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,24 +42,7 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      home: const AppRouter(),
+      home: const HomePage(),
     );
-  }
-}
-
-class AppRouter extends StatelessWidget {
-  const AppRouter({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    final appState = Provider.of<AppStateProvider>(context);
-
-    // Show onboarding if user hasn't completed it yet and has no challenges
-    if (!appState.hasCompletedOnboarding || !appState.hasChallenges) {
-      return const OnboardingPage();
-    }
-
-    // Otherwise show the main home page with bottom navigation
-    return const HomePage();
   }
 }
