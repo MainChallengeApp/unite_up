@@ -265,19 +265,18 @@ class _ChallengesPageState extends State<ChallengesPage>
                           ),
                         ),
                         const SizedBox(width: AppSizes.spacing4),
-                        Text(
-                          challenge.isPersonal
-                              ? 'challenges.personal'.tr()
-                              : 'challenges.member'.tr(
-                                  namedArgs: {
-                                    'count': challenge.memberCount.toString(),
-                                  },
-                                ),
-                          style: TextStyle(
-                            fontSize: AppSizes.fontSmall,
-                            color: theme.iconTheme.color?.withValues(
-                              alpha: AppOpacity.mostlyOpaque,
+                        Flexible(
+                          child: Text(
+                            challenge.isPersonal
+                                ? 'challenges.personal'.tr()
+                                : '${challenge.memberCount} ${tr('challenges.members')}',
+                            style: TextStyle(
+                              fontSize: AppSizes.fontSmall,
+                              color: theme.iconTheme.color?.withValues(
+                                alpha: AppOpacity.mostlyOpaque,
+                              ),
                             ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                         const SizedBox(width: AppSizes.spacing12),
@@ -289,13 +288,16 @@ class _ChallengesPageState extends State<ChallengesPage>
                           ),
                         ),
                         const SizedBox(width: AppSizes.spacing4),
-                        Text(
-                          '${challenge.events.length} ${'challenges.messages'.tr()}',
-                          style: TextStyle(
-                            fontSize: AppSizes.fontSmall,
-                            color: theme.iconTheme.color?.withValues(
-                              alpha: AppOpacity.mostlyOpaque,
+                        Flexible(
+                          child: Text(
+                            '${challenge.events.length} ${tr('challenges.messages')}',
+                            style: TextStyle(
+                              fontSize: AppSizes.fontSmall,
+                              color: theme.iconTheme.color?.withValues(
+                                alpha: AppOpacity.mostlyOpaque,
+                              ),
                             ),
+                            overflow: TextOverflow.ellipsis,
                           ),
                         ),
                       ],

@@ -96,7 +96,7 @@
     "createGroup": "Create Group",
     "personal": "Personal",
     "group": "Group",
-    "member": "{count, plural, =1{1 member} other{{count} members}}",
+    "members": "members",
     "messages": "messages",
     "groupCreated": "Group \"{name}\" created!",
     "create": {

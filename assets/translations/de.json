@@ -96,7 +96,7 @@
     "createGroup": "Gruppen erstellen",
     "personal": "Persönlich",
     "group": "Gruppe",
-    "member": "{count, plural, =1{1 Mitglied} other{{count} Mitglieder}}",
+    "members": "Mitglieder",
     "messages": "Nachrichten",
     "groupCreated": "Gruppe \"{name}\" erstellt!",
     "create": {
