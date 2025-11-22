@@ -1,12 +1,12 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:unite_up/enums/goal_category_enum.dart';
 import 'package:unite_up/models/challenge_chat_model.dart';
 import 'package:unite_up/models/user_model.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
 import 'package:unite_up/services/user_service.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 class CreateChallengePage extends StatefulWidget {
   const CreateChallengePage({super.key});
@@ -21,7 +21,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
   final List<UserModel> _selectedMembers = [];
   final List<UserModel> _availableUsers = [];
   String _selectedEmoji = '🎯';
-  GoalCategoryEnum _selectedCategory = GoalCategoryEnum.health;
+  final GoalCategoryEnum _selectedCategory = GoalCategoryEnum.health;
   final List<String> _availableEmojis = [
     '🎯',
     '💪',
@@ -188,6 +188,8 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final appState = Provider.of<AppStateProvider>(context);
+    final isAuthenticated = appState.isAuthenticated;
 
     return Scaffold(
       appBar: AppBar(
@@ -302,55 +304,57 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
               ),
               maxLines: 3,
             ),
-            const SizedBox(height: AppSizes.spacing24),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'challenges.create.members'.tr(),
-                  style: TextStyle(
-                    fontSize: AppSizes.fontMedium,
-                    fontWeight: FontWeight.w600,
-                    color: theme.brightness == Brightness.dark
-                        ? Colors.white
-                        : const Color(0xFF1E293B),
-                  ),
-                ),
-                TextButton.icon(
-                  onPressed: _showMembersPicker,
-                  icon: const Icon(
-                    AppIcons.personAdd,
-                    size: AppSizes.iconSmall,
-                  ),
-                  label: Text('common.add'.tr()),
-                ),
-              ],
-            ),
-            const SizedBox(height: AppSizes.spacing8),
-            if (_selectedMembers.isEmpty)
-              Container(
-                padding: const EdgeInsets.all(AppSizes.spacing24),
-                decoration: BoxDecoration(
-                  color: theme.brightness == Brightness.dark
-                      ? theme.cardColor
-                      : theme.scaffoldBackgroundColor,
-                  borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
-                ),
-                child: Center(
-                  child: Text(
-                    'challenges.create.noMembersAdded'.tr(),
+            if (isAuthenticated) ...[
+              const SizedBox(height: AppSizes.spacing24),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'challenges.create.members'.tr(),
                     style: TextStyle(
-                      color: theme.iconTheme.color?.withValues(
-                        alpha: AppOpacity.semiTransparent,
+                      fontSize: AppSizes.fontMedium,
+                      fontWeight: FontWeight.w600,
+                      color: theme.brightness == Brightness.dark
+                          ? Colors.white
+                          : const Color(0xFF1E293B),
+                    ),
+                  ),
+                  TextButton.icon(
+                    onPressed: _showMembersPicker,
+                    icon: const Icon(
+                      AppIcons.personAdd,
+                      size: AppSizes.iconSmall,
+                    ),
+                    label: Text('common.add'.tr()),
+                  ),
+                ],
+              ),
+              const SizedBox(height: AppSizes.spacing8),
+              if (_selectedMembers.isEmpty)
+                Container(
+                  padding: const EdgeInsets.all(AppSizes.spacing24),
+                  decoration: BoxDecoration(
+                    color: theme.brightness == Brightness.dark
+                        ? theme.cardColor
+                        : theme.scaffoldBackgroundColor,
+                    borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
+                  ),
+                  child: Center(
+                    child: Text(
+                      'challenges.create.noMembersAdded'.tr(),
+                      style: TextStyle(
+                        color: theme.iconTheme.color?.withValues(
+                          alpha: AppOpacity.semiTransparent,
+                        ),
                       ),
                     ),
                   ),
+                )
+              else
+                ..._selectedMembers.map(
+                  (member) => _buildMemberChip(member, theme),
                 ),
-              )
-            else
-              ..._selectedMembers.map(
-                (member) => _buildMemberChip(member, theme),
-              ),
+            ],
             const SizedBox(height: AppSizes.spacing32),
             SizedBox(
               width: double.infinity,
