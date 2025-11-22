@@ -251,55 +251,6 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
             ),
             const SizedBox(height: AppSizes.spacing32),
             Text(
-              'challenges.create.category'.tr(),
-              style: TextStyle(
-                fontSize: AppSizes.fontMedium,
-                fontWeight: FontWeight.w600,
-                color: theme.brightness == Brightness.dark
-                    ? Colors.white
-                    : const Color(0xFF1E293B),
-              ),
-            ),
-            const SizedBox(height: AppSizes.spacing8),
-            DropdownButtonFormField<GoalCategoryEnum>(
-              initialValue: _selectedCategory,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: theme.brightness == Brightness.dark
-                    ? theme.cardColor
-                    : theme.scaffoldBackgroundColor,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-              items: GoalCategoryEnum.values.map((category) {
-                return DropdownMenuItem(
-                  value: category,
-                  child: Builder(
-                    builder: (context) => Row(
-                      children: [
-                        Text(
-                          category.emoji,
-                          style: const TextStyle(
-                            fontSize: AppSizes.fontXXLarge,
-                          ),
-                        ),
-                        const SizedBox(width: AppSizes.spacing12),
-                        Text(category.displayName(context)),
-                      ],
-                    ),
-                  ),
-                );
-              }).toList(),
-              onChanged: (value) {
-                if (value != null) {
-                  setState(() => _selectedCategory = value);
-                }
-              },
-            ),
-            const SizedBox(height: AppSizes.spacing24),
-            Text(
               'challenges.create.titleLabel'.tr(),
               style: TextStyle(
                 fontSize: AppSizes.fontMedium,
