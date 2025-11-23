@@ -180,26 +180,6 @@ class GoalProgressUpdatedCard extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: AppSizes.spacing16),
-          Container(
-            width: AppSizes.iconXLarge,
-            height: AppSizes.iconXLarge,
-            decoration: BoxDecoration(
-              color: goal.isCompleted
-                  ? Colors.green.withValues(alpha: AppOpacity.light)
-                  : theme.colorScheme.secondary.withValues(
-                      alpha: AppOpacity.light,
-                    ),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              AppIcons.person,
-              size: AppSizes.iconSmall,
-              color: goal.isCompleted
-                  ? Colors.green
-                  : theme.colorScheme.secondary,
-            ),
-          ),
         ],
       ),
     );

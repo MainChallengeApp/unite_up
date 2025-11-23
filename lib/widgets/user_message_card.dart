@@ -174,22 +174,6 @@ class UserMessageCard extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: AppSizes.spacing16),
-          Container(
-            width: AppSizes.iconXLarge,
-            height: AppSizes.iconXLarge,
-            decoration: BoxDecoration(
-              color: theme.colorScheme.primary.withValues(
-                alpha: AppOpacity.light,
-              ),
-              shape: BoxShape.circle,
-            ),
-            child: Icon(
-              AppIcons.person,
-              size: AppSizes.iconSmall,
-              color: theme.colorScheme.primary,
-            ),
-          ),
         ],
       ),
     );

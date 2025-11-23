@@ -163,6 +163,8 @@
   },
   "chat": {
     "title": "Challenge",
+    "today": "Today",
+    "yesterday": "Yesterday",
     "startDocumenting": "Start documenting!",
     "shareUpdates": "Share updates, images, and track your progress",
     "shareAnUpdate": "Share an update...",

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
+import 'package:unite_up/models/event_model.dart';
 import 'package:unite_up/models/progress_entry_model.dart';
 import 'package:unite_up/pages/group_details_page.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
@@ -203,26 +204,123 @@ class _ChatPageState extends State<ChatPage> {
           Expanded(
             child: appState.events.isEmpty
                 ? _buildEmptyState(theme)
-                : ListView.builder(
-                    controller: _scrollController,
-                    physics: const AlwaysScrollableScrollPhysics(),
-                    padding: const EdgeInsets.only(
-                      top: AppSizes.spacing16,
-                      bottom: AppSizes.spacing16,
-                    ),
-                    itemCount: appState.events.length,
-                    itemBuilder: (context, index) {
-                      final event = appState.events[index];
-                      return EventCard(
-                        event: event,
-                        onChallengeAccept: null,
-                        onSubmitProgress: _showProgressDialog,
-                      );
-                    },
-                  ),
+                : _buildChatList(appState, theme),
           ),
           _buildInputBar(theme, appState),
         ],
+      ),
+    );
+  }
+
+  Widget _buildChatList(AppStateProvider appState, ThemeData theme) {
+    final groupedEvents = _groupEventsByDate(appState.events);
+    
+    return ListView.builder(
+      controller: _scrollController,
+      physics: const AlwaysScrollableScrollPhysics(),
+      padding: const EdgeInsets.only(
+        top: AppSizes.spacing16,
+        bottom: AppSizes.spacing16,
+      ),
+      itemCount: _calculateItemCount(groupedEvents),
+      itemBuilder: (context, index) {
+        return _buildListItem(context, groupedEvents, index, theme);
+      },
+    );
+  }
+
+  Map<String, List<EventModel>> _groupEventsByDate(List<EventModel> events) {
+    final Map<String, List<EventModel>> grouped = {};
+    
+    for (final event in events) {
+      final dateKey = DateFormat('yyyy-MM-dd').format(event.timestamp);
+      if (!grouped.containsKey(dateKey)) {
+        grouped[dateKey] = [];
+      }
+      grouped[dateKey]!.add(event);
+    }
+    
+    return grouped;
+  }
+
+  int _calculateItemCount(Map<String, List<EventModel>> groupedEvents) {
+    int count = 0;
+    for (final entries in groupedEvents.values) {
+      count += 1 + entries.length; // 1 for date header + events
+    }
+    return count;
+  }
+
+  Widget _buildListItem(
+    BuildContext context,
+    Map<String, List<EventModel>> groupedEvents,
+    int index,
+    ThemeData theme,
+  ) {
+    int currentIndex = 0;
+    
+    for (final entry in groupedEvents.entries) {
+      // Date header
+      if (currentIndex == index) {
+        return _buildDateHeader(entry.key, theme);
+      }
+      currentIndex++;
+      
+      // Events for this date
+      for (final event in entry.value) {
+        if (currentIndex == index) {
+          return EventCard(
+            event: event,
+            onChallengeAccept: null,
+            onSubmitProgress: _showProgressDialog,
+          );
+        }
+        currentIndex++;
+      }
+    }
+    
+    return const SizedBox.shrink();
+  }
+
+  Widget _buildDateHeader(String dateKey, ThemeData theme) {
+    final date = DateTime.parse(dateKey);
+    final now = DateTime.now();
+    final today = DateTime(now.year, now.month, now.day);
+    final yesterday = today.subtract(const Duration(days: 1));
+    final eventDate = DateTime(date.year, date.month, date.day);
+    
+    String displayText;
+    if (eventDate == today) {
+      displayText = 'chat.today'.tr();
+    } else if (eventDate == yesterday) {
+      displayText = 'chat.yesterday'.tr();
+    } else {
+      displayText = DateFormat('MMMM dd, yyyy').format(date);
+    }
+    
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: AppSizes.spacing12),
+      child: Center(
+        child: Container(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSizes.spacing16,
+            vertical: AppSizes.spacing8,
+          ),
+          decoration: BoxDecoration(
+            color: theme.colorScheme.primary.withValues(
+              alpha: AppOpacity.veryLight,
+            ),
+            borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
+          ),
+          child: Text(
+            displayText,
+            style: TextStyle(
+              fontSize: AppSizes.fontSmall,
+              fontWeight: FontWeight.w500,
+              color: theme.colorScheme.primary,
+            ),
+          ),
+        ),
       ),
     );
   }
