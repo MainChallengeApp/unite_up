@@ -25,7 +25,7 @@ class GoalModel {
   double get progressPercentage {
     final range = endValue - startValue;
     if (range == 0) return 0;
-    
+
     final progress = currentValue - startValue;
     final percentage = (progress / range) * 100;
     return percentage.clamp(0, 100);
@@ -78,4 +78,3 @@ class GoalModel {
     );
   }
 }
-

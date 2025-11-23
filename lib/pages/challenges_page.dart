@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:unite_up/models/challenge_chat_model.dart';
@@ -18,6 +19,8 @@ class _ChallengesPageState extends State<ChallengesPage>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
   late Animation<double> _scaleAnimation;
+  bool _isSelectionMode = false;
+  final Set<String> _selectedChallengeIds = {};
 
   @override
   void initState() {
@@ -36,6 +39,69 @@ class _ChallengesPageState extends State<ChallengesPage>
   void dispose() {
     _animationController.dispose();
     super.dispose();
+  }
+
+  void _enterSelectionMode(String challengeId) {
+    HapticFeedback.mediumImpact();
+    setState(() {
+      _isSelectionMode = true;
+      _selectedChallengeIds.add(challengeId);
+    });
+  }
+
+  void _exitSelectionMode() {
+    setState(() {
+      _isSelectionMode = false;
+      _selectedChallengeIds.clear();
+    });
+  }
+
+  void _toggleSelection(String challengeId) {
+    setState(() {
+      if (_selectedChallengeIds.contains(challengeId)) {
+        _selectedChallengeIds.remove(challengeId);
+        if (_selectedChallengeIds.isEmpty) {
+          _isSelectionMode = false;
+        }
+      } else {
+        _selectedChallengeIds.add(challengeId);
+      }
+    });
+  }
+
+  void _deleteSelectedChallenges(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('challenges.delete'.tr()),
+        content: Text(
+          'challenges.deleteMultipleConfirmation'.tr(
+            namedArgs: {'count': _selectedChallengeIds.length.toString()},
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('common.cancel'.tr()),
+          ),
+          FilledButton(
+            onPressed: () {
+              final appState = Provider.of<AppStateProvider>(
+                context,
+                listen: false,
+              );
+              for (final id in _selectedChallengeIds) {
+                appState.deleteChallenge(id);
+              }
+              Navigator.pop(context);
+              _exitSelectionMode();
+            },
+            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            child: Text('common.delete'.tr()),
+          ),
+        ],
+      ),
+    );
   }
 
   void _navigateToChallengeChat(BuildContext context, String challengeId) {
@@ -64,19 +130,36 @@ class _ChallengesPageState extends State<ChallengesPage>
 
     return Scaffold(
       appBar: AppBar(
+        leading: _isSelectionMode
+            ? IconButton(
+                icon: const Icon(AppIcons.close),
+                onPressed: _exitSelectionMode,
+              )
+            : null,
         title: Text(
-          'challenges.title'.tr(),
+          _isSelectionMode
+              ? '${_selectedChallengeIds.length} ${'common.selected'.tr()}'
+              : 'challenges.title'.tr(),
           style: const TextStyle(
             fontWeight: FontWeight.w600,
             fontSize: AppSizes.fontXLarge,
           ),
         ),
         actions: [
-          IconButton(
-            icon: const Icon(AppIcons.add),
-            onPressed: () => _createNewChallenge(context),
-            tooltip: 'challenges.createNewChallenge'.tr(),
-          ),
+          if (_isSelectionMode)
+            IconButton(
+              icon: const Icon(AppIcons.delete),
+              onPressed: _selectedChallengeIds.isEmpty
+                  ? null
+                  : () => _deleteSelectedChallenges(context),
+              tooltip: 'common.delete'.tr(),
+            )
+          else
+            IconButton(
+              icon: const Icon(AppIcons.add),
+              onPressed: () => _createNewChallenge(context),
+              tooltip: 'challenges.createNewChallenge'.tr(),
+            ),
           const SizedBox(width: AppSizes.spacing8),
         ],
       ),
@@ -189,18 +272,27 @@ class _ChallengesPageState extends State<ChallengesPage>
     ChallengeChatModel challenge,
     ThemeData theme,
   ) {
-    return Card(
+    final isSelected = _selectedChallengeIds.contains(challenge.id);
+
+    final cardContent = Card(
       margin: const EdgeInsets.only(bottom: AppSizes.spacing12),
       elevation: AppSizes.elevationNone,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
         side: BorderSide(
-          color: theme.dividerColor.withValues(alpha: AppOpacity.subtle),
-          width: AppSizes.borderThin,
+          color: isSelected
+              ? theme.colorScheme.primary
+              : theme.dividerColor.withValues(alpha: AppOpacity.subtle),
+          width: isSelected ? 2.0 : AppSizes.borderThin,
         ),
       ),
       child: InkWell(
-        onTap: () => _navigateToChallengeChat(context, challenge.id),
+        onTap: _isSelectionMode
+            ? () => _toggleSelection(challenge.id)
+            : () => _navigateToChallengeChat(context, challenge.id),
+        onLongPress: _isSelectionMode
+            ? null
+            : () => _enterSelectionMode(challenge.id),
         borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
         child: Padding(
           padding: const EdgeInsets.all(AppSizes.spacing16),
@@ -215,12 +307,20 @@ class _ChallengesPageState extends State<ChallengesPage>
                   ),
                   borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
                 ),
-                child: Center(
-                  child: Text(
-                    challenge.emoji,
-                    style: const TextStyle(fontSize: AppSizes.emojiLarge),
-                  ),
-                ),
+                child: _isSelectionMode
+                    ? Center(
+                        child: Checkbox(
+                          value: isSelected,
+                          onChanged: (_) => _toggleSelection(challenge.id),
+                          shape: const CircleBorder(),
+                        ),
+                      )
+                    : Center(
+                        child: Text(
+                          challenge.emoji,
+                          style: const TextStyle(fontSize: AppSizes.emojiLarge),
+                        ),
+                      ),
               ),
               const SizedBox(width: AppSizes.spacing16),
               Expanded(
@@ -305,16 +405,68 @@ class _ChallengesPageState extends State<ChallengesPage>
                   ],
                 ),
               ),
-              Icon(
-                AppIcons.chevronRight,
-                color: theme.iconTheme.color?.withValues(
-                  alpha: AppOpacity.medium,
+              if (!_isSelectionMode)
+                Icon(
+                  AppIcons.chevronRight,
+                  color: theme.iconTheme.color?.withValues(
+                    alpha: AppOpacity.medium,
+                  ),
                 ),
-              ),
             ],
           ),
         ),
       ),
     );
+
+    // Add swipe-to-delete when not in selection mode
+    if (!_isSelectionMode) {
+      return Dismissible(
+        key: Key(challenge.id),
+        direction: DismissDirection.endToStart,
+        confirmDismiss: (direction) async {
+          return await showDialog(
+            context: context,
+            builder: (context) => AlertDialog(
+              title: Text('challenges.delete'.tr()),
+              content: Text('challenges.deleteConfirmation'.tr()),
+              actions: [
+                TextButton(
+                  onPressed: () => Navigator.pop(context, false),
+                  child: Text('common.cancel'.tr()),
+                ),
+                FilledButton(
+                  onPressed: () => Navigator.pop(context, true),
+                  style: FilledButton.styleFrom(backgroundColor: Colors.red),
+                  child: Text('common.delete'.tr()),
+                ),
+              ],
+            ),
+          );
+        },
+        onDismissed: (direction) {
+          Provider.of<AppStateProvider>(
+            context,
+            listen: false,
+          ).deleteChallenge(challenge.id);
+        },
+        background: Container(
+          margin: const EdgeInsets.only(bottom: AppSizes.spacing12),
+          decoration: BoxDecoration(
+            color: Colors.red,
+            borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
+          ),
+          alignment: Alignment.centerRight,
+          padding: const EdgeInsets.only(right: AppSizes.spacing20),
+          child: const Icon(
+            AppIcons.delete,
+            color: Colors.white,
+            size: AppSizes.iconMedium,
+          ),
+        ),
+        child: cardContent,
+      );
+    }
+
+    return cardContent;
   }
 }

@@ -21,6 +21,7 @@ class AppIcons {
   static const IconData close = Icons.close_rounded;
   static const IconData code = Icons.code_rounded;
   static const IconData darkMode = Icons.dark_mode_rounded;
+  static const IconData delete = Icons.delete_outline_rounded;
   static const IconData description = Icons.description_outlined;
   static const IconData edit = Icons.edit_rounded;
   static const IconData email = Icons.email_outlined;
