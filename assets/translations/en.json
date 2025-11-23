@@ -66,6 +66,8 @@
     "goalCompleted": "Goal Completed",
     "selectGoal": "Please select a goal",
     "enterValidValue": "Please enter a valid number",
+    "enterValidValues": "Please enter valid numbers",
+    "valuesMustBeDifferent": "Start and end values must be different",
     "noGoalsToUpdate": "You don't have any goals yet. Create one first!",
     "selectGoalToUpdate": "Select a goal to update",
     "newValue": "New Progress Value",

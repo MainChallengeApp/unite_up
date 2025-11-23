@@ -5,6 +5,7 @@ import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:unite_up/models/progress_entry_model.dart';
 import 'package:unite_up/pages/group_details_page.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
+import 'package:unite_up/widgets/create_goal_dialog.dart';
 import 'package:unite_up/widgets/event_card.dart';
 import 'package:unite_up/widgets/progress_dialog.dart';
 import 'package:unite_up/widgets/update_goal_progress_dialog.dart';
@@ -75,7 +76,9 @@ class _ChatPageState extends State<ChatPage> {
       backgroundColor: Colors.transparent,
     ).then((result) {
       if (result != null && mounted) {
-        if (result == 'goal_progress') {
+        if (result == 'create_goal') {
+          _showCreateGoalDialog();
+        } else if (result == 'goal_progress') {
           _showUpdateGoalProgressDialog();
         } else {
           // Handle other upload type selections
@@ -84,6 +87,13 @@ class _ChatPageState extends State<ChatPage> {
         }
       }
     });
+  }
+
+  void _showCreateGoalDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => const CreateGoalDialog(),
+    );
   }
 
   void _showUpdateGoalProgressDialog() {

@@ -77,9 +77,9 @@ class _CreateGoalDialogState extends State<CreateGoalDialog> {
       return;
     }
 
-    if (endValue <= startValue) {
+    if (startValue == endValue) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('goals.endValueMustBeGreater'.tr())),
+        SnackBar(content: Text('goals.valuesMustBeDifferent'.tr())),
       );
       return;
     }

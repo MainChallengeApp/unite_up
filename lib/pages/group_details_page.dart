@@ -398,8 +398,9 @@ class GroupDetailsPage extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              // Start value
               Text(
-                '${goal.currentValue.toStringAsFixed(goal.currentValue.truncateToDouble() == goal.currentValue ? 0 : 1)} ${goal.unit ?? ""} / ${goal.endValue.toStringAsFixed(goal.endValue.truncateToDouble() == goal.endValue ? 0 : 1)} ${goal.unit ?? ""}',
+                '${_formatValue(goal.startValue)} ${goal.unit ?? ""}',
                 style: TextStyle(
                   fontSize: AppSizes.fontSmall,
                   color: theme.iconTheme.color?.withValues(
@@ -407,6 +408,7 @@ class GroupDetailsPage extends StatelessWidget {
                   ),
                 ),
               ),
+              // Days remaining
               Text(
                 goal.isCompleted
                     ? 'goals.completed'.tr()
@@ -425,6 +427,16 @@ class GroupDetailsPage extends StatelessWidget {
                       : theme.iconTheme.color?.withValues(
                           alpha: AppOpacity.mostlyOpaque,
                         ),
+                ),
+              ),
+              // End value (goal)
+              Text(
+                '${_formatValue(goal.endValue)} ${goal.unit ?? ""}',
+                style: TextStyle(
+                  fontSize: AppSizes.fontSmall,
+                  color: theme.iconTheme.color?.withValues(
+                    alpha: AppOpacity.mostlyOpaque,
+                  ),
                 ),
               ),
             ],
@@ -569,5 +581,9 @@ class GroupDetailsPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  String _formatValue(double value) {
+    return value.toStringAsFixed(value.truncateToDouble() == value ? 0 : 1);
   }
 }

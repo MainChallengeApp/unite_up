@@ -21,16 +21,25 @@ class GoalModel {
     this.unit,
   });
 
-  // Calculate progress percentage
+  // Calculate progress percentage (works for both increasing and decreasing goals)
   double get progressPercentage {
-    if (endValue == 0) return 0;
-    final percentage = (currentValue / endValue) * 100;
+    final range = endValue - startValue;
+    if (range == 0) return 0;
+    
+    final progress = currentValue - startValue;
+    final percentage = (progress / range) * 100;
     return percentage.clamp(0, 100);
   }
 
-  // Check if goal is completed
+  // Check if goal is completed (works for both increasing and decreasing goals)
   bool get isCompleted {
-    return currentValue >= endValue;
+    if (endValue > startValue) {
+      // Increasing goal (e.g., run 100km)
+      return currentValue >= endValue;
+    } else {
+      // Decreasing goal (e.g., lose 10kg)
+      return currentValue <= endValue;
+    }
   }
 
   // Check if goal is overdue

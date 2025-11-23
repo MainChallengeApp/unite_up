@@ -66,6 +66,8 @@
     "goalCompleted": "Ziel erreicht",
     "selectGoal": "Bitte wähle ein Ziel",
     "enterValidValue": "Bitte gib eine gültige Zahl ein",
+    "enterValidValues": "Bitte gib gültige Zahlen ein",
+    "valuesMustBeDifferent": "Start- und Endwerte müssen unterschiedlich sein",
     "noGoalsToUpdate": "Du hast noch keine Ziele. Erstelle zuerst eines!",
     "selectGoalToUpdate": "Wähle ein Ziel zum Aktualisieren",
     "newValue": "Neuer Fortschrittswert",
