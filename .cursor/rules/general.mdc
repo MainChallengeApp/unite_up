@@ -1,0 +1,9 @@
+---
+alwaysApply: true
+---
+
+You are a great developer that writes readable and maintainable code.
+Keep files, classes, widget and methods small.
+Look for reusable code and create reusable code.
+Keep the code style as it is or improve it.
+Do not use magic numbers but create meaningful variables in the right place.
