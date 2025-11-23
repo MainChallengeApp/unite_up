@@ -227,7 +227,7 @@ class _ChatPageState extends State<ChatPage> {
 
   Widget _buildChatList(AppStateProvider appState, ThemeData theme) {
     final groupedEvents = _groupEventsByDate(appState.events);
-    
+
     return ListView.builder(
       controller: _scrollController,
       physics: const AlwaysScrollableScrollPhysics(),
@@ -244,7 +244,7 @@ class _ChatPageState extends State<ChatPage> {
 
   Map<String, List<EventModel>> _groupEventsByDate(List<EventModel> events) {
     final Map<String, List<EventModel>> grouped = {};
-    
+
     for (final event in events) {
       final dateKey = DateFormat('yyyy-MM-dd').format(event.timestamp);
       if (!grouped.containsKey(dateKey)) {
@@ -252,7 +252,7 @@ class _ChatPageState extends State<ChatPage> {
       }
       grouped[dateKey]!.add(event);
     }
-    
+
     return grouped;
   }
 
@@ -271,14 +271,14 @@ class _ChatPageState extends State<ChatPage> {
     ThemeData theme,
   ) {
     int currentIndex = 0;
-    
+
     for (final entry in groupedEvents.entries) {
       // Date header
       if (currentIndex == index) {
         return _buildDateHeader(entry.key, theme);
       }
       currentIndex++;
-      
+
       // Events for this date
       for (final event in entry.value) {
         if (currentIndex == index) {
@@ -291,7 +291,7 @@ class _ChatPageState extends State<ChatPage> {
         currentIndex++;
       }
     }
-    
+
     return const SizedBox.shrink();
   }
 
@@ -301,7 +301,7 @@ class _ChatPageState extends State<ChatPage> {
     final today = DateTime(now.year, now.month, now.day);
     final yesterday = today.subtract(const Duration(days: 1));
     final eventDate = DateTime(date.year, date.month, date.day);
-    
+
     String displayText;
     if (eventDate == today) {
       displayText = 'chat.today'.tr();
@@ -310,7 +310,7 @@ class _ChatPageState extends State<ChatPage> {
     } else {
       displayText = DateFormat('MMMM dd, yyyy').format(date);
     }
-    
+
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: AppSizes.spacing12),
       child: Center(
