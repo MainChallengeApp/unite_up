@@ -5,8 +5,10 @@ import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:unite_up/enums/goal_category_enum.dart';
 import 'package:unite_up/models/challenge_chat_model.dart';
 import 'package:unite_up/models/user_model.dart';
+import 'package:unite_up/pages/chat_page.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
 import 'package:unite_up/services/user_service.dart';
+import 'package:unite_up/widgets/custom_text_field.dart';
 
 class CreateChallengePage extends StatefulWidget {
   const CreateChallengePage({super.key});
@@ -173,15 +175,11 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
     );
 
     appState.addChallenge(challenge);
-    Navigator.pop(context);
 
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(
-          'challenges.challengeCreated'.tr(namedArgs: {'name': challenge.name}),
-        ),
-        behavior: SnackBarBehavior.floating,
-      ),
+    // Navigate to chat page
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const ChatPage()),
     );
   }
 
@@ -252,56 +250,19 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
               ),
             ),
             const SizedBox(height: AppSizes.spacing32),
-            Text(
-              'challenges.create.titleLabel'.tr(),
-              style: TextStyle(
-                fontSize: AppSizes.fontMedium,
-                fontWeight: FontWeight.w600,
-                color: theme.brightness == Brightness.dark
-                    ? Colors.white
-                    : const Color(0xFF1E293B),
-              ),
-            ),
-            const SizedBox(height: AppSizes.spacing8),
-            TextField(
+
+            CustomTextField(
               controller: _titleController,
-              decoration: InputDecoration(
-                hintText: 'challenges.create.enterChallengeName'.tr(),
-                filled: true,
-                fillColor: theme.brightness == Brightness.dark
-                    ? theme.cardColor
-                    : theme.scaffoldBackgroundColor,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
-                  borderSide: BorderSide.none,
-                ),
-              ),
+              labelText: 'challenges.create.titleLabel'.tr(),
+              hintText: 'challenges.create.enterChallengeName'.tr(),
+              icon: AppIcons.edit,
             ),
             const SizedBox(height: AppSizes.spacing24),
-            Text(
-              'challenges.create.descriptionLabel'.tr(),
-              style: TextStyle(
-                fontSize: AppSizes.fontMedium,
-                fontWeight: FontWeight.w600,
-                color: theme.brightness == Brightness.dark
-                    ? Colors.white
-                    : const Color(0xFF1E293B),
-              ),
-            ),
-            const SizedBox(height: AppSizes.spacing8),
-            TextField(
+            CustomTextField(
               controller: _descriptionController,
-              decoration: InputDecoration(
-                hintText: 'challenges.create.whatIsGroupAbout'.tr(),
-                filled: true,
-                fillColor: theme.brightness == Brightness.dark
-                    ? theme.cardColor
-                    : theme.scaffoldBackgroundColor,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
-                  borderSide: BorderSide.none,
-                ),
-              ),
+              labelText: 'challenges.create.descriptionLabel'.tr(),
+              hintText: 'challenges.create.whatIsGroupAbout'.tr(),
+              icon: AppIcons.description,
               maxLines: 3,
             ),
             if (isAuthenticated) ...[

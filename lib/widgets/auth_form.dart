@@ -1,5 +1,6 @@
 import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:unite_up/enums/auth_provider_enum.dart';
+import 'package:unite_up/widgets/custom_text_field.dart';
 import 'package:unite_up/widgets/social_login_button.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -63,44 +64,32 @@ class AuthForm extends StatelessWidget {
   }
 
   Widget _buildNameField() {
-    return Builder(
-      builder: (context) => TextField(
-        controller: nameController,
-        decoration: InputDecoration(
-          labelText: 'auth.fields.fullName'.tr(),
-          hintText: 'auth.fields.enterFullName'.tr(),
-          prefixIcon: const Icon(AppIcons.personOutline),
-        ),
-        textCapitalization: TextCapitalization.words,
-      ),
+    return CustomTextField(
+      controller: nameController,
+      labelText: 'auth.fields.fullName'.tr(),
+      hintText: 'auth.fields.enterFullName'.tr(),
+      icon: AppIcons.personOutline,
+      textCapitalization: TextCapitalization.words,
     );
   }
 
   Widget _buildEmailField() {
-    return Builder(
-      builder: (context) => TextField(
-        controller: emailController,
-        decoration: InputDecoration(
-          labelText: 'auth.fields.email'.tr(),
-          hintText: 'auth.fields.enterEmail'.tr(),
-          prefixIcon: const Icon(AppIcons.email),
-        ),
-        keyboardType: TextInputType.emailAddress,
-      ),
+    return CustomTextField(
+      controller: emailController,
+      labelText: 'auth.fields.email'.tr(),
+      hintText: 'auth.fields.enterEmail'.tr(),
+      icon: AppIcons.email,
+      keyboardType: TextInputType.emailAddress,
     );
   }
 
   Widget _buildPasswordField() {
-    return Builder(
-      builder: (context) => TextField(
-        controller: passwordController,
-        decoration: InputDecoration(
-          labelText: 'auth.fields.password'.tr(),
-          hintText: 'auth.fields.enterPassword'.tr(),
-          prefixIcon: const Icon(AppIcons.lock),
-        ),
-        obscureText: true,
-      ),
+    return CustomTextField(
+      controller: passwordController,
+      labelText: 'auth.fields.password'.tr(),
+      hintText: 'auth.fields.enterPassword'.tr(),
+      icon: AppIcons.lock,
+      obscureText: true,
     );
   }
 
