@@ -75,9 +75,13 @@ class _ChatPageState extends State<ChatPage> {
       backgroundColor: Colors.transparent,
     ).then((result) {
       if (result != null && mounted) {
-        // Handle the upload type selection
-        // For now, just show the progress dialog
-        _showProgressDialog();
+        if (result == 'goal_progress') {
+          _showUpdateGoalProgressDialog();
+        } else {
+          // Handle other upload type selections
+          // For now, just show the progress dialog for media uploads
+          _showProgressDialog();
+        }
       }
     });
   }
@@ -295,25 +299,6 @@ class _ChatPageState extends State<ChatPage> {
                   child: Icon(
                     AppIcons.add,
                     color: theme.colorScheme.primary,
-                    size: AppSizes.iconMedium,
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(width: AppSizes.spacing8),
-            Material(
-              color: theme.cardColor,
-              borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
-              child: InkWell(
-                onTap: () => _showUpdateGoalProgressDialog(),
-                borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
-                child: Container(
-                  width: AppSizes.containerSmall,
-                  height: AppSizes.containerSmall,
-                  alignment: Alignment.center,
-                  child: Icon(
-                    AppIcons.flag,
-                    color: theme.colorScheme.secondary,
                     size: AppSizes.iconMedium,
                   ),
                 ),

@@ -13,6 +13,14 @@ class UploadSelectionSheet extends StatelessWidget {
     return CustomBottomSheet(
       options: [
         BottomSheetOption(
+          icon: AppIcons.flag,
+          label: 'goals.updateProgress'.tr(),
+          color: Colors.purple,
+          onTap: () {
+            Navigator.pop(context, 'goal_progress');
+          },
+        ),
+        BottomSheetOption(
           icon: AppIcons.image,
           label: 'chat.uploadImage'.tr(),
           color: theme.colorScheme.primary,
