@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:unite_up/models/authenticated_user_model.dart';
 import 'package:unite_up/models/challenge_chat_model.dart';
 import 'package:unite_up/models/event_model.dart';
+import 'package:unite_up/models/goal_model.dart';
 import 'package:unite_up/models/progress_entry_model.dart';
 import 'package:unite_up/services/auth_service.dart';
 
@@ -135,6 +136,63 @@ class AppStateProvider extends ChangeNotifier {
     
     _challenges[challengeIndex] = _challenges[challengeIndex].copyWith(events: events);
     notifyListeners();
+  }
+
+  // Add a goal to the current challenge
+  void addGoal(GoalModel goal) {
+    if (_selectedChallengeId == null) return;
+
+    final challengeIndex = _challenges.indexWhere((c) => c.id == _selectedChallengeId);
+    if (challengeIndex == -1) return;
+
+    final goals = List<GoalModel>.from(_challenges[challengeIndex].goals);
+    goals.add(goal);
+
+    _challenges[challengeIndex] = _challenges[challengeIndex].copyWith(goals: goals);
+    notifyListeners();
+  }
+
+  // Update a goal
+  void updateGoal(GoalModel updatedGoal) {
+    if (_selectedChallengeId == null) return;
+
+    final challengeIndex = _challenges.indexWhere((c) => c.id == _selectedChallengeId);
+    if (challengeIndex == -1) return;
+
+    final goals = List<GoalModel>.from(_challenges[challengeIndex].goals);
+    final goalIndex = goals.indexWhere((g) => g.id == updatedGoal.id);
+
+    if (goalIndex != -1) {
+      goals[goalIndex] = updatedGoal;
+      _challenges[challengeIndex] = _challenges[challengeIndex].copyWith(goals: goals);
+      notifyListeners();
+    }
+  }
+
+  // Delete a goal
+  void deleteGoal(String goalId) {
+    if (_selectedChallengeId == null) return;
+
+    final challengeIndex = _challenges.indexWhere((c) => c.id == _selectedChallengeId);
+    if (challengeIndex == -1) return;
+
+    final goals = List<GoalModel>.from(_challenges[challengeIndex].goals);
+    goals.removeWhere((g) => g.id == goalId);
+
+    _challenges[challengeIndex] = _challenges[challengeIndex].copyWith(goals: goals);
+    notifyListeners();
+  }
+
+  // Get goals for a specific user in current challenge
+  List<GoalModel> getGoalsForUser(String userId) {
+    if (_selectedChallengeId == null) return [];
+
+    final challenge = _challenges.firstWhere(
+      (c) => c.id == _selectedChallengeId,
+      orElse: () => _challenges.first,
+    );
+
+    return challenge.goals.where((g) => g.userId == userId).toList();
   }
 
   // Update challenge (for editing)

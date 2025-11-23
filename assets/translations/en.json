@@ -13,7 +13,8 @@
     "save": "Save",
     "search": "Search",
     "yes": "Yes",
-    "no": "No"
+    "no": "No",
+    "you": "You"
   },
   "auth": {
     "signIn": "Sign In",
@@ -50,6 +51,30 @@
     "startJourney": "Create Challenge"
   },
   "goals": {
+    "groupDetails": "Group Details",
+    "challengeDetails": "Challenge Details",
+    "membersAndGoals": "Members & Goals",
+    "myGoals": "My Goals",
+    "noGoalsYet": "No goals yet. Tap + to create one!",
+    "noGoalsForUser": "No goals yet",
+    "addGoal": "Add Goal",
+    "addFirstGoal": "Add Your First Goal",
+    "createGoal": "Create Goal",
+    "title": "Goal Title",
+    "titleHint": "e.g., Lose weight, Run 100km",
+    "startValue": "Start",
+    "endValue": "Target",
+    "unit": "Unit",
+    "unitHint": "e.g., kg, km, hours",
+    "dates": "Timeline",
+    "startDate": "Start Date",
+    "endDate": "End Date",
+    "completed": "Completed!",
+    "overdue": "Overdue",
+    "daysLeft": "{days} days left",
+    "enterTitle": "Please enter a goal title",
+    "enterValidValues": "Please enter valid numbers",
+    "endValueMustBeGreater": "Target value must be greater than start value",
     "categories": {
       "health": {
         "name": "Become Healthier",

@@ -1,11 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:unite_up/models/progress_entry_model.dart';
+import 'package:unite_up/pages/group_details_page.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
-import 'package:unite_up/widgets/custom_bottom_sheet.dart';
 import 'package:unite_up/widgets/event_card.dart';
 import 'package:unite_up/widgets/progress_dialog.dart';
 import 'package:unite_up/widgets/upload_selection_sheet.dart';
@@ -82,138 +81,6 @@ class _ChatPageState extends State<ChatPage> {
     });
   }
 
-  void _showChallengeOptions() {
-    final appState = Provider.of<AppStateProvider>(context, listen: false);
-    final challenge = appState.currentChallenge;
-    if (challenge == null) return;
-
-    HapticFeedback.mediumImpact();
-
-    showModalBottomSheet(
-      context: context,
-      backgroundColor: Colors.transparent,
-      builder: (context) => CustomBottomSheet(
-        options: [
-          BottomSheetOption(
-            icon: AppIcons.edit,
-            label: 'common.edit'.tr(),
-            color: Theme.of(context).colorScheme.primary,
-            onTap: () {
-              Navigator.pop(context);
-              _showEditChallengeDialog();
-            },
-          ),
-          BottomSheetOption(
-            icon: AppIcons.close,
-            label: 'common.delete'.tr(),
-            color: Colors.red,
-            onTap: () {
-              Navigator.pop(context);
-              _showDeleteChallengeConfirmation();
-            },
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _showEditChallengeDialog() {
-    final appState = Provider.of<AppStateProvider>(context, listen: false);
-    final challenge = appState.currentChallenge;
-    if (challenge == null) return;
-
-    final nameController = TextEditingController(text: challenge.name);
-    final descriptionController = TextEditingController(
-      text: challenge.description ?? '',
-    );
-
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('challenges.edit'.tr()),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: nameController,
-                decoration: InputDecoration(
-                  labelText: 'challenges.create.titleLabel'.tr(),
-                  border: const OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: AppSizes.spacing16),
-              TextField(
-                controller: descriptionController,
-                decoration: InputDecoration(
-                  labelText: 'challenges.create.descriptionLabel'.tr(),
-                  border: const OutlineInputBorder(),
-                ),
-                maxLines: 3,
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text('common.cancel'.tr()),
-          ),
-          FilledButton(
-            onPressed: () {
-              if (nameController.text.trim().isNotEmpty) {
-                final updatedChallenge = challenge.copyWith(
-                  name: nameController.text.trim(),
-                  description: descriptionController.text.trim().isEmpty
-                      ? null
-                      : descriptionController.text.trim(),
-                );
-                Provider.of<AppStateProvider>(
-                  context,
-                  listen: false,
-                ).updateChallenge(updatedChallenge);
-                Navigator.pop(context);
-              }
-            },
-            child: Text('common.save'.tr()),
-          ),
-        ],
-      ),
-    );
-  }
-
-  void _showDeleteChallengeConfirmation() {
-    final appState = Provider.of<AppStateProvider>(context, listen: false);
-    final challenge = appState.currentChallenge;
-    if (challenge == null) return;
-
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('challenges.delete'.tr()),
-        content: Text('challenges.deleteConfirmation'.tr()),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text('common.cancel'.tr()),
-          ),
-          FilledButton(
-            onPressed: () {
-              Provider.of<AppStateProvider>(
-                context,
-                listen: false,
-              ).deleteChallenge(challenge.id);
-              Navigator.pop(context);
-              Navigator.pop(context);
-            },
-            style: FilledButton.styleFrom(backgroundColor: Colors.red),
-            child: Text('common.delete'.tr()),
-          ),
-        ],
-      ),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -226,23 +93,27 @@ class _ChatPageState extends State<ChatPage> {
           icon: const Icon(AppIcons.arrowBack),
           onPressed: () => Navigator.pop(context),
         ),
-        actions: [
-          if (challenge != null)
-            IconButton(
-              icon: const Icon(Icons.more_vert),
-              onPressed: _showChallengeOptions,
-            ),
-        ],
-        title: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            if (challenge != null) ...[
-              Row(
-                children: [
+        title: InkWell(
+          onTap: challenge != null
+              ? () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) =>
+                          GroupDetailsPage(challenge: challenge),
+                    ),
+                  );
+                }
+              : null,
+          borderRadius: BorderRadius.circular(AppSizes.radiusSmall),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: AppSizes.spacing4),
+            child: Row(
+              children: [
+                if (challenge != null) ...[
                   Container(
-                    width: AppSizes.iconXXLarge,
-                    height: AppSizes.iconXXLarge,
+                    width: AppSizes.iconXLarge,
+                    height: AppSizes.iconXLarge,
                     decoration: BoxDecoration(
                       color: theme.colorScheme.primary.withValues(
                         alpha: AppOpacity.light,
@@ -252,45 +123,57 @@ class _ChatPageState extends State<ChatPage> {
                     child: Center(
                       child: Text(
                         challenge.emoji,
-                        style: const TextStyle(fontSize: AppSizes.fontLarge),
+                        style: const TextStyle(fontSize: AppSizes.fontMedium),
                       ),
                     ),
                   ),
-                  const SizedBox(width: AppSizes.spacing8),
-                  Flexible(
-                    child: Text(
-                      challenge.name,
-                      style: const TextStyle(
-                        fontWeight: FontWeight.w600,
-                        fontSize: AppSizes.fontLarge,
-                      ),
-                      overflow: TextOverflow.ellipsis,
+                  const SizedBox(width: AppSizes.spacing12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          challenge.name,
+                          style: const TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: AppSizes.fontLarge,
+                          ),
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 1,
+                        ),
+                        if (challenge.isGroup) ...[
+                          const SizedBox(height: AppSizes.spacing2),
+                          Text(
+                            'challenges.member'.tr(
+                              namedArgs: {
+                                'count': challenge.memberCount.toString(),
+                              },
+                            ),
+                            style: TextStyle(
+                              fontSize: AppSizes.fontSmall,
+                              fontWeight: FontWeight.normal,
+                              color: theme.iconTheme.color?.withValues(
+                                alpha: AppOpacity.mostlyOpaque,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ],
                     ),
                   ),
-                ],
-              ),
-              if (challenge.isGroup)
-                Text(
-                  'challenges.member'.tr(
-                    namedArgs: {'count': challenge.memberCount.toString()},
-                  ),
-                  style: TextStyle(
-                    fontSize: AppSizes.fontSmall,
-                    fontWeight: FontWeight.normal,
-                    color: theme.iconTheme.color?.withValues(
-                      alpha: AppOpacity.mostlyOpaque,
+                ] else
+                  Text(
+                    'chat.title'.tr(),
+                    style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: AppSizes.fontLarge,
                     ),
                   ),
-                ),
-            ] else
-              Text(
-                'chat.title'.tr(),
-                style: const TextStyle(
-                  fontWeight: FontWeight.w600,
-                  fontSize: AppSizes.fontLarge,
-                ),
-              ),
-          ],
+              ],
+            ),
+          ),
         ),
       ),
       body: Column(

@@ -1,5 +1,6 @@
 import 'package:unite_up/enums/goal_category_enum.dart';
 import 'package:unite_up/models/event_model.dart';
+import 'package:unite_up/models/goal_model.dart';
 
 class ChallengeChatModel {
   final String id;
@@ -11,6 +12,7 @@ class ChallengeChatModel {
   final String creatorId;
   final DateTime createdAt;
   final List<EventModel> events;
+  final List<GoalModel> goals;
 
   ChallengeChatModel({
     required this.id,
@@ -22,6 +24,7 @@ class ChallengeChatModel {
     required this.creatorId,
     required this.createdAt,
     this.events = const [],
+    this.goals = const [],
   });
 
   // Helper getters
@@ -39,6 +42,7 @@ class ChallengeChatModel {
     String? creatorId,
     DateTime? createdAt,
     List<EventModel>? events,
+    List<GoalModel>? goals,
   }) {
     return ChallengeChatModel(
       id: id ?? this.id,
@@ -50,6 +54,7 @@ class ChallengeChatModel {
       creatorId: creatorId ?? this.creatorId,
       createdAt: createdAt ?? this.createdAt,
       events: events ?? this.events,
+      goals: goals ?? this.goals,
     );
   }
 }

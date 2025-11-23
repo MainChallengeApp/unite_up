@@ -13,7 +13,8 @@
     "save": "Speichern",
     "search": "Suchen",
     "yes": "Ja",
-    "no": "Nein"
+    "no": "Nein",
+    "you": "Du"
   },
   "auth": {
     "signIn": "Anmelden",
@@ -50,6 +51,30 @@
     "startJourney": "Challenge erstellen"
   },
   "goals": {
+    "groupDetails": "Gruppendetails",
+    "challengeDetails": "Challenge-Details",
+    "membersAndGoals": "Mitglieder & Ziele",
+    "myGoals": "Meine Ziele",
+    "noGoalsYet": "Noch keine Ziele. Tippe auf +, um eines zu erstellen!",
+    "noGoalsForUser": "Noch keine Ziele",
+    "addGoal": "Ziel hinzufügen",
+    "addFirstGoal": "Erstes Ziel hinzufügen",
+    "createGoal": "Ziel erstellen",
+    "title": "Ziel Titel",
+    "titleHint": "z.B. Gewicht verlieren, 100km laufen",
+    "startValue": "Start",
+    "endValue": "Ziel",
+    "unit": "Einheit",
+    "unitHint": "z.B. kg, km, Stunden",
+    "dates": "Zeitrahmen",
+    "startDate": "Startdatum",
+    "endDate": "Enddatum",
+    "completed": "Abgeschlossen!",
+    "overdue": "Überfällig",
+    "daysLeft": "{days} Tage übrig",
+    "enterTitle": "Bitte gib einen Zieltitel ein",
+    "enterValidValues": "Bitte gib gültige Zahlen ein",
+    "endValueMustBeGreater": "Zielwert muss größer als Startwert sein",
     "categories": {
       "health": {
         "name": "Gesünder werden",
