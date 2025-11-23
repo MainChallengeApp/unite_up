@@ -47,4 +47,6 @@ class AppIcons {
   static const IconData trophy = Icons.emoji_events_rounded;
   static const IconData upload = Icons.upload_rounded;
   static const IconData video = Icons.videocam_rounded;
+  static const IconData visibility = Icons.visibility_rounded;
+  static const IconData visibilityOff = Icons.visibility_off_rounded;
 }

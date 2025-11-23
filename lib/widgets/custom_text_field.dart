@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
 
-class CustomTextField extends StatelessWidget {
+class CustomTextField extends StatefulWidget {
   final TextEditingController controller;
   final String labelText;
   final String hintText;
@@ -10,6 +10,9 @@ class CustomTextField extends StatelessWidget {
   final bool obscureText;
   final TextInputType? keyboardType;
   final TextCapitalization textCapitalization;
+  final IconData? suffixIcon;
+  final VoidCallback? onSuffixIconPressed;
+  final bool alwaysShowSuffixIcon;
 
   const CustomTextField({
     super.key,
@@ -21,20 +24,72 @@ class CustomTextField extends StatelessWidget {
     this.obscureText = false,
     this.keyboardType,
     this.textCapitalization = TextCapitalization.none,
+    this.suffixIcon,
+    this.onSuffixIconPressed,
+    this.alwaysShowSuffixIcon = false,
   });
+
+  @override
+  State<CustomTextField> createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<CustomTextField> {
+  bool _hasText = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _hasText = widget.controller.text.isNotEmpty;
+    widget.controller.addListener(_onTextChanged);
+  }
+
+  @override
+  void didUpdateWidget(CustomTextField oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.controller != widget.controller) {
+      oldWidget.controller.removeListener(_onTextChanged);
+      widget.controller.addListener(_onTextChanged);
+      _hasText = widget.controller.text.isNotEmpty;
+    } else {
+      // Update state in case text changed externally
+      final hasText = widget.controller.text.isNotEmpty;
+      if (_hasText != hasText) {
+        setState(() {
+          _hasText = hasText;
+        });
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    widget.controller.removeListener(_onTextChanged);
+    super.dispose();
+  }
+
+  void _onTextChanged() {
+    final hasText = widget.controller.text.isNotEmpty;
+    if (_hasText != hasText) {
+      setState(() {
+        _hasText = hasText;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final showSuffixIcon = widget.suffixIcon != null &&
+        (widget.alwaysShowSuffixIcon || _hasText);
 
     return TextField(
-      controller: controller,
-      maxLines: obscureText ? 1 : maxLines,
-      obscureText: obscureText,
-      keyboardType: keyboardType,
-      textCapitalization: textCapitalization,
+      controller: widget.controller,
+      maxLines: widget.obscureText ? 1 : widget.maxLines,
+      obscureText: widget.obscureText,
+      keyboardType: widget.keyboardType,
+      textCapitalization: widget.textCapitalization,
       decoration: InputDecoration(
-        hintText: hintText,
+        hintText: widget.hintText,
         filled: true,
         fillColor: theme.brightness == Brightness.dark
             ? theme.cardColor
@@ -47,18 +102,29 @@ class CustomTextField extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(
-              icon,
+              widget.icon,
               size: AppSizes.iconSmall,
               color: theme.colorScheme.onSurface,
             ),
             const SizedBox(width: AppSizes.spacing8),
-            Text(labelText),
+            Text(widget.labelText),
           ],
         ),
         floatingLabelStyle: TextStyle(
           color: theme.colorScheme.onSurface,
         ),
         alignLabelWithHint: true,
+        suffixIcon: showSuffixIcon
+            ? IconButton(
+                icon: Icon(
+                  widget.suffixIcon,
+                  color: theme.colorScheme.onSurface.withValues(
+                    alpha: 0.6,
+                  ),
+                ),
+                onPressed: widget.onSuffixIconPressed,
+              )
+            : null,
       ),
     );
   }

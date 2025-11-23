@@ -5,7 +5,7 @@ import 'package:unite_up/widgets/social_login_button.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 
-class AuthForm extends StatelessWidget {
+class AuthForm extends StatefulWidget {
   final bool isLoginMode;
   final TextEditingController nameController;
   final TextEditingController emailController;
@@ -34,6 +34,24 @@ class AuthForm extends StatelessWidget {
   });
 
   @override
+  State<AuthForm> createState() => _AuthFormState();
+}
+
+class _AuthFormState extends State<AuthForm> {
+  bool _isPasswordVisible = false;
+
+  @override
+  void didUpdateWidget(AuthForm oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Reset password visibility when switching between login and signup modes
+    if (oldWidget.isLoginMode != widget.isLoginMode) {
+      setState(() {
+        _isPasswordVisible = false;
+      });
+    }
+  }
+
+  @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(AppSizes.spacing24),
@@ -47,7 +65,7 @@ class AuthForm extends StatelessWidget {
           const SizedBox(height: AppSizes.spacing16),
           _buildDivider(),
           const SizedBox(height: AppSizes.spacing16),
-          if (!isLoginMode) ...[
+          if (!widget.isLoginMode) ...[
             _buildNameField(),
             const SizedBox(height: AppSizes.spacing16),
           ],
@@ -65,31 +83,48 @@ class AuthForm extends StatelessWidget {
 
   Widget _buildNameField() {
     return CustomTextField(
-      controller: nameController,
+      controller: widget.nameController,
       labelText: 'auth.fields.fullName'.tr(),
       hintText: 'auth.fields.enterFullName'.tr(),
       icon: AppIcons.personOutline,
       textCapitalization: TextCapitalization.words,
+      suffixIcon: AppIcons.close,
+      onSuffixIconPressed: () {
+        widget.nameController.clear();
+      },
     );
   }
 
   Widget _buildEmailField() {
     return CustomTextField(
-      controller: emailController,
+      controller: widget.emailController,
       labelText: 'auth.fields.email'.tr(),
       hintText: 'auth.fields.enterEmail'.tr(),
       icon: AppIcons.email,
       keyboardType: TextInputType.emailAddress,
+      suffixIcon: AppIcons.close,
+      onSuffixIconPressed: () {
+        widget.emailController.clear();
+      },
     );
   }
 
   Widget _buildPasswordField() {
     return CustomTextField(
-      controller: passwordController,
+      controller: widget.passwordController,
       labelText: 'auth.fields.password'.tr(),
       hintText: 'auth.fields.enterPassword'.tr(),
       icon: AppIcons.lock,
-      obscureText: true,
+      obscureText: !_isPasswordVisible,
+      suffixIcon: _isPasswordVisible
+          ? AppIcons.visibilityOff
+          : AppIcons.visibility,
+      onSuffixIconPressed: () {
+        setState(() {
+          _isPasswordVisible = !_isPasswordVisible;
+        });
+      },
+      alwaysShowSuffixIcon: true,
     );
   }
 
@@ -99,13 +134,13 @@ class AuthForm extends StatelessWidget {
         width: double.infinity,
         height: AppSizes.size52,
         child: FilledButton(
-          onPressed: isLoading ? null : onSubmit,
+          onPressed: widget.isLoading ? null : widget.onSubmit,
           style: FilledButton.styleFrom(
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
             ),
           ),
-          child: isLoading
+          child: widget.isLoading
               ? const SizedBox(
                   width: AppSizes.iconMedium,
                   height: AppSizes.iconMedium,
@@ -115,7 +150,9 @@ class AuthForm extends StatelessWidget {
                   ),
                 )
               : Text(
-                  isLoginMode ? 'auth.signIn'.tr() : 'auth.createAccount'.tr(),
+                  widget.isLoginMode
+                      ? 'auth.signIn'.tr()
+                      : 'auth.createAccount'.tr(),
                   style: const TextStyle(
                     fontSize: AppSizes.fontLarge,
                     fontWeight: FontWeight.w600,
@@ -142,18 +179,18 @@ class AuthForm extends StatelessWidget {
   Widget _buildSocialLoginButtons() {
     return Column(
       children: [
-        if (onGoogleSignIn != null)
+        if (widget.onGoogleSignIn != null)
           SocialLoginButton(
             provider: AuthProviderEnum.google,
-            onPressed: onGoogleSignIn!,
-            isLoading: isGoogleLoading,
+            onPressed: widget.onGoogleSignIn!,
+            isLoading: widget.isGoogleLoading,
           ),
         const SizedBox(height: AppSizes.spacing12),
-        if (onAppleSignIn != null)
+        if (widget.onAppleSignIn != null)
           SocialLoginButton(
             provider: AuthProviderEnum.apple,
-            onPressed: onAppleSignIn!,
-            isLoading: isAppleLoading,
+            onPressed: widget.onAppleSignIn!,
+            isLoading: widget.isAppleLoading,
           ),
       ],
     );
@@ -162,9 +199,9 @@ class AuthForm extends StatelessWidget {
   Widget _buildToggleButton() {
     return Builder(
       builder: (context) => TextButton(
-        onPressed: onToggleMode,
+        onPressed: widget.onToggleMode,
         child: Text(
-          isLoginMode
+          widget.isLoginMode
               ? 'auth.dontHaveAccount'.tr()
               : 'auth.alreadyHaveAccount'.tr(),
         ),
@@ -175,7 +212,7 @@ class AuthForm extends StatelessWidget {
   _buildTitle() {
     return Center(
       child: Text(
-        isLoginMode
+        widget.isLoginMode
             ? 'auth.welcomeBack'.tr()
             : 'auth.createYourNewAccount'.tr(),
         style: const TextStyle(
