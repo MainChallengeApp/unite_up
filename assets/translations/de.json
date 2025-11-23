@@ -129,7 +129,11 @@
     "uploadImage": "Bild hochladen",
     "uploadVideo": "Video hochladen",
     "uploadAudio": "Audio hochladen",
-    "uploadFile": "Datei hochladen"
+    "uploadFile": "Datei hochladen",
+    "editMessage": "Nachricht bearbeiten",
+    "deleteMessage": "Nachricht löschen",
+    "deleteMessageConfirmation": "Bist du sicher, dass du diese Nachricht löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden.",
+    "enterMessage": "Gib deine Nachricht ein"
   },
   "progress": {
     "title": "Fortschritt einreichen",

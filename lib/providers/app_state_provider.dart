@@ -106,6 +106,37 @@ class AppStateProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  // Edit a message
+  void editMessage(String eventId, String newMessage) {
+    if (_selectedChallengeId == null) return;
+
+    final challengeIndex = _challenges.indexWhere((c) => c.id == _selectedChallengeId);
+    if (challengeIndex == -1) return;
+
+    final events = List<EventModel>.from(_challenges[challengeIndex].events);
+    final eventIndex = events.indexWhere((e) => e.id == eventId);
+    
+    if (eventIndex != -1) {
+      events[eventIndex] = events[eventIndex].copyWith(message: newMessage);
+      _challenges[challengeIndex] = _challenges[challengeIndex].copyWith(events: events);
+      notifyListeners();
+    }
+  }
+
+  // Delete a message
+  void deleteMessage(String eventId) {
+    if (_selectedChallengeId == null) return;
+
+    final challengeIndex = _challenges.indexWhere((c) => c.id == _selectedChallengeId);
+    if (challengeIndex == -1) return;
+
+    final events = List<EventModel>.from(_challenges[challengeIndex].events);
+    events.removeWhere((e) => e.id == eventId);
+    
+    _challenges[challengeIndex] = _challenges[challengeIndex].copyWith(events: events);
+    notifyListeners();
+  }
+
   // Update challenge (for editing)
   void updateChallenge(ChallengeChatModel challenge) {
     final index = _challenges.indexWhere((c) => c.id == challenge.id);

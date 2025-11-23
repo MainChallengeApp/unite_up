@@ -46,4 +46,20 @@ class EventModel {
       progressEntry: entry,
     );
   }
+
+  EventModel copyWith({
+    String? id,
+    EventTypeEnum? type,
+    DateTime? timestamp,
+    String? message,
+    ProgressEntryModel? progressEntry,
+  }) {
+    return EventModel(
+      id: id ?? this.id,
+      type: type ?? this.type,
+      timestamp: timestamp ?? this.timestamp,
+      message: message ?? this.message,
+      progressEntry: progressEntry ?? this.progressEntry,
+    );
+  }
 }
