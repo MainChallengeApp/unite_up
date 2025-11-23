@@ -35,7 +35,7 @@ class AIMessageCard extends StatelessWidget {
               color: theme.colorScheme.secondary,
             ),
           ),
-          const SizedBox(width: AppSizes.spacing12),
+          const SizedBox(width: AppSizes.spacing16),
           Flexible(
             child: Container(
               padding: const EdgeInsets.all(AppSizes.spacing14),
@@ -88,6 +88,7 @@ class AIMessageCard extends StatelessWidget {
               ),
             ),
           ),
+          const SizedBox(width: AppSizes.spacing48),
         ],
       ),
     );

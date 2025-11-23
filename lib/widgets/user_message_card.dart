@@ -121,6 +121,7 @@ class UserMessageCard extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
+          const SizedBox(width: AppSizes.spacing48),
           Flexible(
             child: GestureDetector(
               onLongPress: () => _showMessageOptions(context),
@@ -173,7 +174,7 @@ class UserMessageCard extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: AppSizes.spacing12),
+          const SizedBox(width: AppSizes.spacing16),
           Container(
             width: AppSizes.iconXLarge,
             height: AppSizes.iconXLarge,

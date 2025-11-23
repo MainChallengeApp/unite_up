@@ -21,6 +21,7 @@ class GoalCreatedCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.end,
         children: [
+          const SizedBox(width: AppSizes.spacing48),
           Expanded(
             child: Container(
               padding: const EdgeInsets.all(AppSizes.spacing16),
@@ -28,7 +29,12 @@ class GoalCreatedCard extends StatelessWidget {
                 color: theme.colorScheme.primary.withValues(
                   alpha: AppOpacity.veryLight,
                 ),
-                borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(AppSizes.radiusMedium),
+                  topRight: Radius.circular(AppSizes.radiusMedium),
+                  bottomLeft: Radius.circular(AppSizes.radiusMedium),
+                  bottomRight: Radius.circular(AppSizes.radiusTiny),
+                ),
                 border: Border.all(
                   color: theme.colorScheme.primary.withValues(
                     alpha: AppOpacity.light,
@@ -152,7 +158,7 @@ class GoalCreatedCard extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(width: AppSizes.spacing12),
+          const SizedBox(width: AppSizes.spacing16),
           Container(
             width: AppSizes.iconXLarge,
             height: AppSizes.iconXLarge,
