@@ -7,6 +7,7 @@ import 'package:unite_up/pages/group_details_page.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
 import 'package:unite_up/widgets/event_card.dart';
 import 'package:unite_up/widgets/progress_dialog.dart';
+import 'package:unite_up/widgets/update_goal_progress_dialog.dart';
 import 'package:unite_up/widgets/upload_selection_sheet.dart';
 
 class ChatPage extends StatefulWidget {
@@ -79,6 +80,13 @@ class _ChatPageState extends State<ChatPage> {
         _showProgressDialog();
       }
     });
+  }
+
+  void _showUpdateGoalProgressDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => const UpdateGoalProgressDialog(),
+    );
   }
 
   @override
@@ -287,6 +295,25 @@ class _ChatPageState extends State<ChatPage> {
                   child: Icon(
                     AppIcons.add,
                     color: theme.colorScheme.primary,
+                    size: AppSizes.iconMedium,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(width: AppSizes.spacing8),
+            Material(
+              color: theme.cardColor,
+              borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
+              child: InkWell(
+                onTap: () => _showUpdateGoalProgressDialog(),
+                borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
+                child: Container(
+                  width: AppSizes.containerSmall,
+                  height: AppSizes.containerSmall,
+                  alignment: Alignment.center,
+                  child: Icon(
+                    AppIcons.flag,
+                    color: theme.colorScheme.secondary,
                     size: AppSizes.iconMedium,
                   ),
                 ),

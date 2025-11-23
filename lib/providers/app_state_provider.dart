@@ -148,12 +148,19 @@ class AppStateProvider extends ChangeNotifier {
     final goals = List<GoalModel>.from(_challenges[challengeIndex].goals);
     goals.add(goal);
 
-    _challenges[challengeIndex] = _challenges[challengeIndex].copyWith(goals: goals);
+    // Add chat event for goal creation
+    final events = List<EventModel>.from(_challenges[challengeIndex].events);
+    events.add(EventModel.goalCreated(goal));
+
+    _challenges[challengeIndex] = _challenges[challengeIndex].copyWith(
+      goals: goals,
+      events: events,
+    );
     notifyListeners();
   }
 
   // Update a goal
-  void updateGoal(GoalModel updatedGoal) {
+  void updateGoal(GoalModel updatedGoal, {bool createEvent = false}) {
     if (_selectedChallengeId == null) return;
 
     final challengeIndex = _challenges.indexWhere((c) => c.id == _selectedChallengeId);
@@ -164,7 +171,19 @@ class AppStateProvider extends ChangeNotifier {
 
     if (goalIndex != -1) {
       goals[goalIndex] = updatedGoal;
-      _challenges[challengeIndex] = _challenges[challengeIndex].copyWith(goals: goals);
+      
+      // Optionally add chat event for progress update
+      if (createEvent) {
+        final events = List<EventModel>.from(_challenges[challengeIndex].events);
+        events.add(EventModel.goalProgressUpdated(updatedGoal));
+        _challenges[challengeIndex] = _challenges[challengeIndex].copyWith(
+          goals: goals,
+          events: events,
+        );
+      } else {
+        _challenges[challengeIndex] = _challenges[challengeIndex].copyWith(goals: goals);
+      }
+      
       notifyListeners();
     }
   }

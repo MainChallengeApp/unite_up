@@ -52,6 +52,35 @@ class GroupDetailsPage extends StatelessWidget {
       );
     }
 
+    // Ensure current user always appears for personal challenges
+    if (currentChallenge.isPersonal && members.isEmpty) {
+      final currentUser = appState.currentUser;
+      if (currentUser != null) {
+        members.add(
+          UserModel(
+            id: currentUser.id,
+            name: currentUser.displayName,
+            username: '@${currentUser.email.split('@')[0]}',
+            followersCount: 0,
+            followingCount: 0,
+            completedChallengesCount: 0,
+          ),
+        );
+      } else {
+        // Fallback for non-authenticated users
+        members.add(
+          UserModel(
+            id: currentUserId,
+            name: 'You',
+            username: '@user',
+            followersCount: 0,
+            followingCount: 0,
+            completedChallengesCount: 0,
+          ),
+        );
+      }
+    }
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(

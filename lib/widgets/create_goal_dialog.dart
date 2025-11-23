@@ -17,7 +17,7 @@ class _CreateGoalDialogState extends State<CreateGoalDialog> {
   final _startValueController = TextEditingController();
   final _endValueController = TextEditingController();
   final _unitController = TextEditingController();
-  
+
   DateTime _startDate = DateTime.now();
   DateTime _endDate = DateTime.now().add(const Duration(days: 30));
 
@@ -61,9 +61,9 @@ class _CreateGoalDialogState extends State<CreateGoalDialog> {
 
   void _createGoal() {
     if (_titleController.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('goals.enterTitle'.tr())),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('goals.enterTitle'.tr())));
       return;
     }
 
@@ -71,9 +71,9 @@ class _CreateGoalDialogState extends State<CreateGoalDialog> {
     final endValue = double.tryParse(_endValueController.text);
 
     if (startValue == null || endValue == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('goals.enterValidValues'.tr())),
-      );
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('goals.enterValidValues'.tr())));
       return;
     }
 
@@ -134,7 +134,9 @@ class _CreateGoalDialogState extends State<CreateGoalDialog> {
                       labelText: 'goals.startValue'.tr(),
                       border: const OutlineInputBorder(),
                     ),
-                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                    keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true,
+                    ),
                   ),
                 ),
                 const SizedBox(width: AppSizes.spacing12),
@@ -145,7 +147,9 @@ class _CreateGoalDialogState extends State<CreateGoalDialog> {
                       labelText: 'goals.endValue'.tr(),
                       border: const OutlineInputBorder(),
                     ),
-                    keyboardType: const TextInputType.numberWithOptions(decimal: true),
+                    keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true,
+                    ),
                   ),
                 ),
               ],
@@ -190,10 +194,7 @@ class _CreateGoalDialogState extends State<CreateGoalDialog> {
           onPressed: () => Navigator.pop(context),
           child: Text('common.cancel'.tr()),
         ),
-        FilledButton(
-          onPressed: _createGoal,
-          child: Text('common.create'.tr()),
-        ),
+        FilledButton(onPressed: _createGoal, child: Text('common.create'.tr())),
       ],
     );
   }
@@ -212,20 +213,13 @@ class _CreateGoalDialogState extends State<CreateGoalDialog> {
       child: Container(
         padding: const EdgeInsets.all(AppSizes.spacing12),
         decoration: BoxDecoration(
-          border: Border.all(
-            color: theme.dividerColor,
-          ),
+          border: Border.all(color: theme.dividerColor),
           borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
-              label,
-              style: const TextStyle(
-                fontSize: AppSizes.fontMedium,
-              ),
-            ),
+            Text(label, style: const TextStyle(fontSize: AppSizes.fontMedium)),
             Row(
               children: [
                 Text(
@@ -236,10 +230,7 @@ class _CreateGoalDialogState extends State<CreateGoalDialog> {
                   ),
                 ),
                 const SizedBox(width: AppSizes.spacing8),
-                const Icon(
-                  Icons.calendar_today,
-                  size: AppSizes.iconSmall,
-                ),
+                const Icon(Icons.calendar_today, size: AppSizes.iconSmall),
               ],
             ),
           ],
@@ -248,4 +239,3 @@ class _CreateGoalDialogState extends State<CreateGoalDialog> {
     );
   }
 }
-

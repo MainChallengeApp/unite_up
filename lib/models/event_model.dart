@@ -1,4 +1,5 @@
 import 'package:unite_up/enums/event_type_enum.dart';
+import 'package:unite_up/models/goal_model.dart';
 import 'package:unite_up/models/progress_entry_model.dart';
 
 class EventModel {
@@ -12,12 +13,16 @@ class EventModel {
   // For progress
   final ProgressEntryModel? progressEntry;
 
+  // For goals
+  final GoalModel? goal;
+
   EventModel({
     required this.id,
     required this.type,
     required this.timestamp,
     this.message,
     this.progressEntry,
+    this.goal,
   });
 
   factory EventModel.aiMessage(String message) {
@@ -47,12 +52,31 @@ class EventModel {
     );
   }
 
+  factory EventModel.goalCreated(GoalModel goal) {
+    return EventModel(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      type: EventTypeEnum.goalCreated,
+      timestamp: DateTime.now(),
+      goal: goal,
+    );
+  }
+
+  factory EventModel.goalProgressUpdated(GoalModel goal) {
+    return EventModel(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      type: EventTypeEnum.goalProgressUpdated,
+      timestamp: DateTime.now(),
+      goal: goal,
+    );
+  }
+
   EventModel copyWith({
     String? id,
     EventTypeEnum? type,
     DateTime? timestamp,
     String? message,
     ProgressEntryModel? progressEntry,
+    GoalModel? goal,
   }) {
     return EventModel(
       id: id ?? this.id,
@@ -60,6 +84,7 @@ class EventModel {
       timestamp: timestamp ?? this.timestamp,
       message: message ?? this.message,
       progressEntry: progressEntry ?? this.progressEntry,
+      goal: goal ?? this.goal,
     );
   }
 }
