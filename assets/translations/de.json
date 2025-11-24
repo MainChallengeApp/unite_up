@@ -16,7 +16,8 @@
     "error": "Fehler",
     "yes": "Ja",
     "no": "Nein",
-    "you": "Du"
+    "you": "Du",
+    "or": "oder"
   },
   "auth": {
     "signIn": "Anmelden",

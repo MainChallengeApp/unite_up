@@ -16,7 +16,8 @@
     "error": "Error",
     "yes": "Yes",
     "no": "No",
-    "you": "You"
+    "you": "You",
+    "or": "or"
   },
   "auth": {
     "signIn": "Sign In",

@@ -155,14 +155,14 @@ class _AuthFormState extends State<AuthForm> {
   }
 
   Widget _buildDivider() {
-    return const Row(
+    return Row(
       children: [
-        Expanded(child: Divider()),
+        const Expanded(child: Divider()),
         Padding(
-          padding: EdgeInsets.symmetric(horizontal: AppSizes.spacing16),
-          child: Text('or', style: AppTextStyles.baseMedium),
+          padding: const EdgeInsets.symmetric(horizontal: AppSizes.spacing16),
+          child: Text('common.or'.tr(), style: AppTextStyles.baseMedium),
         ),
-        Expanded(child: Divider()),
+        const Expanded(child: Divider()),
       ],
     );
   }
