@@ -99,10 +99,7 @@ class _ChatPageState extends State<ChatPage> {
         shape: BoxShape.circle,
       ),
       child: Center(
-        child: Text(
-          challenge.emoji,
-          style: AppTextStyles.baseMedium,
-        ),
+        child: Text(challenge.emoji, style: AppTextStyles.baseMedium),
       ),
     );
   }
@@ -192,6 +189,7 @@ class _ChatPageState extends State<ChatPage> {
       context: context,
       builder: (context) => const UploadSelectionSheet(),
       backgroundColor: AppColors.transparent,
+      isScrollControlled: true,
     ).then((result) {
       if (result != null && mounted) {
         if (result == 'create_goal') {
@@ -360,7 +358,10 @@ class _ChatPageState extends State<ChatPage> {
           const SizedBox(height: AppSizes.spacing8),
           Text(
             'chat.shareUpdates'.tr(),
-            style: AppTextStyles.secondaryText(context, fontSize: AppSizes.fontMedium),
+            style: AppTextStyles.secondaryText(
+              context,
+              fontSize: AppSizes.fontMedium,
+            ),
           ),
         ],
       ),
@@ -439,7 +440,10 @@ class _ChatPageState extends State<ChatPage> {
                   onSubmitted: (_) => _sendMessage(),
                   decoration: InputDecoration(
                     hintText: 'chat.shareAnUpdate'.tr(),
-                    hintStyle: AppTextStyles.hintText(context, fontSize: AppSizes.fontBase),
+                    hintStyle: AppTextStyles.hintText(
+                      context,
+                      fontSize: AppSizes.fontBase,
+                    ),
                     border: InputBorder.none,
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: 20,

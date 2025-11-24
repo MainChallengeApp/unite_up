@@ -24,8 +24,10 @@ class CustomBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final screenHeight = MediaQuery.of(context).size.height;
 
     return Container(
+      constraints: BoxConstraints(maxHeight: screenHeight * 0.75),
       decoration: BoxDecoration(
         color: theme.scaffoldBackgroundColor,
         borderRadius: const BorderRadius.only(
@@ -54,10 +56,7 @@ class CustomBottomSheet extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(
                   horizontal: AppSizes.spacing16,
                 ),
-                child: Text(
-                  title!,
-                  style: AppTextStyles.xLargeSemiBold,
-                ),
+                child: Text(title!, style: AppTextStyles.xLargeSemiBold),
               ),
               const SizedBox(height: AppSizes.spacing16),
             ],
