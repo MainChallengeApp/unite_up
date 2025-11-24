@@ -9,6 +9,7 @@ import 'package:unite_up/models/user_model.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
 import 'package:unite_up/services/user_service.dart';
 import 'package:unite_up/widgets/create_goal_dialog.dart';
+import 'package:unite_up/widgets/custom_app_bar.dart';
 import 'package:unite_up/widgets/custom_bottom_sheet.dart';
 
 class GroupDetailsPage extends StatelessWidget {
@@ -82,20 +83,10 @@ class GroupDetailsPage extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(AppIcons.arrowBack),
-          onPressed: () => Navigator.pop(context),
-        ),
-        title: Text(
-          challenge.isGroup
-              ? 'goals.groupDetails'.tr()
-              : 'goals.challengeDetails'.tr(),
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: AppSizes.fontXLarge,
-          ),
-        ),
+      appBar: CustomAppBar(
+        title: challenge.isGroup
+            ? 'goals.groupDetails'.tr()
+            : 'goals.challengeDetails'.tr(),
         actions: [
           IconButton(
             icon: const Icon(Icons.more_vert),

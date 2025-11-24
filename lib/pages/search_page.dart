@@ -1,11 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:unite_up/models/user_model.dart';
-import 'package:unite_up/pages/auth_page.dart';
-import 'package:unite_up/providers/app_state_provider.dart';
 import 'package:unite_up/services/user_service.dart';
+import 'package:unite_up/widgets/custom_app_bar.dart';
 import 'package:unite_up/widgets/empty_state.dart';
 import 'package:unite_up/widgets/user_card.dart';
 
@@ -64,23 +62,9 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<AppStateProvider>(
-      builder: (context, appState, child) {
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(
-              'search.title'.tr(),
-              style: const TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: AppSizes.fontXLarge,
-              ),
-            ),
-          ),
-          body: appState.isAuthenticated
-              ? _buildSearchView(Theme.of(context))
-              : const AuthPage(),
-        );
-      },
+    return Scaffold(
+      appBar: CustomAppBar(title: 'search.title'.tr(), showBackButton: false),
+      body: _buildSearchView(Theme.of(context)),
     );
   }
 

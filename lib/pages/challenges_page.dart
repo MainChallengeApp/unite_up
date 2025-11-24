@@ -7,6 +7,7 @@ import 'package:unite_up/models/challenge_chat_model.dart';
 import 'package:unite_up/pages/chat_page.dart';
 import 'package:unite_up/pages/create_challenge_page.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
+import 'package:unite_up/widgets/custom_app_bar.dart';
 
 class ChallengesPage extends StatefulWidget {
   const ChallengesPage({super.key});
@@ -129,22 +130,17 @@ class _ChallengesPageState extends State<ChallengesPage>
     final challenges = appState.challenges;
 
     return Scaffold(
-      appBar: AppBar(
+      appBar: CustomAppBar(
         leading: _isSelectionMode
             ? IconButton(
                 icon: const Icon(AppIcons.close),
                 onPressed: _exitSelectionMode,
               )
             : null,
-        title: Text(
-          _isSelectionMode
-              ? '${_selectedChallengeIds.length} ${'common.selected'.tr()}'
-              : 'challenges.title'.tr(),
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: AppSizes.fontXLarge,
-          ),
-        ),
+        title: _isSelectionMode
+            ? '${_selectedChallengeIds.length} ${'common.selected'.tr()}'
+            : 'challenges.title'.tr(),
+        showBackButton: false,
         actions: [
           if (_isSelectionMode)
             IconButton(

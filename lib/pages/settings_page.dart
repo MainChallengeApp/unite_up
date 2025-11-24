@@ -5,6 +5,7 @@ import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
 import 'package:unite_up/providers/theme_provider.dart';
 import 'package:unite_up/widgets/app_card_container.dart';
+import 'package:unite_up/widgets/custom_app_bar.dart';
 import 'package:unite_up/widgets/settings_card.dart';
 import 'package:unite_up/widgets/settings_emoji_container.dart';
 import 'package:unite_up/widgets/settings_icon_container.dart';
@@ -51,19 +52,7 @@ class _SettingsPageState extends State<SettingsPage> {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'settings.title'.tr(),
-          style: const TextStyle(
-            fontWeight: FontWeight.w600,
-            fontSize: AppSizes.fontXLarge,
-          ),
-        ),
-        leading: IconButton(
-          icon: const Icon(AppIcons.arrowBack),
-          onPressed: () => Navigator.pop(context),
-        ),
-      ),
+      appBar: CustomAppBar(title: 'settings.title'.tr()),
       body: ListView(
         padding: const EdgeInsets.all(AppSizes.spacing16),
         children: [
