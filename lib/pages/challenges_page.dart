@@ -51,33 +51,10 @@ class _ChallengesPageState extends State<ChallengesPage>
 
     return Scaffold(
       appBar: CustomAppBar(
-        leading: _isSelectionMode
-            ? IconButton(
-                icon: const Icon(AppIcons.close),
-                onPressed: _exitSelectionMode,
-              )
-            : null,
-        title: _isSelectionMode
-            ? '${_selectedChallengeIds.length} ${'common.selected'.tr()}'
-            : 'challenges.title'.tr(),
+        leading: _buildAppBarLeading(),
+        title: _buildAppBarTitle(),
         showBackButton: false,
-        actions: [
-          if (_isSelectionMode)
-            IconButton(
-              icon: const Icon(AppIcons.delete),
-              onPressed: _selectedChallengeIds.isEmpty
-                  ? null
-                  : () => _deleteSelectedChallenges(context),
-              tooltip: 'common.delete'.tr(),
-            )
-          else
-            IconButton(
-              icon: const Icon(AppIcons.add),
-              onPressed: () => _createNewChallenge(context),
-              tooltip: 'challenges.createNewChallenge'.tr(),
-            ),
-          const SizedBox(width: AppSizes.spacing8),
-        ],
+        actions: _buildAppBarActions(context),
       ),
       body: challenges.isEmpty
           ? _buildEmptyState(context)
@@ -89,6 +66,42 @@ class _ChallengesPageState extends State<ChallengesPage>
               },
             ),
     );
+  }
+
+  Widget? _buildAppBarLeading() {
+    if (!_isSelectionMode) return null;
+
+    return IconButton(
+      icon: const Icon(AppIcons.close),
+      onPressed: _exitSelectionMode,
+    );
+  }
+
+  String _buildAppBarTitle() {
+    if (_isSelectionMode) {
+      return '${_selectedChallengeIds.length} ${'common.selected'.tr()}';
+    }
+    return 'challenges.title'.tr();
+  }
+
+  List<Widget> _buildAppBarActions(BuildContext context) {
+    return [
+      if (_isSelectionMode)
+        IconButton(
+          icon: const Icon(AppIcons.delete),
+          onPressed: _selectedChallengeIds.isEmpty
+              ? null
+              : () => _deleteSelectedChallenges(context),
+          tooltip: 'common.delete'.tr(),
+        )
+      else
+        IconButton(
+          icon: const Icon(AppIcons.add),
+          onPressed: () => _createNewChallenge(context),
+          tooltip: 'challenges.createNewChallenge'.tr(),
+        ),
+      const SizedBox(width: AppSizes.spacing8),
+    ];
   }
 
   void _enterSelectionMode(String challengeId) {
