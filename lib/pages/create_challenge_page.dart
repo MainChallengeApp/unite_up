@@ -26,10 +26,6 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
   String _selectedEmoji = '🎯';
   final GoalCategoryEnum _selectedCategory = GoalCategoryEnum.health;
   bool _isCreating = false;
-  int _titleCharCount = 0;
-  int _descriptionCharCount = 0;
-  static const int _maxTitleLength = 50;
-  static const int _maxDescriptionLength = 200;
 
   ThemeData get _theme => Theme.of(context);
   final List<String> _availableEmojis = [
@@ -51,14 +47,10 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
   void initState() {
     super.initState();
     _availableUsers.addAll(UserModelService.getMockUserModels());
-    _titleController.addListener(_updateTitleCount);
-    _descriptionController.addListener(_updateDescriptionCount);
   }
 
   @override
   void dispose() {
-    _titleController.removeListener(_updateTitleCount);
-    _descriptionController.removeListener(_updateDescriptionCount);
     _titleController.dispose();
     _descriptionController.dispose();
     super.dispose();
@@ -77,210 +69,181 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(height: AppSizes.spacing32),
-            Center(
-              child: Column(
-                children: [
-                  InkWell(
-                    onTap: _showEmojiPicker,
-                    borderRadius: BorderRadius.circular(AppSizes.radiusXLarge),
-                    child: Container(
-                      width: AppSizes.containerHuge,
-                      height: AppSizes.containerHuge,
-                      decoration: BoxDecoration(
-                        color: _theme.colorScheme.primary.withValues(
-                          alpha: AppOpacity.light,
-                        ),
-                        borderRadius: BorderRadius.circular(
-                          AppSizes.radiusXLarge,
-                        ),
-                        border: Border.all(
-                          color: _theme.dividerColor.withValues(
-                            alpha: AppOpacity.medium,
-                          ),
-                          width: AppSizes.borderThick,
-                        ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          _selectedEmoji,
-                          style: const TextStyle(fontSize: AppSizes.emojiHuge),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: AppSizes.spacing12),
-                  TextButton.icon(
-                    onPressed: _showEmojiPicker,
-                    icon: const Icon(AppIcons.edit, size: AppSizes.iconSmall),
-                    label: Text('challenges.create.changeThumbnail'.tr()),
-                  ),
-                ],
-              ),
-            ),
+            _buildEmojiSelector(),
             const SizedBox(height: AppSizes.spacing32),
-
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomTextField(
-                  controller: _titleController,
-                  labelText: 'challenges.create.titleLabel'.tr(),
-                  hintText: 'challenges.create.enterChallengeName'.tr(),
-                  icon: AppIcons.edit,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: AppSizes.spacing4,
-                    right: AppSizes.spacing4,
-                  ),
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      '$_titleCharCount/$_maxTitleLength',
-                      style: TextStyle(
-                        fontSize: AppSizes.fontSmall,
-                        color: _titleCharCount > _maxTitleLength
-                            ? AppColors.red
-                            : _theme.iconTheme.color?.withValues(
-                                alpha: AppOpacity.mostlyOpaque,
-                              ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
+            _buildTitleField(),
             const SizedBox(height: AppSizes.spacing24),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                CustomTextField(
-                  controller: _descriptionController,
-                  labelText: 'challenges.create.descriptionLabel'.tr(),
-                  hintText: 'challenges.create.whatIsGroupAbout'.tr(),
-                  icon: AppIcons.description,
-                  maxLines: 3,
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: AppSizes.spacing4,
-                    right: AppSizes.spacing4,
-                  ),
-                  child: Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      '$_descriptionCharCount/$_maxDescriptionLength',
-                      style: TextStyle(
-                        fontSize: AppSizes.fontSmall,
-                        color: _descriptionCharCount > _maxDescriptionLength
-                            ? AppColors.red
-                            : _theme.iconTheme.color?.withValues(
-                                alpha: AppOpacity.mostlyOpaque,
-                              ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            if (isAuthenticated) ...[
-              const SizedBox(height: AppSizes.spacing24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'challenges.create.members'.tr(),
-                    style: TextStyle(
-                      fontSize: AppSizes.fontMedium,
-                      fontWeight: FontWeight.w600,
-                      color: _theme.brightness == Brightness.dark
-                          ? AppColors.white
-                          : AppColors.darkSurface,
-                    ),
-                  ),
-                  TextButton.icon(
-                    onPressed: _showMembersPicker,
-                    icon: const Icon(
-                      AppIcons.personAdd,
-                      size: AppSizes.iconSmall,
-                    ),
-                    label: Text('common.add'.tr()),
-                  ),
-                ],
-              ),
-              const SizedBox(height: AppSizes.spacing8),
-              if (_selectedMembers.isEmpty)
-                Container(
-                  padding: const EdgeInsets.all(AppSizes.spacing24),
-                  decoration: BoxDecoration(
-                    color: _theme.brightness == Brightness.dark
-                        ? _theme.cardColor
-                        : _theme.scaffoldBackgroundColor,
-                    borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
-                  ),
-                  child: Center(
-                    child: Text(
-                      'challenges.create.noMembersAdded'.tr(),
-                      style: TextStyle(
-                        color: _theme.iconTheme.color?.withValues(
-                          alpha: AppOpacity.semiTransparent,
-                        ),
-                      ),
-                    ),
-                  ),
-                )
-              else
-                ..._selectedMembers.map((member) => _buildMemberChip(member)),
-            ],
+            _buildDescriptionField(),
+            if (isAuthenticated) _buildMembersSection(),
             const SizedBox(height: AppSizes.spacing32),
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton(
-                onPressed: _isCreating ? null : _createChallenge,
-                style: FilledButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: AppSizes.spacing16,
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
-                  ),
-                ),
-                child: _isCreating
-                    ? const SizedBox(
-                        height: AppSizes.iconMedium,
-                        width: AppSizes.iconMedium,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2.5,
-                          valueColor: AlwaysStoppedAnimation<Color>(
-                            AppColors.white,
-                          ),
-                        ),
-                      )
-                    : Text(
-                        'challenges.createChallenge'.tr(),
-                        style: const TextStyle(
-                          fontSize: AppSizes.fontLarge,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-              ),
-            ),
+            _buildCreateButton(),
           ],
         ),
       ),
     );
   }
 
-  void _updateTitleCount() {
-    setState(() {
-      _titleCharCount = _titleController.text.length;
-    });
+  Widget _buildEmojiSelector() {
+    return Center(
+      child: Column(
+        children: [
+          InkWell(
+            onTap: _showEmojiPicker,
+            borderRadius: BorderRadius.circular(AppSizes.radiusXLarge),
+            child: Container(
+              width: AppSizes.containerHuge,
+              height: AppSizes.containerHuge,
+              decoration: BoxDecoration(
+                color: _theme.colorScheme.primary.withValues(
+                  alpha: AppOpacity.light,
+                ),
+                borderRadius: BorderRadius.circular(AppSizes.radiusXLarge),
+                border: Border.all(
+                  color: _theme.dividerColor.withValues(
+                    alpha: AppOpacity.medium,
+                  ),
+                  width: AppSizes.borderThick,
+                ),
+              ),
+              child: Center(
+                child: Text(
+                  _selectedEmoji,
+                  style: const TextStyle(fontSize: AppSizes.emojiHuge),
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: AppSizes.spacing12),
+          TextButton.icon(
+            onPressed: _showEmojiPicker,
+            icon: const Icon(AppIcons.edit, size: AppSizes.iconSmall),
+            label: Text('challenges.create.changeThumbnail'.tr()),
+          ),
+        ],
+      ),
+    );
   }
 
-  void _updateDescriptionCount() {
-    setState(() {
-      _descriptionCharCount = _descriptionController.text.length;
-    });
+  Widget _buildTitleField() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CustomTextField(
+          controller: _titleController,
+          labelText: 'challenges.create.titleLabel'.tr(),
+          hintText: 'challenges.create.enterChallengeName'.tr(),
+          icon: AppIcons.edit,
+          maxLength: AppTextLimits.challengeTitleMaxLength,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDescriptionField() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        CustomTextField(
+          controller: _descriptionController,
+          labelText: 'challenges.create.descriptionLabel'.tr(),
+          hintText: 'challenges.create.whatIsGroupAbout'.tr(),
+          icon: AppIcons.description,
+          maxLines: 3,
+          maxLength: AppTextLimits.challengeDescriptionMaxLength,
+        ),
+      ],
+    );
+  }
+
+  Widget _buildMembersSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const SizedBox(height: AppSizes.spacing24),
+        _buildMembersHeader(),
+        const SizedBox(height: AppSizes.spacing8),
+        if (_selectedMembers.isEmpty)
+          _buildEmptyMembersPlaceholder()
+        else
+          ..._selectedMembers.map((member) => _buildMemberChip(member)),
+      ],
+    );
+  }
+
+  Widget _buildMembersHeader() {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          'challenges.create.members'.tr(),
+          style: TextStyle(
+            fontSize: AppSizes.fontMedium,
+            fontWeight: FontWeight.w600,
+            color: _theme.brightness == Brightness.dark
+                ? AppColors.white
+                : AppColors.darkSurface,
+          ),
+        ),
+        TextButton.icon(
+          onPressed: _showMembersPicker,
+          icon: const Icon(AppIcons.personAdd, size: AppSizes.iconSmall),
+          label: Text('common.add'.tr()),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildEmptyMembersPlaceholder() {
+    return Container(
+      padding: const EdgeInsets.all(AppSizes.spacing24),
+      decoration: BoxDecoration(
+        color: _theme.brightness == Brightness.dark
+            ? _theme.cardColor
+            : _theme.scaffoldBackgroundColor,
+        borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
+      ),
+      child: Center(
+        child: Text(
+          'challenges.create.noMembersAdded'.tr(),
+          style: TextStyle(
+            color: _theme.iconTheme.color?.withValues(
+              alpha: AppOpacity.semiTransparent,
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildCreateButton() {
+    return SizedBox(
+      width: double.infinity,
+      child: FilledButton(
+        onPressed: _isCreating ? null : _createChallenge,
+        style: FilledButton.styleFrom(
+          padding: const EdgeInsets.symmetric(vertical: AppSizes.spacing16),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
+          ),
+        ),
+        child: _isCreating
+            ? const SizedBox(
+                height: AppSizes.iconMedium,
+                width: AppSizes.iconMedium,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.5,
+                  valueColor: AlwaysStoppedAnimation<Color>(AppColors.white),
+                ),
+              )
+            : Text(
+                'challenges.createChallenge'.tr(),
+                style: const TextStyle(
+                  fontSize: AppSizes.fontLarge,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+      ),
+    );
   }
 
   void _showEmojiPicker() {
@@ -388,7 +351,8 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
       return;
     }
 
-    if (_titleController.text.trim().length > _maxTitleLength) {
+    if (_titleController.text.trim().length >
+        AppTextLimits.challengeTitleMaxLength) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('challenges.create.titleTooLong'.tr()),

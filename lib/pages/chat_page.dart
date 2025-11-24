@@ -431,6 +431,14 @@ class _ChatPageState extends State<ChatPage> {
                 child: TextField(
                   controller: _messageController,
                   maxLines: null,
+                  maxLength: AppTextLimits.messageMaxLength,
+                  buildCounter:
+                      (
+                        context, {
+                        required int currentLength,
+                        required bool isFocused,
+                        required int? maxLength,
+                      }) => null,
                   textInputAction: TextInputAction.send,
                   onSubmitted: (_) => _sendMessage(),
                   decoration: InputDecoration(

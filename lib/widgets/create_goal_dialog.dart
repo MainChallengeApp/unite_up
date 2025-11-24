@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:unite_up/models/goal_model.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
+import 'package:unite_up/widgets/custom_text_field.dart';
 
 class CreateGoalDialog extends StatefulWidget {
   const CreateGoalDialog({super.key});
@@ -41,13 +42,13 @@ class _CreateGoalDialogState extends State<CreateGoalDialog> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            TextField(
+            CustomTextField(
               controller: _titleController,
-              decoration: InputDecoration(
-                labelText: 'goals.title'.tr(),
-                hintText: 'goals.titleHint'.tr(),
-                border: const OutlineInputBorder(),
-              ),
+              maxLength: AppTextLimits.goalTitleMaxLength,
+              labelText: 'goals.title'.tr(),
+              hintText: 'goals.titleHint'.tr(),
+              icon: AppIcons.edit,
+              isRemoveTextVisible: true,
             ),
             const SizedBox(height: AppSizes.spacing16),
             Row(

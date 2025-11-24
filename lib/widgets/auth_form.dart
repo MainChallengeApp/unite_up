@@ -88,10 +88,7 @@ class _AuthFormState extends State<AuthForm> {
       hintText: 'auth.fields.enterFullName'.tr(),
       icon: AppIcons.personOutline,
       textCapitalization: TextCapitalization.words,
-      suffixIcon: AppIcons.close,
-      onSuffixIconPressed: () {
-        widget.nameController.clear();
-      },
+      isRemoveTextVisible: true,
     );
   }
 
@@ -102,10 +99,7 @@ class _AuthFormState extends State<AuthForm> {
       hintText: 'auth.fields.enterEmail'.tr(),
       icon: AppIcons.email,
       keyboardType: TextInputType.emailAddress,
-      suffixIcon: AppIcons.close,
-      onSuffixIconPressed: () {
-        widget.emailController.clear();
-      },
+      isRemoveTextVisible: true,
     );
   }
 

@@ -60,6 +60,13 @@ class AppTheme {
       ),
     ),
     iconTheme: const IconThemeData(color: AppColors.lightTextSecondary),
+    dialogTheme: DialogThemeData(
+      backgroundColor: AppColors.lightBackground,
+      surfaceTintColor: AppColors.transparent,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
+      ),
+    ),
   );
 
   static ThemeData darkTheme = ThemeData(
@@ -120,5 +127,12 @@ class AppTheme {
       ),
     ),
     iconTheme: const IconThemeData(color: AppColors.darkTextSecondary),
+    dialogTheme: DialogThemeData(
+      backgroundColor: AppColors.darkBackground,
+      surfaceTintColor: AppColors.transparent,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
+      ),
+    ),
   );
 }

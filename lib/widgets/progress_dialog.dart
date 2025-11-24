@@ -61,6 +61,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
             TextField(
               controller: _noteController,
               maxLines: 4,
+              maxLength: AppTextLimits.challengeDescriptionMaxLength,
               decoration: InputDecoration(
                 hintText: 'progress.describeProgress'.tr(),
                 filled: true,

@@ -7,12 +7,15 @@ class CustomTextField extends StatefulWidget {
   final String hintText;
   final IconData icon;
   final int? maxLines;
+  final int? maxLength;
   final bool obscureText;
   final TextInputType? keyboardType;
   final TextCapitalization textCapitalization;
   final IconData? suffixIcon;
   final VoidCallback? onSuffixIconPressed;
   final bool alwaysShowSuffixIcon;
+  final bool isCounterVisible;
+  final bool isRemoveTextVisible;
 
   const CustomTextField({
     super.key,
@@ -21,12 +24,15 @@ class CustomTextField extends StatefulWidget {
     required this.hintText,
     required this.icon,
     this.maxLines = 1,
+    this.maxLength,
     this.obscureText = false,
     this.keyboardType,
     this.textCapitalization = TextCapitalization.none,
     this.suffixIcon,
     this.onSuffixIconPressed,
     this.alwaysShowSuffixIcon = false,
+    this.isCounterVisible = true,
+    this.isRemoveTextVisible = false,
   });
 
   @override
@@ -71,12 +77,17 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final showSuffixIcon =
-        widget.suffixIcon != null && (widget.alwaysShowSuffixIcon || _hasText);
+    final bool showClearIcon = widget.isRemoveTextVisible && _hasText;
+    final bool showCustomSuffixIcon =
+        !showClearIcon &&
+        widget.suffixIcon != null &&
+        (widget.alwaysShowSuffixIcon || _hasText);
+    final bool showSuffixIcon = showClearIcon || showCustomSuffixIcon;
 
     return TextField(
       controller: widget.controller,
       maxLines: widget.obscureText ? 1 : widget.maxLines,
+      maxLength: widget.maxLength,
       obscureText: widget.obscureText,
       keyboardType: widget.keyboardType,
       textCapitalization: widget.textCapitalization,
@@ -107,12 +118,19 @@ class _CustomTextFieldState extends State<CustomTextField> {
         suffixIcon: showSuffixIcon
             ? IconButton(
                 icon: Icon(
-                  widget.suffixIcon,
+                  showClearIcon ? Icons.clear : widget.suffixIcon,
                   color: _theme.colorScheme.onSurface.withValues(alpha: 0.6),
                 ),
-                onPressed: widget.onSuffixIconPressed,
+                onPressed: showClearIcon
+                    ? _clearText
+                    : widget.onSuffixIconPressed,
               )
             : null,
+        counterText: widget.isCounterVisible ? null : '',
+        counterStyle: TextStyle(
+          fontSize: AppSizes.fontSmall,
+          color: _theme.iconTheme.color?.withValues(alpha: 0.6),
+        ),
       ),
     );
   }
@@ -124,5 +142,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
         _hasText = hasText;
       });
     }
+  }
+
+  void _clearText() {
+    widget.controller.clear();
   }
 }
