@@ -17,6 +17,8 @@ class _UpdateGoalProgressDialogState extends State<UpdateGoalProgressDialog> {
   GoalModel? _selectedGoal;
   final _progressController = TextEditingController();
 
+  ThemeData get _theme => Theme.of(context);
+
   @override
   void dispose() {
     _progressController.dispose();
@@ -25,7 +27,6 @@ class _UpdateGoalProgressDialogState extends State<UpdateGoalProgressDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final appState = Provider.of<AppStateProvider>(context);
     final currentUserId = appState.currentUser?.id ?? 'user-1';
 
@@ -47,7 +48,7 @@ class _UpdateGoalProgressDialogState extends State<UpdateGoalProgressDialog> {
               Text(
                 'goals.noGoalsToUpdate'.tr(),
                 style: TextStyle(
-                  color: theme.iconTheme.color?.withValues(
+                  color: _theme.iconTheme.color?.withValues(
                     alpha: AppOpacity.mostlyOpaque,
                   ),
                 ),
@@ -61,7 +62,7 @@ class _UpdateGoalProgressDialogState extends State<UpdateGoalProgressDialog> {
                 ),
               ),
               const SizedBox(height: AppSizes.spacing12),
-              ...userGoals.map((goal) => _buildGoalOption(theme, goal)),
+              ...userGoals.map((goal) => _buildGoalOption(goal)),
               if (_selectedGoal != null) ...[
                 const SizedBox(height: AppSizes.spacing16),
                 TextField(
@@ -82,7 +83,7 @@ class _UpdateGoalProgressDialogState extends State<UpdateGoalProgressDialog> {
                   '${'goals.current'.tr()}: ${_selectedGoal!.currentValue.toStringAsFixed(_selectedGoal!.currentValue.truncateToDouble() == _selectedGoal!.currentValue ? 0 : 1)} ${_selectedGoal!.unit ?? ""} / ${_selectedGoal!.endValue.toStringAsFixed(_selectedGoal!.endValue.truncateToDouble() == _selectedGoal!.endValue ? 0 : 1)} ${_selectedGoal!.unit ?? ""}',
                   style: TextStyle(
                     fontSize: AppSizes.fontSmall,
-                    color: theme.iconTheme.color?.withValues(
+                    color: _theme.iconTheme.color?.withValues(
                       alpha: AppOpacity.mostlyOpaque,
                     ),
                   ),
@@ -130,7 +131,7 @@ class _UpdateGoalProgressDialogState extends State<UpdateGoalProgressDialog> {
     Navigator.pop(context);
   }
 
-  Widget _buildGoalOption(ThemeData theme, GoalModel goal) {
+  Widget _buildGoalOption(GoalModel goal) {
     final isSelected = _selectedGoal?.id == goal.id;
 
     return Padding(
@@ -147,13 +148,13 @@ class _UpdateGoalProgressDialogState extends State<UpdateGoalProgressDialog> {
           padding: const EdgeInsets.all(AppSizes.spacing12),
           decoration: BoxDecoration(
             color: isSelected
-                ? theme.colorScheme.primary.withValues(alpha: AppOpacity.light)
-                : theme.cardColor,
+                ? _theme.colorScheme.primary.withValues(alpha: AppOpacity.light)
+                : _theme.cardColor,
             borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
             border: Border.all(
               color: isSelected
-                  ? theme.colorScheme.primary
-                  : theme.dividerColor.withValues(alpha: AppOpacity.light),
+                  ? _theme.colorScheme.primary
+                  : _theme.dividerColor.withValues(alpha: AppOpacity.light),
               width: isSelected ? AppSizes.borderMedium : AppSizes.borderThin,
             ),
           ),
@@ -168,7 +169,7 @@ class _UpdateGoalProgressDialogState extends State<UpdateGoalProgressDialog> {
                       style: TextStyle(
                         fontSize: AppSizes.fontMedium,
                         fontWeight: FontWeight.w600,
-                        color: isSelected ? theme.colorScheme.primary : null,
+                        color: isSelected ? _theme.colorScheme.primary : null,
                       ),
                     ),
                   ),
@@ -178,8 +179,8 @@ class _UpdateGoalProgressDialogState extends State<UpdateGoalProgressDialog> {
                       fontSize: AppSizes.fontMedium,
                       fontWeight: FontWeight.w600,
                       color: isSelected
-                          ? theme.colorScheme.primary
-                          : theme.iconTheme.color?.withValues(
+                          ? _theme.colorScheme.primary
+                          : _theme.iconTheme.color?.withValues(
                               alpha: AppOpacity.mostlyOpaque,
                             ),
                     ),
@@ -191,7 +192,7 @@ class _UpdateGoalProgressDialogState extends State<UpdateGoalProgressDialog> {
                 '${goal.currentValue.toStringAsFixed(goal.currentValue.truncateToDouble() == goal.currentValue ? 0 : 1)} / ${goal.endValue.toStringAsFixed(goal.endValue.truncateToDouble() == goal.endValue ? 0 : 1)} ${goal.unit ?? ""}',
                 style: TextStyle(
                   fontSize: AppSizes.fontSmall,
-                  color: theme.iconTheme.color?.withValues(
+                  color: _theme.iconTheme.color?.withValues(
                     alpha: AppOpacity.mostlyOpaque,
                   ),
                 ),

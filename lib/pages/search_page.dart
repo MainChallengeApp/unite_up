@@ -19,6 +19,8 @@ class _SearchPageState extends State<SearchPage> {
   List<UserModel> _filteredUserModels = [];
   final List<UserModel> _allUserModels = UserModelService.getMockUserModels();
 
+  ThemeData get _theme => Theme.of(context);
+
   @override
   void initState() {
     super.initState();
@@ -37,7 +39,7 @@ class _SearchPageState extends State<SearchPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CustomAppBar(title: 'search.title'.tr(), showBackButton: false),
-      body: _buildSearchView(Theme.of(context)),
+      body: _buildSearchView(),
     );
   }
 
@@ -68,7 +70,7 @@ class _SearchPageState extends State<SearchPage> {
     });
   }
 
-  Widget _buildSearchView(ThemeData theme) {
+  Widget _buildSearchView() {
     return Column(
       children: [
         Padding(
@@ -83,7 +85,7 @@ class _SearchPageState extends State<SearchPage> {
               hintText: 'search.searchUsers'.tr(),
               prefixIcon: Icon(
                 AppIcons.search,
-                color: theme.iconTheme.color?.withValues(
+                color: _theme.iconTheme.color?.withValues(
                   alpha: AppOpacity.mostlyOpaque,
                 ),
               ),
@@ -96,9 +98,9 @@ class _SearchPageState extends State<SearchPage> {
                     )
                   : null,
               filled: true,
-              fillColor: theme.brightness == Brightness.dark
-                  ? theme.cardColor
-                  : theme.scaffoldBackgroundColor,
+              fillColor: _theme.brightness == Brightness.dark
+                  ? _theme.cardColor
+                  : _theme.scaffoldBackgroundColor,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
                 borderSide: BorderSide.none,

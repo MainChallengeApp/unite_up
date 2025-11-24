@@ -73,7 +73,7 @@ class _AuthFormState extends State<AuthForm> {
           const SizedBox(height: AppSizes.spacing16),
           _buildPasswordField(),
           const SizedBox(height: AppSizes.spacing24),
-          _buildSubmitButton(Theme.of(context)),
+          _buildSubmitButton(),
           const SizedBox(height: AppSizes.spacing24),
           _buildToggleButton(),
         ],
@@ -128,7 +128,7 @@ class _AuthFormState extends State<AuthForm> {
     );
   }
 
-  Widget _buildSubmitButton(ThemeData theme) {
+  Widget _buildSubmitButton() {
     return Builder(
       builder: (context) => SizedBox(
         width: double.infinity,

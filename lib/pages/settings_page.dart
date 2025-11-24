@@ -18,9 +18,10 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
+  ThemeData get _theme => Theme.of(context);
+
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final themeProvider = Provider.of<ThemeProvider>(context);
 
     return Scaffold(
@@ -28,25 +29,24 @@ class _SettingsPageState extends State<SettingsPage> {
       body: ListView(
         padding: const EdgeInsets.all(AppSizes.spacing16),
         children: [
-          _buildSectionTitle('settings.appearance'.tr(), theme),
+          _buildSectionTitle('settings.appearance'.tr()),
           const SizedBox(height: AppSizes.spacing12),
-          _buildThemeCard(context, themeProvider, theme),
+          _buildThemeCard(context, themeProvider),
           const SizedBox(height: AppSizes.spacing32),
-          _buildSectionTitle('settings.language'.tr(), theme),
+          _buildSectionTitle('settings.language'.tr()),
           const SizedBox(height: AppSizes.spacing12),
-          _buildLanguageCard(context, theme),
+          _buildLanguageCard(context),
           const SizedBox(height: AppSizes.spacing32),
-          _buildSectionTitle('settings.about'.tr(), theme),
+          _buildSectionTitle('settings.about'.tr()),
           const SizedBox(height: AppSizes.spacing12),
           _buildInfoCard(
             context,
             icon: AppIcons.info,
             title: 'settings.version'.tr(),
             subtitle: '1.0.0',
-            theme: theme,
           ),
           const SizedBox(height: AppSizes.spacing32),
-          _buildSectionTitle('settings.account'.tr(), theme),
+          _buildSectionTitle('settings.account'.tr()),
           const SizedBox(height: AppSizes.spacing12),
           _buildLogoutButton(),
           const SizedBox(height: AppSizes.spacing24),
@@ -84,21 +84,20 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget _buildLogoutButton() {
-    final theme = Theme.of(context);
     return SettingsCard(
       icon: SettingsIconContainer(
         icon: AppIcons.logout,
-        color: theme.colorScheme.error,
-        backgroundColor: theme.colorScheme.error.withValues(
+        color: _theme.colorScheme.error,
+        backgroundColor: _theme.colorScheme.error.withValues(
           alpha: AppOpacity.light,
         ),
       ),
       title: 'auth.signOut'.tr(),
-      titleColor: theme.colorScheme.error,
+      titleColor: _theme.colorScheme.error,
       onTap: _handleLogout,
       trailing: Icon(
         AppIcons.arrowForward,
-        color: theme.colorScheme.error.withValues(
+        color: _theme.colorScheme.error.withValues(
           alpha: AppOpacity.mostlyOpaque,
         ),
         size: AppSizes.iconMedium,
@@ -106,7 +105,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _buildSectionTitle(String title, ThemeData theme) {
+  Widget _buildSectionTitle(String title) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: AppSizes.spacing4),
       child: Text(
@@ -114,7 +113,7 @@ class _SettingsPageState extends State<SettingsPage> {
         style: TextStyle(
           fontSize: AppSizes.fontRegular,
           fontWeight: FontWeight.w600,
-          color: theme.iconTheme.color?.withValues(
+          color: _theme.iconTheme.color?.withValues(
             alpha: AppOpacity.mostlyOpaque,
           ),
           letterSpacing: 0.5,
@@ -123,11 +122,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _buildThemeCard(
-    BuildContext context,
-    ThemeProvider themeProvider,
-    ThemeData theme,
-  ) {
+  Widget _buildThemeCard(BuildContext context, ThemeProvider themeProvider) {
     return AppCardContainer(
       child: Column(
         children: [
@@ -138,13 +133,12 @@ class _SettingsPageState extends State<SettingsPage> {
             subtitle: 'settings.theme.light.description'.tr(),
             isSelected: themeProvider.themeMode == ThemeMode.light,
             onTap: () => themeProvider.setThemeMode(ThemeMode.light),
-            theme: theme,
             isFirst: true,
           ),
           Divider(
             height: AppSizes.dividerHeight,
             thickness: 1,
-            color: theme.dividerColor.withValues(alpha: AppOpacity.light),
+            color: _theme.dividerColor.withValues(alpha: AppOpacity.light),
           ),
           _buildThemeOption(
             context,
@@ -153,12 +147,11 @@ class _SettingsPageState extends State<SettingsPage> {
             subtitle: 'settings.theme.dark.description'.tr(),
             isSelected: themeProvider.themeMode == ThemeMode.dark,
             onTap: () => themeProvider.setThemeMode(ThemeMode.dark),
-            theme: theme,
           ),
           Divider(
             height: AppSizes.dividerHeight,
             thickness: 1,
-            color: theme.dividerColor.withValues(alpha: AppOpacity.light),
+            color: _theme.dividerColor.withValues(alpha: AppOpacity.light),
           ),
           _buildThemeOption(
             context,
@@ -167,7 +160,6 @@ class _SettingsPageState extends State<SettingsPage> {
             subtitle: 'settings.theme.system.description'.tr(),
             isSelected: themeProvider.themeMode == ThemeMode.system,
             onTap: () => themeProvider.setThemeMode(ThemeMode.system),
-            theme: theme,
             isLast: true,
           ),
         ],
@@ -175,7 +167,7 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  Widget _buildLanguageCard(BuildContext context, ThemeData theme) {
+  Widget _buildLanguageCard(BuildContext context) {
     final currentLocale = context.locale;
 
     return AppCardContainer(
@@ -188,13 +180,12 @@ class _SettingsPageState extends State<SettingsPage> {
             subtitle: 'settings.languages.english.subtitle'.tr(),
             isSelected: currentLocale.languageCode == 'en',
             onTap: () => context.setLocale(const Locale('en')),
-            theme: theme,
             isFirst: true,
           ),
           Divider(
             height: AppSizes.dividerHeight,
             thickness: 1,
-            color: theme.dividerColor.withValues(alpha: AppOpacity.light),
+            color: _theme.dividerColor.withValues(alpha: AppOpacity.light),
           ),
           _buildLanguageOption(
             context,
@@ -203,7 +194,6 @@ class _SettingsPageState extends State<SettingsPage> {
             subtitle: 'settings.languages.german.subtitle'.tr(),
             isSelected: currentLocale.languageCode == 'de',
             onTap: () => context.setLocale(const Locale('de')),
-            theme: theme,
             isLast: true,
           ),
         ],
@@ -218,7 +208,6 @@ class _SettingsPageState extends State<SettingsPage> {
     required String subtitle,
     required bool isSelected,
     required VoidCallback onTap,
-    required ThemeData theme,
     bool isFirst = false,
     bool isLast = false,
   }) {
@@ -237,16 +226,16 @@ class _SettingsPageState extends State<SettingsPage> {
               SettingsIconContainer(
                 icon: icon,
                 color: isSelected
-                    ? theme.colorScheme.primary
-                    : theme.iconTheme.color?.withValues(
+                    ? _theme.colorScheme.primary
+                    : _theme.iconTheme.color?.withValues(
                             alpha: AppOpacity.mostlyOpaque,
                           ) ??
-                          theme.colorScheme.primary,
+                          _theme.colorScheme.primary,
                 backgroundColor: isSelected
-                    ? theme.colorScheme.primary.withValues(
+                    ? _theme.colorScheme.primary.withValues(
                         alpha: AppOpacity.light,
                       )
-                    : theme.colorScheme.primary.withValues(
+                    : _theme.colorScheme.primary.withValues(
                         alpha: AppOpacity.veryLight,
                       ),
               ),
@@ -260,7 +249,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       style: TextStyle(
                         fontSize: AppSizes.fontLarge,
                         fontWeight: FontWeight.w600,
-                        color: theme.brightness == Brightness.dark
+                        color: _theme.brightness == Brightness.dark
                             ? AppColors.white
                             : AppColors.darkSurface,
                       ),
@@ -270,7 +259,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       subtitle,
                       style: TextStyle(
                         fontSize: AppSizes.fontRegular,
-                        color: theme.iconTheme.color?.withValues(
+                        color: _theme.iconTheme.color?.withValues(
                           alpha: AppOpacity.mostlyOpaque,
                         ),
                       ),
@@ -281,13 +270,13 @@ class _SettingsPageState extends State<SettingsPage> {
               if (isSelected)
                 Icon(
                   AppIcons.checkCircle,
-                  color: theme.colorScheme.primary,
+                  color: _theme.colorScheme.primary,
                   size: AppSizes.iconLarge,
                 )
               else
                 Icon(
                   AppIcons.circle,
-                  color: theme.iconTheme.color?.withValues(
+                  color: _theme.iconTheme.color?.withValues(
                     alpha: AppOpacity.medium,
                   ),
                   size: AppSizes.iconLarge,
@@ -306,7 +295,6 @@ class _SettingsPageState extends State<SettingsPage> {
     required String subtitle,
     required bool isSelected,
     required VoidCallback onTap,
-    required ThemeData theme,
     bool isFirst = false,
     bool isLast = false,
   }) {
@@ -325,10 +313,10 @@ class _SettingsPageState extends State<SettingsPage> {
               SettingsEmojiContainer(
                 emoji: flag,
                 backgroundColor: isSelected
-                    ? theme.colorScheme.primary.withValues(
+                    ? _theme.colorScheme.primary.withValues(
                         alpha: AppOpacity.light,
                       )
-                    : theme.colorScheme.primary.withValues(
+                    : _theme.colorScheme.primary.withValues(
                         alpha: AppOpacity.veryLight,
                       ),
               ),
@@ -342,7 +330,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       style: TextStyle(
                         fontSize: AppSizes.fontLarge,
                         fontWeight: FontWeight.w600,
-                        color: theme.brightness == Brightness.dark
+                        color: _theme.brightness == Brightness.dark
                             ? AppColors.white
                             : AppColors.darkSurface,
                       ),
@@ -352,7 +340,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       subtitle,
                       style: TextStyle(
                         fontSize: AppSizes.fontRegular,
-                        color: theme.iconTheme.color?.withValues(
+                        color: _theme.iconTheme.color?.withValues(
                           alpha: AppOpacity.mostlyOpaque,
                         ),
                       ),
@@ -363,13 +351,13 @@ class _SettingsPageState extends State<SettingsPage> {
               if (isSelected)
                 Icon(
                   AppIcons.checkCircle,
-                  color: theme.colorScheme.primary,
+                  color: _theme.colorScheme.primary,
                   size: AppSizes.iconLarge,
                 )
               else
                 Icon(
                   AppIcons.circle,
-                  color: theme.iconTheme.color?.withValues(
+                  color: _theme.iconTheme.color?.withValues(
                     alpha: AppOpacity.medium,
                   ),
                   size: AppSizes.iconLarge,
@@ -386,13 +374,12 @@ class _SettingsPageState extends State<SettingsPage> {
     required IconData icon,
     required String title,
     required String subtitle,
-    required ThemeData theme,
   }) {
     return SettingsCard(
       icon: SettingsIconContainer(
         icon: icon,
-        color: theme.colorScheme.primary,
-        backgroundColor: theme.colorScheme.primary.withValues(
+        color: _theme.colorScheme.primary,
+        backgroundColor: _theme.colorScheme.primary.withValues(
           alpha: AppOpacity.light,
         ),
       ),

@@ -17,6 +17,8 @@ class _ProgressDialogState extends State<ProgressDialog> {
   final List<MediaAttachmentModel> _mockAttachments = [];
   bool _isUploading = false;
 
+  ThemeData get _theme => Theme.of(context);
+
   @override
   void dispose() {
     _noteController.dispose();
@@ -25,10 +27,8 @@ class _ProgressDialogState extends State<ProgressDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return AlertDialog(
-      backgroundColor: theme.scaffoldBackgroundColor,
+      backgroundColor: _theme.scaffoldBackgroundColor,
       surfaceTintColor: AppColors.transparent,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
@@ -36,7 +36,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
       title: Text(
         'progress.title'.tr(),
         style: TextStyle(
-          color: theme.brightness == Brightness.dark
+          color: _theme.brightness == Brightness.dark
               ? AppColors.white
               : AppColors.darkSurface,
           fontWeight: FontWeight.w600,
@@ -52,7 +52,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
               style: TextStyle(
                 fontSize: AppSizes.fontMedium,
                 fontWeight: FontWeight.w600,
-                color: theme.brightness == Brightness.dark
+                color: _theme.brightness == Brightness.dark
                     ? AppColors.white
                     : AppColors.darkSurface,
               ),
@@ -64,9 +64,9 @@ class _ProgressDialogState extends State<ProgressDialog> {
               decoration: InputDecoration(
                 hintText: 'progress.describeProgress'.tr(),
                 filled: true,
-                fillColor: theme.brightness == Brightness.dark
-                    ? theme.cardColor
-                    : theme.scaffoldBackgroundColor,
+                fillColor: _theme.brightness == Brightness.dark
+                    ? _theme.cardColor
+                    : _theme.scaffoldBackgroundColor,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
                   borderSide: BorderSide.none,
@@ -80,7 +80,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
               style: TextStyle(
                 fontSize: AppSizes.fontMedium,
                 fontWeight: FontWeight.w600,
-                color: theme.brightness == Brightness.dark
+                color: _theme.brightness == Brightness.dark
                     ? AppColors.white
                     : AppColors.darkSurface,
               ),
@@ -103,12 +103,12 @@ class _ProgressDialogState extends State<ProgressDialog> {
                       : 'progress.addMedia'.tr(),
                 ),
                 style: OutlinedButton.styleFrom(
-                  foregroundColor: theme.colorScheme.primary,
+                  foregroundColor: _theme.colorScheme.primary,
                   padding: const EdgeInsets.symmetric(
                     vertical: AppSizes.spacing16,
                   ),
                   side: BorderSide(
-                    color: theme.colorScheme.primary.withValues(
+                    color: _theme.colorScheme.primary.withValues(
                       alpha: AppOpacity.semiTransparent,
                     ),
                   ),
@@ -122,10 +122,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
             if (_mockAttachments.isNotEmpty)
               Column(
                 children: _mockAttachments
-                    .map(
-                      (attachment) =>
-                          _buildAttachmentPreview(attachment, theme),
-                    )
+                    .map((attachment) => _buildAttachmentPreview(attachment))
                     .toList(),
               ),
           ],
@@ -150,7 +147,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
       backgroundColor: AppColors.transparent,
       builder: (context) => Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).scaffoldBackgroundColor,
+          color: _theme.scaffoldBackgroundColor,
           borderRadius: const BorderRadius.only(
             topLeft: Radius.circular(AppSizes.radiusXLarge),
             topRight: Radius.circular(AppSizes.radiusXLarge),
@@ -165,29 +162,26 @@ class _ProgressDialogState extends State<ProgressDialog> {
                 width: AppSizes.containerSmall,
                 height: AppSizes.spacing4,
                 decoration: BoxDecoration(
-                  color: Theme.of(
-                    context,
-                  ).dividerColor.withValues(alpha: AppOpacity.medium),
+                  color: _theme.dividerColor.withValues(
+                    alpha: AppOpacity.medium,
+                  ),
                   borderRadius: BorderRadius.circular(AppSizes.radiusSmall),
                 ),
               ),
               const SizedBox(height: AppSizes.spacing24),
               _buildPickerOption(
-                context,
                 icon: AppIcons.image,
                 label: 'progress.pickImage'.tr(),
                 color: AppColors.blue,
                 onTap: () => Navigator.pop(context, 'image'),
               ),
               _buildPickerOption(
-                context,
                 icon: AppIcons.video,
                 label: 'progress.pickVideo'.tr(),
                 color: AppColors.purple,
                 onTap: () => Navigator.pop(context, 'video'),
               ),
               _buildPickerOption(
-                context,
                 icon: AppIcons.file,
                 label: 'progress.pickFile'.tr(),
                 color: AppColors.orange,
@@ -217,8 +211,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
     }
   }
 
-  Widget _buildPickerOption(
-    BuildContext context, {
+  Widget _buildPickerOption({
     required IconData icon,
     required String label,
     required Color color,
@@ -230,7 +223,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
         vertical: AppSizes.spacing4,
       ),
       child: Material(
-        color: Theme.of(context).cardColor,
+        color: _theme.cardColor,
         borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
         child: InkWell(
           onTap: onTap,
@@ -363,10 +356,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
     }
   }
 
-  Widget _buildAttachmentPreview(
-    MediaAttachmentModel attachment,
-    ThemeData theme,
-  ) {
+  Widget _buildAttachmentPreview(MediaAttachmentModel attachment) {
     final mediaColor = _getMediaColor(attachment.type);
 
     return Container(
@@ -406,7 +396,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
                 Text(
                   attachment.fileName ?? 'progress.unnamed'.tr(),
                   style: TextStyle(
-                    color: theme.brightness == Brightness.dark
+                    color: _theme.brightness == Brightness.dark
                         ? AppColors.white
                         : AppColors.darkSurface,
                     fontWeight: FontWeight.w500,
@@ -420,7 +410,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
                   _getFileSize(attachment),
                   style: TextStyle(
                     fontSize: AppSizes.fontSmall,
-                    color: theme.iconTheme.color?.withValues(
+                    color: _theme.iconTheme.color?.withValues(
                       alpha: AppOpacity.mostlyOpaque,
                     ),
                   ),
@@ -439,7 +429,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
                 child: Icon(
                   AppIcons.close,
                   size: AppSizes.iconSmall,
-                  color: theme.colorScheme.error,
+                  color: _theme.colorScheme.error,
                 ),
               ),
             ),

@@ -19,6 +19,8 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 1;
   bool _wasAuthenticated = false;
 
+  ThemeData get _theme => Theme.of(context);
+
   @override
   Widget build(BuildContext context) {
     return Consumer<AppStateProvider>(
@@ -78,8 +80,6 @@ class _HomePageState extends State<HomePage> {
           _selectedIndex = 0;
         }
 
-        final theme = Theme.of(context);
-
         return Scaffold(
           body: IndexedStack(index: _selectedIndex, children: pages),
           bottomNavigationBar: Container(
@@ -96,11 +96,11 @@ class _HomePageState extends State<HomePage> {
               currentIndex: _selectedIndex,
               onTap: _onItemTapped,
               type: BottomNavigationBarType.fixed,
-              backgroundColor: theme.brightness == Brightness.dark
+              backgroundColor: _theme.brightness == Brightness.dark
                   ? AppColors.darkSurface
                   : AppColors.white,
-              selectedItemColor: theme.colorScheme.primary,
-              unselectedItemColor: theme.iconTheme.color?.withValues(
+              selectedItemColor: _theme.colorScheme.primary,
+              unselectedItemColor: _theme.iconTheme.color?.withValues(
                 alpha: AppOpacity.semiTransparent,
               ),
               selectedFontSize: 12,

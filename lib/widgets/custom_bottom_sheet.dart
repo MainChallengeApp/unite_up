@@ -70,7 +70,9 @@ class CustomBottomSheet extends StatelessWidget {
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    ...options.map((option) => _buildOption(context, option)),
+                    ...options.map(
+                      (option) => _buildOption(context, option, theme),
+                    ),
                     const SizedBox(height: AppSizes.spacing16),
                   ],
                 ),
@@ -82,9 +84,11 @@ class CustomBottomSheet extends StatelessWidget {
     );
   }
 
-  Widget _buildOption(BuildContext context, BottomSheetOption option) {
-    final theme = Theme.of(context);
-
+  Widget _buildOption(
+    BuildContext context,
+    BottomSheetOption option,
+    ThemeData theme,
+  ) {
     return Padding(
       padding: const EdgeInsets.symmetric(
         horizontal: AppSizes.spacing16,

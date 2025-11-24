@@ -21,6 +21,8 @@ class _CreateGoalDialogState extends State<CreateGoalDialog> {
   DateTime _startDate = DateTime.now();
   DateTime _endDate = DateTime.now().add(const Duration(days: 30));
 
+  ThemeData get _theme => Theme.of(context);
+
   @override
   void dispose() {
     _titleController.dispose();
@@ -32,8 +34,6 @@ class _CreateGoalDialogState extends State<CreateGoalDialog> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return AlertDialog(
       title: Text('goals.createGoal'.tr()),
       content: SingleChildScrollView(
@@ -94,7 +94,7 @@ class _CreateGoalDialogState extends State<CreateGoalDialog> {
               style: TextStyle(
                 fontSize: AppSizes.fontMedium,
                 fontWeight: FontWeight.w600,
-                color: theme.colorScheme.onSurface,
+                color: _theme.colorScheme.onSurface,
               ),
             ),
             const SizedBox(height: AppSizes.spacing12),
@@ -205,15 +205,13 @@ class _CreateGoalDialogState extends State<CreateGoalDialog> {
     DateTime date,
     VoidCallback onTap,
   ) {
-    final theme = Theme.of(context);
-
     return InkWell(
       onTap: onTap,
       borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
       child: Container(
         padding: const EdgeInsets.all(AppSizes.spacing12),
         decoration: BoxDecoration(
-          border: Border.all(color: theme.dividerColor),
+          border: Border.all(color: _theme.dividerColor),
           borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
         ),
         child: Row(

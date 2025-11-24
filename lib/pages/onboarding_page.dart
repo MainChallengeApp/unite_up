@@ -19,6 +19,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
   GoalCategoryEnum? _selectedCategory;
   final TextEditingController _customGoalController = TextEditingController();
 
+  ThemeData get _theme => Theme.of(context);
+
   @override
   void dispose() {
     _customGoalController.dispose();
@@ -27,8 +29,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Scaffold(
       body: SafeArea(
         child: Column(
@@ -46,7 +46,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         fontSize: AppSizes.fontHuge,
                         fontWeight: FontWeight.bold,
                         height: AppSizes.lineHeightTight,
-                        color: theme.brightness == Brightness.dark
+                        color: _theme.brightness == Brightness.dark
                             ? AppColors.white
                             : AppColors.darkSurface,
                       ),
@@ -56,7 +56,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       'onboarding.description'.tr(),
                       style: TextStyle(
                         fontSize: AppSizes.fontLarge,
-                        color: theme.iconTheme.color?.withValues(
+                        color: _theme.iconTheme.color?.withValues(
                           alpha: AppOpacity.almostOpaque,
                         ),
                         height: AppSizes.lineHeightNormal,
@@ -68,7 +68,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                       style: TextStyle(
                         fontSize: AppSizes.fontMedium,
                         fontWeight: FontWeight.w600,
-                        color: theme.iconTheme.color?.withValues(
+                        color: _theme.iconTheme.color?.withValues(
                           alpha: AppOpacity.mostlyOpaque,
                         ),
                         letterSpacing: 0.5,
@@ -98,10 +98,10 @@ class _OnboardingPageState extends State<OnboardingPage> {
             Container(
               padding: const EdgeInsets.all(AppSizes.spacing24),
               decoration: BoxDecoration(
-                color: theme.scaffoldBackgroundColor,
+                color: _theme.scaffoldBackgroundColor,
                 border: Border(
                   top: BorderSide(
-                    color: theme.dividerColor.withValues(
+                    color: _theme.dividerColor.withValues(
                       alpha: AppOpacity.light,
                     ),
                     width: AppSizes.borderThin,
@@ -120,7 +120,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         ? _handleChallengeCreation
                         : null,
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: theme.colorScheme.primary,
+                      backgroundColor: _theme.colorScheme.primary,
                       foregroundColor: AppColors.white,
                       padding: const EdgeInsets.symmetric(
                         vertical: AppSizes.spacing16,

@@ -24,6 +24,8 @@ class _ChatPageState extends State<ChatPage> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _messageController = TextEditingController();
 
+  ThemeData get _theme => Theme.of(context);
+
   @override
   void initState() {
     super.initState();
@@ -42,7 +44,6 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final appState = Provider.of<AppStateProvider>(context);
     final challenge = appState.currentChallenge;
 
@@ -70,7 +71,7 @@ class _ChatPageState extends State<ChatPage> {
                     width: AppSizes.iconXLarge,
                     height: AppSizes.iconXLarge,
                     decoration: BoxDecoration(
-                      color: theme.colorScheme.primary.withValues(
+                      color: _theme.colorScheme.primary.withValues(
                         alpha: AppOpacity.light,
                       ),
                       shape: BoxShape.circle,
@@ -109,7 +110,7 @@ class _ChatPageState extends State<ChatPage> {
                             style: TextStyle(
                               fontSize: AppSizes.fontSmall,
                               fontWeight: FontWeight.normal,
-                              color: theme.iconTheme.color?.withValues(
+                              color: _theme.iconTheme.color?.withValues(
                                 alpha: AppOpacity.mostlyOpaque,
                               ),
                             ),
@@ -128,10 +129,10 @@ class _ChatPageState extends State<ChatPage> {
         children: [
           Expanded(
             child: appState.events.isEmpty
-                ? _buildEmptyState(theme)
-                : _buildChatList(appState, theme),
+                ? _buildEmptyState()
+                : _buildChatList(appState),
           ),
-          _buildInputBar(theme, appState),
+          _buildInputBar(appState),
         ],
       ),
     );
@@ -215,7 +216,7 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  Widget _buildChatList(AppStateProvider appState, ThemeData theme) {
+  Widget _buildChatList(AppStateProvider appState) {
     final groupedEvents = _groupEventsByDate(appState.events);
 
     return ListView.builder(
@@ -224,7 +225,7 @@ class _ChatPageState extends State<ChatPage> {
       padding: const EdgeInsets.only(bottom: AppSizes.spacing16),
       itemCount: _calculateItemCount(groupedEvents),
       itemBuilder: (context, index) {
-        return _buildListItem(context, groupedEvents, index, theme);
+        return _buildListItem(context, groupedEvents, index);
       },
     );
   }
@@ -255,14 +256,13 @@ class _ChatPageState extends State<ChatPage> {
     BuildContext context,
     Map<String, List<EventModel>> groupedEvents,
     int index,
-    ThemeData theme,
   ) {
     int currentIndex = 0;
 
     for (final entry in groupedEvents.entries) {
       // Date header
       if (currentIndex == index) {
-        return _buildDateHeader(entry.key, theme);
+        return _buildDateHeader(entry.key);
       }
       currentIndex++;
 
@@ -282,7 +282,7 @@ class _ChatPageState extends State<ChatPage> {
     return const SizedBox.shrink();
   }
 
-  Widget _buildDateHeader(String dateKey, ThemeData theme) {
+  Widget _buildDateHeader(String dateKey) {
     final date = DateTime.parse(dateKey);
     final now = DateTime.now();
     final today = DateTime(now.year, now.month, now.day);
@@ -307,7 +307,7 @@ class _ChatPageState extends State<ChatPage> {
             vertical: AppSizes.spacing8,
           ),
           decoration: BoxDecoration(
-            color: theme.colorScheme.primary.withValues(
+            color: _theme.colorScheme.primary.withValues(
               alpha: AppOpacity.veryLight,
             ),
             borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
@@ -317,7 +317,7 @@ class _ChatPageState extends State<ChatPage> {
             style: TextStyle(
               fontSize: AppSizes.fontSmall,
               fontWeight: FontWeight.w500,
-              color: theme.colorScheme.primary,
+              color: _theme.colorScheme.primary,
             ),
           ),
         ),
@@ -325,7 +325,7 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  Widget _buildEmptyState(ThemeData theme) {
+  Widget _buildEmptyState() {
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -334,7 +334,7 @@ class _ChatPageState extends State<ChatPage> {
             width: AppSizes.containerLarge,
             height: AppSizes.containerLarge,
             decoration: BoxDecoration(
-              color: theme.colorScheme.primary.withValues(
+              color: _theme.colorScheme.primary.withValues(
                 alpha: AppOpacity.light,
               ),
               shape: BoxShape.circle,
@@ -342,7 +342,7 @@ class _ChatPageState extends State<ChatPage> {
             child: Icon(
               AppIcons.chat,
               size: AppSizes.iconXXLarge,
-              color: theme.colorScheme.primary,
+              color: _theme.colorScheme.primary,
             ),
           ),
           const SizedBox(height: AppSizes.spacing24),
@@ -351,7 +351,7 @@ class _ChatPageState extends State<ChatPage> {
             style: TextStyle(
               fontSize: AppSizes.fontXXLarge,
               fontWeight: FontWeight.w600,
-              color: theme.brightness == Brightness.dark
+              color: _theme.brightness == Brightness.dark
                   ? AppColors.white
                   : AppColors.darkSurface,
             ),
@@ -361,7 +361,7 @@ class _ChatPageState extends State<ChatPage> {
             'chat.shareUpdates'.tr(),
             style: TextStyle(
               fontSize: AppSizes.fontMedium,
-              color: theme.iconTheme.color?.withValues(
+              color: _theme.iconTheme.color?.withValues(
                 alpha: AppOpacity.mostlyOpaque,
               ),
             ),
@@ -371,7 +371,7 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  Widget _buildInputBar(ThemeData theme, AppStateProvider appState) {
+  Widget _buildInputBar(AppStateProvider appState) {
     if (!appState.hasCompletedOnboarding) {
       return const SizedBox.shrink();
     }
@@ -382,10 +382,10 @@ class _ChatPageState extends State<ChatPage> {
         vertical: AppSizes.spacing12,
       ),
       decoration: BoxDecoration(
-        color: theme.scaffoldBackgroundColor,
+        color: _theme.scaffoldBackgroundColor,
         border: Border(
           top: BorderSide(
-            color: theme.dividerColor.withValues(alpha: AppOpacity.light),
+            color: _theme.dividerColor.withValues(alpha: AppOpacity.light),
             width: AppSizes.borderThin,
           ),
         ),
@@ -395,7 +395,7 @@ class _ChatPageState extends State<ChatPage> {
           crossAxisAlignment: CrossAxisAlignment.end,
           children: [
             Material(
-              color: theme.cardColor,
+              color: _theme.cardColor,
               borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
               child: InkWell(
                 onTap: _showUploadOptions,
@@ -406,7 +406,7 @@ class _ChatPageState extends State<ChatPage> {
                   alignment: Alignment.center,
                   child: Icon(
                     AppIcons.add,
-                    color: theme.colorScheme.primary,
+                    color: _theme.colorScheme.primary,
                     size: AppSizes.iconMedium,
                   ),
                 ),
@@ -416,7 +416,7 @@ class _ChatPageState extends State<ChatPage> {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: theme.cardColor,
+                  color: _theme.cardColor,
                   borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
                   boxShadow: [
                     BoxShadow(
@@ -436,7 +436,7 @@ class _ChatPageState extends State<ChatPage> {
                   decoration: InputDecoration(
                     hintText: 'chat.shareAnUpdate'.tr(),
                     hintStyle: TextStyle(
-                      color: theme.iconTheme.color?.withValues(
+                      color: _theme.iconTheme.color?.withValues(
                         alpha: AppOpacity.semiTransparent,
                       ),
                     ),
@@ -447,7 +447,7 @@ class _ChatPageState extends State<ChatPage> {
                     ),
                   ),
                   style: TextStyle(
-                    color: theme.brightness == Brightness.dark
+                    color: _theme.brightness == Brightness.dark
                         ? AppColors.white
                         : AppColors.darkSurface,
                     fontSize: AppSizes.fontBase,
@@ -457,7 +457,7 @@ class _ChatPageState extends State<ChatPage> {
             ),
             const SizedBox(width: AppSizes.spacing12),
             Material(
-              color: theme.colorScheme.primary,
+              color: _theme.colorScheme.primary,
               borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
               child: InkWell(
                 onTap: _sendMessage,

@@ -36,6 +36,8 @@ class CustomTextField extends StatefulWidget {
 class _CustomTextFieldState extends State<CustomTextField> {
   bool _hasText = false;
 
+  ThemeData get _theme => Theme.of(context);
+
   @override
   void initState() {
     super.initState();
@@ -69,7 +71,6 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final showSuffixIcon =
         widget.suffixIcon != null && (widget.alwaysShowSuffixIcon || _hasText);
 
@@ -82,9 +83,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
       decoration: InputDecoration(
         hintText: widget.hintText,
         filled: true,
-        fillColor: theme.brightness == Brightness.dark
-            ? theme.cardColor
-            : theme.scaffoldBackgroundColor,
+        fillColor: _theme.brightness == Brightness.dark
+            ? _theme.cardColor
+            : _theme.scaffoldBackgroundColor,
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
           borderSide: BorderSide.none,
@@ -95,19 +96,19 @@ class _CustomTextFieldState extends State<CustomTextField> {
             Icon(
               widget.icon,
               size: AppSizes.iconSmall,
-              color: theme.colorScheme.onSurface,
+              color: _theme.colorScheme.onSurface,
             ),
             const SizedBox(width: AppSizes.spacing8),
             Text(widget.labelText),
           ],
         ),
-        floatingLabelStyle: TextStyle(color: theme.colorScheme.onSurface),
+        floatingLabelStyle: TextStyle(color: _theme.colorScheme.onSurface),
         alignLabelWithHint: true,
         suffixIcon: showSuffixIcon
             ? IconButton(
                 icon: Icon(
                   widget.suffixIcon,
-                  color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
+                  color: _theme.colorScheme.onSurface.withValues(alpha: 0.6),
                 ),
                 onPressed: widget.onSuffixIconPressed,
               )

@@ -90,7 +90,8 @@ class GroupDetailsPage extends StatelessWidget {
         actions: [
           IconButton(
             icon: const Icon(Icons.more_vert),
-            onPressed: () => _showChallengeOptions(context, currentChallenge),
+            onPressed: () =>
+                _showChallengeOptions(context, currentChallenge, theme),
           ),
         ],
       ),
@@ -447,6 +448,7 @@ class GroupDetailsPage extends StatelessWidget {
   void _showChallengeOptions(
     BuildContext context,
     ChallengeChatModel currentChallenge,
+    ThemeData theme,
   ) {
     HapticFeedback.mediumImpact();
 
@@ -458,7 +460,7 @@ class GroupDetailsPage extends StatelessWidget {
           BottomSheetOption(
             icon: AppIcons.edit,
             label: 'common.edit'.tr(),
-            color: Theme.of(context).colorScheme.primary,
+            color: theme.colorScheme.primary,
             onTap: () {
               Navigator.pop(context);
               _showEditChallengeDialog(context, currentChallenge);

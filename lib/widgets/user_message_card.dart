@@ -12,7 +12,7 @@ class UserMessageCard extends StatelessWidget {
 
   const UserMessageCard({super.key, required this.event});
 
-  void _showMessageOptions(BuildContext context) {
+  void _showMessageOptions(BuildContext context, ThemeData theme) {
     HapticFeedback.mediumImpact();
 
     showModalBottomSheet(
@@ -23,7 +23,7 @@ class UserMessageCard extends StatelessWidget {
           BottomSheetOption(
             icon: AppIcons.edit,
             label: 'common.edit'.tr(),
-            color: Theme.of(context).colorScheme.primary,
+            color: theme.colorScheme.primary,
             onTap: () {
               Navigator.pop(context);
               _showEditDialog(context);
@@ -124,7 +124,7 @@ class UserMessageCard extends StatelessWidget {
           const SizedBox(width: AppSizes.spacing48),
           Flexible(
             child: GestureDetector(
-              onLongPress: () => _showMessageOptions(context),
+              onLongPress: () => _showMessageOptions(context, theme),
               child: Container(
                 padding: const EdgeInsets.all(AppSizes.spacing14),
                 decoration: BoxDecoration(

@@ -30,6 +30,8 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
   int _descriptionCharCount = 0;
   static const int _maxTitleLength = 50;
   static const int _maxDescriptionLength = 200;
+
+  ThemeData get _theme => Theme.of(context);
   final List<String> _availableEmojis = [
     '🎯',
     '💪',
@@ -64,7 +66,6 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final appState = Provider.of<AppStateProvider>(context);
     final isAuthenticated = appState.isAuthenticated;
 
@@ -86,14 +87,14 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                       width: AppSizes.containerHuge,
                       height: AppSizes.containerHuge,
                       decoration: BoxDecoration(
-                        color: theme.colorScheme.primary.withValues(
+                        color: _theme.colorScheme.primary.withValues(
                           alpha: AppOpacity.light,
                         ),
                         borderRadius: BorderRadius.circular(
                           AppSizes.radiusXLarge,
                         ),
                         border: Border.all(
-                          color: theme.dividerColor.withValues(
+                          color: _theme.dividerColor.withValues(
                             alpha: AppOpacity.medium,
                           ),
                           width: AppSizes.borderThick,
@@ -140,7 +141,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                         fontSize: AppSizes.fontSmall,
                         color: _titleCharCount > _maxTitleLength
                             ? AppColors.red
-                            : theme.iconTheme.color?.withValues(
+                            : _theme.iconTheme.color?.withValues(
                                 alpha: AppOpacity.mostlyOpaque,
                               ),
                       ),
@@ -173,7 +174,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                         fontSize: AppSizes.fontSmall,
                         color: _descriptionCharCount > _maxDescriptionLength
                             ? AppColors.red
-                            : theme.iconTheme.color?.withValues(
+                            : _theme.iconTheme.color?.withValues(
                                 alpha: AppOpacity.mostlyOpaque,
                               ),
                       ),
@@ -192,7 +193,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                     style: TextStyle(
                       fontSize: AppSizes.fontMedium,
                       fontWeight: FontWeight.w600,
-                      color: theme.brightness == Brightness.dark
+                      color: _theme.brightness == Brightness.dark
                           ? AppColors.white
                           : AppColors.darkSurface,
                     ),
@@ -212,16 +213,16 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                 Container(
                   padding: const EdgeInsets.all(AppSizes.spacing24),
                   decoration: BoxDecoration(
-                    color: theme.brightness == Brightness.dark
-                        ? theme.cardColor
-                        : theme.scaffoldBackgroundColor,
+                    color: _theme.brightness == Brightness.dark
+                        ? _theme.cardColor
+                        : _theme.scaffoldBackgroundColor,
                     borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
                   ),
                   child: Center(
                     child: Text(
                       'challenges.create.noMembersAdded'.tr(),
                       style: TextStyle(
-                        color: theme.iconTheme.color?.withValues(
+                        color: _theme.iconTheme.color?.withValues(
                           alpha: AppOpacity.semiTransparent,
                         ),
                       ),
@@ -229,9 +230,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                   ),
                 )
               else
-                ..._selectedMembers.map(
-                  (member) => _buildMemberChip(member, theme),
-                ),
+                ..._selectedMembers.map((member) => _buildMemberChip(member)),
             ],
             const SizedBox(height: AppSizes.spacing32),
             SizedBox(
@@ -303,14 +302,14 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                 height: AppSizes.containerMedium,
                 decoration: BoxDecoration(
                   color: emoji == _selectedEmoji
-                      ? Theme.of(context).colorScheme.primary.withValues(
+                      ? _theme.colorScheme.primary.withValues(
                           alpha: AppOpacity.subtle,
                         )
                       : AppColors.transparent,
                   borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
                   border: Border.all(
                     color: emoji == _selectedEmoji
-                        ? Theme.of(context).colorScheme.primary
+                        ? _theme.colorScheme.primary
                         : AppColors.transparent,
                     width: AppSizes.borderThick,
                   ),
@@ -458,7 +457,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
     }
   }
 
-  Widget _buildMemberChip(UserModel member, ThemeData theme) {
+  Widget _buildMemberChip(UserModel member) {
     return Container(
       margin: const EdgeInsets.only(bottom: AppSizes.spacing8),
       padding: const EdgeInsets.symmetric(
@@ -466,9 +465,9 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
         vertical: AppSizes.spacing8,
       ),
       decoration: BoxDecoration(
-        color: theme.brightness == Brightness.dark
-            ? theme.cardColor
-            : theme.scaffoldBackgroundColor,
+        color: _theme.brightness == Brightness.dark
+            ? _theme.cardColor
+            : _theme.scaffoldBackgroundColor,
         borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
       ),
       child: Row(
@@ -490,7 +489,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                   style: TextStyle(
                     fontSize: AppSizes.fontMedium,
                     fontWeight: FontWeight.w500,
-                    color: theme.brightness == Brightness.dark
+                    color: _theme.brightness == Brightness.dark
                         ? AppColors.white
                         : AppColors.darkSurface,
                   ),
@@ -499,7 +498,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                   member.username,
                   style: TextStyle(
                     fontSize: AppSizes.fontSmall,
-                    color: theme.iconTheme.color?.withValues(
+                    color: _theme.iconTheme.color?.withValues(
                       alpha: AppOpacity.mostlyOpaque,
                     ),
                   ),

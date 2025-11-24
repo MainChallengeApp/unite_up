@@ -23,6 +23,8 @@ class _ChallengesPageState extends State<ChallengesPage>
   bool _isSelectionMode = false;
   final Set<String> _selectedChallengeIds = {};
 
+  ThemeData get _theme => Theme.of(context);
+
   @override
   void initState() {
     super.initState();
@@ -44,7 +46,6 @@ class _ChallengesPageState extends State<ChallengesPage>
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final appState = Provider.of<AppStateProvider>(context);
     final challenges = appState.challenges;
 
@@ -79,12 +80,12 @@ class _ChallengesPageState extends State<ChallengesPage>
         ],
       ),
       body: challenges.isEmpty
-          ? _buildEmptyState(context, theme)
+          ? _buildEmptyState(context)
           : ListView.builder(
               padding: const EdgeInsets.all(AppSizes.spacing16),
               itemCount: challenges.length,
               itemBuilder: (context, index) {
-                return _buildChallengeCard(context, challenges[index], theme);
+                return _buildChallengeCard(context, challenges[index]);
               },
             ),
     );
@@ -171,7 +172,7 @@ class _ChallengesPageState extends State<ChallengesPage>
     );
   }
 
-  Widget _buildEmptyState(BuildContext context, ThemeData theme) {
+  Widget _buildEmptyState(BuildContext context) {
     return Center(
       child: Padding(
         padding: const EdgeInsets.all(AppSizes.spacing32),
@@ -190,8 +191,8 @@ class _ChallengesPageState extends State<ChallengesPage>
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          theme.colorScheme.primary.withValues(alpha: 0.15),
-                          theme.colorScheme.primary.withValues(alpha: 0.05),
+                          _theme.colorScheme.primary.withValues(alpha: 0.15),
+                          _theme.colorScheme.primary.withValues(alpha: 0.05),
                         ],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
@@ -201,7 +202,7 @@ class _ChallengesPageState extends State<ChallengesPage>
                     child: Icon(
                       AppIcons.flag,
                       size: 56,
-                      color: theme.colorScheme.primary,
+                      color: _theme.colorScheme.primary,
                     ),
                   ),
                 );
@@ -214,7 +215,7 @@ class _ChallengesPageState extends State<ChallengesPage>
               style: TextStyle(
                 fontSize: 26,
                 fontWeight: FontWeight.bold,
-                color: theme.brightness == Brightness.dark
+                color: _theme.brightness == Brightness.dark
                     ? AppColors.white
                     : AppColors.darkSurface,
               ),
@@ -226,7 +227,7 @@ class _ChallengesPageState extends State<ChallengesPage>
               'challenges.emptySubtitle'.tr(),
               style: TextStyle(
                 fontSize: AppSizes.fontMedium,
-                color: theme.iconTheme.color?.withValues(
+                color: _theme.iconTheme.color?.withValues(
                   alpha: AppOpacity.mostlyOpaque,
                 ),
               ),
@@ -245,7 +246,7 @@ class _ChallengesPageState extends State<ChallengesPage>
                 ),
               ),
               style: ElevatedButton.styleFrom(
-                backgroundColor: theme.colorScheme.primary,
+                backgroundColor: _theme.colorScheme.primary,
                 foregroundColor: AppColors.white,
                 padding: const EdgeInsets.symmetric(
                   horizontal: AppSizes.spacing32,
@@ -266,7 +267,6 @@ class _ChallengesPageState extends State<ChallengesPage>
   Widget _buildChallengeCard(
     BuildContext context,
     ChallengeChatModel challenge,
-    ThemeData theme,
   ) {
     final isSelected = _selectedChallengeIds.contains(challenge.id);
 
@@ -277,8 +277,8 @@ class _ChallengesPageState extends State<ChallengesPage>
         borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
         side: BorderSide(
           color: isSelected
-              ? theme.colorScheme.primary
-              : theme.dividerColor.withValues(alpha: AppOpacity.subtle),
+              ? _theme.colorScheme.primary
+              : _theme.dividerColor.withValues(alpha: AppOpacity.subtle),
           width: isSelected ? 2.0 : AppSizes.borderThin,
         ),
       ),
@@ -298,7 +298,7 @@ class _ChallengesPageState extends State<ChallengesPage>
                 width: AppSizes.containerMedium,
                 height: AppSizes.containerMedium,
                 decoration: BoxDecoration(
-                  color: theme.colorScheme.primary.withValues(
+                  color: _theme.colorScheme.primary.withValues(
                     alpha: AppOpacity.light,
                   ),
                   borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
@@ -328,7 +328,7 @@ class _ChallengesPageState extends State<ChallengesPage>
                       style: TextStyle(
                         fontSize: AppSizes.fontLarge,
                         fontWeight: FontWeight.w600,
-                        color: theme.brightness == Brightness.dark
+                        color: _theme.brightness == Brightness.dark
                             ? AppColors.white
                             : AppColors.darkSurface,
                       ),
@@ -340,7 +340,7 @@ class _ChallengesPageState extends State<ChallengesPage>
                         challenge.description!,
                         style: TextStyle(
                           fontSize: AppSizes.fontRegular,
-                          color: theme.iconTheme.color?.withValues(
+                          color: _theme.iconTheme.color?.withValues(
                             alpha: AppOpacity.mostlyOpaque,
                           ),
                         ),
@@ -356,7 +356,7 @@ class _ChallengesPageState extends State<ChallengesPage>
                               ? AppIcons.personOutline
                               : AppIcons.people,
                           size: AppSizes.iconSmall,
-                          color: theme.iconTheme.color?.withValues(
+                          color: _theme.iconTheme.color?.withValues(
                             alpha: AppOpacity.semiTransparent,
                           ),
                         ),
@@ -368,7 +368,7 @@ class _ChallengesPageState extends State<ChallengesPage>
                                 : '${challenge.memberCount} ${tr('challenges.members')}',
                             style: TextStyle(
                               fontSize: AppSizes.fontSmall,
-                              color: theme.iconTheme.color?.withValues(
+                              color: _theme.iconTheme.color?.withValues(
                                 alpha: AppOpacity.mostlyOpaque,
                               ),
                             ),
@@ -379,7 +379,7 @@ class _ChallengesPageState extends State<ChallengesPage>
                         Icon(
                           AppIcons.chat,
                           size: AppSizes.iconSmall,
-                          color: theme.iconTheme.color?.withValues(
+                          color: _theme.iconTheme.color?.withValues(
                             alpha: AppOpacity.semiTransparent,
                           ),
                         ),
@@ -389,7 +389,7 @@ class _ChallengesPageState extends State<ChallengesPage>
                             '${challenge.events.length} ${tr('challenges.messages')}',
                             style: TextStyle(
                               fontSize: AppSizes.fontSmall,
-                              color: theme.iconTheme.color?.withValues(
+                              color: _theme.iconTheme.color?.withValues(
                                 alpha: AppOpacity.mostlyOpaque,
                               ),
                             ),
@@ -404,7 +404,7 @@ class _ChallengesPageState extends State<ChallengesPage>
               if (!_isSelectionMode)
                 Icon(
                   AppIcons.chevronRight,
-                  color: theme.iconTheme.color?.withValues(
+                  color: _theme.iconTheme.color?.withValues(
                     alpha: AppOpacity.medium,
                   ),
                 ),
