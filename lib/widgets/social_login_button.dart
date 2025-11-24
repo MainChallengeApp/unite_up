@@ -79,11 +79,7 @@ class SocialLoginButton extends StatelessWidget {
               'auth.continueWith'.tr(
                 namedArgs: {'provider': provider.displayName},
               ),
-              style: TextStyle(
-                fontSize: AppSizes.fontBase,
-                fontWeight: FontWeight.w600,
-                color: textColor,
-              ),
+              style: AppTextStyles.baseSemiBold.copyWith(color: textColor),
             ),
           ],
         ),

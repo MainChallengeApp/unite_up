@@ -64,8 +64,7 @@ class AIMessageCard extends StatelessWidget {
                   Flexible(
                     child: Text(
                       event.message!,
-                      style: TextStyle(
-                        fontSize: AppSizes.fontMedium,
+                      style: AppTextStyles.baseMedium.copyWith(
                         color: theme.brightness == Brightness.dark
                             ? AppColors.white
                             : AppColors.darkSurface,
@@ -78,12 +77,7 @@ class AIMessageCard extends StatelessWidget {
                     alignment: Alignment.bottomRight,
                     child: Text(
                       DateFormat('HH:mm').format(event.timestamp),
-                      style: TextStyle(
-                        fontSize: AppSizes.fontSmall,
-                        color: theme.iconTheme.color?.withValues(
-                          alpha: AppOpacity.mostlyOpaque,
-                        ),
-                      ),
+                      style: AppTextStyles.smallSecondary(context),
                     ),
                   ),
                 ],

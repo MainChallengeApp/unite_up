@@ -98,7 +98,7 @@ class _ChatPageState extends State<ChatPage> {
       child: Center(
         child: Text(
           challenge.emoji,
-          style: const TextStyle(fontSize: AppSizes.fontMedium),
+          style: AppTextStyles.baseMedium,
         ),
       ),
     );
@@ -113,10 +113,7 @@ class _ChatPageState extends State<ChatPage> {
         children: [
           Text(
             challenge.name,
-            style: const TextStyle(
-              fontWeight: FontWeight.w600,
-              fontSize: AppSizes.fontLarge,
-            ),
+            style: AppTextStyles.largeSemiBold,
             overflow: TextOverflow.ellipsis,
             maxLines: 1,
           ),
@@ -126,13 +123,7 @@ class _ChatPageState extends State<ChatPage> {
               'challenges.member'.tr(
                 namedArgs: {'count': challenge.memberCount.toString()},
               ),
-              style: TextStyle(
-                fontSize: AppSizes.fontSmall,
-                fontWeight: FontWeight.normal,
-                color: _theme.iconTheme.color?.withValues(
-                  alpha: AppOpacity.mostlyOpaque,
-                ),
-              ),
+              style: AppTextStyles.smallSecondary(context),
             ),
           ],
         ],
@@ -325,9 +316,7 @@ class _ChatPageState extends State<ChatPage> {
           ),
           child: Text(
             displayText,
-            style: TextStyle(
-              fontSize: AppSizes.fontSmall,
-              fontWeight: FontWeight.w500,
+            style: AppTextStyles.smallMedium.copyWith(
               color: _theme.colorScheme.primary,
             ),
           ),
@@ -359,9 +348,7 @@ class _ChatPageState extends State<ChatPage> {
           const SizedBox(height: AppSizes.spacing24),
           Text(
             'chat.startDocumenting'.tr(),
-            style: TextStyle(
-              fontSize: AppSizes.fontXXLarge,
-              fontWeight: FontWeight.w600,
+            style: AppTextStyles.xxLargeSemiBold.copyWith(
               color: _theme.brightness == Brightness.dark
                   ? AppColors.white
                   : AppColors.darkSurface,
@@ -370,12 +357,7 @@ class _ChatPageState extends State<ChatPage> {
           const SizedBox(height: AppSizes.spacing8),
           Text(
             'chat.shareUpdates'.tr(),
-            style: TextStyle(
-              fontSize: AppSizes.fontMedium,
-              color: _theme.iconTheme.color?.withValues(
-                alpha: AppOpacity.mostlyOpaque,
-              ),
-            ),
+            style: AppTextStyles.secondaryText(context, fontSize: AppSizes.fontMedium),
           ),
         ],
       ),
@@ -454,23 +436,14 @@ class _ChatPageState extends State<ChatPage> {
                   onSubmitted: (_) => _sendMessage(),
                   decoration: InputDecoration(
                     hintText: 'chat.shareAnUpdate'.tr(),
-                    hintStyle: TextStyle(
-                      color: _theme.iconTheme.color?.withValues(
-                        alpha: AppOpacity.semiTransparent,
-                      ),
-                    ),
+                    hintStyle: AppTextStyles.hintText(context, fontSize: AppSizes.fontBase),
                     border: InputBorder.none,
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: 20,
                       vertical: 12,
                     ),
                   ),
-                  style: TextStyle(
-                    color: _theme.brightness == Brightness.dark
-                        ? AppColors.white
-                        : AppColors.darkSurface,
-                    fontSize: AppSizes.fontBase,
-                  ),
+                  style: AppTextStyles.baseTextPrimary(context),
                 ),
               ),
             ),

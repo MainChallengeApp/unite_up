@@ -24,7 +24,7 @@ class SettingsEmojiContainer extends StatelessWidget {
       child: Center(
         child: Text(
           emoji,
-          style: const TextStyle(fontSize: AppSizes.iconLarge),
+          style: AppTextStyles.baseLarge,
         ),
       ),
     );

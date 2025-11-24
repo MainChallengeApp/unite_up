@@ -49,9 +49,8 @@ class ProfileHeader extends StatelessWidget {
   Widget _buildName(ThemeData theme) {
     return Text(
       name,
-      style: TextStyle(
+      style: AppTextStyles.baseBold.copyWith(
         fontSize: AppSizes.iconLarge,
-        fontWeight: FontWeight.bold,
         color: theme.brightness == Brightness.dark
             ? AppColors.white
             : AppColors.darkSurface,
@@ -62,8 +61,7 @@ class ProfileHeader extends StatelessWidget {
   Widget _buildEmail(ThemeData theme) {
     return Text(
       email,
-      style: TextStyle(
-        fontSize: AppSizes.fontMedium,
+      style: AppTextStyles.baseMedium.copyWith(
         color: theme.iconTheme.color?.withValues(
           alpha: AppOpacity.mostlyOpaque,
         ),

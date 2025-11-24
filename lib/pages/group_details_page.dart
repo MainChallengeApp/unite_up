@@ -101,7 +101,7 @@ class GroupDetailsPage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // Challenge Info
-            _buildChallengeInfo(theme, currentChallenge),
+            _buildChallengeInfo(context, theme, currentChallenge),
             const SizedBox(height: AppSizes.spacing24),
 
             // Members and their goals
@@ -109,9 +109,7 @@ class GroupDetailsPage extends StatelessWidget {
               currentChallenge.isGroup
                   ? 'goals.membersAndGoals'.tr()
                   : 'goals.myGoals'.tr(),
-              style: TextStyle(
-                fontSize: AppSizes.fontXLarge,
-                fontWeight: FontWeight.w600,
+              style: AppTextStyles.xLargeSemiBold.copyWith(
                 color: theme.brightness == Brightness.dark
                     ? AppColors.white
                     : AppColors.darkSurface,
@@ -137,6 +135,7 @@ class GroupDetailsPage extends StatelessWidget {
   }
 
   Widget _buildChallengeInfo(
+    BuildContext context,
     ThemeData theme,
     ChallengeChatModel currentChallenge,
   ) {
@@ -160,7 +159,7 @@ class GroupDetailsPage extends StatelessWidget {
             child: Center(
               child: Text(
                 currentChallenge.emoji,
-                style: const TextStyle(fontSize: AppSizes.emojiLarge),
+                style: AppTextStyles.emojiLarge,
               ),
             ),
           ),
@@ -169,22 +168,14 @@ class GroupDetailsPage extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  currentChallenge.name,
-                  style: const TextStyle(
-                    fontSize: AppSizes.fontLarge,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                Text(currentChallenge.name, style: AppTextStyles.largeSemiBold),
                 if (currentChallenge.description != null) ...[
                   const SizedBox(height: AppSizes.spacing4),
                   Text(
                     currentChallenge.description!,
-                    style: TextStyle(
+                    style: AppTextStyles.secondaryText(
+                      context,
                       fontSize: AppSizes.fontMedium,
-                      color: theme.iconTheme.color?.withValues(
-                        alpha: AppOpacity.mostlyOpaque,
-                      ),
                     ),
                   ),
                 ],
@@ -225,10 +216,7 @@ class GroupDetailsPage extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: AppSizes.spacing20,
-                child: Text(
-                  member.name[0],
-                  style: const TextStyle(fontSize: AppSizes.fontLarge),
-                ),
+                child: Text(member.name[0], style: AppTextStyles.baseLarge),
               ),
               const SizedBox(width: AppSizes.spacing12),
               Expanded(
@@ -237,13 +225,7 @@ class GroupDetailsPage extends StatelessWidget {
                   children: [
                     Row(
                       children: [
-                        Text(
-                          member.name,
-                          style: const TextStyle(
-                            fontSize: AppSizes.fontLarge,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
+                        Text(member.name, style: AppTextStyles.largeSemiBold),
                         if (isCurrentUser) ...[
                           const SizedBox(width: AppSizes.spacing8),
                           Container(
@@ -261,9 +243,7 @@ class GroupDetailsPage extends StatelessWidget {
                             ),
                             child: Text(
                               'common.you'.tr(),
-                              style: TextStyle(
-                                fontSize: AppSizes.fontSmall,
-                                fontWeight: FontWeight.w500,
+                              style: AppTextStyles.smallMedium.copyWith(
                                 color: theme.colorScheme.primary,
                               ),
                             ),
@@ -273,11 +253,9 @@ class GroupDetailsPage extends StatelessWidget {
                     ),
                     Text(
                       member.username,
-                      style: TextStyle(
+                      style: AppTextStyles.secondaryText(
+                        context,
                         fontSize: AppSizes.fontMedium,
-                        color: theme.iconTheme.color?.withValues(
-                          alpha: AppOpacity.mostlyOpaque,
-                        ),
                       ),
                     ),
                   ],
@@ -316,17 +294,15 @@ class GroupDetailsPage extends StatelessWidget {
             const SizedBox(height: AppSizes.spacing16),
             const Divider(),
             const SizedBox(height: AppSizes.spacing8),
-            ...goals.map((goal) => _buildGoalItem(theme, goal)),
+            ...goals.map((goal) => _buildGoalItem(context, theme, goal)),
           ] else if (!isCurrentUser) ...[
             const SizedBox(height: AppSizes.spacing12),
             Center(
               child: Text(
                 'goals.noGoalsForUser'.tr(),
-                style: TextStyle(
+                style: AppTextStyles.hintText(
+                  context,
                   fontSize: AppSizes.fontMedium,
-                  color: theme.iconTheme.color?.withValues(
-                    alpha: AppOpacity.semiTransparent,
-                  ),
                 ),
               ),
             ),
@@ -336,7 +312,7 @@ class GroupDetailsPage extends StatelessWidget {
     );
   }
 
-  Widget _buildGoalItem(ThemeData theme, GoalModel goal) {
+  Widget _buildGoalItem(BuildContext context, ThemeData theme, GoalModel goal) {
     return Container(
       margin: const EdgeInsets.only(bottom: AppSizes.spacing12),
       padding: const EdgeInsets.all(AppSizes.spacing12),
@@ -351,19 +327,11 @@ class GroupDetailsPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                child: Text(
-                  goal.title,
-                  style: const TextStyle(
-                    fontSize: AppSizes.fontMedium,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
+                child: Text(goal.title, style: AppTextStyles.mediumWeight),
               ),
               Text(
                 '${goal.progressPercentage.toStringAsFixed(0)}%',
-                style: TextStyle(
-                  fontSize: AppSizes.fontLarge,
-                  fontWeight: FontWeight.w600,
+                style: AppTextStyles.largeSemiBold.copyWith(
                   color: goal.isCompleted
                       ? AppColors.green
                       : theme.colorScheme.primary,
@@ -393,12 +361,7 @@ class GroupDetailsPage extends StatelessWidget {
               // Start value
               Text(
                 '${_formatValue(goal.startValue)} ${goal.unit ?? ""}',
-                style: TextStyle(
-                  fontSize: AppSizes.fontSmall,
-                  color: theme.iconTheme.color?.withValues(
-                    alpha: AppOpacity.mostlyOpaque,
-                  ),
-                ),
+                style: AppTextStyles.smallSecondary(context),
               ),
               // Days remaining
               Text(
@@ -409,9 +372,7 @@ class GroupDetailsPage extends StatelessWidget {
                     : 'goals.daysLeft'.tr(
                         namedArgs: {'days': goal.daysRemaining.toString()},
                       ),
-                style: TextStyle(
-                  fontSize: AppSizes.fontSmall,
-                  fontWeight: FontWeight.w500,
+                style: AppTextStyles.smallMedium.copyWith(
                   color: goal.isCompleted
                       ? AppColors.green
                       : goal.isOverdue
@@ -424,12 +385,7 @@ class GroupDetailsPage extends StatelessWidget {
               // End value (goal)
               Text(
                 '${_formatValue(goal.endValue)} ${goal.unit ?? ""}',
-                style: TextStyle(
-                  fontSize: AppSizes.fontSmall,
-                  color: theme.iconTheme.color?.withValues(
-                    alpha: AppOpacity.mostlyOpaque,
-                  ),
-                ),
+                style: AppTextStyles.smallSecondary(context),
               ),
             ],
           ),

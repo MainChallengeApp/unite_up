@@ -147,10 +147,7 @@ class _AuthFormState extends State<AuthForm> {
                   widget.isLoginMode
                       ? 'auth.signIn'.tr()
                       : 'auth.createAccount'.tr(),
-                  style: const TextStyle(
-                    fontSize: AppSizes.fontLarge,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: AppTextStyles.largeSemiBold,
                 ),
         ),
       ),
@@ -163,7 +160,7 @@ class _AuthFormState extends State<AuthForm> {
         Expanded(child: Divider()),
         Padding(
           padding: EdgeInsets.symmetric(horizontal: AppSizes.spacing16),
-          child: Text('or', style: TextStyle(fontSize: AppSizes.fontMedium)),
+          child: Text('or', style: AppTextStyles.baseMedium),
         ),
         Expanded(child: Divider()),
       ],
@@ -209,10 +206,7 @@ class _AuthFormState extends State<AuthForm> {
         widget.isLoginMode
             ? 'auth.welcomeBack'.tr()
             : 'auth.createYourNewAccount'.tr(),
-        style: const TextStyle(
-          fontSize: AppSizes.fontHuge,
-          fontWeight: FontWeight.w600,
-        ),
+        style: AppTextStyles.baseHuge.copyWith(fontWeight: FontWeight.w600),
         textAlign: TextAlign.center,
       ),
     );

@@ -225,9 +225,7 @@ class _ChallengesPageState extends State<ChallengesPage>
             // Title
             Text(
               'challenges.noChallengesYet'.tr(),
-              style: TextStyle(
-                fontSize: 26,
-                fontWeight: FontWeight.bold,
+              style: AppTextStyles.titleLarge.copyWith(
                 color: _theme.brightness == Brightness.dark
                     ? AppColors.white
                     : AppColors.darkSurface,
@@ -238,11 +236,9 @@ class _ChallengesPageState extends State<ChallengesPage>
             // Subtitle
             Text(
               'challenges.emptySubtitle'.tr(),
-              style: TextStyle(
+              style: AppTextStyles.secondaryText(
+                context,
                 fontSize: AppSizes.fontMedium,
-                color: _theme.iconTheme.color?.withValues(
-                  alpha: AppOpacity.mostlyOpaque,
-                ),
               ),
               textAlign: TextAlign.center,
             ),
@@ -253,10 +249,7 @@ class _ChallengesPageState extends State<ChallengesPage>
               icon: const Icon(AppIcons.add, size: 22),
               label: Text(
                 'challenges.createChallenge'.tr(),
-                style: const TextStyle(
-                  fontSize: AppSizes.fontMedium,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: AppTextStyles.mediumSemiBold,
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: _theme.colorScheme.primary,
@@ -327,7 +320,7 @@ class _ChallengesPageState extends State<ChallengesPage>
                     : Center(
                         child: Text(
                           challenge.emoji,
-                          style: const TextStyle(fontSize: AppSizes.emojiLarge),
+                          style: AppTextStyles.emojiLarge,
                         ),
                       ),
               ),
@@ -338,25 +331,14 @@ class _ChallengesPageState extends State<ChallengesPage>
                   children: [
                     Text(
                       challenge.name,
-                      style: TextStyle(
-                        fontSize: AppSizes.fontLarge,
-                        fontWeight: FontWeight.w600,
-                        color: _theme.brightness == Brightness.dark
-                            ? AppColors.white
-                            : AppColors.darkSurface,
-                      ),
+                      style: AppTextStyles.largeSemiBoldPrimary(context),
                     ),
                     if (challenge.description != null &&
                         challenge.description!.isNotEmpty) ...[
                       const SizedBox(height: AppSizes.spacing4),
                       Text(
                         challenge.description!,
-                        style: TextStyle(
-                          fontSize: AppSizes.fontRegular,
-                          color: _theme.iconTheme.color?.withValues(
-                            alpha: AppOpacity.mostlyOpaque,
-                          ),
-                        ),
+                        style: AppTextStyles.regularSecondary(context),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -379,12 +361,7 @@ class _ChallengesPageState extends State<ChallengesPage>
                             challenge.isPersonal
                                 ? 'challenges.personal'.tr()
                                 : '${challenge.memberCount} ${tr('challenges.members')}',
-                            style: TextStyle(
-                              fontSize: AppSizes.fontSmall,
-                              color: _theme.iconTheme.color?.withValues(
-                                alpha: AppOpacity.mostlyOpaque,
-                              ),
-                            ),
+                            style: AppTextStyles.smallSecondary(context),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),
@@ -400,12 +377,7 @@ class _ChallengesPageState extends State<ChallengesPage>
                         Flexible(
                           child: Text(
                             '${challenge.events.length} ${tr('challenges.messages')}',
-                            style: TextStyle(
-                              fontSize: AppSizes.fontSmall,
-                              color: _theme.iconTheme.color?.withValues(
-                                alpha: AppOpacity.mostlyOpaque,
-                              ),
-                            ),
+                            style: AppTextStyles.smallSecondary(context),
                             overflow: TextOverflow.ellipsis,
                           ),
                         ),

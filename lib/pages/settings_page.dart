@@ -110,9 +110,7 @@ class _SettingsPageState extends State<SettingsPage> {
       padding: const EdgeInsets.symmetric(horizontal: AppSizes.spacing4),
       child: Text(
         title,
-        style: TextStyle(
-          fontSize: AppSizes.fontRegular,
-          fontWeight: FontWeight.w600,
+        style: AppTextStyles.regularSemiBold.copyWith(
           color: _theme.iconTheme.color?.withValues(
             alpha: AppOpacity.mostlyOpaque,
           ),
@@ -246,23 +244,12 @@ class _SettingsPageState extends State<SettingsPage> {
                   children: [
                     Text(
                       title,
-                      style: TextStyle(
-                        fontSize: AppSizes.fontLarge,
-                        fontWeight: FontWeight.w600,
-                        color: _theme.brightness == Brightness.dark
-                            ? AppColors.white
-                            : AppColors.darkSurface,
-                      ),
+                      style: AppTextStyles.largeSemiBoldPrimary(context),
                     ),
                     const SizedBox(height: AppSizes.spacing2),
                     Text(
                       subtitle,
-                      style: TextStyle(
-                        fontSize: AppSizes.fontRegular,
-                        color: _theme.iconTheme.color?.withValues(
-                          alpha: AppOpacity.mostlyOpaque,
-                        ),
-                      ),
+                      style: AppTextStyles.regularSecondary(context),
                     ),
                   ],
                 ),
@@ -327,23 +314,12 @@ class _SettingsPageState extends State<SettingsPage> {
                   children: [
                     Text(
                       title,
-                      style: TextStyle(
-                        fontSize: AppSizes.fontLarge,
-                        fontWeight: FontWeight.w600,
-                        color: _theme.brightness == Brightness.dark
-                            ? AppColors.white
-                            : AppColors.darkSurface,
-                      ),
+                      style: AppTextStyles.largeSemiBoldPrimary(context),
                     ),
                     const SizedBox(height: AppSizes.spacing2),
                     Text(
                       subtitle,
-                      style: TextStyle(
-                        fontSize: AppSizes.fontRegular,
-                        color: _theme.iconTheme.color?.withValues(
-                          alpha: AppOpacity.mostlyOpaque,
-                        ),
-                      ),
+                      style: AppTextStyles.regularSecondary(context),
                     ),
                   ],
                 ),

@@ -42,10 +42,7 @@ class AppTheme {
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: AppColors.lightSurface,
-      hintStyle: const TextStyle(
-        color: AppColors.lightHint,
-        fontSize: AppSizes.fontBase,
-      ),
+      hintStyle: AppTextStyles.baseBase.copyWith(color: AppColors.lightHint),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
         borderSide: BorderSide.none,
@@ -109,10 +106,7 @@ class AppTheme {
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
       fillColor: AppColors.darkSurface,
-      hintStyle: const TextStyle(
-        color: AppColors.darkHint,
-        fontSize: AppSizes.fontBase,
-      ),
+      hintStyle: AppTextStyles.baseBase.copyWith(color: AppColors.darkHint),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
         borderSide: BorderSide.none,

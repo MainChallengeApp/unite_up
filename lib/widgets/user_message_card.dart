@@ -152,8 +152,7 @@ class UserMessageCard extends StatelessWidget {
                     Flexible(
                       child: Text(
                         event.message!,
-                        style: const TextStyle(
-                          fontSize: AppSizes.fontMedium,
+                        style: AppTextStyles.baseMedium.copyWith(
                           color: AppColors.white,
                           height: AppSizes.lineHeightRelaxed,
                         ),
@@ -162,8 +161,7 @@ class UserMessageCard extends StatelessWidget {
                     const SizedBox(width: AppSizes.spacing8),
                     Text(
                       DateFormat('HH:mm').format(event.timestamp),
-                      style: TextStyle(
-                        fontSize: AppSizes.fontSmall,
+                      style: AppTextStyles.baseSmall.copyWith(
                         color: AppColors.white.withValues(
                           alpha: AppOpacity.mostlyOpaque,
                         ),

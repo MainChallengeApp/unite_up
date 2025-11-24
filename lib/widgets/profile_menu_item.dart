@@ -52,23 +52,12 @@ class ProfileMenuItem extends StatelessWidget {
                     children: [
                       Text(
                         title,
-                        style: TextStyle(
-                          fontSize: AppSizes.fontLarge,
-                          fontWeight: FontWeight.w600,
-                          color: theme.brightness == Brightness.dark
-                              ? AppColors.white
-                              : AppColors.darkSurface,
-                        ),
+                        style: AppTextStyles.largeSemiBoldPrimary(context),
                       ),
                       const SizedBox(height: AppSizes.spacing2),
                       Text(
                         subtitle,
-                        style: TextStyle(
-                          fontSize: AppSizes.fontRegular,
-                          color: theme.iconTheme.color?.withValues(
-                            alpha: AppOpacity.mostlyOpaque,
-                          ),
-                        ),
+                        style: AppTextStyles.regularSecondary(context),
                       ),
                     ],
                   ),

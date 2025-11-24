@@ -92,9 +92,7 @@ class _CreateGoalDialogState extends State<CreateGoalDialog> {
             const SizedBox(height: AppSizes.spacing16),
             Text(
               'goals.dates'.tr(),
-              style: TextStyle(
-                fontSize: AppSizes.fontMedium,
-                fontWeight: FontWeight.w600,
+              style: AppTextStyles.mediumSemiBold.copyWith(
                 color: _theme.colorScheme.onSurface,
               ),
             ),
@@ -218,15 +216,12 @@ class _CreateGoalDialogState extends State<CreateGoalDialog> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(label, style: const TextStyle(fontSize: AppSizes.fontMedium)),
+            Text(label, style: AppTextStyles.baseMedium),
             Row(
               children: [
                 Text(
                   DateFormat('MMM dd, yyyy').format(date),
-                  style: const TextStyle(
-                    fontSize: AppSizes.fontMedium,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: AppTextStyles.mediumWeight,
                 ),
                 const SizedBox(width: AppSizes.spacing8),
                 const Icon(Icons.calendar_today, size: AppSizes.iconSmall),

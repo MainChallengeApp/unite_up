@@ -61,9 +61,7 @@ class SettingsCard extends StatelessWidget {
                     children: [
                       Text(
                         title,
-                        style: TextStyle(
-                          fontSize: AppSizes.fontLarge,
-                          fontWeight: FontWeight.w600,
+                        style: AppTextStyles.largeSemiBold.copyWith(
                           color: effectiveTitleColor,
                         ),
                       ),
@@ -71,12 +69,7 @@ class SettingsCard extends StatelessWidget {
                         const SizedBox(height: AppSizes.spacing2),
                         Text(
                           subtitle!,
-                          style: TextStyle(
-                            fontSize: AppSizes.fontRegular,
-                            color: theme.iconTheme.color?.withValues(
-                              alpha: AppOpacity.mostlyOpaque,
-                            ),
-                          ),
+                          style: AppTextStyles.regularSecondary(context),
                         ),
                       ],
                     ],

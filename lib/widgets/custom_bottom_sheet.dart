@@ -56,10 +56,7 @@ class CustomBottomSheet extends StatelessWidget {
                 ),
                 child: Text(
                   title!,
-                  style: const TextStyle(
-                    fontSize: AppSizes.fontXLarge,
-                    fontWeight: FontWeight.w600,
-                  ),
+                  style: AppTextStyles.xLargeSemiBold,
                 ),
               ),
               const SizedBox(height: AppSizes.spacing16),
@@ -119,9 +116,7 @@ class CustomBottomSheet extends StatelessWidget {
                 const SizedBox(width: AppSizes.spacing16),
                 Text(
                   option.label,
-                  style: TextStyle(
-                    fontSize: AppSizes.fontLarge,
-                    fontWeight: FontWeight.w500,
+                  style: AppTextStyles.largeMedium.copyWith(
                     color: option.color == AppColors.red ? AppColors.red : null,
                   ),
                 ),

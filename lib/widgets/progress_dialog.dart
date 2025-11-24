@@ -35,11 +35,10 @@ class _ProgressDialogState extends State<ProgressDialog> {
       ),
       title: Text(
         'progress.title'.tr(),
-        style: TextStyle(
+        style: AppTextStyles.baseSemiBold.copyWith(
           color: _theme.brightness == Brightness.dark
               ? AppColors.white
               : AppColors.darkSurface,
-          fontWeight: FontWeight.w600,
         ),
       ),
       content: SingleChildScrollView(
@@ -49,13 +48,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
           children: [
             Text(
               'progress.addNote'.tr(),
-              style: TextStyle(
-                fontSize: AppSizes.fontMedium,
-                fontWeight: FontWeight.w600,
-                color: _theme.brightness == Brightness.dark
-                    ? AppColors.white
-                    : AppColors.darkSurface,
-              ),
+              style: AppTextStyles.mediumSemiBoldPrimary(context),
             ),
             const SizedBox(height: AppSizes.spacing12),
             TextField(
@@ -78,9 +71,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
             const SizedBox(height: AppSizes.spacing16),
             Text(
               'progress.addProof'.tr(),
-              style: TextStyle(
-                fontSize: AppSizes.fontMedium,
-                fontWeight: FontWeight.w600,
+              style: AppTextStyles.mediumSemiBold.copyWith(
                 color: _theme.brightness == Brightness.dark
                     ? AppColors.white
                     : AppColors.darkSurface,
@@ -244,10 +235,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
                 const SizedBox(width: AppSizes.spacing16),
                 Text(
                   label,
-                  style: const TextStyle(
-                    fontSize: AppSizes.fontLarge,
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: AppTextStyles.largeMedium,
                 ),
               ],
             ),
@@ -396,12 +384,10 @@ class _ProgressDialogState extends State<ProgressDialog> {
               children: [
                 Text(
                   attachment.fileName ?? 'progress.unnamed'.tr(),
-                  style: TextStyle(
+                  style: AppTextStyles.mediumWeight.copyWith(
                     color: _theme.brightness == Brightness.dark
                         ? AppColors.white
                         : AppColors.darkSurface,
-                    fontWeight: FontWeight.w500,
-                    fontSize: AppSizes.fontMedium,
                   ),
                   overflow: TextOverflow.ellipsis,
                   maxLines: 1,
@@ -409,12 +395,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
                 const SizedBox(height: AppSizes.spacing2),
                 Text(
                   _getFileSize(attachment),
-                  style: TextStyle(
-                    fontSize: AppSizes.fontSmall,
-                    color: _theme.iconTheme.color?.withValues(
-                      alpha: AppOpacity.mostlyOpaque,
-                    ),
-                  ),
+                  style: AppTextStyles.smallSecondary(context),
                 ),
               ],
             ),

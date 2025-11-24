@@ -22,19 +22,15 @@ class ProfileStatCard extends StatelessWidget {
         children: [
           Text(
             value,
-            style: TextStyle(
+            style: AppTextStyles.baseBold.copyWith(
               fontSize: AppSizes.iconLarge,
-              fontWeight: FontWeight.bold,
               color: theme.colorScheme.primary,
             ),
           ),
           const SizedBox(height: AppSizes.spacing4),
           Text(
             label,
-            style: TextStyle(
-              fontSize: AppSizes.fontSmall,
-              color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
-            ),
+            style: AppTextStyles.smallSecondary(context),
           ),
         ],
       ),

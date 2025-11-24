@@ -32,9 +32,7 @@ class ProgressSubmittedCard extends StatelessWidget {
               const SizedBox(width: AppSizes.spacing8),
               Text(
                 'Progress Submitted',
-                style: TextStyle(
-                  fontSize: AppSizes.fontSmall,
-                  fontWeight: FontWeight.w600,
+                style: AppTextStyles.smallSemiBold.copyWith(
                   color: theme.colorScheme.primary,
                 ),
               ),
@@ -44,8 +42,7 @@ class ProgressSubmittedCard extends StatelessWidget {
             const SizedBox(height: AppSizes.spacing12),
             Text(
               progress.note,
-              style: TextStyle(
-                fontSize: AppSizes.fontMedium,
+              style: AppTextStyles.baseMedium.copyWith(
                 color: theme.brightness == Brightness.dark
                     ? AppColors.white
                     : AppColors.darkSurface,
@@ -80,10 +77,8 @@ class ProgressSubmittedCard extends StatelessWidget {
                       const SizedBox(width: AppSizes.spacing6),
                       Text(
                         attachment.fileName ?? 'Attachment',
-                        style: TextStyle(
-                          fontSize: AppSizes.fontSmall,
+                        style: AppTextStyles.smallMedium.copyWith(
                           color: theme.colorScheme.primary,
-                          fontWeight: FontWeight.w500,
                         ),
                       ),
                     ],

@@ -113,7 +113,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
             Text(widget.labelText),
           ],
         ),
-        floatingLabelStyle: TextStyle(color: _theme.colorScheme.onSurface),
+        floatingLabelStyle: AppTextStyles.baseBase.copyWith(
+          color: _theme.colorScheme.onSurface,
+        ),
         alignLabelWithHint: true,
         suffixIcon: showSuffixIcon
             ? IconButton(
@@ -127,8 +129,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
               )
             : null,
         counterText: widget.isCounterVisible ? null : '',
-        counterStyle: TextStyle(
-          fontSize: AppSizes.fontSmall,
+        counterStyle: AppTextStyles.baseSmall.copyWith(
           color: _theme.iconTheme.color?.withValues(alpha: 0.6),
         ),
       ),

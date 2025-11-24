@@ -37,9 +37,7 @@ class EmptyState extends StatelessWidget {
           const SizedBox(height: AppSizes.spacing24),
           Text(
             title,
-            style: TextStyle(
-              fontSize: AppSizes.fontXXLarge,
-              fontWeight: FontWeight.w600,
+            style: AppTextStyles.xxLargeSemiBold.copyWith(
               color: theme.brightness == Brightness.dark
                   ? AppColors.white
                   : AppColors.darkSurface,
@@ -48,10 +46,7 @@ class EmptyState extends StatelessWidget {
           const SizedBox(height: AppSizes.spacing8),
           Text(
             subtitle,
-            style: TextStyle(
-              fontSize: AppSizes.fontMedium,
-              color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
-            ),
+            style: AppTextStyles.secondaryText(context, fontSize: AppSizes.fontMedium),
           ),
           if (buttonText != null && onButtonPressed != null) ...[
             const SizedBox(height: AppSizes.spacing32),

@@ -42,8 +42,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     const SizedBox(height: AppSizes.spacing20),
                     Text(
                       'onboarding.welcomeTo'.tr(),
-                      style: TextStyle(
-                        fontSize: AppSizes.fontHuge,
+                      style: AppTextStyles.baseHuge.copyWith(
                         fontWeight: FontWeight.bold,
                         height: AppSizes.lineHeightTight,
                         color: _theme.brightness == Brightness.dark
@@ -54,8 +53,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     const SizedBox(height: AppSizes.spacing16),
                     Text(
                       'onboarding.description'.tr(),
-                      style: TextStyle(
-                        fontSize: AppSizes.fontLarge,
+                      style: AppTextStyles.baseLarge.copyWith(
                         color: _theme.iconTheme.color?.withValues(
                           alpha: AppOpacity.almostOpaque,
                         ),
@@ -65,9 +63,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     const SizedBox(height: AppSizes.spacing40),
                     Text(
                       'onboarding.chooseFocus'.tr(),
-                      style: TextStyle(
-                        fontSize: AppSizes.fontMedium,
-                        fontWeight: FontWeight.w600,
+                      style: AppTextStyles.mediumSemiBold.copyWith(
                         color: _theme.iconTheme.color?.withValues(
                           alpha: AppOpacity.mostlyOpaque,
                         ),
@@ -134,10 +130,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                     ),
                     child: Text(
                       'onboarding.startJourney'.tr(),
-                      style: const TextStyle(
-                        fontSize: AppSizes.fontLarge,
-                        fontWeight: FontWeight.w600,
-                      ),
+                      style: AppTextStyles.largeSemiBold,
                     ),
                   ),
                 ),

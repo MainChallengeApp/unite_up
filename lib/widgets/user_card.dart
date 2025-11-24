@@ -69,9 +69,7 @@ class UserModelCard extends StatelessWidget {
   Widget _buildName(ThemeData theme) {
     return Text(
       user.name,
-      style: TextStyle(
-        fontSize: AppSizes.fontLarge,
-        fontWeight: FontWeight.w600,
+      style: AppTextStyles.largeSemiBold.copyWith(
         color: theme.brightness == Brightness.dark
             ? AppColors.white
             : AppColors.darkSurface,
@@ -84,8 +82,7 @@ class UserModelCard extends StatelessWidget {
   Widget _buildUsername(ThemeData theme) {
     return Text(
       user.username,
-      style: TextStyle(
-        fontSize: AppSizes.fontRegular,
+      style: AppTextStyles.baseRegular.copyWith(
         color: theme.iconTheme.color?.withValues(
           alpha: AppOpacity.mostlyOpaque,
         ),
@@ -98,8 +95,7 @@ class UserModelCard extends StatelessWidget {
   Widget _buildBio(ThemeData theme) {
     return Text(
       user.bio!,
-      style: TextStyle(
-        fontSize: AppSizes.fontRegular,
+      style: AppTextStyles.baseRegular.copyWith(
         color: theme.iconTheme.color?.withValues(
           alpha: AppOpacity.almostOpaque,
         ),
@@ -126,9 +122,7 @@ class UserModelCard extends StatelessWidget {
       children: [
         Text(
           value,
-          style: TextStyle(
-            fontSize: AppSizes.fontMedium,
-            fontWeight: FontWeight.w600,
+          style: AppTextStyles.mediumSemiBold.copyWith(
             color: theme.brightness == Brightness.dark
                 ? AppColors.white
                 : AppColors.darkSurface,
@@ -137,8 +131,7 @@ class UserModelCard extends StatelessWidget {
         const SizedBox(width: AppSizes.spacing4),
         Text(
           label,
-          style: TextStyle(
-            fontSize: AppSizes.fontSmall,
+          style: AppTextStyles.baseSmall.copyWith(
             color: theme.iconTheme.color?.withValues(
               alpha: AppOpacity.mostlyOpaque,
             ),
@@ -179,10 +172,7 @@ class UserModelCard extends StatelessWidget {
       ),
       child: Text(
         user.isFollowing ? 'profile.following'.tr() : 'profile.follow'.tr(),
-        style: const TextStyle(
-          fontSize: AppSizes.fontMedium,
-          fontWeight: FontWeight.w600,
-        ),
+        style: AppTextStyles.mediumSemiBold,
       ),
     );
   }

@@ -80,9 +80,7 @@ class GoalProgressUpdatedCard extends StatelessWidget {
                               goal.isCompleted
                                   ? 'goals.goalCompleted'.tr()
                                   : 'goals.progressUpdated'.tr(),
-                              style: TextStyle(
-                                fontSize: AppSizes.fontMedium,
-                                fontWeight: FontWeight.w600,
+                              style: AppTextStyles.mediumSemiBold.copyWith(
                                 color: goal.isCompleted
                                     ? AppColors.green
                                     : theme.colorScheme.secondary,
@@ -92,12 +90,7 @@ class GoalProgressUpdatedCard extends StatelessWidget {
                               DateFormat(
                                 'MMM dd, yyyy • HH:mm',
                               ).format(event.timestamp),
-                              style: TextStyle(
-                                fontSize: AppSizes.fontSmall,
-                                color: theme.iconTheme.color?.withValues(
-                                  alpha: AppOpacity.mostlyOpaque,
-                                ),
-                              ),
+                              style: AppTextStyles.smallSecondary(context),
                             ),
                           ],
                         ),
@@ -105,9 +98,7 @@ class GoalProgressUpdatedCard extends StatelessWidget {
                       if (goal.isCompleted)
                         Text(
                           '🎉',
-                          style: const TextStyle(
-                            fontSize: AppSizes.fontXXLarge,
-                          ),
+                          style: AppTextStyles.baseXXLarge,
                         ),
                     ],
                   ),
@@ -123,10 +114,7 @@ class GoalProgressUpdatedCard extends StatelessWidget {
                       children: [
                         Text(
                           goal.title,
-                          style: const TextStyle(
-                            fontSize: AppSizes.fontLarge,
-                            fontWeight: FontWeight.w600,
-                          ),
+                          style: AppTextStyles.largeSemiBold,
                         ),
                         const SizedBox(height: AppSizes.spacing12),
                         // Progress bar
@@ -153,9 +141,7 @@ class GoalProgressUpdatedCard extends StatelessWidget {
                           children: [
                             Text(
                               '${goal.currentValue.toStringAsFixed(goal.currentValue.truncateToDouble() == goal.currentValue ? 0 : 1)} ${goal.unit ?? ""} / ${goal.endValue.toStringAsFixed(goal.endValue.truncateToDouble() == goal.endValue ? 0 : 1)} ${goal.unit ?? ""}',
-                              style: TextStyle(
-                                fontSize: AppSizes.fontMedium,
-                                fontWeight: FontWeight.w500,
+                              style: AppTextStyles.mediumWeight.copyWith(
                                 color: theme.iconTheme.color?.withValues(
                                   alpha: AppOpacity.mostlyOpaque,
                                 ),
@@ -163,9 +149,7 @@ class GoalProgressUpdatedCard extends StatelessWidget {
                             ),
                             Text(
                               '${goal.progressPercentage.toStringAsFixed(0)}%',
-                              style: TextStyle(
-                                fontSize: AppSizes.fontXLarge,
-                                fontWeight: FontWeight.w700,
+                              style: AppTextStyles.xLargeBold.copyWith(
                                 color: goal.isCompleted
                                     ? AppColors.green
                                     : theme.colorScheme.secondary,

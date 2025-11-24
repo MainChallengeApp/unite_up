@@ -90,7 +90,7 @@ class GoalCard extends StatelessWidget {
       alignment: Alignment.center,
       child: Text(
         category.emoji,
-        style: const TextStyle(fontSize: AppSizes.emojiLarge),
+        style: AppTextStyles.emojiLarge,
       ),
     );
   }
@@ -101,9 +101,7 @@ class GoalCard extends StatelessWidget {
       children: [
         Text(
           category.displayName(context),
-          style: TextStyle(
-            fontSize: AppSizes.fontLarge,
-            fontWeight: FontWeight.w600,
+          style: AppTextStyles.largeSemiBold.copyWith(
             color: theme.brightness == Brightness.dark
                 ? AppColors.white
                 : AppColors.darkSurface,
@@ -112,8 +110,7 @@ class GoalCard extends StatelessWidget {
         const SizedBox(height: AppSizes.spacing4),
         Text(
           category.description(context),
-          style: TextStyle(
-            fontSize: AppSizes.fontRegular,
+          style: AppTextStyles.baseRegular.copyWith(
             color: theme.iconTheme.color?.withValues(
               alpha: AppOpacity.mostlyOpaque,
             ),

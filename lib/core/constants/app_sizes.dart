@@ -58,7 +58,6 @@ class AppSizes {
   static const double cardPadding = 16.0;
 
   // Divider
-  static const double dividerThickness = 1.0;
   static const double dividerHeight = 1.0;
 
   // Emoji Sizes

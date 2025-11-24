@@ -68,9 +68,7 @@ class GoalCreatedCard extends StatelessWidget {
                           children: [
                             Text(
                               'goals.newGoalCreated'.tr(),
-                              style: TextStyle(
-                                fontSize: AppSizes.fontMedium,
-                                fontWeight: FontWeight.w600,
+                              style: AppTextStyles.mediumSemiBold.copyWith(
                                 color: theme.colorScheme.primary,
                               ),
                             ),
@@ -78,12 +76,7 @@ class GoalCreatedCard extends StatelessWidget {
                               DateFormat(
                                 'MMM dd, yyyy • HH:mm',
                               ).format(event.timestamp),
-                              style: TextStyle(
-                                fontSize: AppSizes.fontSmall,
-                                color: theme.iconTheme.color?.withValues(
-                                  alpha: AppOpacity.mostlyOpaque,
-                                ),
-                              ),
+                              style: AppTextStyles.smallSecondary(context),
                             ),
                           ],
                         ),
@@ -100,13 +93,7 @@ class GoalCreatedCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          goal.title,
-                          style: const TextStyle(
-                            fontSize: AppSizes.fontLarge,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
+                        Text(goal.title, style: AppTextStyles.largeSemiBold),
                         const SizedBox(height: AppSizes.spacing8),
                         Row(
                           children: [
@@ -120,11 +107,9 @@ class GoalCreatedCard extends StatelessWidget {
                             const SizedBox(width: AppSizes.spacing8),
                             Text(
                               '${goal.startValue.toStringAsFixed(goal.startValue.truncateToDouble() == goal.startValue ? 0 : 1)} ${goal.unit ?? ""} → ${goal.endValue.toStringAsFixed(goal.endValue.truncateToDouble() == goal.endValue ? 0 : 1)} ${goal.unit ?? ""}',
-                              style: TextStyle(
+                              style: AppTextStyles.secondaryText(
+                                context,
                                 fontSize: AppSizes.fontMedium,
-                                color: theme.iconTheme.color?.withValues(
-                                  alpha: AppOpacity.mostlyOpaque,
-                                ),
                               ),
                             ),
                           ],
@@ -142,11 +127,9 @@ class GoalCreatedCard extends StatelessWidget {
                             const SizedBox(width: AppSizes.spacing8),
                             Text(
                               '${DateFormat('MMM dd').format(goal.startDate)} - ${DateFormat('MMM dd, yyyy').format(goal.endDate)}',
-                              style: TextStyle(
+                              style: AppTextStyles.secondaryText(
+                                context,
                                 fontSize: AppSizes.fontMedium,
-                                color: theme.iconTheme.color?.withValues(
-                                  alpha: AppOpacity.mostlyOpaque,
-                                ),
                               ),
                             ),
                           ],

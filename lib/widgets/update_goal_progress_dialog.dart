@@ -47,19 +47,12 @@ class _UpdateGoalProgressDialogState extends State<UpdateGoalProgressDialog> {
             if (userGoals.isEmpty) ...[
               Text(
                 'goals.noGoalsToUpdate'.tr(),
-                style: TextStyle(
-                  color: _theme.iconTheme.color?.withValues(
-                    alpha: AppOpacity.mostlyOpaque,
-                  ),
-                ),
+                style: AppTextStyles.secondaryText(context),
               ),
             ] else ...[
               Text(
                 'goals.selectGoalToUpdate'.tr(),
-                style: const TextStyle(
-                  fontSize: AppSizes.fontMedium,
-                  fontWeight: FontWeight.w500,
-                ),
+                style: AppTextStyles.mediumWeight,
               ),
               const SizedBox(height: AppSizes.spacing12),
               ...userGoals.map((goal) => _buildGoalOption(goal)),
@@ -81,12 +74,7 @@ class _UpdateGoalProgressDialogState extends State<UpdateGoalProgressDialog> {
                 const SizedBox(height: AppSizes.spacing8),
                 Text(
                   '${'goals.current'.tr()}: ${_selectedGoal!.currentValue.toStringAsFixed(_selectedGoal!.currentValue.truncateToDouble() == _selectedGoal!.currentValue ? 0 : 1)} ${_selectedGoal!.unit ?? ""} / ${_selectedGoal!.endValue.toStringAsFixed(_selectedGoal!.endValue.truncateToDouble() == _selectedGoal!.endValue ? 0 : 1)} ${_selectedGoal!.unit ?? ""}',
-                  style: TextStyle(
-                    fontSize: AppSizes.fontSmall,
-                    color: _theme.iconTheme.color?.withValues(
-                      alpha: AppOpacity.mostlyOpaque,
-                    ),
-                  ),
+                  style: AppTextStyles.smallSecondary(context),
                 ),
               ],
             ],
@@ -166,18 +154,14 @@ class _UpdateGoalProgressDialogState extends State<UpdateGoalProgressDialog> {
                   Expanded(
                     child: Text(
                       goal.title,
-                      style: TextStyle(
-                        fontSize: AppSizes.fontMedium,
-                        fontWeight: FontWeight.w600,
+                      style: AppTextStyles.mediumSemiBold.copyWith(
                         color: isSelected ? _theme.colorScheme.primary : null,
                       ),
                     ),
                   ),
                   Text(
                     '${goal.progressPercentage.toStringAsFixed(0)}%',
-                    style: TextStyle(
-                      fontSize: AppSizes.fontMedium,
-                      fontWeight: FontWeight.w600,
+                    style: AppTextStyles.mediumSemiBold.copyWith(
                       color: isSelected
                           ? _theme.colorScheme.primary
                           : _theme.iconTheme.color?.withValues(
@@ -190,12 +174,7 @@ class _UpdateGoalProgressDialogState extends State<UpdateGoalProgressDialog> {
               const SizedBox(height: AppSizes.spacing4),
               Text(
                 '${goal.currentValue.toStringAsFixed(goal.currentValue.truncateToDouble() == goal.currentValue ? 0 : 1)} / ${goal.endValue.toStringAsFixed(goal.endValue.truncateToDouble() == goal.endValue ? 0 : 1)} ${goal.unit ?? ""}',
-                style: TextStyle(
-                  fontSize: AppSizes.fontSmall,
-                  color: _theme.iconTheme.color?.withValues(
-                    alpha: AppOpacity.mostlyOpaque,
-                  ),
-                ),
+                style: AppTextStyles.smallSecondary(context),
               ),
             ],
           ),

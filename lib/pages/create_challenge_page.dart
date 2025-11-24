@@ -106,10 +106,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                 ),
               ),
               child: Center(
-                child: Text(
-                  _selectedEmoji,
-                  style: const TextStyle(fontSize: AppSizes.emojiHuge),
-                ),
+                child: Text(_selectedEmoji, style: AppTextStyles.emojiHuge),
               ),
             ),
           ),
@@ -176,13 +173,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
       children: [
         Text(
           'challenges.create.members'.tr(),
-          style: TextStyle(
-            fontSize: AppSizes.fontMedium,
-            fontWeight: FontWeight.w600,
-            color: _theme.brightness == Brightness.dark
-                ? AppColors.white
-                : AppColors.darkSurface,
-          ),
+          style: AppTextStyles.mediumSemiBoldPrimary(context),
         ),
         TextButton.icon(
           onPressed: _showMembersPicker,
@@ -205,11 +196,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
       child: Center(
         child: Text(
           'challenges.create.noMembersAdded'.tr(),
-          style: TextStyle(
-            color: _theme.iconTheme.color?.withValues(
-              alpha: AppOpacity.semiTransparent,
-            ),
-          ),
+          style: AppTextStyles.hintText(context),
         ),
       ),
     );
@@ -237,10 +224,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
               )
             : Text(
                 'challenges.createChallenge'.tr(),
-                style: const TextStyle(
-                  fontSize: AppSizes.fontLarge,
-                  fontWeight: FontWeight.w600,
-                ),
+                style: AppTextStyles.largeSemiBold,
               ),
       ),
     );
@@ -278,10 +262,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                   ),
                 ),
                 alignment: Alignment.center,
-                child: Text(
-                  emoji,
-                  style: const TextStyle(fontSize: AppSizes.emojiXLarge),
-                ),
+                child: Text(emoji, style: AppTextStyles.emojiXLarge),
               ),
             );
           }).toList(),
@@ -438,10 +419,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
         children: [
           CircleAvatar(
             radius: AppSizes.spacing16,
-            child: Text(
-              member.name[0],
-              style: const TextStyle(fontSize: AppSizes.fontMedium),
-            ),
+            child: Text(member.name[0], style: AppTextStyles.baseMedium),
           ),
           const SizedBox(width: AppSizes.spacing12),
           Expanded(
@@ -450,9 +428,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
               children: [
                 Text(
                   member.name,
-                  style: TextStyle(
-                    fontSize: AppSizes.fontMedium,
-                    fontWeight: FontWeight.w500,
+                  style: AppTextStyles.mediumWeight.copyWith(
                     color: _theme.brightness == Brightness.dark
                         ? AppColors.white
                         : AppColors.darkSurface,
@@ -460,12 +436,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                 ),
                 Text(
                   member.username,
-                  style: TextStyle(
-                    fontSize: AppSizes.fontSmall,
-                    color: _theme.iconTheme.color?.withValues(
-                      alpha: AppOpacity.mostlyOpaque,
-                    ),
-                  ),
+                  style: AppTextStyles.smallSecondary(context),
                 ),
               ],
             ),
