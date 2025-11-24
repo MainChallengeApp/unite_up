@@ -97,6 +97,15 @@ class AppSizes {
   static const Offset shadowOffsetSmall = Offset(0, 2);
   static const Offset shadowOffsetUp = Offset(0, -2);
 
+  // Animation Offsets
+  static const Offset slideOffsetLeft = Offset(-1, 0);
+  static const Offset slideOffsetZero = Offset.zero;
+
+  // Animation Ratios & Scales
+  static const double slidableExtentRatio = 0.5;
+  static const double emptyStateScaleBegin = 0.9;
+  static const double emptyStateScaleEnd = 1.1;
+
   // Additional specific sizes found in codebase
   static const double size18 = 18.0;
   static const double size50 = 50.0;

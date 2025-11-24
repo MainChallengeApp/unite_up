@@ -7,6 +7,7 @@ class AppDurations {
   static const Duration animationFast = Duration(milliseconds: 100);
   static const Duration animationNormal = Duration(milliseconds: 300);
   static const Duration animationSlow = Duration(milliseconds: 500);
+  static const Duration animationEmptyState = Duration(milliseconds: 1500);
 
   // Debounce Durations
   static const Duration debounceShort = Duration(milliseconds: 300);

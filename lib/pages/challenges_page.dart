@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:unite_up/models/challenge_chat_model.dart';
@@ -22,6 +23,7 @@ class _ChallengesPageState extends State<ChallengesPage>
   late Animation<double> _scaleAnimation;
   bool _isSelectionMode = false;
   final Set<String> _selectedChallengeIds = {};
+  final Set<String> _deletingChallengeIds = {};
 
   ThemeData get _theme => Theme.of(context);
 
@@ -29,13 +31,20 @@ class _ChallengesPageState extends State<ChallengesPage>
   void initState() {
     super.initState();
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 1500),
+      duration: AppDurations.animationEmptyState,
       vsync: this,
     )..repeat(reverse: true);
 
-    _scaleAnimation = Tween<double>(begin: 0.9, end: 1.1).animate(
-      CurvedAnimation(parent: _animationController, curve: Curves.easeInOut),
-    );
+    _scaleAnimation =
+        Tween<double>(
+          begin: AppSizes.emptyStateScaleBegin,
+          end: AppSizes.emptyStateScaleEnd,
+        ).animate(
+          CurvedAnimation(
+            parent: _animationController,
+            curve: Curves.easeInOut,
+          ),
+        );
   }
 
   @override
@@ -59,10 +68,16 @@ class _ChallengesPageState extends State<ChallengesPage>
       body: challenges.isEmpty
           ? _buildEmptyState(context)
           : ListView.builder(
-              padding: const EdgeInsets.all(AppSizes.spacing16),
               itemCount: challenges.length,
               itemBuilder: (context, index) {
-                return _buildChallengeCard(context, challenges[index]);
+                return Padding(
+                  padding: const EdgeInsets.only(
+                    bottom: AppSizes.spacing16,
+                    left: AppSizes.spacing16,
+                    right: AppSizes.spacing16,
+                  ),
+                  child: _buildChallengeCard(context, challenges[index]),
+                );
               },
             ),
     );
@@ -275,9 +290,10 @@ class _ChallengesPageState extends State<ChallengesPage>
     ChallengeChatModel challenge,
   ) {
     final isSelected = _selectedChallengeIds.contains(challenge.id);
+    final isDeleting = _deletingChallengeIds.contains(challenge.id);
 
     final cardContent = Card(
-      margin: const EdgeInsets.only(bottom: AppSizes.spacing12),
+      margin: EdgeInsets.zero,
       elevation: AppSizes.elevationNone,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
@@ -401,53 +417,149 @@ class _ChallengesPageState extends State<ChallengesPage>
 
     // Add swipe-to-delete when not in selection mode
     if (!_isSelectionMode) {
-      return Dismissible(
-        key: Key(challenge.id),
-        direction: DismissDirection.endToStart,
-        confirmDismiss: (direction) async {
-          return await showDialog(
-            context: context,
-            builder: (context) => AlertDialog(
-              title: Text('challenges.delete'.tr()),
-              content: Text('challenges.deleteConfirmation'.tr()),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context, false),
-                  child: Text('common.cancel'.tr()),
-                ),
-                FilledButton(
-                  onPressed: () => Navigator.pop(context, true),
-                  style: FilledButton.styleFrom(backgroundColor: AppColors.red),
-                  child: Text('common.delete'.tr()),
+      return AnimatedSlide(
+        offset: isDeleting
+            ? AppSizes.slideOffsetLeft
+            : AppSizes.slideOffsetZero,
+        duration: AppDurations.animationNormal,
+        curve: Curves.easeInOut,
+        child: AnimatedOpacity(
+          opacity: isDeleting ? 0.0 : 1.0,
+          duration: AppDurations.animationNormal,
+          child: Slidable(
+            key: Key(challenge.id),
+            closeOnScroll: true,
+            endActionPane: ActionPane(
+              motion: const StretchMotion(),
+              extentRatio: AppSizes.slidableExtentRatio,
+              dragDismissible: false,
+              dismissible: DismissiblePane(
+                closeOnCancel: true,
+                onDismissed: () {
+                  HapticFeedback.mediumImpact();
+                  final appState = Provider.of<AppStateProvider>(
+                    context,
+                    listen: false,
+                  );
+                  appState.deleteChallenge(challenge.id);
+                },
+                confirmDismiss: () async {
+                  HapticFeedback.lightImpact();
+                  if (!mounted) return false;
+
+                  final confirmed = await showDialog<bool>(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (dialogContext) => AlertDialog(
+                      title: Text('challenges.delete'.tr()),
+                      content: Text('challenges.deleteConfirmation'.tr()),
+                      actions: [
+                        TextButton(
+                          onPressed: () => Navigator.pop(dialogContext, false),
+                          child: Text('common.cancel'.tr()),
+                        ),
+                        FilledButton(
+                          onPressed: () => Navigator.pop(dialogContext, true),
+                          style: FilledButton.styleFrom(
+                            backgroundColor: AppColors.red,
+                          ),
+                          child: Text('common.delete'.tr()),
+                        ),
+                      ],
+                    ),
+                  );
+                  return confirmed ?? false;
+                },
+              ),
+              children: [
+                CustomSlidableAction(
+                  onPressed: (context) async {
+                    HapticFeedback.lightImpact();
+                    if (!mounted) return;
+
+                    final confirmed = await showDialog<bool>(
+                      context: this.context,
+                      barrierDismissible: false,
+                      builder: (dialogContext) => AlertDialog(
+                        title: Text('challenges.delete'.tr()),
+                        content: Text('challenges.deleteConfirmation'.tr()),
+                        actions: [
+                          TextButton(
+                            onPressed: () =>
+                                Navigator.pop(dialogContext, false),
+                            child: Text('common.cancel'.tr()),
+                          ),
+                          FilledButton(
+                            onPressed: () => Navigator.pop(dialogContext, true),
+                            style: FilledButton.styleFrom(
+                              backgroundColor: AppColors.red,
+                            ),
+                            child: Text('common.delete'.tr()),
+                          ),
+                        ],
+                      ),
+                    );
+
+                    if (!mounted) return;
+
+                    if (confirmed == true) {
+                      HapticFeedback.mediumImpact();
+                      // Mark as deleting to trigger slide animation
+                      setState(() {
+                        _deletingChallengeIds.add(challenge.id);
+                      });
+                      // Wait for animation to complete
+                      await Future.delayed(AppDurations.animationNormal);
+                      // Then delete
+                      if (mounted) {
+                        Provider.of<AppStateProvider>(
+                          this.context,
+                          listen: false,
+                        ).deleteChallenge(challenge.id);
+                        setState(() {
+                          _deletingChallengeIds.remove(challenge.id);
+                        });
+                      }
+                    }
+                  },
+                  backgroundColor: Colors.transparent,
+                  padding: const EdgeInsets.fromLTRB(
+                    AppSizes.spacing16,
+                    0,
+                    0,
+                    0,
+                  ),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      color: AppColors.red,
+                      borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
+                    ),
+                    child: const Center(
+                      child: Icon(
+                        AppIcons.delete,
+                        color: AppColors.white,
+                        size: AppSizes.iconMedium,
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
-          );
-        },
-        onDismissed: (direction) {
-          Provider.of<AppStateProvider>(
-            context,
-            listen: false,
-          ).deleteChallenge(challenge.id);
-        },
-        background: Container(
-          margin: const EdgeInsets.only(bottom: AppSizes.spacing12),
-          decoration: BoxDecoration(
-            color: AppColors.red,
-            borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
-          ),
-          alignment: Alignment.centerRight,
-          padding: const EdgeInsets.only(right: AppSizes.spacing20),
-          child: const Icon(
-            AppIcons.delete,
-            color: AppColors.white,
-            size: AppSizes.iconMedium,
+            child: cardContent,
           ),
         ),
-        child: cardContent,
       );
     }
 
-    return cardContent;
+    return AnimatedSlide(
+      offset: isDeleting ? AppSizes.slideOffsetLeft : AppSizes.slideOffsetZero,
+      duration: AppDurations.animationNormal,
+      curve: Curves.easeInOut,
+      child: AnimatedOpacity(
+        opacity: isDeleting ? 0.0 : 1.0,
+        duration: AppDurations.animationNormal,
+        child: cardContent,
+      ),
+    );
   }
 }
