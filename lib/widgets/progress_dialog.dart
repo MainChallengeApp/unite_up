@@ -1,9 +1,9 @@
-import 'package:unite_up/enums/media_type_enum.dart';
-import 'package:unite_up/core/constants/app_constants.dart';
-import 'package:unite_up/models/media_attachment_model.dart';
-import 'package:unite_up/models/progress_entry_model.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:unite_up/core/constants/app_constants.dart';
+import 'package:unite_up/enums/media_type_enum.dart';
+import 'package:unite_up/models/media_attachment_model.dart';
+import 'package:unite_up/models/progress_entry_model.dart';
 
 class ProgressDialog extends StatefulWidget {
   const ProgressDialog({super.key});
@@ -21,6 +21,127 @@ class _ProgressDialogState extends State<ProgressDialog> {
   void dispose() {
     _noteController.dispose();
     super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return AlertDialog(
+      backgroundColor: theme.scaffoldBackgroundColor,
+      surfaceTintColor: Colors.transparent,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
+      ),
+      title: Text(
+        'progress.title'.tr(),
+        style: TextStyle(
+          color: theme.brightness == Brightness.dark
+              ? Colors.white
+              : const Color(0xFF1E293B),
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+      content: SingleChildScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              'progress.addNote'.tr(),
+              style: TextStyle(
+                fontSize: AppSizes.fontMedium,
+                fontWeight: FontWeight.w600,
+                color: theme.brightness == Brightness.dark
+                    ? Colors.white
+                    : const Color(0xFF1E293B),
+              ),
+            ),
+            const SizedBox(height: AppSizes.spacing12),
+            TextField(
+              controller: _noteController,
+              maxLines: 4,
+              decoration: InputDecoration(
+                hintText: 'progress.describeProgress'.tr(),
+                filled: true,
+                fillColor: theme.brightness == Brightness.dark
+                    ? theme.cardColor
+                    : theme.scaffoldBackgroundColor,
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
+                  borderSide: BorderSide.none,
+                ),
+              ),
+              textCapitalization: TextCapitalization.sentences,
+            ),
+            const SizedBox(height: AppSizes.spacing16),
+            Text(
+              'progress.addProof'.tr(),
+              style: TextStyle(
+                fontSize: AppSizes.fontMedium,
+                fontWeight: FontWeight.w600,
+                color: theme.brightness == Brightness.dark
+                    ? Colors.white
+                    : const Color(0xFF1E293B),
+              ),
+            ),
+            const SizedBox(height: AppSizes.spacing12),
+            SizedBox(
+              width: double.infinity,
+              child: OutlinedButton.icon(
+                onPressed: _isUploading ? null : _showMediaPicker,
+                icon: _isUploading
+                    ? const SizedBox(
+                        height: AppSizes.iconSmall,
+                        width: AppSizes.iconSmall,
+                        child: CircularProgressIndicator(strokeWidth: 2),
+                      )
+                    : const Icon(AppIcons.add, size: AppSizes.iconMedium),
+                label: Text(
+                  _isUploading
+                      ? 'progress.uploading'.tr()
+                      : 'progress.addMedia'.tr(),
+                ),
+                style: OutlinedButton.styleFrom(
+                  foregroundColor: theme.colorScheme.primary,
+                  padding: const EdgeInsets.symmetric(
+                    vertical: AppSizes.spacing16,
+                  ),
+                  side: BorderSide(
+                    color: theme.colorScheme.primary.withValues(
+                      alpha: AppOpacity.semiTransparent,
+                    ),
+                  ),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: AppSizes.spacing16),
+            if (_mockAttachments.isNotEmpty)
+              Column(
+                children: _mockAttachments
+                    .map(
+                      (attachment) =>
+                          _buildAttachmentPreview(attachment, theme),
+                    )
+                    .toList(),
+              ),
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text('common.cancel'.tr()),
+        ),
+        ElevatedButton(
+          onPressed: _submitProgress,
+          child: Text('common.submit'.tr()),
+        ),
+      ],
+    );
   }
 
   Future<void> _showMediaPicker() async {
@@ -44,9 +165,9 @@ class _ProgressDialogState extends State<ProgressDialog> {
                 width: AppSizes.containerSmall,
                 height: AppSizes.spacing4,
                 decoration: BoxDecoration(
-                  color: Theme.of(context)
-                      .dividerColor
-                      .withValues(alpha: AppOpacity.medium),
+                  color: Theme.of(
+                    context,
+                  ).dividerColor.withValues(alpha: AppOpacity.medium),
                   borderRadius: BorderRadius.circular(AppSizes.radiusSmall),
                 ),
               ),
@@ -220,122 +341,6 @@ class _ProgressDialogState extends State<ProgressDialog> {
     }
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return AlertDialog(
-      backgroundColor: theme.scaffoldBackgroundColor,
-      surfaceTintColor: Colors.transparent,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(AppSizes.radiusLarge)),
-      title: Text(
-        'progress.title'.tr(),
-        style: TextStyle(
-          color: theme.brightness == Brightness.dark
-              ? Colors.white
-              : const Color(0xFF1E293B),
-          fontWeight: FontWeight.w600,
-        ),
-      ),
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'progress.addNote'.tr(),
-              style: TextStyle(
-                fontSize: AppSizes.fontMedium,
-                fontWeight: FontWeight.w600,
-                color: theme.brightness == Brightness.dark
-                    ? Colors.white
-                    : const Color(0xFF1E293B),
-              ),
-            ),
-            const SizedBox(height: AppSizes.spacing12),
-            TextField(
-              controller: _noteController,
-              maxLines: 4,
-              decoration: InputDecoration(
-                hintText: 'progress.describeProgress'.tr(),
-                filled: true,
-                fillColor: theme.brightness == Brightness.dark
-                    ? theme.cardColor
-                    : theme.scaffoldBackgroundColor,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
-                  borderSide: BorderSide.none,
-                ),
-              ),
-              textCapitalization: TextCapitalization.sentences,
-            ),
-            const SizedBox(height: AppSizes.spacing16),
-            Text(
-              'progress.addProof'.tr(),
-              style: TextStyle(
-                fontSize: AppSizes.fontMedium,
-                fontWeight: FontWeight.w600,
-                color: theme.brightness == Brightness.dark
-                    ? Colors.white
-                    : const Color(0xFF1E293B),
-              ),
-            ),
-            const SizedBox(height: AppSizes.spacing12),
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton.icon(
-                onPressed: _isUploading ? null : _showMediaPicker,
-                icon: _isUploading
-                    ? const SizedBox(
-                        height: AppSizes.iconSmall,
-                        width: AppSizes.iconSmall,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : const Icon(AppIcons.add, size: AppSizes.iconMedium),
-                label: Text(
-                  _isUploading
-                      ? 'progress.uploading'.tr()
-                      : 'progress.addMedia'.tr(),
-                ),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: theme.colorScheme.primary,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: AppSizes.spacing16,
-                  ),
-                  side: BorderSide(
-                    color: theme.colorScheme.primary
-                        .withValues(alpha: AppOpacity.semiTransparent),
-                  ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
-                  ),
-                ),
-              ),
-            ),
-            const SizedBox(height: AppSizes.spacing16),
-            if (_mockAttachments.isNotEmpty)
-              Column(
-                children: _mockAttachments
-                    .map((attachment) =>
-                        _buildAttachmentPreview(attachment, theme))
-                    .toList(),
-              ),
-          ],
-        ),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: Text('common.cancel'.tr()),
-        ),
-        ElevatedButton(
-          onPressed: _submitProgress,
-          child: Text('common.submit'.tr()),
-        ),
-      ],
-    );
-  }
-
   String _getFileSize(MediaAttachmentModel attachment) {
     // Mock file sizes for demonstration
     if (attachment.type == MediaTypeEnum.image) {
@@ -359,9 +364,11 @@ class _ProgressDialogState extends State<ProgressDialog> {
   }
 
   Widget _buildAttachmentPreview(
-      MediaAttachmentModel attachment, ThemeData theme) {
+    MediaAttachmentModel attachment,
+    ThemeData theme,
+  ) {
     final mediaColor = _getMediaColor(attachment.type);
-    
+
     return Container(
       margin: const EdgeInsets.only(bottom: AppSizes.spacing12),
       padding: const EdgeInsets.all(AppSizes.spacing12),
@@ -385,8 +392,8 @@ class _ProgressDialogState extends State<ProgressDialog> {
               attachment.type == MediaTypeEnum.image
                   ? AppIcons.image
                   : attachment.type == MediaTypeEnum.video
-                      ? AppIcons.video
-                      : AppIcons.file,
+                  ? AppIcons.video
+                  : AppIcons.file,
               color: mediaColor,
               size: AppSizes.iconMedium,
             ),

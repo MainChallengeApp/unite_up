@@ -30,81 +30,6 @@ class _CreateGoalDialogState extends State<CreateGoalDialog> {
     super.dispose();
   }
 
-  Future<void> _selectStartDate() async {
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: _startDate,
-      firstDate: DateTime.now().subtract(const Duration(days: 365)),
-      lastDate: DateTime.now().add(const Duration(days: 365)),
-    );
-    if (picked != null) {
-      setState(() {
-        _startDate = picked;
-        if (_endDate.isBefore(_startDate)) {
-          _endDate = _startDate.add(const Duration(days: 30));
-        }
-      });
-    }
-  }
-
-  Future<void> _selectEndDate() async {
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: _endDate,
-      firstDate: _startDate,
-      lastDate: DateTime.now().add(const Duration(days: 730)),
-    );
-    if (picked != null) {
-      setState(() => _endDate = picked);
-    }
-  }
-
-  void _createGoal() {
-    if (_titleController.text.trim().isEmpty) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('goals.enterTitle'.tr())));
-      return;
-    }
-
-    final startValue = double.tryParse(_startValueController.text);
-    final endValue = double.tryParse(_endValueController.text);
-
-    if (startValue == null || endValue == null) {
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('goals.enterValidValues'.tr())));
-      return;
-    }
-
-    if (startValue == endValue) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('goals.valuesMustBeDifferent'.tr())),
-      );
-      return;
-    }
-
-    final appState = Provider.of<AppStateProvider>(context, listen: false);
-    final currentUserId = appState.currentUser?.id ?? 'user-1';
-
-    final goal = GoalModel(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      userId: currentUserId,
-      title: _titleController.text.trim(),
-      startValue: startValue,
-      endValue: endValue,
-      currentValue: startValue,
-      startDate: _startDate,
-      endDate: _endDate,
-      unit: _unitController.text.trim().isEmpty
-          ? null
-          : _unitController.text.trim(),
-    );
-
-    appState.addGoal(goal);
-    Navigator.pop(context);
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -197,6 +122,81 @@ class _CreateGoalDialogState extends State<CreateGoalDialog> {
         FilledButton(onPressed: _createGoal, child: Text('common.create'.tr())),
       ],
     );
+  }
+
+  Future<void> _selectStartDate() async {
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _startDate,
+      firstDate: DateTime.now().subtract(const Duration(days: 365)),
+      lastDate: DateTime.now().add(const Duration(days: 365)),
+    );
+    if (picked != null) {
+      setState(() {
+        _startDate = picked;
+        if (_endDate.isBefore(_startDate)) {
+          _endDate = _startDate.add(const Duration(days: 30));
+        }
+      });
+    }
+  }
+
+  Future<void> _selectEndDate() async {
+    final picked = await showDatePicker(
+      context: context,
+      initialDate: _endDate,
+      firstDate: _startDate,
+      lastDate: DateTime.now().add(const Duration(days: 730)),
+    );
+    if (picked != null) {
+      setState(() => _endDate = picked);
+    }
+  }
+
+  void _createGoal() {
+    if (_titleController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('goals.enterTitle'.tr())));
+      return;
+    }
+
+    final startValue = double.tryParse(_startValueController.text);
+    final endValue = double.tryParse(_endValueController.text);
+
+    if (startValue == null || endValue == null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('goals.enterValidValues'.tr())));
+      return;
+    }
+
+    if (startValue == endValue) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('goals.valuesMustBeDifferent'.tr())),
+      );
+      return;
+    }
+
+    final appState = Provider.of<AppStateProvider>(context, listen: false);
+    final currentUserId = appState.currentUser?.id ?? 'user-1';
+
+    final goal = GoalModel(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      userId: currentUserId,
+      title: _titleController.text.trim(),
+      startValue: startValue,
+      endValue: endValue,
+      currentValue: startValue,
+      startDate: _startDate,
+      endDate: _endDate,
+      unit: _unitController.text.trim().isEmpty
+          ? null
+          : _unitController.text.trim(),
+    );
+
+    appState.addGoal(goal);
+    Navigator.pop(context);
   }
 
   Widget _buildDateSelector(

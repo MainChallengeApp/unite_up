@@ -7,3 +7,13 @@ Keep files, classes, widget and methods small.
 Look for reusable code and create reusable code.
 Keep the code style as it is or improve it.
 Do not use magic numbers but create meaningful variables in the right place.
+
+# widget structure
+
+Keep this structure in all widgets state classes:
+
+1. variables
+2. initState
+3. dispose
+4. build
+5. helper functions

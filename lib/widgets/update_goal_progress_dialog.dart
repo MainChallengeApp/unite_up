@@ -23,36 +23,15 @@ class _UpdateGoalProgressDialogState extends State<UpdateGoalProgressDialog> {
     super.dispose();
   }
 
-  void _updateProgress() {
-    if (_selectedGoal == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('goals.selectGoal'.tr())),
-      );
-      return;
-    }
-
-    final newValue = double.tryParse(_progressController.text);
-    if (newValue == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('goals.enterValidValue'.tr())),
-      );
-      return;
-    }
-
-    final updatedGoal = _selectedGoal!.copyWith(currentValue: newValue);
-    Provider.of<AppStateProvider>(context, listen: false)
-        .updateGoal(updatedGoal, createEvent: true);
-    Navigator.pop(context);
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final appState = Provider.of<AppStateProvider>(context);
     final currentUserId = appState.currentUser?.id ?? 'user-1';
-    
+
     // Get user's goals
-    final userGoals = appState.currentChallenge?.goals
+    final userGoals =
+        appState.currentChallenge?.goals
             .where((g) => g.userId == currentUserId)
             .toList() ??
         [];
@@ -93,8 +72,9 @@ class _UpdateGoalProgressDialogState extends State<UpdateGoalProgressDialog> {
                     suffixText: _selectedGoal!.unit ?? '',
                     border: const OutlineInputBorder(),
                   ),
-                  keyboardType:
-                      const TextInputType.numberWithOptions(decimal: true),
+                  keyboardType: const TextInputType.numberWithOptions(
+                    decimal: true,
+                  ),
                   autofocus: true,
                 ),
                 const SizedBox(height: AppSizes.spacing8),
@@ -124,6 +104,30 @@ class _UpdateGoalProgressDialogState extends State<UpdateGoalProgressDialog> {
           ),
       ],
     );
+  }
+
+  void _updateProgress() {
+    if (_selectedGoal == null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('goals.selectGoal'.tr())));
+      return;
+    }
+
+    final newValue = double.tryParse(_progressController.text);
+    if (newValue == null) {
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(SnackBar(content: Text('goals.enterValidValue'.tr())));
+      return;
+    }
+
+    final updatedGoal = _selectedGoal!.copyWith(currentValue: newValue);
+    Provider.of<AppStateProvider>(
+      context,
+      listen: false,
+    ).updateGoal(updatedGoal, createEvent: true);
+    Navigator.pop(context);
   }
 
   Widget _buildGoalOption(ThemeData theme, GoalModel goal) {
@@ -199,4 +203,3 @@ class _UpdateGoalProgressDialogState extends State<UpdateGoalProgressDialog> {
     );
   }
 }
-

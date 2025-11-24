@@ -40,84 +40,6 @@ class _ChatPageState extends State<ChatPage> {
     super.dispose();
   }
 
-  void _scrollToBottom({bool animated = true}) {
-    if (_scrollController.hasClients) {
-      if (animated) {
-        Future.delayed(const Duration(milliseconds: 100), () {
-          if (_scrollController.hasClients) {
-            _scrollController.animateTo(
-              _scrollController.position.maxScrollExtent,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeOut,
-            );
-          }
-        });
-      } else {
-        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-      }
-    }
-  }
-
-  void _showProgressDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => const ProgressDialog(),
-    ).then((result) {
-      if (result != null && result is ProgressEntryModel && mounted) {
-        Provider.of<AppStateProvider>(
-          context,
-          listen: false,
-        ).submitProgress(result);
-        _scrollToBottom();
-      }
-    });
-  }
-
-  void _sendMessage() {
-    if (_messageController.text.trim().isEmpty) return;
-
-    Provider.of<AppStateProvider>(
-      context,
-      listen: false,
-    ).addMessage(_messageController.text.trim());
-    _messageController.clear();
-    _scrollToBottom();
-  }
-
-  void _showUploadOptions() {
-    showModalBottomSheet(
-      context: context,
-      builder: (context) => const UploadSelectionSheet(),
-      backgroundColor: Colors.transparent,
-    ).then((result) {
-      if (result != null && mounted) {
-        if (result == 'create_goal') {
-          _showCreateGoalDialog();
-        } else if (result == 'goal_progress') {
-          _showUpdateGoalProgressDialog();
-        } else {
-          // Handle other upload type selections
-          // For now, just show the progress dialog for media uploads
-          _showProgressDialog();
-        }
-      }
-    });
-  }
-
-  void _showCreateGoalDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => const CreateGoalDialog(),
-    );
-  }
-
-  void _showUpdateGoalProgressDialog() {
-    showDialog(
-      context: context,
-      builder: (context) => const UpdateGoalProgressDialog(),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -196,14 +118,7 @@ class _ChatPageState extends State<ChatPage> {
                       ],
                     ),
                   ),
-                ] else
-                  Text(
-                    'chat.title'.tr(),
-                    style: const TextStyle(
-                      fontWeight: FontWeight.w600,
-                      fontSize: AppSizes.fontLarge,
-                    ),
-                  ),
+                ],
               ],
             ),
           ),
@@ -219,6 +134,84 @@ class _ChatPageState extends State<ChatPage> {
           _buildInputBar(theme, appState),
         ],
       ),
+    );
+  }
+
+  void _scrollToBottom({bool animated = true}) {
+    if (_scrollController.hasClients) {
+      if (animated) {
+        Future.delayed(const Duration(milliseconds: 100), () {
+          if (_scrollController.hasClients) {
+            _scrollController.animateTo(
+              _scrollController.position.maxScrollExtent,
+              duration: const Duration(milliseconds: 300),
+              curve: Curves.easeOut,
+            );
+          }
+        });
+      } else {
+        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
+      }
+    }
+  }
+
+  void _showProgressDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => const ProgressDialog(),
+    ).then((result) {
+      if (result != null && result is ProgressEntryModel && mounted) {
+        Provider.of<AppStateProvider>(
+          context,
+          listen: false,
+        ).submitProgress(result);
+        _scrollToBottom();
+      }
+    });
+  }
+
+  void _sendMessage() {
+    if (_messageController.text.trim().isEmpty) return;
+
+    Provider.of<AppStateProvider>(
+      context,
+      listen: false,
+    ).addMessage(_messageController.text.trim());
+    _messageController.clear();
+    _scrollToBottom();
+  }
+
+  void _showUploadOptions() {
+    showModalBottomSheet(
+      context: context,
+      builder: (context) => const UploadSelectionSheet(),
+      backgroundColor: Colors.transparent,
+    ).then((result) {
+      if (result != null && mounted) {
+        if (result == 'create_goal') {
+          _showCreateGoalDialog();
+        } else if (result == 'goal_progress') {
+          _showUpdateGoalProgressDialog();
+        } else {
+          // Handle other upload type selections
+          // For now, just show the progress dialog for media uploads
+          _showProgressDialog();
+        }
+      }
+    });
+  }
+
+  void _showCreateGoalDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => const CreateGoalDialog(),
+    );
+  }
+
+  void _showUpdateGoalProgressDialog() {
+    showDialog(
+      context: context,
+      builder: (context) => const UpdateGoalProgressDialog(),
     );
   }
 

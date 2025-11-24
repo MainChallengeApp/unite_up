@@ -33,6 +33,14 @@ class _SearchPageState extends State<SearchPage> {
     super.dispose();
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: CustomAppBar(title: 'search.title'.tr(), showBackButton: false),
+      body: _buildSearchView(Theme.of(context)),
+    );
+  }
+
   void _filterUserModels() {
     final query = _searchController.text.toLowerCase();
     setState(() {
@@ -58,14 +66,6 @@ class _SearchPageState extends State<SearchPage> {
       }
       _filterUserModels();
     });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(title: 'search.title'.tr(), showBackButton: false),
-      body: _buildSearchView(Theme.of(context)),
-    );
   }
 
   Widget _buildSearchView(ThemeData theme) {

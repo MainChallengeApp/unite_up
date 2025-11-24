@@ -18,13 +18,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  void _navigateToSettings() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => const SettingsPage()),
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return Consumer<AppStateProvider>(
@@ -36,6 +29,13 @@ class _ProfilePageState extends State<ProfilePage> {
               : _buildAuthView(),
         );
       },
+    );
+  }
+
+  void _navigateToSettings() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const SettingsPage()),
     );
   }
 

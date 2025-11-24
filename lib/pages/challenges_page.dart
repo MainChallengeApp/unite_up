@@ -42,6 +42,54 @@ class _ChallengesPageState extends State<ChallengesPage>
     super.dispose();
   }
 
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final appState = Provider.of<AppStateProvider>(context);
+    final challenges = appState.challenges;
+
+    return Scaffold(
+      appBar: CustomAppBar(
+        leading: _isSelectionMode
+            ? IconButton(
+                icon: const Icon(AppIcons.close),
+                onPressed: _exitSelectionMode,
+              )
+            : null,
+        title: _isSelectionMode
+            ? '${_selectedChallengeIds.length} ${'common.selected'.tr()}'
+            : 'challenges.title'.tr(),
+        showBackButton: false,
+        actions: [
+          if (_isSelectionMode)
+            IconButton(
+              icon: const Icon(AppIcons.delete),
+              onPressed: _selectedChallengeIds.isEmpty
+                  ? null
+                  : () => _deleteSelectedChallenges(context),
+              tooltip: 'common.delete'.tr(),
+            )
+          else
+            IconButton(
+              icon: const Icon(AppIcons.add),
+              onPressed: () => _createNewChallenge(context),
+              tooltip: 'challenges.createNewChallenge'.tr(),
+            ),
+          const SizedBox(width: AppSizes.spacing8),
+        ],
+      ),
+      body: challenges.isEmpty
+          ? _buildEmptyState(context, theme)
+          : ListView.builder(
+              padding: const EdgeInsets.all(AppSizes.spacing16),
+              itemCount: challenges.length,
+              itemBuilder: (context, index) {
+                return _buildChallengeCard(context, challenges[index], theme);
+              },
+            ),
+    );
+  }
+
   void _enterSelectionMode(String challengeId) {
     HapticFeedback.mediumImpact();
     setState(() {
@@ -120,54 +168,6 @@ class _ChallengesPageState extends State<ChallengesPage>
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const CreateChallengePage()),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final appState = Provider.of<AppStateProvider>(context);
-    final challenges = appState.challenges;
-
-    return Scaffold(
-      appBar: CustomAppBar(
-        leading: _isSelectionMode
-            ? IconButton(
-                icon: const Icon(AppIcons.close),
-                onPressed: _exitSelectionMode,
-              )
-            : null,
-        title: _isSelectionMode
-            ? '${_selectedChallengeIds.length} ${'common.selected'.tr()}'
-            : 'challenges.title'.tr(),
-        showBackButton: false,
-        actions: [
-          if (_isSelectionMode)
-            IconButton(
-              icon: const Icon(AppIcons.delete),
-              onPressed: _selectedChallengeIds.isEmpty
-                  ? null
-                  : () => _deleteSelectedChallenges(context),
-              tooltip: 'common.delete'.tr(),
-            )
-          else
-            IconButton(
-              icon: const Icon(AppIcons.add),
-              onPressed: () => _createNewChallenge(context),
-              tooltip: 'challenges.createNewChallenge'.tr(),
-            ),
-          const SizedBox(width: AppSizes.spacing8),
-        ],
-      ),
-      body: challenges.isEmpty
-          ? _buildEmptyState(context, theme)
-          : ListView.builder(
-              padding: const EdgeInsets.all(AppSizes.spacing16),
-              itemCount: challenges.length,
-              itemBuilder: (context, index) {
-                return _buildChallengeCard(context, challenges[index], theme);
-              },
-            ),
     );
   }
 

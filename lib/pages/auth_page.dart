@@ -28,6 +28,23 @@ class _AuthPageState extends State<AuthPage> {
     super.dispose();
   }
 
+  @override
+  Widget build(BuildContext context) {
+    return AuthForm(
+      isLoginMode: _isLoginMode,
+      nameController: _nameController,
+      emailController: _emailController,
+      passwordController: _passwordController,
+      onSubmit: _handleEmailAuth,
+      onToggleMode: () => setState(() => _isLoginMode = !_isLoginMode),
+      onGoogleSignIn: _handleGoogleSignIn,
+      onAppleSignIn: _handleAppleSignIn,
+      isLoading: _isLoading,
+      isGoogleLoading: _isGoogleLoading,
+      isAppleLoading: _isAppleLoading,
+    );
+  }
+
   Future<void> _handleEmailAuth() async {
     final appState = Provider.of<AppStateProvider>(context, listen: false);
 
@@ -100,23 +117,6 @@ class _AuthPageState extends State<AuthPage> {
   void _showSnackBar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(message), behavior: SnackBarBehavior.floating),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return AuthForm(
-      isLoginMode: _isLoginMode,
-      nameController: _nameController,
-      emailController: _emailController,
-      passwordController: _passwordController,
-      onSubmit: _handleEmailAuth,
-      onToggleMode: () => setState(() => _isLoginMode = !_isLoginMode),
-      onGoogleSignIn: _handleGoogleSignIn,
-      onAppleSignIn: _handleAppleSignIn,
-      isLoading: _isLoading,
-      isGoogleLoading: _isGoogleLoading,
-      isAppleLoading: _isAppleLoading,
     );
   }
 }

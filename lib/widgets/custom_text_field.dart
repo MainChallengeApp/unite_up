@@ -67,20 +67,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
     super.dispose();
   }
 
-  void _onTextChanged() {
-    final hasText = widget.controller.text.isNotEmpty;
-    if (_hasText != hasText) {
-      setState(() {
-        _hasText = hasText;
-      });
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final showSuffixIcon = widget.suffixIcon != null &&
-        (widget.alwaysShowSuffixIcon || _hasText);
+    final showSuffixIcon =
+        widget.suffixIcon != null && (widget.alwaysShowSuffixIcon || _hasText);
 
     return TextField(
       controller: widget.controller,
@@ -110,17 +101,13 @@ class _CustomTextFieldState extends State<CustomTextField> {
             Text(widget.labelText),
           ],
         ),
-        floatingLabelStyle: TextStyle(
-          color: theme.colorScheme.onSurface,
-        ),
+        floatingLabelStyle: TextStyle(color: theme.colorScheme.onSurface),
         alignLabelWithHint: true,
         suffixIcon: showSuffixIcon
             ? IconButton(
                 icon: Icon(
                   widget.suffixIcon,
-                  color: theme.colorScheme.onSurface.withValues(
-                    alpha: 0.6,
-                  ),
+                  color: theme.colorScheme.onSurface.withValues(alpha: 0.6),
                 ),
                 onPressed: widget.onSuffixIconPressed,
               )
@@ -128,5 +115,13 @@ class _CustomTextFieldState extends State<CustomTextField> {
       ),
     );
   }
-}
 
+  void _onTextChanged() {
+    final hasText = widget.controller.text.isNotEmpty;
+    if (_hasText != hasText) {
+      setState(() {
+        _hasText = hasText;
+      });
+    }
+  }
+}

@@ -18,34 +18,6 @@ class SettingsPage extends StatefulWidget {
 }
 
 class _SettingsPageState extends State<SettingsPage> {
-  Future<void> _handleLogout() async {
-    final appState = Provider.of<AppStateProvider>(context, listen: false);
-
-    try {
-      await appState.signOut();
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('auth.loggedOutSuccessfully'.tr()),
-            behavior: SnackBarBehavior.floating,
-          ),
-        );
-        // Pop back to profile which will show auth page
-        Navigator.pop(context);
-      }
-    } catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('${'common.error'.tr()}: ${e.toString()}'),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -81,6 +53,34 @@ class _SettingsPageState extends State<SettingsPage> {
         ],
       ),
     );
+  }
+
+  Future<void> _handleLogout() async {
+    final appState = Provider.of<AppStateProvider>(context, listen: false);
+
+    try {
+      await appState.signOut();
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('auth.loggedOutSuccessfully'.tr()),
+            behavior: SnackBarBehavior.floating,
+          ),
+        );
+        // Pop back to profile which will show auth page
+        Navigator.pop(context);
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('${'common.error'.tr()}: ${e.toString()}'),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 
   Widget _buildLogoutButton() {

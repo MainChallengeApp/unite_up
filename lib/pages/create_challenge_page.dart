@@ -62,192 +62,6 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
     super.dispose();
   }
 
-  void _updateTitleCount() {
-    setState(() {
-      _titleCharCount = _titleController.text.length;
-    });
-  }
-
-  void _updateDescriptionCount() {
-    setState(() {
-      _descriptionCharCount = _descriptionController.text.length;
-    });
-  }
-
-  void _showEmojiPicker() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('challenges.create.chooseThumbnail'.tr()),
-        content: Wrap(
-          spacing: AppSizes.spacing12,
-          runSpacing: AppSizes.spacing12,
-          children: _availableEmojis.map((emoji) {
-            return InkWell(
-              onTap: () {
-                setState(() => _selectedEmoji = emoji);
-                Navigator.pop(context);
-              },
-              child: Container(
-                width: AppSizes.containerMedium,
-                height: AppSizes.containerMedium,
-                decoration: BoxDecoration(
-                  color: emoji == _selectedEmoji
-                      ? Theme.of(context).colorScheme.primary.withValues(
-                          alpha: AppOpacity.subtle,
-                        )
-                      : Colors.transparent,
-                  borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
-                  border: Border.all(
-                    color: emoji == _selectedEmoji
-                        ? Theme.of(context).colorScheme.primary
-                        : Colors.transparent,
-                    width: AppSizes.borderThick,
-                  ),
-                ),
-                alignment: Alignment.center,
-                child: Text(
-                  emoji,
-                  style: const TextStyle(fontSize: AppSizes.emojiXLarge),
-                ),
-              ),
-            );
-          }).toList(),
-        ),
-      ),
-    );
-  }
-
-  void _showMembersPicker() {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text('challenges.create.addMembers'.tr()),
-        content: SizedBox(
-          width: double.maxFinite,
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: _availableUsers.length,
-            itemBuilder: (context, index) {
-              final user = _availableUsers[index];
-              final isSelected = _selectedMembers.contains(user);
-
-              return CheckboxListTile(
-                value: isSelected,
-                onChanged: (value) {
-                  setState(() {
-                    if (value == true) {
-                      _selectedMembers.add(user);
-                    } else {
-                      _selectedMembers.remove(user);
-                    }
-                  });
-                  Navigator.pop(context);
-                  Future.delayed(
-                    const Duration(milliseconds: 100),
-                    _showMembersPicker,
-                  );
-                },
-                title: Text(user.name),
-                subtitle: Text(user.username),
-                secondary: CircleAvatar(child: Text(user.name[0])),
-              );
-            },
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text('common.done'.tr()),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Future<void> _createChallenge() async {
-    if (_isCreating) return;
-
-    if (_titleController.text.trim().isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('challenges.create.pleaseEnterTitle'.tr()),
-          behavior: SnackBarBehavior.floating,
-          backgroundColor: Colors.red,
-        ),
-      );
-      return;
-    }
-
-    if (_titleController.text.trim().length > _maxTitleLength) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('challenges.create.titleTooLong'.tr()),
-          behavior: SnackBarBehavior.floating,
-          backgroundColor: Colors.red,
-        ),
-      );
-      return;
-    }
-
-    setState(() => _isCreating = true);
-
-    try {
-      final appState = Provider.of<AppStateProvider>(context, listen: false);
-      final currentUserId = appState.currentUser?.id ?? 'user-1';
-
-      final memberIds = <String>[];
-      memberIds.add(currentUserId);
-      memberIds.addAll(_selectedMembers.map((m) => m.id));
-
-      final challenge = ChallengeChatModel(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
-        name: _titleController.text.trim(),
-        description: _descriptionController.text.trim().isEmpty
-            ? null
-            : _descriptionController.text.trim(),
-        category: _selectedCategory,
-        emoji: _selectedEmoji,
-        memberIds: memberIds,
-        creatorId: currentUserId,
-        createdAt: DateTime.now(),
-      );
-
-      // Simulate network delay
-      await Future.delayed(const Duration(milliseconds: 500));
-
-      appState.addChallenge(challenge);
-
-      if (mounted) {
-        // Show success message
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('challenges.create.success'.tr()),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.green,
-          ),
-        );
-
-        // Navigate to chat page
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const ChatPage()),
-        );
-      }
-    } catch (e) {
-      if (mounted) {
-        setState(() => _isCreating = false);
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('challenges.create.error'.tr()),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.red,
-          ),
-        );
-      }
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -255,9 +69,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
     final isAuthenticated = appState.isAuthenticated;
 
     return Scaffold(
-      appBar: CustomAppBar(
-        title: 'challenges.createNewChallenge'.tr(),
-      ),
+      appBar: CustomAppBar(title: 'challenges.createNewChallenge'.tr()),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(AppSizes.spacing24),
         child: Column(
@@ -458,6 +270,192 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
         ),
       ),
     );
+  }
+
+  void _updateTitleCount() {
+    setState(() {
+      _titleCharCount = _titleController.text.length;
+    });
+  }
+
+  void _updateDescriptionCount() {
+    setState(() {
+      _descriptionCharCount = _descriptionController.text.length;
+    });
+  }
+
+  void _showEmojiPicker() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('challenges.create.chooseThumbnail'.tr()),
+        content: Wrap(
+          spacing: AppSizes.spacing12,
+          runSpacing: AppSizes.spacing12,
+          children: _availableEmojis.map((emoji) {
+            return InkWell(
+              onTap: () {
+                setState(() => _selectedEmoji = emoji);
+                Navigator.pop(context);
+              },
+              child: Container(
+                width: AppSizes.containerMedium,
+                height: AppSizes.containerMedium,
+                decoration: BoxDecoration(
+                  color: emoji == _selectedEmoji
+                      ? Theme.of(context).colorScheme.primary.withValues(
+                          alpha: AppOpacity.subtle,
+                        )
+                      : Colors.transparent,
+                  borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
+                  border: Border.all(
+                    color: emoji == _selectedEmoji
+                        ? Theme.of(context).colorScheme.primary
+                        : Colors.transparent,
+                    width: AppSizes.borderThick,
+                  ),
+                ),
+                alignment: Alignment.center,
+                child: Text(
+                  emoji,
+                  style: const TextStyle(fontSize: AppSizes.emojiXLarge),
+                ),
+              ),
+            );
+          }).toList(),
+        ),
+      ),
+    );
+  }
+
+  void _showMembersPicker() {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text('challenges.create.addMembers'.tr()),
+        content: SizedBox(
+          width: double.maxFinite,
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: _availableUsers.length,
+            itemBuilder: (context, index) {
+              final user = _availableUsers[index];
+              final isSelected = _selectedMembers.contains(user);
+
+              return CheckboxListTile(
+                value: isSelected,
+                onChanged: (value) {
+                  setState(() {
+                    if (value == true) {
+                      _selectedMembers.add(user);
+                    } else {
+                      _selectedMembers.remove(user);
+                    }
+                  });
+                  Navigator.pop(context);
+                  Future.delayed(
+                    const Duration(milliseconds: 100),
+                    _showMembersPicker,
+                  );
+                },
+                title: Text(user.name),
+                subtitle: Text(user.username),
+                secondary: CircleAvatar(child: Text(user.name[0])),
+              );
+            },
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: Text('common.done'.tr()),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> _createChallenge() async {
+    if (_isCreating) return;
+
+    if (_titleController.text.trim().isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('challenges.create.pleaseEnterTitle'.tr()),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    if (_titleController.text.trim().length > _maxTitleLength) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('challenges.create.titleTooLong'.tr()),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+    setState(() => _isCreating = true);
+
+    try {
+      final appState = Provider.of<AppStateProvider>(context, listen: false);
+      final currentUserId = appState.currentUser?.id ?? 'user-1';
+
+      final memberIds = <String>[];
+      memberIds.add(currentUserId);
+      memberIds.addAll(_selectedMembers.map((m) => m.id));
+
+      final challenge = ChallengeChatModel(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        name: _titleController.text.trim(),
+        description: _descriptionController.text.trim().isEmpty
+            ? null
+            : _descriptionController.text.trim(),
+        category: _selectedCategory,
+        emoji: _selectedEmoji,
+        memberIds: memberIds,
+        creatorId: currentUserId,
+        createdAt: DateTime.now(),
+      );
+
+      // Simulate network delay
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      appState.addChallenge(challenge);
+
+      if (mounted) {
+        // Show success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('challenges.create.success'.tr()),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.green,
+          ),
+        );
+
+        // Navigate to chat page
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const ChatPage()),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isCreating = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('challenges.create.error'.tr()),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 
   Widget _buildMemberChip(UserModel member, ThemeData theme) {

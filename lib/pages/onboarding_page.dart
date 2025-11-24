@@ -25,35 +25,6 @@ class _OnboardingPageState extends State<OnboardingPage> {
     super.dispose();
   }
 
-  void _handleChallengeCreation() {
-    if (_selectedCategory == null) return;
-
-    final appState = Provider.of<AppStateProvider>(context, listen: false);
-    final currentUserId = appState.currentUser?.id ?? 'user-1';
-
-    final challengeName = _selectedCategory == GoalCategoryEnum.custom
-        ? _customGoalController.text.trim()
-        : _selectedCategory!.displayName(context);
-
-    final challenge = ChallengeChatModel(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      name: challengeName,
-      description: _selectedCategory!.description(context),
-      category: _selectedCategory!,
-      emoji: _selectedCategory!.emoji,
-      memberIds: [currentUserId],
-      creatorId: currentUserId,
-      createdAt: DateTime.now(),
-    );
-
-    appState.addChallenge(challenge);
-
-    // Navigate to chat page immediately
-    Navigator.of(
-      context,
-    ).push(MaterialPageRoute(builder: (context) => const ChatPage()));
-  }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -176,5 +147,34 @@ class _OnboardingPageState extends State<OnboardingPage> {
         ),
       ),
     );
+  }
+
+  void _handleChallengeCreation() {
+    if (_selectedCategory == null) return;
+
+    final appState = Provider.of<AppStateProvider>(context, listen: false);
+    final currentUserId = appState.currentUser?.id ?? 'user-1';
+
+    final challengeName = _selectedCategory == GoalCategoryEnum.custom
+        ? _customGoalController.text.trim()
+        : _selectedCategory!.displayName(context);
+
+    final challenge = ChallengeChatModel(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      name: challengeName,
+      description: _selectedCategory!.description(context),
+      category: _selectedCategory!,
+      emoji: _selectedCategory!.emoji,
+      memberIds: [currentUserId],
+      creatorId: currentUserId,
+      createdAt: DateTime.now(),
+    );
+
+    appState.addChallenge(challenge);
+
+    // Navigate to chat page immediately
+    Navigator.of(
+      context,
+    ).push(MaterialPageRoute(builder: (context) => const ChatPage()));
   }
 }

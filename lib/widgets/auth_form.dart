@@ -1,9 +1,9 @@
+import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:unite_up/enums/auth_provider_enum.dart';
 import 'package:unite_up/widgets/custom_text_field.dart';
 import 'package:unite_up/widgets/social_login_button.dart';
-import 'package:easy_localization/easy_localization.dart';
-import 'package:flutter/material.dart';
 
 class AuthForm extends StatefulWidget {
   final bool isLoginMode;

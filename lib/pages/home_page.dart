@@ -19,12 +19,6 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 1;
   bool _wasAuthenticated = false;
 
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Consumer<AppStateProvider>(
@@ -118,5 +112,11 @@ class _HomePageState extends State<HomePage> {
         );
       },
     );
+  }
+
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 }
