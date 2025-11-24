@@ -1,8 +1,6 @@
-import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:unite_up/core/constants/app_constants.dart';
 
-/// Reusable card container with consistent styling across the app.
-/// Features: rounded corners, shadow, and theme-aware background color.
 class AppCardContainer extends StatelessWidget {
   final Widget child;
   final Color? backgroundColor;
@@ -33,7 +31,7 @@ class AppCardContainer extends StatelessWidget {
         ),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withValues(alpha: AppOpacity.veryLight),
+            color: AppColors.black.withValues(alpha: AppOpacity.veryLight),
             blurRadius: AppSizes.blurMedium,
             offset: AppSizes.shadowOffsetSmall,
           ),

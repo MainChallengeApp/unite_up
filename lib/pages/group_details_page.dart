@@ -112,8 +112,8 @@ class GroupDetailsPage extends StatelessWidget {
                 fontSize: AppSizes.fontXLarge,
                 fontWeight: FontWeight.w600,
                 color: theme.brightness == Brightness.dark
-                    ? Colors.white
-                    : const Color(0xFF1E293B),
+                    ? AppColors.white
+                    : AppColors.darkSurface,
               ),
             ),
             const SizedBox(height: AppSizes.spacing16),
@@ -289,7 +289,7 @@ class GroupDetailsPage extends StatelessWidget {
                     borderRadius: BorderRadius.circular(AppSizes.radiusSmall),
                   ),
                   child: IconButton(
-                    icon: const Icon(AppIcons.add, color: Colors.white),
+                    icon: const Icon(AppIcons.add, color: AppColors.white),
                     onPressed: () => _showCreateGoalDialog(context),
                     tooltip: 'goals.addGoal'.tr(),
                   ),
@@ -364,7 +364,7 @@ class GroupDetailsPage extends StatelessWidget {
                   fontSize: AppSizes.fontLarge,
                   fontWeight: FontWeight.w600,
                   color: goal.isCompleted
-                      ? Colors.green
+                      ? AppColors.green
                       : theme.colorScheme.primary,
                 ),
               ),
@@ -381,7 +381,7 @@ class GroupDetailsPage extends StatelessWidget {
                 alpha: AppOpacity.light,
               ),
               valueColor: AlwaysStoppedAnimation<Color>(
-                goal.isCompleted ? Colors.green : theme.colorScheme.primary,
+                goal.isCompleted ? AppColors.green : theme.colorScheme.primary,
               ),
             ),
           ),
@@ -412,9 +412,9 @@ class GroupDetailsPage extends StatelessWidget {
                   fontSize: AppSizes.fontSmall,
                   fontWeight: FontWeight.w500,
                   color: goal.isCompleted
-                      ? Colors.green
+                      ? AppColors.green
                       : goal.isOverdue
-                      ? Colors.red
+                      ? AppColors.red
                       : theme.iconTheme.color?.withValues(
                           alpha: AppOpacity.mostlyOpaque,
                         ),
@@ -452,7 +452,7 @@ class GroupDetailsPage extends StatelessWidget {
 
     showModalBottomSheet(
       context: context,
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       builder: (context) => CustomBottomSheet(
         options: [
           BottomSheetOption(
@@ -467,7 +467,7 @@ class GroupDetailsPage extends StatelessWidget {
           BottomSheetOption(
             icon: AppIcons.close,
             label: 'common.delete'.tr(),
-            color: Colors.red,
+            color: AppColors.red,
             onTap: () {
               Navigator.pop(context);
               _showDeleteChallengeConfirmation(context, currentChallenge);
@@ -566,7 +566,7 @@ class GroupDetailsPage extends StatelessWidget {
               Navigator.pop(context); // Close group details
               Navigator.pop(context); // Close chat page
             },
-            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            style: FilledButton.styleFrom(backgroundColor: AppColors.red),
             child: Text('common.delete'.tr()),
           ),
         ],

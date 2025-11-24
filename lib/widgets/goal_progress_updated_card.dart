@@ -27,7 +27,7 @@ class GoalProgressUpdatedCard extends StatelessWidget {
               padding: const EdgeInsets.all(AppSizes.spacing16),
               decoration: BoxDecoration(
                 color: goal.isCompleted
-                    ? Colors.green.withValues(alpha: AppOpacity.veryLight)
+                    ? AppColors.green.withValues(alpha: AppOpacity.veryLight)
                     : theme.colorScheme.secondary.withValues(
                         alpha: AppOpacity.veryLight,
                       ),
@@ -39,7 +39,7 @@ class GoalProgressUpdatedCard extends StatelessWidget {
                 ),
                 border: Border.all(
                   color: goal.isCompleted
-                      ? Colors.green.withValues(alpha: AppOpacity.light)
+                      ? AppColors.green.withValues(alpha: AppOpacity.light)
                       : theme.colorScheme.secondary.withValues(
                           alpha: AppOpacity.light,
                         ),
@@ -55,7 +55,7 @@ class GoalProgressUpdatedCard extends StatelessWidget {
                         padding: const EdgeInsets.all(AppSizes.spacing8),
                         decoration: BoxDecoration(
                           color: goal.isCompleted
-                              ? Colors.green.withValues(alpha: AppOpacity.light)
+                              ? AppColors.green.withValues(alpha: AppOpacity.light)
                               : theme.colorScheme.secondary.withValues(
                                   alpha: AppOpacity.light,
                                 ),
@@ -67,7 +67,7 @@ class GoalProgressUpdatedCard extends StatelessWidget {
                               : AppIcons.trophy,
                           size: AppSizes.iconSmall,
                           color: goal.isCompleted
-                              ? Colors.green
+                              ? AppColors.green
                               : theme.colorScheme.secondary,
                         ),
                       ),
@@ -84,7 +84,7 @@ class GoalProgressUpdatedCard extends StatelessWidget {
                                 fontSize: AppSizes.fontMedium,
                                 fontWeight: FontWeight.w600,
                                 color: goal.isCompleted
-                                    ? Colors.green
+                                    ? AppColors.green
                                     : theme.colorScheme.secondary,
                               ),
                             ),
@@ -142,7 +142,7 @@ class GoalProgressUpdatedCard extends StatelessWidget {
                             ),
                             valueColor: AlwaysStoppedAnimation<Color>(
                               goal.isCompleted
-                                  ? Colors.green
+                                  ? AppColors.green
                                   : theme.colorScheme.secondary,
                             ),
                           ),
@@ -167,7 +167,7 @@ class GoalProgressUpdatedCard extends StatelessWidget {
                                 fontSize: AppSizes.fontXLarge,
                                 fontWeight: FontWeight.w700,
                                 color: goal.isCompleted
-                                    ? Colors.green
+                                    ? AppColors.green
                                     : theme.colorScheme.secondary,
                               ),
                             ),

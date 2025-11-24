@@ -118,7 +118,7 @@ class CustomBottomSheet extends StatelessWidget {
                   style: TextStyle(
                     fontSize: AppSizes.fontLarge,
                     fontWeight: FontWeight.w500,
-                    color: option.color == Colors.red ? Colors.red : null,
+                    color: option.color == AppColors.red ? AppColors.red : null,
                   ),
                 ),
               ],

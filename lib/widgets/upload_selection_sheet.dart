@@ -1,5 +1,5 @@
-import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
+import 'package:flutter/material.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:unite_up/widgets/custom_bottom_sheet.dart';
 
@@ -23,7 +23,7 @@ class UploadSelectionSheet extends StatelessWidget {
         BottomSheetOption(
           icon: AppIcons.flag,
           label: 'goals.updateProgress'.tr(),
-          color: Colors.purple,
+          color: AppColors.purple,
           onTap: () {
             Navigator.pop(context, 'goal_progress');
           },
@@ -47,7 +47,7 @@ class UploadSelectionSheet extends StatelessWidget {
         BottomSheetOption(
           icon: AppIcons.audio,
           label: 'chat.uploadAudio'.tr(),
-          color: Colors.orange,
+          color: AppColors.orange,
           onTap: () {
             Navigator.pop(context, 'audio');
           },
@@ -55,7 +55,7 @@ class UploadSelectionSheet extends StatelessWidget {
         BottomSheetOption(
           icon: AppIcons.file,
           label: 'chat.uploadFile'.tr(),
-          color: Colors.green,
+          color: AppColors.green,
           onTap: () {
             Navigator.pop(context, 'file');
           },
@@ -64,4 +64,3 @@ class UploadSelectionSheet extends StatelessWidget {
     );
   }
 }
-

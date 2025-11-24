@@ -145,7 +145,7 @@ class _ChallengesPageState extends State<ChallengesPage>
               Navigator.pop(context);
               _exitSelectionMode();
             },
-            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            style: FilledButton.styleFrom(backgroundColor: AppColors.red),
             child: Text('common.delete'.tr()),
           ),
         ],
@@ -215,8 +215,8 @@ class _ChallengesPageState extends State<ChallengesPage>
                 fontSize: 26,
                 fontWeight: FontWeight.bold,
                 color: theme.brightness == Brightness.dark
-                    ? Colors.white
-                    : const Color(0xFF1E293B),
+                    ? AppColors.white
+                    : AppColors.darkSurface,
               ),
               textAlign: TextAlign.center,
             ),
@@ -246,7 +246,7 @@ class _ChallengesPageState extends State<ChallengesPage>
               ),
               style: ElevatedButton.styleFrom(
                 backgroundColor: theme.colorScheme.primary,
-                foregroundColor: Colors.white,
+                foregroundColor: AppColors.white,
                 padding: const EdgeInsets.symmetric(
                   horizontal: AppSizes.spacing32,
                   vertical: AppSizes.spacing16,
@@ -329,8 +329,8 @@ class _ChallengesPageState extends State<ChallengesPage>
                         fontSize: AppSizes.fontLarge,
                         fontWeight: FontWeight.w600,
                         color: theme.brightness == Brightness.dark
-                            ? Colors.white
-                            : const Color(0xFF1E293B),
+                            ? AppColors.white
+                            : AppColors.darkSurface,
                       ),
                     ),
                     if (challenge.description != null &&
@@ -432,7 +432,7 @@ class _ChallengesPageState extends State<ChallengesPage>
                 ),
                 FilledButton(
                   onPressed: () => Navigator.pop(context, true),
-                  style: FilledButton.styleFrom(backgroundColor: Colors.red),
+                  style: FilledButton.styleFrom(backgroundColor: AppColors.red),
                   child: Text('common.delete'.tr()),
                 ),
               ],
@@ -448,14 +448,14 @@ class _ChallengesPageState extends State<ChallengesPage>
         background: Container(
           margin: const EdgeInsets.only(bottom: AppSizes.spacing12),
           decoration: BoxDecoration(
-            color: Colors.red,
+            color: AppColors.red,
             borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
           ),
           alignment: Alignment.centerRight,
           padding: const EdgeInsets.only(right: AppSizes.spacing20),
           child: const Icon(
             AppIcons.delete,
-            color: Colors.white,
+            color: AppColors.white,
             size: AppSizes.iconMedium,
           ),
         ),

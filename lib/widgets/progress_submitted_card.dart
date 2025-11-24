@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'package:unite_up/models/event_model.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
+import 'package:unite_up/models/event_model.dart';
 import 'package:unite_up/widgets/app_card_container.dart';
 
 class ProgressSubmittedCard extends StatelessWidget {
@@ -15,81 +14,86 @@ class ProgressSubmittedCard extends StatelessWidget {
     final progress = event.progressEntry!;
 
     return AppCardContainer(
-      margin: const EdgeInsets.symmetric(horizontal: AppSizes.spacing16, vertical: AppSizes.spacing8),
+      margin: const EdgeInsets.symmetric(
+        horizontal: AppSizes.spacing16,
+        vertical: AppSizes.spacing8,
+      ),
       padding: const EdgeInsets.all(AppSizes.spacing16),
       child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(
-                  AppIcons.upload,
-                  color: theme.colorScheme.primary,
-                  size: AppSizes.iconMedium,
-                ),
-                const SizedBox(width: AppSizes.spacing8),
-                Text(
-                  'Progress Submitted',
-                  style: TextStyle(
-                    fontSize: AppSizes.fontSmall,
-                    fontWeight: FontWeight.w600,
-                    color: theme.colorScheme.primary,
-                  ),
-                ),
-              ],
-            ),
-            if (progress.note.isNotEmpty) ...[
-              const SizedBox(height: AppSizes.spacing12),
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Icon(
+                AppIcons.upload,
+                color: theme.colorScheme.primary,
+                size: AppSizes.iconMedium,
+              ),
+              const SizedBox(width: AppSizes.spacing8),
               Text(
-                progress.note,
+                'Progress Submitted',
                 style: TextStyle(
-                  fontSize: AppSizes.fontMedium,
-                  color: theme.brightness == Brightness.dark
-                      ? Colors.white
-                      : const Color(0xFF1E293B),
+                  fontSize: AppSizes.fontSmall,
+                  fontWeight: FontWeight.w600,
+                  color: theme.colorScheme.primary,
                 ),
               ),
             ],
-            if (progress.attachments.isNotEmpty) ...[
-              const SizedBox(height: AppSizes.spacing12),
-              Wrap(
-                spacing: AppSizes.spacing8,
-                runSpacing: AppSizes.spacing8,
-                children: progress.attachments.map((attachment) {
-                  return Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 12,
-                      vertical: 6,
-                    ),
-                    decoration: BoxDecoration(
-                      color: theme.colorScheme.primary.withValues(alpha: AppOpacity.light),
-                      borderRadius: BorderRadius.circular(AppSizes.radiusSmall),
-                    ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          _getMediaIcon(attachment.type),
-                          size: AppSizes.spacing14,
-                          color: theme.colorScheme.primary,
-                        ),
-                        const SizedBox(width: AppSizes.spacing6),
-                        Text(
-                          attachment.fileName ?? 'Attachment',
-                          style: TextStyle(
-                            fontSize: AppSizes.fontSmall,
-                            color: theme.colorScheme.primary,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }).toList(),
+          ),
+          if (progress.note.isNotEmpty) ...[
+            const SizedBox(height: AppSizes.spacing12),
+            Text(
+              progress.note,
+              style: TextStyle(
+                fontSize: AppSizes.fontMedium,
+                color: theme.brightness == Brightness.dark
+                    ? AppColors.white
+                    : AppColors.darkSurface,
               ),
-            ],
+            ),
           ],
-        ),
+          if (progress.attachments.isNotEmpty) ...[
+            const SizedBox(height: AppSizes.spacing12),
+            Wrap(
+              spacing: AppSizes.spacing8,
+              runSpacing: AppSizes.spacing8,
+              children: progress.attachments.map((attachment) {
+                return Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: theme.colorScheme.primary.withValues(
+                      alpha: AppOpacity.light,
+                    ),
+                    borderRadius: BorderRadius.circular(AppSizes.radiusSmall),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        _getMediaIcon(attachment.type),
+                        size: AppSizes.spacing14,
+                        color: theme.colorScheme.primary,
+                      ),
+                      const SizedBox(width: AppSizes.spacing6),
+                      Text(
+                        attachment.fileName ?? 'Attachment',
+                        style: TextStyle(
+                          fontSize: AppSizes.fontSmall,
+                          color: theme.colorScheme.primary,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }).toList(),
+            ),
+          ],
+        ],
+      ),
     );
   }
 
@@ -104,4 +108,3 @@ class ProgressSubmittedCard extends StatelessWidget {
     }
   }
 }
-

@@ -76,7 +76,7 @@ class _SettingsPageState extends State<SettingsPage> {
           SnackBar(
             content: Text('${'common.error'.tr()}: ${e.toString()}'),
             behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.red,
+            backgroundColor: AppColors.red,
           ),
         );
       }
@@ -223,7 +223,7 @@ class _SettingsPageState extends State<SettingsPage> {
     bool isLast = false,
   }) {
     return Material(
-      color: Colors.transparent,
+      color: AppColors.transparent,
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.vertical(
@@ -261,8 +261,8 @@ class _SettingsPageState extends State<SettingsPage> {
                         fontSize: AppSizes.fontLarge,
                         fontWeight: FontWeight.w600,
                         color: theme.brightness == Brightness.dark
-                            ? Colors.white
-                            : const Color(0xFF1E293B),
+                            ? AppColors.white
+                            : AppColors.darkSurface,
                       ),
                     ),
                     const SizedBox(height: AppSizes.spacing2),
@@ -311,7 +311,7 @@ class _SettingsPageState extends State<SettingsPage> {
     bool isLast = false,
   }) {
     return Material(
-      color: Colors.transparent,
+      color: AppColors.transparent,
       child: InkWell(
         onTap: onTap,
         borderRadius: BorderRadius.vertical(
@@ -343,8 +343,8 @@ class _SettingsPageState extends State<SettingsPage> {
                         fontSize: AppSizes.fontLarge,
                         fontWeight: FontWeight.w600,
                         color: theme.brightness == Brightness.dark
-                            ? Colors.white
-                            : const Color(0xFF1E293B),
+                            ? AppColors.white
+                            : AppColors.darkSurface,
                       ),
                     ),
                     const SizedBox(height: AppSizes.spacing2),

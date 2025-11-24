@@ -1,6 +1,6 @@
+import 'package:flutter/material.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:unite_up/widgets/app_card_container.dart';
-import 'package:flutter/material.dart';
 
 class ProfileMenuItem extends StatelessWidget {
   final IconData icon;
@@ -22,7 +22,7 @@ class ProfileMenuItem extends StatelessWidget {
 
     return AppCardContainer(
       child: Material(
-        color: Colors.transparent,
+        color: AppColors.transparent,
         child: InkWell(
           onTap: onTap,
           borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
@@ -56,8 +56,8 @@ class ProfileMenuItem extends StatelessWidget {
                           fontSize: AppSizes.fontLarge,
                           fontWeight: FontWeight.w600,
                           color: theme.brightness == Brightness.dark
-                              ? Colors.white
-                              : const Color(0xFF1E293B),
+                              ? AppColors.white
+                              : AppColors.darkSurface,
                         ),
                       ),
                       const SizedBox(height: AppSizes.spacing2),

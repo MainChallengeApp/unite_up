@@ -86,7 +86,7 @@ class _HomePageState extends State<HomePage> {
             decoration: BoxDecoration(
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withValues(alpha: AppOpacity.light),
+                  color: AppColors.black.withValues(alpha: AppOpacity.light),
                   blurRadius: AppSizes.blurMedium,
                   offset: AppSizes.shadowOffsetUp,
                 ),
@@ -97,8 +97,8 @@ class _HomePageState extends State<HomePage> {
               onTap: _onItemTapped,
               type: BottomNavigationBarType.fixed,
               backgroundColor: theme.brightness == Brightness.dark
-                  ? const Color(0xFF1E293B)
-                  : Colors.white,
+                  ? AppColors.darkSurface
+                  : AppColors.white,
               selectedItemColor: theme.colorScheme.primary,
               unselectedItemColor: theme.iconTheme.color?.withValues(
                 alpha: AppOpacity.semiTransparent,

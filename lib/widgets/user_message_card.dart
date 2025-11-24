@@ -17,7 +17,7 @@ class UserMessageCard extends StatelessWidget {
 
     showModalBottomSheet(
       context: context,
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       builder: (context) => CustomBottomSheet(
         options: [
           BottomSheetOption(
@@ -32,7 +32,7 @@ class UserMessageCard extends StatelessWidget {
           BottomSheetOption(
             icon: AppIcons.close,
             label: 'common.delete'.tr(),
-            color: Colors.red,
+            color: AppColors.red,
             onTap: () {
               Navigator.pop(context);
               _showDeleteConfirmation(context);
@@ -100,7 +100,7 @@ class UserMessageCard extends StatelessWidget {
               ).deleteMessage(event.id);
               Navigator.pop(context);
             },
-            style: FilledButton.styleFrom(backgroundColor: Colors.red),
+            style: FilledButton.styleFrom(backgroundColor: AppColors.red),
             child: Text('common.delete'.tr()),
           ),
         ],
@@ -137,7 +137,7 @@ class UserMessageCard extends StatelessWidget {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(
+                      color: AppColors.black.withValues(
                         alpha: AppOpacity.veryLight,
                       ),
                       blurRadius: AppSizes.blurMedium,
@@ -154,7 +154,7 @@ class UserMessageCard extends StatelessWidget {
                         event.message!,
                         style: const TextStyle(
                           fontSize: AppSizes.fontMedium,
-                          color: Colors.white,
+                          color: AppColors.white,
                           height: AppSizes.lineHeightRelaxed,
                         ),
                       ),
@@ -164,7 +164,7 @@ class UserMessageCard extends StatelessWidget {
                       DateFormat('HH:mm').format(event.timestamp),
                       style: TextStyle(
                         fontSize: AppSizes.fontSmall,
-                        color: Colors.white.withValues(
+                        color: AppColors.white.withValues(
                           alpha: AppOpacity.mostlyOpaque,
                         ),
                       ),

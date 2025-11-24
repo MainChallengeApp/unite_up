@@ -146,7 +146,7 @@ class _AuthFormState extends State<AuthForm> {
                   height: AppSizes.iconMedium,
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
-                    color: Colors.white,
+                    color: AppColors.white,
                   ),
                 )
               : Text(

@@ -29,7 +29,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
 
     return AlertDialog(
       backgroundColor: theme.scaffoldBackgroundColor,
-      surfaceTintColor: Colors.transparent,
+      surfaceTintColor: AppColors.transparent,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
       ),
@@ -37,8 +37,8 @@ class _ProgressDialogState extends State<ProgressDialog> {
         'progress.title'.tr(),
         style: TextStyle(
           color: theme.brightness == Brightness.dark
-              ? Colors.white
-              : const Color(0xFF1E293B),
+              ? AppColors.white
+              : AppColors.darkSurface,
           fontWeight: FontWeight.w600,
         ),
       ),
@@ -53,8 +53,8 @@ class _ProgressDialogState extends State<ProgressDialog> {
                 fontSize: AppSizes.fontMedium,
                 fontWeight: FontWeight.w600,
                 color: theme.brightness == Brightness.dark
-                    ? Colors.white
-                    : const Color(0xFF1E293B),
+                    ? AppColors.white
+                    : AppColors.darkSurface,
               ),
             ),
             const SizedBox(height: AppSizes.spacing12),
@@ -81,8 +81,8 @@ class _ProgressDialogState extends State<ProgressDialog> {
                 fontSize: AppSizes.fontMedium,
                 fontWeight: FontWeight.w600,
                 color: theme.brightness == Brightness.dark
-                    ? Colors.white
-                    : const Color(0xFF1E293B),
+                    ? AppColors.white
+                    : AppColors.darkSurface,
               ),
             ),
             const SizedBox(height: AppSizes.spacing12),
@@ -147,7 +147,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
   Future<void> _showMediaPicker() async {
     final result = await showModalBottomSheet<String>(
       context: context,
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
       builder: (context) => Container(
         decoration: BoxDecoration(
           color: Theme.of(context).scaffoldBackgroundColor,
@@ -176,21 +176,21 @@ class _ProgressDialogState extends State<ProgressDialog> {
                 context,
                 icon: AppIcons.image,
                 label: 'progress.pickImage'.tr(),
-                color: Colors.blue,
+                color: AppColors.blue,
                 onTap: () => Navigator.pop(context, 'image'),
               ),
               _buildPickerOption(
                 context,
                 icon: AppIcons.video,
                 label: 'progress.pickVideo'.tr(),
-                color: Colors.purple,
+                color: AppColors.purple,
                 onTap: () => Navigator.pop(context, 'video'),
               ),
               _buildPickerOption(
                 context,
                 icon: AppIcons.file,
                 label: 'progress.pickFile'.tr(),
-                color: Colors.orange,
+                color: AppColors.orange,
                 onTap: () => Navigator.pop(context, 'file'),
               ),
               const SizedBox(height: AppSizes.spacing16),
@@ -317,7 +317,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
         SnackBar(
           content: Text('progress.pleaseAddNote'.tr()),
           behavior: SnackBarBehavior.floating,
-          backgroundColor: Colors.orange,
+          backgroundColor: AppColors.orange,
         ),
       );
       return;
@@ -355,11 +355,11 @@ class _ProgressDialogState extends State<ProgressDialog> {
   Color _getMediaColor(MediaTypeEnum type) {
     switch (type) {
       case MediaTypeEnum.image:
-        return Colors.blue;
+        return AppColors.blue;
       case MediaTypeEnum.video:
-        return Colors.purple;
+        return AppColors.purple;
       case MediaTypeEnum.file:
-        return Colors.green;
+        return AppColors.green;
     }
   }
 
@@ -407,8 +407,8 @@ class _ProgressDialogState extends State<ProgressDialog> {
                   attachment.fileName ?? 'progress.unnamed'.tr(),
                   style: TextStyle(
                     color: theme.brightness == Brightness.dark
-                        ? Colors.white
-                        : const Color(0xFF1E293B),
+                        ? AppColors.white
+                        : AppColors.darkSurface,
                     fontWeight: FontWeight.w500,
                     fontSize: AppSizes.fontMedium,
                   ),
@@ -430,7 +430,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
           ),
           const SizedBox(width: AppSizes.spacing8),
           Material(
-            color: Colors.transparent,
+            color: AppColors.transparent,
             child: InkWell(
               onTap: () => _removeAttachment(attachment.id),
               borderRadius: BorderRadius.circular(AppSizes.radiusSmall),

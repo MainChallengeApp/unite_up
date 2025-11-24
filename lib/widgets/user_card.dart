@@ -55,7 +55,7 @@ class UserModelCard extends StatelessWidget {
       children: [
         _buildName(theme),
         const SizedBox(height: AppSizes.spacing2),
-        _buildUserModelname(theme),
+        _buildUsername(theme),
         if (user.bio != null) ...[
           const SizedBox(height: AppSizes.spacing6),
           _buildBio(theme),
@@ -73,15 +73,15 @@ class UserModelCard extends StatelessWidget {
         fontSize: AppSizes.fontLarge,
         fontWeight: FontWeight.w600,
         color: theme.brightness == Brightness.dark
-            ? Colors.white
-            : const Color(0xFF1E293B),
+            ? AppColors.white
+            : AppColors.darkSurface,
       ),
       maxLines: 1,
       overflow: TextOverflow.ellipsis,
     );
   }
 
-  Widget _buildUserModelname(ThemeData theme) {
+  Widget _buildUsername(ThemeData theme) {
     return Text(
       user.username,
       style: TextStyle(
@@ -130,8 +130,8 @@ class UserModelCard extends StatelessWidget {
             fontSize: AppSizes.fontMedium,
             fontWeight: FontWeight.w600,
             color: theme.brightness == Brightness.dark
-                ? Colors.white
-                : const Color(0xFF1E293B),
+                ? AppColors.white
+                : AppColors.darkSurface,
           ),
         ),
         const SizedBox(width: AppSizes.spacing4),
@@ -157,9 +157,9 @@ class UserModelCard extends StatelessWidget {
             : theme.colorScheme.primary,
         foregroundColor: user.isFollowing
             ? theme.brightness == Brightness.dark
-                  ? Colors.white
-                  : const Color(0xFF1E293B)
-            : Colors.white,
+                  ? AppColors.white
+                  : AppColors.darkSurface
+            : AppColors.white,
         elevation: AppSizes.elevationNone,
         padding: const EdgeInsets.symmetric(
           horizontal: AppSizes.spacing16,

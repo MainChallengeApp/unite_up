@@ -41,8 +41,8 @@ class EmptyState extends StatelessWidget {
               fontSize: AppSizes.fontXXLarge,
               fontWeight: FontWeight.w600,
               color: theme.brightness == Brightness.dark
-                  ? Colors.white
-                  : const Color(0xFF1E293B),
+                  ? AppColors.white
+                  : AppColors.darkSurface,
             ),
           ),
           const SizedBox(height: AppSizes.spacing8),
@@ -59,7 +59,7 @@ class EmptyState extends StatelessWidget {
               onPressed: onButtonPressed,
               style: ElevatedButton.styleFrom(
                 backgroundColor: theme.colorScheme.primary,
-                foregroundColor: Colors.white,
+                foregroundColor: AppColors.white,
                 padding: const EdgeInsets.symmetric(
                   horizontal: 24,
                   vertical: 14,

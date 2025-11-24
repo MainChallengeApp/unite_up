@@ -139,7 +139,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                       style: TextStyle(
                         fontSize: AppSizes.fontSmall,
                         color: _titleCharCount > _maxTitleLength
-                            ? Colors.red
+                            ? AppColors.red
                             : theme.iconTheme.color?.withValues(
                                 alpha: AppOpacity.mostlyOpaque,
                               ),
@@ -172,7 +172,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                       style: TextStyle(
                         fontSize: AppSizes.fontSmall,
                         color: _descriptionCharCount > _maxDescriptionLength
-                            ? Colors.red
+                            ? AppColors.red
                             : theme.iconTheme.color?.withValues(
                                 alpha: AppOpacity.mostlyOpaque,
                               ),
@@ -193,8 +193,8 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                       fontSize: AppSizes.fontMedium,
                       fontWeight: FontWeight.w600,
                       color: theme.brightness == Brightness.dark
-                          ? Colors.white
-                          : const Color(0xFF1E293B),
+                          ? AppColors.white
+                          : AppColors.darkSurface,
                     ),
                   ),
                   TextButton.icon(
@@ -253,7 +253,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                         child: CircularProgressIndicator(
                           strokeWidth: 2.5,
                           valueColor: AlwaysStoppedAnimation<Color>(
-                            Colors.white,
+                            AppColors.white,
                           ),
                         ),
                       )
@@ -306,12 +306,12 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                       ? Theme.of(context).colorScheme.primary.withValues(
                           alpha: AppOpacity.subtle,
                         )
-                      : Colors.transparent,
+                      : AppColors.transparent,
                   borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
                   border: Border.all(
                     color: emoji == _selectedEmoji
                         ? Theme.of(context).colorScheme.primary
-                        : Colors.transparent,
+                        : AppColors.transparent,
                     width: AppSizes.borderThick,
                   ),
                 ),
@@ -383,7 +383,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
         SnackBar(
           content: Text('challenges.create.pleaseEnterTitle'.tr()),
           behavior: SnackBarBehavior.floating,
-          backgroundColor: Colors.red,
+          backgroundColor: AppColors.red,
         ),
       );
       return;
@@ -394,7 +394,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
         SnackBar(
           content: Text('challenges.create.titleTooLong'.tr()),
           behavior: SnackBarBehavior.floating,
-          backgroundColor: Colors.red,
+          backgroundColor: AppColors.red,
         ),
       );
       return;
@@ -434,7 +434,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
           SnackBar(
             content: Text('challenges.create.success'.tr()),
             behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.green,
+            backgroundColor: AppColors.green,
           ),
         );
 
@@ -451,7 +451,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
           SnackBar(
             content: Text('challenges.create.error'.tr()),
             behavior: SnackBarBehavior.floating,
-            backgroundColor: Colors.red,
+            backgroundColor: AppColors.red,
           ),
         );
       }
@@ -491,8 +491,8 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                     fontSize: AppSizes.fontMedium,
                     fontWeight: FontWeight.w500,
                     color: theme.brightness == Brightness.dark
-                        ? Colors.white
-                        : const Color(0xFF1E293B),
+                        ? AppColors.white
+                        : AppColors.darkSurface,
                   ),
                 ),
                 Text(

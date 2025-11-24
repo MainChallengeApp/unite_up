@@ -5,11 +5,7 @@ class ProfileHeader extends StatelessWidget {
   final String name;
   final String email;
 
-  const ProfileHeader({
-    super.key,
-    required this.name,
-    required this.email,
-  });
+  const ProfileHeader({super.key, required this.name, required this.email});
 
   @override
   Widget build(BuildContext context) {
@@ -57,8 +53,8 @@ class ProfileHeader extends StatelessWidget {
         fontSize: AppSizes.iconLarge,
         fontWeight: FontWeight.bold,
         color: theme.brightness == Brightness.dark
-            ? Colors.white
-            : const Color(0xFF1E293B),
+            ? AppColors.white
+            : AppColors.darkSurface,
       ),
     );
   }
@@ -68,9 +64,10 @@ class ProfileHeader extends StatelessWidget {
       email,
       style: TextStyle(
         fontSize: AppSizes.fontMedium,
-        color: theme.iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque),
+        color: theme.iconTheme.color?.withValues(
+          alpha: AppOpacity.mostlyOpaque,
+        ),
       ),
     );
   }
 }
-

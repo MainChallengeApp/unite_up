@@ -47,8 +47,8 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         fontWeight: FontWeight.bold,
                         height: AppSizes.lineHeightTight,
                         color: theme.brightness == Brightness.dark
-                            ? Colors.white
-                            : const Color(0xFF1E293B),
+                            ? AppColors.white
+                            : AppColors.darkSurface,
                       ),
                     ),
                     const SizedBox(height: AppSizes.spacing16),
@@ -121,7 +121,7 @@ class _OnboardingPageState extends State<OnboardingPage> {
                         : null,
                     style: ElevatedButton.styleFrom(
                       backgroundColor: theme.colorScheme.primary,
-                      foregroundColor: Colors.white,
+                      foregroundColor: AppColors.white,
                       padding: const EdgeInsets.symmetric(
                         vertical: AppSizes.spacing16,
                       ),

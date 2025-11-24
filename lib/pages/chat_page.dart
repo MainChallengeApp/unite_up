@@ -185,7 +185,7 @@ class _ChatPageState extends State<ChatPage> {
     showModalBottomSheet(
       context: context,
       builder: (context) => const UploadSelectionSheet(),
-      backgroundColor: Colors.transparent,
+      backgroundColor: AppColors.transparent,
     ).then((result) {
       if (result != null && mounted) {
         if (result == 'create_goal') {
@@ -352,8 +352,8 @@ class _ChatPageState extends State<ChatPage> {
               fontSize: AppSizes.fontXXLarge,
               fontWeight: FontWeight.w600,
               color: theme.brightness == Brightness.dark
-                  ? Colors.white
-                  : const Color(0xFF1E293B),
+                  ? AppColors.white
+                  : AppColors.darkSurface,
             ),
           ),
           const SizedBox(height: AppSizes.spacing8),
@@ -420,7 +420,7 @@ class _ChatPageState extends State<ChatPage> {
                   borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withValues(
+                      color: AppColors.black.withValues(
                         alpha: AppOpacity.veryLight,
                       ),
                       blurRadius: AppSizes.blurMedium,
@@ -448,8 +448,8 @@ class _ChatPageState extends State<ChatPage> {
                   ),
                   style: TextStyle(
                     color: theme.brightness == Brightness.dark
-                        ? Colors.white
-                        : const Color(0xFF1E293B),
+                        ? AppColors.white
+                        : AppColors.darkSurface,
                     fontSize: AppSizes.fontBase,
                   ),
                 ),
@@ -468,7 +468,7 @@ class _ChatPageState extends State<ChatPage> {
                   alignment: Alignment.center,
                   child: const Icon(
                     AppIcons.send,
-                    color: Colors.white,
+                    color: AppColors.white,
                     size: AppSizes.iconMedium,
                   ),
                 ),

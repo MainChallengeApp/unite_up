@@ -49,7 +49,9 @@ class AIMessageCard extends StatelessWidget {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withValues(alpha: AppOpacity.veryLight),
+                    color: AppColors.black.withValues(
+                      alpha: AppOpacity.veryLight,
+                    ),
                     blurRadius: AppSizes.blurMedium,
                     offset: AppSizes.shadowOffsetSmall,
                   ),
@@ -65,8 +67,8 @@ class AIMessageCard extends StatelessWidget {
                       style: TextStyle(
                         fontSize: AppSizes.fontMedium,
                         color: theme.brightness == Brightness.dark
-                            ? Colors.white
-                            : const Color(0xFF1E293B),
+                            ? AppColors.white
+                            : AppColors.darkSurface,
                         height: AppSizes.lineHeightRelaxed,
                       ),
                     ),

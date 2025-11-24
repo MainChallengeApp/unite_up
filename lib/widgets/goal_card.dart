@@ -53,12 +53,12 @@ class GoalCard extends StatelessWidget {
           : theme.cardColor,
       borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
       border: Border.all(
-        color: isSelected ? theme.colorScheme.primary : Colors.transparent,
+        color: isSelected ? theme.colorScheme.primary : AppColors.transparent,
         width: AppSizes.borderThick,
       ),
       boxShadow: [
         BoxShadow(
-          color: Colors.black.withValues(alpha: AppOpacity.veryLight),
+          color: AppColors.black.withValues(alpha: AppOpacity.veryLight),
           blurRadius: AppSizes.blurMedium,
           offset: AppSizes.shadowOffsetSmall,
         ),
@@ -105,8 +105,8 @@ class GoalCard extends StatelessWidget {
             fontSize: AppSizes.fontLarge,
             fontWeight: FontWeight.w600,
             color: theme.brightness == Brightness.dark
-                ? Colors.white
-                : const Color(0xFF1E293B),
+                ? AppColors.white
+                : AppColors.darkSurface,
           ),
         ),
         const SizedBox(height: AppSizes.spacing4),

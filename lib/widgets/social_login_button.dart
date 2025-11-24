@@ -1,8 +1,8 @@
-import 'package:unite_up/core/constants/app_constants.dart';
-import 'package:unite_up/enums/auth_provider_enum.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:unite_up/core/constants/app_constants.dart';
+import 'package:unite_up/enums/auth_provider_enum.dart';
 
 class SocialLoginButton extends StatelessWidget {
   final AuthProviderEnum provider;
@@ -27,12 +27,12 @@ class SocialLoginButton extends StatelessWidget {
     IconData icon;
 
     if (isGoogle) {
-      backgroundColor = Colors.white;
-      textColor = Colors.black87;
+      backgroundColor = AppColors.white;
+      textColor = AppColors.black87;
       icon = AppIcons.google;
     } else if (isApple) {
-      backgroundColor = Colors.black;
-      textColor = Colors.white;
+      backgroundColor = AppColors.black;
+      textColor = AppColors.white;
       icon = AppIcons.apple;
     } else {
       backgroundColor = theme.colorScheme.surface;
@@ -49,13 +49,13 @@ class SocialLoginButton extends StatelessWidget {
           foregroundColor: textColor,
           padding: const EdgeInsets.all(AppSizes.spacing16),
           elevation: AppSizes.elevationLow,
-          shadowColor: Colors.black26,
+          shadowColor: AppColors.black26,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
             side: BorderSide(
               color: isGoogle
                   ? theme.dividerColor.withValues(alpha: AppOpacity.medium)
-                  : Colors.transparent,
+                  : AppColors.transparent,
               width: AppSizes.borderThin,
             ),
           ),
