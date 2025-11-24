@@ -41,83 +41,88 @@ class _ProgressDialogState extends State<ProgressDialog> {
               : AppColors.darkSurface,
         ),
       ),
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              'progress.addNote'.tr(),
-              style: AppTextStyles.mediumSemiBoldPrimary(context),
-            ),
-            const SizedBox(height: AppSizes.spacing12),
-            TextField(
-              controller: _noteController,
-              maxLines: 4,
-              maxLength: AppTextLimits.challengeDescriptionMaxLength,
-              decoration: InputDecoration(
-                hintText: 'progress.describeProgress'.tr(),
-                filled: true,
-                fillColor: _theme.brightness == Brightness.dark
-                    ? _theme.cardColor
-                    : _theme.scaffoldBackgroundColor,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
-                  borderSide: BorderSide.none,
-                ),
+      content: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'progress.addNote'.tr(),
+                style: AppTextStyles.mediumSemiBoldPrimary(context),
               ),
-              textCapitalization: TextCapitalization.sentences,
-            ),
-            const SizedBox(height: AppSizes.spacing16),
-            Text(
-              'progress.addProof'.tr(),
-              style: AppTextStyles.mediumSemiBold.copyWith(
-                color: _theme.brightness == Brightness.dark
-                    ? AppColors.white
-                    : AppColors.darkSurface,
-              ),
-            ),
-            const SizedBox(height: AppSizes.spacing12),
-            SizedBox(
-              width: double.infinity,
-              child: OutlinedButton.icon(
-                onPressed: _isUploading ? null : _showMediaPicker,
-                icon: _isUploading
-                    ? const SizedBox(
-                        height: AppSizes.iconSmall,
-                        width: AppSizes.iconSmall,
-                        child: CircularProgressIndicator(strokeWidth: 2),
-                      )
-                    : const Icon(AppIcons.add, size: AppSizes.iconMedium),
-                label: Text(
-                  _isUploading
-                      ? 'progress.uploading'.tr()
-                      : 'progress.addMedia'.tr(),
-                ),
-                style: OutlinedButton.styleFrom(
-                  foregroundColor: _theme.colorScheme.primary,
-                  padding: const EdgeInsets.symmetric(
-                    vertical: AppSizes.spacing16,
+              const SizedBox(height: AppSizes.spacing12),
+              TextField(
+                controller: _noteController,
+                maxLines: 4,
+                maxLength: AppTextLimits.challengeDescriptionMaxLength,
+                decoration: InputDecoration(
+                  hintText: 'progress.describeProgress'.tr(),
+                  filled: true,
+                  fillColor: _theme.brightness == Brightness.dark
+                      ? _theme.cardColor
+                      : _theme.scaffoldBackgroundColor,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
+                    borderSide: BorderSide.none,
                   ),
-                  side: BorderSide(
-                    color: _theme.colorScheme.primary.withValues(
-                      alpha: AppOpacity.semiTransparent,
+                ),
+                textCapitalization: TextCapitalization.sentences,
+              ),
+              const SizedBox(height: AppSizes.spacing16),
+              Text(
+                'progress.addProof'.tr(),
+                style: AppTextStyles.mediumSemiBold.copyWith(
+                  color: _theme.brightness == Brightness.dark
+                      ? AppColors.white
+                      : AppColors.darkSurface,
+                ),
+              ),
+              const SizedBox(height: AppSizes.spacing12),
+              SizedBox(
+                width: double.infinity,
+                child: OutlinedButton.icon(
+                  onPressed: _isUploading ? null : _showMediaPicker,
+                  icon: _isUploading
+                      ? const SizedBox(
+                          height: AppSizes.iconSmall,
+                          width: AppSizes.iconSmall,
+                          child: CircularProgressIndicator(strokeWidth: 2),
+                        )
+                      : const Icon(AppIcons.add, size: AppSizes.iconMedium),
+                  label: Text(
+                    _isUploading
+                        ? 'progress.uploading'.tr()
+                        : 'progress.addMedia'.tr(),
+                  ),
+                  style: OutlinedButton.styleFrom(
+                    foregroundColor: _theme.colorScheme.primary,
+                    padding: const EdgeInsets.symmetric(
+                      vertical: AppSizes.spacing16,
+                    ),
+                    side: BorderSide(
+                      color: _theme.colorScheme.primary.withValues(
+                        alpha: AppOpacity.semiTransparent,
+                      ),
+                    ),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(
+                        AppSizes.radiusMedium,
+                      ),
                     ),
                   ),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
-                  ),
                 ),
               ),
-            ),
-            const SizedBox(height: AppSizes.spacing16),
-            if (_mockAttachments.isNotEmpty)
-              Column(
-                children: _mockAttachments
-                    .map((attachment) => _buildAttachmentPreview(attachment))
-                    .toList(),
-              ),
-          ],
+              const SizedBox(height: AppSizes.spacing16),
+              if (_mockAttachments.isNotEmpty)
+                Column(
+                  children: _mockAttachments
+                      .map((attachment) => _buildAttachmentPreview(attachment))
+                      .toList(),
+                ),
+            ],
+          ),
         ),
       ),
       actions: [
@@ -233,10 +238,7 @@ class _ProgressDialogState extends State<ProgressDialog> {
                   child: Icon(icon, color: color, size: AppSizes.iconMedium),
                 ),
                 const SizedBox(width: AppSizes.spacing16),
-                Text(
-                  label,
-                  style: AppTextStyles.largeMedium,
-                ),
+                Text(label, style: AppTextStyles.largeMedium),
               ],
             ),
           ),

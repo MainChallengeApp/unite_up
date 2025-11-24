@@ -39,11 +39,13 @@ class _UpdateGoalProgressDialogState extends State<UpdateGoalProgressDialog> {
 
     return AlertDialog(
       title: Text('goals.updateProgress'.tr()),
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
+      content: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
             if (userGoals.isEmpty) ...[
               Text(
                 'goals.noGoalsToUpdate'.tr(),
@@ -79,6 +81,7 @@ class _UpdateGoalProgressDialogState extends State<UpdateGoalProgressDialog> {
               ],
             ],
           ],
+        ),
         ),
       ),
       actions: [

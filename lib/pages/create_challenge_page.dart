@@ -61,23 +61,26 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
     final appState = Provider.of<AppStateProvider>(context);
     final isAuthenticated = appState.isAuthenticated;
 
-    return Scaffold(
-      appBar: CustomAppBar(title: 'challenges.createNewChallenge'.tr()),
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(AppSizes.spacing24),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const SizedBox(height: AppSizes.spacing32),
-            _buildEmojiSelector(),
-            const SizedBox(height: AppSizes.spacing32),
-            _buildTitleField(),
-            const SizedBox(height: AppSizes.spacing24),
-            _buildDescriptionField(),
-            if (isAuthenticated) _buildMembersSection(),
-            const SizedBox(height: AppSizes.spacing32),
-            _buildCreateButton(),
-          ],
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        appBar: CustomAppBar(title: 'challenges.createNewChallenge'.tr()),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.all(AppSizes.spacing24),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: AppSizes.spacing32),
+              _buildEmojiSelector(),
+              const SizedBox(height: AppSizes.spacing32),
+              _buildTitleField(),
+              const SizedBox(height: AppSizes.spacing24),
+              _buildDescriptionField(),
+              if (isAuthenticated) _buildMembersSection(),
+              const SizedBox(height: AppSizes.spacing32),
+              _buildCreateButton(),
+            ],
+          ),
         ),
       ),
     );

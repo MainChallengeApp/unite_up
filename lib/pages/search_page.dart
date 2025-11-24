@@ -37,9 +37,12 @@ class _SearchPageState extends State<SearchPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CustomAppBar(title: 'search.title'.tr(), showBackButton: false),
-      body: _buildSearchView(),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        appBar: CustomAppBar(title: 'search.title'.tr(), showBackButton: false),
+        body: _buildSearchView(),
+      ),
     );
   }
 

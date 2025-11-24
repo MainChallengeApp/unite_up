@@ -22,11 +22,14 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     return Consumer<AppStateProvider>(
       builder: (context, appState, child) {
-        return Scaffold(
-          appBar: _buildAppBar(appState.isAuthenticated),
-          body: appState.isAuthenticated
-              ? _buildProfileView(appState)
-              : _buildAuthView(),
+        return GestureDetector(
+          onTap: () => FocusScope.of(context).unfocus(),
+          child: Scaffold(
+            appBar: _buildAppBar(appState.isAuthenticated),
+            body: appState.isAuthenticated
+                ? _buildProfileView(appState)
+                : _buildAuthView(),
+          ),
         );
       },
     );

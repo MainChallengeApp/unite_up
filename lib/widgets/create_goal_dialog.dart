@@ -37,80 +37,83 @@ class _CreateGoalDialogState extends State<CreateGoalDialog> {
   Widget build(BuildContext context) {
     return AlertDialog(
       title: Text('goals.createGoal'.tr()),
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CustomTextField(
-              controller: _titleController,
-              maxLength: AppTextLimits.goalTitleMaxLength,
-              labelText: 'goals.title'.tr(),
-              hintText: 'goals.titleHint'.tr(),
-              icon: AppIcons.edit,
-              isRemoveTextVisible: true,
-            ),
-            const SizedBox(height: AppSizes.spacing16),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _startValueController,
-                    decoration: InputDecoration(
-                      labelText: 'goals.startValue'.tr(),
-                      border: const OutlineInputBorder(),
-                    ),
-                    keyboardType: const TextInputType.numberWithOptions(
-                      decimal: true,
+      content: GestureDetector(
+        onTap: () => FocusScope.of(context).unfocus(),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CustomTextField(
+                controller: _titleController,
+                maxLength: AppTextLimits.goalTitleMaxLength,
+                labelText: 'goals.title'.tr(),
+                hintText: 'goals.titleHint'.tr(),
+                icon: AppIcons.edit,
+                isRemoveTextVisible: true,
+              ),
+              const SizedBox(height: AppSizes.spacing16),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _startValueController,
+                      decoration: InputDecoration(
+                        labelText: 'goals.startValue'.tr(),
+                        border: const OutlineInputBorder(),
+                      ),
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(width: AppSizes.spacing12),
-                Expanded(
-                  child: TextField(
-                    controller: _endValueController,
-                    decoration: InputDecoration(
-                      labelText: 'goals.endValue'.tr(),
-                      border: const OutlineInputBorder(),
-                    ),
-                    keyboardType: const TextInputType.numberWithOptions(
-                      decimal: true,
+                  const SizedBox(width: AppSizes.spacing12),
+                  Expanded(
+                    child: TextField(
+                      controller: _endValueController,
+                      decoration: InputDecoration(
+                        labelText: 'goals.endValue'.tr(),
+                        border: const OutlineInputBorder(),
+                      ),
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
                     ),
                   ),
+                ],
+              ),
+              const SizedBox(height: AppSizes.spacing16),
+              TextField(
+                controller: _unitController,
+                decoration: InputDecoration(
+                  labelText: 'goals.unit'.tr(),
+                  hintText: 'goals.unitHint'.tr(),
+                  border: const OutlineInputBorder(),
                 ),
-              ],
-            ),
-            const SizedBox(height: AppSizes.spacing16),
-            TextField(
-              controller: _unitController,
-              decoration: InputDecoration(
-                labelText: 'goals.unit'.tr(),
-                hintText: 'goals.unitHint'.tr(),
-                border: const OutlineInputBorder(),
               ),
-            ),
-            const SizedBox(height: AppSizes.spacing16),
-            Text(
-              'goals.dates'.tr(),
-              style: AppTextStyles.mediumSemiBold.copyWith(
-                color: _theme.colorScheme.onSurface,
+              const SizedBox(height: AppSizes.spacing16),
+              Text(
+                'goals.dates'.tr(),
+                style: AppTextStyles.mediumSemiBold.copyWith(
+                  color: _theme.colorScheme.onSurface,
+                ),
               ),
-            ),
-            const SizedBox(height: AppSizes.spacing12),
-            _buildDateSelector(
-              context,
-              'goals.startDate'.tr(),
-              _startDate,
-              _selectStartDate,
-            ),
-            const SizedBox(height: AppSizes.spacing12),
-            _buildDateSelector(
-              context,
-              'goals.endDate'.tr(),
-              _endDate,
-              _selectEndDate,
-            ),
-          ],
+              const SizedBox(height: AppSizes.spacing12),
+              _buildDateSelector(
+                context,
+                'goals.startDate'.tr(),
+                _startDate,
+                _selectStartDate,
+              ),
+              const SizedBox(height: AppSizes.spacing12),
+              _buildDateSelector(
+                context,
+                'goals.endDate'.tr(),
+                _endDate,
+                _selectEndDate,
+              ),
+            ],
+          ),
         ),
       ),
       actions: [

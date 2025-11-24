@@ -47,17 +47,20 @@ class _ChatPageState extends State<ChatPage> {
     final appState = Provider.of<AppStateProvider>(context);
     final challenge = appState.currentChallenge;
 
-    return Scaffold(
-      appBar: CustomAppBar(titleWidget: _buildAppBarTitleWidget(challenge)),
-      body: Column(
-        children: [
-          Expanded(
-            child: appState.events.isEmpty
-                ? _buildEmptyState()
-                : _buildChatList(appState),
-          ),
-          _buildInputBar(appState),
-        ],
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        appBar: CustomAppBar(titleWidget: _buildAppBarTitleWidget(challenge)),
+        body: Column(
+          children: [
+            Expanded(
+              child: appState.events.isEmpty
+                  ? _buildEmptyState()
+                  : _buildChatList(appState),
+            ),
+            _buildInputBar(appState),
+          ],
+        ),
       ),
     );
   }
