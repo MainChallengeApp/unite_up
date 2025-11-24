@@ -203,9 +203,14 @@ class _ChallengesPageState extends State<ChallengesPage>
   Widget _buildEmptyState(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(AppSizes.spacing32),
+        padding: const EdgeInsets.only(
+          left: AppSizes.spacing32,
+          right: AppSizes.spacing32,
+          bottom: AppSizes.spacing48,
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
           children: [
             // Animated Icon with heartbeat effect
             AnimatedBuilder(
