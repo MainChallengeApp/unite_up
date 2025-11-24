@@ -48,83 +48,7 @@ class _ChatPageState extends State<ChatPage> {
     final challenge = appState.currentChallenge;
 
     return Scaffold(
-      appBar: CustomAppBar(
-        titleWidget: InkWell(
-          onTap: challenge != null
-              ? () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) =>
-                          GroupDetailsPage(challenge: challenge),
-                    ),
-                  );
-                }
-              : null,
-          borderRadius: BorderRadius.circular(AppSizes.radiusSmall),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: AppSizes.spacing4),
-            child: Row(
-              children: [
-                if (challenge != null) ...[
-                  Container(
-                    width: AppSizes.iconXLarge,
-                    height: AppSizes.iconXLarge,
-                    decoration: BoxDecoration(
-                      color: _theme.colorScheme.primary.withValues(
-                        alpha: AppOpacity.light,
-                      ),
-                      shape: BoxShape.circle,
-                    ),
-                    child: Center(
-                      child: Text(
-                        challenge.emoji,
-                        style: const TextStyle(fontSize: AppSizes.fontMedium),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: AppSizes.spacing12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Text(
-                          challenge.name,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: AppSizes.fontLarge,
-                          ),
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                        ),
-                        if (challenge.isGroup) ...[
-                          const SizedBox(height: AppSizes.spacing2),
-                          Text(
-                            'challenges.member'.tr(
-                              namedArgs: {
-                                'count': challenge.memberCount.toString(),
-                              },
-                            ),
-                            style: TextStyle(
-                              fontSize: AppSizes.fontSmall,
-                              fontWeight: FontWeight.normal,
-                              color: _theme.iconTheme.color?.withValues(
-                                alpha: AppOpacity.mostlyOpaque,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ],
-                    ),
-                  ),
-                ],
-              ],
-            ),
-          ),
-        ),
-      ),
+      appBar: CustomAppBar(titleWidget: _buildAppBarTitleWidget(challenge)),
       body: Column(
         children: [
           Expanded(
@@ -134,6 +58,93 @@ class _ChatPageState extends State<ChatPage> {
           ),
           _buildInputBar(appState),
         ],
+      ),
+    );
+  }
+
+  Widget _buildAppBarTitleWidget(challenge) {
+    return InkWell(
+      onTap: challenge != null
+          ? () => _navigateToGroupDetails(challenge)
+          : null,
+      borderRadius: BorderRadius.circular(AppSizes.radiusSmall),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: AppSizes.spacing4),
+        child: _buildChallengeInfo(challenge),
+      ),
+    );
+  }
+
+  Widget _buildChallengeInfo(challenge) {
+    return Row(
+      children: [
+        if (challenge != null) ...[
+          _buildChallengeEmoji(challenge),
+          const SizedBox(width: AppSizes.spacing12),
+          _buildChallengeDetails(challenge),
+        ],
+      ],
+    );
+  }
+
+  Widget _buildChallengeEmoji(challenge) {
+    return Container(
+      width: AppSizes.iconXLarge,
+      height: AppSizes.iconXLarge,
+      decoration: BoxDecoration(
+        color: _theme.colorScheme.primary.withValues(alpha: AppOpacity.light),
+        shape: BoxShape.circle,
+      ),
+      child: Center(
+        child: Text(
+          challenge.emoji,
+          style: const TextStyle(fontSize: AppSizes.fontMedium),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildChallengeDetails(challenge) {
+    return Expanded(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisSize: MainAxisSize.min,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            challenge.name,
+            style: const TextStyle(
+              fontWeight: FontWeight.w600,
+              fontSize: AppSizes.fontLarge,
+            ),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+          ),
+          if (challenge.isGroup) ...[
+            const SizedBox(height: AppSizes.spacing2),
+            Text(
+              'challenges.member'.tr(
+                namedArgs: {'count': challenge.memberCount.toString()},
+              ),
+              style: TextStyle(
+                fontSize: AppSizes.fontSmall,
+                fontWeight: FontWeight.normal,
+                color: _theme.iconTheme.color?.withValues(
+                  alpha: AppOpacity.mostlyOpaque,
+                ),
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  void _navigateToGroupDetails(challenge) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => GroupDetailsPage(challenge: challenge),
       ),
     );
   }
