@@ -36,8 +36,9 @@ class _SettingsPageState extends State<SettingsPage> {
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
-            content: Text('Error: ${e.toString()}'),
+            content: Text('${'common.error'.tr()}: ${e.toString()}'),
             behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.red,
           ),
         );
       }

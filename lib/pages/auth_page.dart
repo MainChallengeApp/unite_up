@@ -1,7 +1,8 @@
-import 'package:unite_up/providers/app_state_provider.dart';
-import 'package:unite_up/widgets/auth_form.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:unite_up/providers/app_state_provider.dart';
+import 'package:unite_up/widgets/auth_form.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});
@@ -31,12 +32,12 @@ class _AuthPageState extends State<AuthPage> {
     final appState = Provider.of<AppStateProvider>(context, listen: false);
 
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
-      _showSnackBar('Please fill in all fields');
+      _showSnackBar('auth.pleaseFillAllFields'.tr());
       return;
     }
 
     if (!_isLoginMode && _nameController.text.isEmpty) {
-      _showSnackBar('Please enter your name');
+      _showSnackBar('auth.pleaseEnterName'.tr());
       return;
     }
 
@@ -48,21 +49,21 @@ class _AuthPageState extends State<AuthPage> {
           _emailController.text.trim(),
           _passwordController.text,
         );
-        _showSnackBar('Successfully logged in!');
+        _showSnackBar('auth.loginSuccess'.tr());
       } else {
         await appState.signUpWithEmail(
           _emailController.text.trim(),
           _passwordController.text,
           _nameController.text.trim(),
         );
-        _showSnackBar('Account created successfully!');
+        _showSnackBar('auth.accountCreatedSuccess'.tr());
       }
 
       _emailController.clear();
       _passwordController.clear();
       _nameController.clear();
     } catch (e) {
-      _showSnackBar('Error: ${e.toString()}');
+      _showSnackBar('${'common.error'.tr()}: ${e.toString()}');
     } finally {
       setState(() => _isLoading = false);
     }
@@ -74,9 +75,9 @@ class _AuthPageState extends State<AuthPage> {
 
     try {
       await appState.signInWithGoogle();
-      _showSnackBar('Signed in with Google!');
+      _showSnackBar('auth.signedInWithGoogle'.tr());
     } catch (e) {
-      _showSnackBar('Error: ${e.toString()}');
+      _showSnackBar('${'common.error'.tr()}: ${e.toString()}');
     } finally {
       if (mounted) setState(() => _isGoogleLoading = false);
     }
@@ -88,9 +89,9 @@ class _AuthPageState extends State<AuthPage> {
 
     try {
       await appState.signInWithApple();
-      _showSnackBar('Signed in with Apple!');
+      _showSnackBar('auth.signedInWithApple'.tr());
     } catch (e) {
-      _showSnackBar('Error: ${e.toString()}');
+      _showSnackBar('${'common.error'.tr()}: ${e.toString()}');
     } finally {
       if (mounted) setState(() => _isAppleLoading = false);
     }
