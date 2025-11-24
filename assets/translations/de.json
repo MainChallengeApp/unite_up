@@ -158,7 +158,10 @@
       "addMembers": "Mitglieder hinzufügen",
       "noMembersAdded": "Noch keine Mitglieder hinzugefügt",
       "pleaseEnterTitle": "Bitte gib einen Titel ein",
-      "pleaseSelectCategory": "Bitte wähle eine Kategorie"
+      "pleaseSelectCategory": "Bitte wähle eine Kategorie",
+      "titleTooLong": "Titel ist zu lang. Maximal 50 Zeichen erlaubt.",
+      "success": "Challenge erfolgreich erstellt!",
+      "error": "Challenge konnte nicht erstellt werden. Bitte versuche es erneut."
     }
   },
   "chat": {
@@ -189,6 +192,12 @@
     "attachments": "Anhänge",
     "addProof": "Nachweis hinzufügen (optional)",
     "pleaseAddNoteOrAttach": "Bitte füge eine Notiz hinzu oder hänge eine Datei an",
+    "addMedia": "Medien hinzufügen",
+    "pickImage": "Bild aus Galerie wählen",
+    "pickVideo": "Video aus Galerie wählen",
+    "pickFile": "Datei auswählen",
+    "uploading": "Wird hochgeladen...",
+    "unnamed": "Unbenannte Datei",
     "image": "Bild",
     "video": "Video",
     "file": "Datei",

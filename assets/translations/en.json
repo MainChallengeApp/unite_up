@@ -158,7 +158,10 @@
       "addMembers": "Add Members",
       "noMembersAdded": "No members added yet",
       "pleaseEnterTitle": "Please enter a title",
-      "pleaseSelectCategory": "Please select a category"
+      "pleaseSelectCategory": "Please select a category",
+      "titleTooLong": "Title is too long. Maximum 50 characters allowed.",
+      "success": "Challenge created successfully!",
+      "error": "Failed to create challenge. Please try again."
     }
   },
   "chat": {
@@ -189,6 +192,12 @@
     "attachments": "Attachments",
     "addProof": "Add proof (optional)",
     "pleaseAddNoteOrAttach": "Please add a note or attach a file",
+    "addMedia": "Add Media",
+    "pickImage": "Pick Image from Gallery",
+    "pickVideo": "Pick Video from Gallery",
+    "pickFile": "Pick File",
+    "uploading": "Uploading...",
+    "unnamed": "Unnamed file",
     "image": "Image",
     "video": "Video",
     "file": "File",

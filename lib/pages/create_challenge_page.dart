@@ -24,6 +24,11 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
   final List<UserModel> _availableUsers = [];
   String _selectedEmoji = '🎯';
   final GoalCategoryEnum _selectedCategory = GoalCategoryEnum.health;
+  bool _isCreating = false;
+  int _titleCharCount = 0;
+  int _descriptionCharCount = 0;
+  static const int _maxTitleLength = 50;
+  static const int _maxDescriptionLength = 200;
   final List<String> _availableEmojis = [
     '🎯',
     '💪',
@@ -43,13 +48,29 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
   void initState() {
     super.initState();
     _availableUsers.addAll(UserModelService.getMockUserModels());
+    _titleController.addListener(_updateTitleCount);
+    _descriptionController.addListener(_updateDescriptionCount);
   }
 
   @override
   void dispose() {
+    _titleController.removeListener(_updateTitleCount);
+    _descriptionController.removeListener(_updateDescriptionCount);
     _titleController.dispose();
     _descriptionController.dispose();
     super.dispose();
+  }
+
+  void _updateTitleCount() {
+    setState(() {
+      _titleCharCount = _titleController.text.length;
+    });
+  }
+
+  void _updateDescriptionCount() {
+    setState(() {
+      _descriptionCharCount = _descriptionController.text.length;
+    });
   }
 
   void _showEmojiPicker() {
@@ -143,44 +164,87 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
     );
   }
 
-  void _createChallenge() {
+  Future<void> _createChallenge() async {
+    if (_isCreating) return;
+
     if (_titleController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text('challenges.create.pleaseEnterTitle'.tr()),
           behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.red,
         ),
       );
       return;
     }
 
-    final appState = Provider.of<AppStateProvider>(context, listen: false);
-    final currentUserId = appState.currentUser?.id ?? 'user-1';
+    if (_titleController.text.trim().length > _maxTitleLength) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('challenges.create.titleTooLong'.tr()),
+          behavior: SnackBarBehavior.floating,
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
 
-    final memberIds = <String>[];
-    memberIds.add(currentUserId);
-    memberIds.addAll(_selectedMembers.map((m) => m.id));
+    setState(() => _isCreating = true);
 
-    final challenge = ChallengeChatModel(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      name: _titleController.text.trim(),
-      description: _descriptionController.text.trim().isEmpty
-          ? null
-          : _descriptionController.text.trim(),
-      category: _selectedCategory,
-      emoji: _selectedEmoji,
-      memberIds: memberIds,
-      creatorId: currentUserId,
-      createdAt: DateTime.now(),
-    );
+    try {
+      final appState = Provider.of<AppStateProvider>(context, listen: false);
+      final currentUserId = appState.currentUser?.id ?? 'user-1';
 
-    appState.addChallenge(challenge);
+      final memberIds = <String>[];
+      memberIds.add(currentUserId);
+      memberIds.addAll(_selectedMembers.map((m) => m.id));
 
-    // Navigate to chat page
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const ChatPage()),
-    );
+      final challenge = ChallengeChatModel(
+        id: DateTime.now().millisecondsSinceEpoch.toString(),
+        name: _titleController.text.trim(),
+        description: _descriptionController.text.trim().isEmpty
+            ? null
+            : _descriptionController.text.trim(),
+        category: _selectedCategory,
+        emoji: _selectedEmoji,
+        memberIds: memberIds,
+        creatorId: currentUserId,
+        createdAt: DateTime.now(),
+      );
+
+      // Simulate network delay
+      await Future.delayed(const Duration(milliseconds: 500));
+
+      appState.addChallenge(challenge);
+
+      if (mounted) {
+        // Show success message
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('challenges.create.success'.tr()),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.green,
+          ),
+        );
+
+        // Navigate to chat page
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (context) => const ChatPage()),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isCreating = false);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('challenges.create.error'.tr()),
+            behavior: SnackBarBehavior.floating,
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 
   @override
@@ -251,19 +315,69 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
             ),
             const SizedBox(height: AppSizes.spacing32),
 
-            CustomTextField(
-              controller: _titleController,
-              labelText: 'challenges.create.titleLabel'.tr(),
-              hintText: 'challenges.create.enterChallengeName'.tr(),
-              icon: AppIcons.edit,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomTextField(
+                  controller: _titleController,
+                  labelText: 'challenges.create.titleLabel'.tr(),
+                  hintText: 'challenges.create.enterChallengeName'.tr(),
+                  icon: AppIcons.edit,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: AppSizes.spacing4,
+                    right: AppSizes.spacing4,
+                  ),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      '$_titleCharCount/$_maxTitleLength',
+                      style: TextStyle(
+                        fontSize: AppSizes.fontSmall,
+                        color: _titleCharCount > _maxTitleLength
+                            ? Colors.red
+                            : theme.iconTheme.color?.withValues(
+                                alpha: AppOpacity.mostlyOpaque,
+                              ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
             const SizedBox(height: AppSizes.spacing24),
-            CustomTextField(
-              controller: _descriptionController,
-              labelText: 'challenges.create.descriptionLabel'.tr(),
-              hintText: 'challenges.create.whatIsGroupAbout'.tr(),
-              icon: AppIcons.description,
-              maxLines: 3,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomTextField(
+                  controller: _descriptionController,
+                  labelText: 'challenges.create.descriptionLabel'.tr(),
+                  hintText: 'challenges.create.whatIsGroupAbout'.tr(),
+                  icon: AppIcons.description,
+                  maxLines: 3,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(
+                    top: AppSizes.spacing4,
+                    right: AppSizes.spacing4,
+                  ),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      '$_descriptionCharCount/$_maxDescriptionLength',
+                      style: TextStyle(
+                        fontSize: AppSizes.fontSmall,
+                        color: _descriptionCharCount > _maxDescriptionLength
+                            ? Colors.red
+                            : theme.iconTheme.color?.withValues(
+                                alpha: AppOpacity.mostlyOpaque,
+                              ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
             if (isAuthenticated) ...[
               const SizedBox(height: AppSizes.spacing24),
@@ -320,7 +434,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
             SizedBox(
               width: double.infinity,
               child: FilledButton(
-                onPressed: _createChallenge,
+                onPressed: _isCreating ? null : _createChallenge,
                 style: FilledButton.styleFrom(
                   padding: const EdgeInsets.symmetric(
                     vertical: AppSizes.spacing16,
@@ -329,13 +443,24 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                     borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
                   ),
                 ),
-                child: Text(
-                  'challenges.createChallenge'.tr(),
-                  style: const TextStyle(
-                    fontSize: AppSizes.fontLarge,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
+                child: _isCreating
+                    ? const SizedBox(
+                        height: AppSizes.iconMedium,
+                        width: AppSizes.iconMedium,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2.5,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            Colors.white,
+                          ),
+                        ),
+                      )
+                    : Text(
+                        'challenges.createChallenge'.tr(),
+                        style: const TextStyle(
+                          fontSize: AppSizes.fontLarge,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
               ),
             ),
           ],

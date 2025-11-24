@@ -231,10 +231,7 @@ class _ChatPageState extends State<ChatPage> {
     return ListView.builder(
       controller: _scrollController,
       physics: const AlwaysScrollableScrollPhysics(),
-      padding: const EdgeInsets.only(
-        top: AppSizes.spacing16,
-        bottom: AppSizes.spacing16,
-      ),
+      padding: const EdgeInsets.only(bottom: AppSizes.spacing16),
       itemCount: _calculateItemCount(groupedEvents),
       itemBuilder: (context, index) {
         return _buildListItem(context, groupedEvents, index, theme);
