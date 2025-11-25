@@ -21,6 +21,9 @@ class CreateChallengePage extends StatefulWidget {
 class _CreateChallengePageState extends State<CreateChallengePage> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+  final FocusNode _titleFocusNode = FocusNode();
+  final FocusNode _descriptionFocusNode = FocusNode();
+  final ScrollController _scrollController = ScrollController();
   final List<UserModel> _selectedMembers = [];
   final List<UserModel> _availableUsers = [];
   String _selectedEmoji = '🎯';
@@ -53,6 +56,9 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
   void dispose() {
     _titleController.dispose();
     _descriptionController.dispose();
+    _titleFocusNode.dispose();
+    _descriptionFocusNode.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
@@ -66,6 +72,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
       child: Scaffold(
         appBar: CustomAppBar(title: 'challenges.createNewChallenge'.tr()),
         body: SingleChildScrollView(
+          controller: _scrollController,
           padding: const EdgeInsets.all(AppSizes.spacing24),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -74,7 +81,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
               _buildEmojiSelector(),
               const SizedBox(height: AppSizes.spacing32),
               _buildTitleField(),
-              const SizedBox(height: AppSizes.spacing24),
+              const SizedBox(height: AppSizes.spacing16),
               _buildDescriptionField(),
               if (isAuthenticated) _buildMembersSection(),
               const SizedBox(height: AppSizes.spacing32),
@@ -130,10 +137,16 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
       children: [
         CustomTextField(
           controller: _titleController,
+          focusNode: _titleFocusNode,
           labelText: 'challenges.create.titleLabel'.tr(),
           hintText: 'challenges.create.enterChallengeName'.tr(),
           icon: AppIcons.edit,
           maxLength: AppTextLimits.challengeTitleMaxLength,
+          textInputAction: TextInputAction.next,
+          onSubmitted: (_) {
+            _descriptionFocusNode.requestFocus();
+          },
+          isRemoveTextVisible: true,
         ),
       ],
     );
@@ -145,11 +158,14 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
       children: [
         CustomTextField(
           controller: _descriptionController,
+          focusNode: _descriptionFocusNode,
           labelText: 'challenges.create.descriptionLabel'.tr(),
           hintText: 'challenges.create.whatIsGroupAbout'.tr(),
           icon: AppIcons.description,
           maxLines: 3,
           maxLength: AppTextLimits.challengeDescriptionMaxLength,
+          textInputAction: TextInputAction.newline,
+          isRemoveTextVisible: true,
         ),
       ],
     );

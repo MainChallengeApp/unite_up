@@ -16,6 +16,9 @@ class CustomTextField extends StatefulWidget {
   final bool alwaysShowSuffixIcon;
   final bool isCounterVisible;
   final bool isRemoveTextVisible;
+  final FocusNode? focusNode;
+  final TextInputAction? textInputAction;
+  final ValueChanged<String>? onSubmitted;
 
   const CustomTextField({
     super.key,
@@ -33,6 +36,9 @@ class CustomTextField extends StatefulWidget {
     this.alwaysShowSuffixIcon = false,
     this.isCounterVisible = true,
     this.isRemoveTextVisible = false,
+    this.focusNode,
+    this.textInputAction,
+    this.onSubmitted,
   });
 
   @override
@@ -86,6 +92,9 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
     return TextField(
       controller: widget.controller,
+      focusNode: widget.focusNode,
+      textInputAction: widget.textInputAction,
+      onSubmitted: widget.onSubmitted,
       maxLines: widget.obscureText ? 1 : widget.maxLines,
       maxLength: widget.maxLength,
       obscureText: widget.obscureText,
@@ -107,26 +116,67 @@ class _CustomTextFieldState extends State<CustomTextField> {
             Icon(
               widget.icon,
               size: AppSizes.iconSmall,
-              color: _theme.colorScheme.onSurface,
+              color: _theme.iconTheme.color,
             ),
             const SizedBox(width: AppSizes.spacing8),
-            Text(widget.labelText),
+            Text(
+              widget.labelText,
+              style: AppTextStyles.baseBase.copyWith(
+                color: _theme.iconTheme.color,
+              ),
+            ),
           ],
         ),
         floatingLabelStyle: AppTextStyles.baseBase.copyWith(
           color: _theme.colorScheme.onSurface,
         ),
         alignLabelWithHint: true,
+        suffixIconConstraints: (widget.maxLines != null && widget.maxLines! > 1)
+            ? const BoxConstraints(minWidth: 48, minHeight: 48)
+            : null,
         suffixIcon: showSuffixIcon
-            ? IconButton(
-                icon: Icon(
-                  showClearIcon ? Icons.clear : widget.suffixIcon,
-                  color: _theme.colorScheme.onSurface.withValues(alpha: 0.6),
-                ),
-                onPressed: showClearIcon
-                    ? _clearText
-                    : widget.onSuffixIconPressed,
-              )
+            ? (widget.maxLines != null && widget.maxLines! > 1)
+                  ? Builder(
+                      builder: (context) {
+                        // Workaround to show the suffix icon top right
+                        // Calculate approximate height based on maxLines
+                        // Line height is typically ~21-28px, plus padding
+                        final lineHeight = 21.0;
+                        final padding = 32.0; // Top and bottom padding
+                        final calculatedHeight =
+                            (widget.maxLines! * lineHeight) + padding;
+
+                        return SizedBox(
+                          height: calculatedHeight,
+                          child: Align(
+                            alignment: Alignment.topRight,
+                            widthFactor: 1,
+                            child: IconButton(
+                              icon: Icon(
+                                showClearIcon ? Icons.clear : widget.suffixIcon,
+                                color: _theme.colorScheme.onSurface.withValues(
+                                  alpha: 0.6,
+                                ),
+                              ),
+                              onPressed: showClearIcon
+                                  ? _clearText
+                                  : widget.onSuffixIconPressed,
+                            ),
+                          ),
+                        );
+                      },
+                    )
+                  : IconButton(
+                      icon: Icon(
+                        showClearIcon ? Icons.clear : widget.suffixIcon,
+                        color: _theme.colorScheme.onSurface.withValues(
+                          alpha: 0.6,
+                        ),
+                      ),
+                      onPressed: showClearIcon
+                          ? _clearText
+                          : widget.onSuffixIconPressed,
+                    )
             : null,
         counterText: widget.isCounterVisible ? null : '',
         counterStyle: AppTextStyles.baseSmall.copyWith(
