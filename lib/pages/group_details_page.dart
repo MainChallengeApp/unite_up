@@ -12,6 +12,7 @@ import 'package:unite_up/services/user_service.dart';
 import 'package:unite_up/widgets/create_goal_dialog.dart';
 import 'package:unite_up/widgets/custom_app_bar.dart';
 import 'package:unite_up/widgets/custom_bottom_sheet.dart';
+import 'package:unite_up/widgets/custom_slidable_action_button.dart';
 import 'package:unite_up/widgets/empty_state.dart';
 
 class GroupDetailsPage extends StatefulWidget {
@@ -159,7 +160,9 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
                         color: theme.colorScheme.primary.withValues(
                           alpha: AppOpacity.light,
                         ),
-                        borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
+                        borderRadius: BorderRadius.circular(
+                          AppSizes.radiusLarge,
+                        ),
                       ),
                       child: Text(
                         '${currentChallenge.goals.length}',
@@ -176,37 +179,36 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
               if (members.isEmpty)
                 _buildEmptyMembersState(context, theme)
               else
-                ...members.asMap().entries.map(
-                  (entry) {
-                    final index = entry.key;
-                    final member = entry.value;
-                    return SlideTransition(
-                      position: Tween<Offset>(
-                        begin: const Offset(0.3, 0),
-                        end: Offset.zero,
-                      ).animate(
-                        CurvedAnimation(
-                          parent: _animationController,
-                          curve: Interval(
-                            index * 0.1,
-                            1.0,
-                            curve: Curves.easeOut,
+                ...members.asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final member = entry.value;
+                  return SlideTransition(
+                    position:
+                        Tween<Offset>(
+                          begin: const Offset(0.3, 0),
+                          end: Offset.zero,
+                        ).animate(
+                          CurvedAnimation(
+                            parent: _animationController,
+                            curve: Interval(
+                              index * 0.1,
+                              1.0,
+                              curve: Curves.easeOut,
+                            ),
                           ),
                         ),
-                      ),
-                      child: _buildMemberCard(
-                        context,
-                        theme,
-                        member,
-                        currentChallenge.goals
-                            .where((g) => g.userId == member.id)
-                            .toList(),
-                        member.id == currentUserId,
-                        currentChallenge,
-                      ),
-                    );
-                  },
-                ),
+                    child: _buildMemberCard(
+                      context,
+                      theme,
+                      member,
+                      currentChallenge.goals
+                          .where((g) => g.userId == member.id)
+                          .toList(),
+                      member.id == currentUserId,
+                      currentChallenge,
+                    ),
+                  );
+                }),
             ],
           ),
         ),
@@ -319,13 +321,14 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
     ChallengeChatModel currentChallenge,
   ) {
     final totalGoals = currentChallenge.goals.length;
-    final completedGoals =
-        currentChallenge.goals.where((g) => g.isCompleted).length;
+    final completedGoals = currentChallenge.goals
+        .where((g) => g.isCompleted)
+        .length;
     final overallProgress = totalGoals > 0
         ? currentChallenge.goals
-                .map((g) => g.progressPercentage)
-                .reduce((a, b) => a + b) /
-            totalGoals
+                  .map((g) => g.progressPercentage)
+                  .reduce((a, b) => a + b) /
+              totalGoals
         : 0.0;
 
     return Row(
@@ -616,12 +619,15 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
             ),
             const SizedBox(height: AppSizes.spacing8),
             ...goals.map(
-              (goal) => _buildGoalItem(
-                context,
-                theme,
-                goal,
-                isCurrentUser,
-                currentChallenge,
+              (goal) => Padding(
+                padding: const EdgeInsets.only(bottom: AppSizes.spacing16),
+                child: _buildGoalItem(
+                  context,
+                  theme,
+                  goal,
+                  isCurrentUser,
+                  currentChallenge,
+                ),
               ),
             ),
           ] else if (!isCurrentUser) ...[
@@ -672,7 +678,7 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
           : null,
       borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
       child: Container(
-        margin: const EdgeInsets.only(bottom: AppSizes.spacing12),
+        // margin: const EdgeInsets.only(bottom: AppSizes.spacing12),
         padding: const EdgeInsets.all(AppSizes.spacing16),
         decoration: BoxDecoration(
           color: theme.scaffoldBackgroundColor,
@@ -789,36 +795,36 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
                       goal.isCompleted
                           ? AppIcons.checkCircle
                           : goal.isOverdue
-                              ? AppIcons.info
-                              : Icons.access_time_rounded,
+                          ? AppIcons.info
+                          : Icons.access_time_rounded,
                       size: AppSizes.iconSmall,
                       color: goal.isCompleted
                           ? AppColors.green
                           : goal.isOverdue
-                              ? AppColors.red
-                              : theme.iconTheme.color?.withValues(
-                                  alpha: AppOpacity.semiTransparent,
-                                ),
+                          ? AppColors.red
+                          : theme.iconTheme.color?.withValues(
+                              alpha: AppOpacity.semiTransparent,
+                            ),
                     ),
                     const SizedBox(width: AppSizes.spacing4),
                     Text(
                       goal.isCompleted
                           ? 'goals.completed'.tr()
                           : goal.isOverdue
-                              ? 'goals.overdue'.tr()
-                              : 'goals.daysLeft'.tr(
-                                  namedArgs: {
-                                    'days': goal.daysRemaining.toString(),
-                                  },
-                                ),
+                          ? 'goals.overdue'.tr()
+                          : 'goals.daysLeft'.tr(
+                              namedArgs: {
+                                'days': goal.daysRemaining.toString(),
+                              },
+                            ),
                       style: AppTextStyles.smallMedium.copyWith(
                         color: goal.isCompleted
                             ? AppColors.green
                             : goal.isOverdue
-                                ? AppColors.red
-                                : theme.iconTheme.color?.withValues(
-                                    alpha: AppOpacity.mostlyOpaque,
-                                  ),
+                            ? AppColors.red
+                            : theme.iconTheme.color?.withValues(
+                                alpha: AppOpacity.mostlyOpaque,
+                              ),
                       ),
                     ),
                   ],
@@ -850,41 +856,45 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
 
     // Add swipe actions for current user
     if (isCurrentUser) {
-      return ClipRRect(
-        borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
-        child: Slidable(
-          key: Key(goal.id),
-          closeOnScroll: true,
-          endActionPane: ActionPane(
-            motion: const ScrollMotion(),
-            extentRatio: 0.4,
-            children: [
-              SlidableAction(
-                onPressed: (_) {
-                  HapticFeedback.lightImpact();
-                  _showEditGoalDialog(context, theme, goal, currentChallenge);
-                },
-                backgroundColor: theme.colorScheme.primary,
-                foregroundColor: AppColors.white,
+      return Slidable(
+        key: Key(goal.id),
+        closeOnScroll: true,
+        endActionPane: ActionPane(
+          motion: const StretchMotion(),
+          extentRatio: AppSizes.slidableExtentRatio,
+          dragDismissible: false,
+          children: [
+            CustomSlidableAction(
+              onPressed: (_) {
+                HapticFeedback.lightImpact();
+                _showEditGoalDialog(context, theme, goal, currentChallenge);
+              },
+              backgroundColor: Colors.transparent,
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSizes.spacing8,
+              ),
+              child: CustomSlidableActionButton(
                 icon: AppIcons.edit,
-                label: 'common.edit'.tr(),
-                borderRadius: BorderRadius.zero,
+                color: theme.colorScheme.primary,
               ),
-              SlidableAction(
-                onPressed: (_) {
-                  HapticFeedback.mediumImpact();
-                  _showDeleteGoalConfirmation(context, goal);
-                },
-                backgroundColor: AppColors.red,
-                foregroundColor: AppColors.white,
+            ),
+            CustomSlidableAction(
+              onPressed: (_) {
+                HapticFeedback.mediumImpact();
+                _showDeleteGoalConfirmation(context, goal);
+              },
+              backgroundColor: Colors.transparent,
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSizes.spacing8,
+              ),
+              child: const CustomSlidableActionButton(
                 icon: AppIcons.delete,
-                label: 'common.delete'.tr(),
-                borderRadius: BorderRadius.zero,
+                color: AppColors.red,
               ),
-            ],
-          ),
-          child: goalCard,
+            ),
+          ],
         ),
+        child: goalCard,
       );
     }
 
@@ -927,14 +937,13 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              goal.title,
-              style: AppTextStyles.mediumSemiBold,
-            ),
+            Text(goal.title, style: AppTextStyles.mediumSemiBold),
             const SizedBox(height: AppSizes.spacing16),
             TextField(
               controller: progressController,
-              keyboardType: const TextInputType.numberWithOptions(decimal: true),
+              keyboardType: const TextInputType.numberWithOptions(
+                decimal: true,
+              ),
               decoration: InputDecoration(
                 labelText: 'goals.currentValue'.tr(),
                 suffixText: goal.unit,
@@ -1147,9 +1156,7 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
       builder: (dialogContext) => AlertDialog(
         title: Text('goals.deleteGoal'.tr()),
         content: Text(
-          'goals.deleteGoalConfirmation'.tr(
-            namedArgs: {'goal': goal.title},
-          ),
+          'goals.deleteGoalConfirmation'.tr(namedArgs: {'goal': goal.title}),
         ),
         actions: [
           TextButton(

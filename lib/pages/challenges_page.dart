@@ -9,6 +9,7 @@ import 'package:unite_up/pages/chat_page.dart';
 import 'package:unite_up/pages/create_challenge_page.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
 import 'package:unite_up/widgets/custom_app_bar.dart';
+import 'package:unite_up/widgets/custom_slidable_action_button.dart';
 
 class ChallengesPage extends StatefulWidget {
   const ChallengesPage({super.key});
@@ -534,18 +535,9 @@ class _ChallengesPageState extends State<ChallengesPage>
                     0,
                     0,
                   ),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      color: AppColors.red,
-                      borderRadius: BorderRadius.circular(AppSizes.radiusLarge),
-                    ),
-                    child: const Center(
-                      child: Icon(
-                        AppIcons.delete,
-                        color: AppColors.white,
-                        size: AppSizes.iconMedium,
-                      ),
-                    ),
+                  child: const CustomSlidableActionButton(
+                    icon: AppIcons.delete,
+                    color: AppColors.red,
                   ),
                 ),
               ],
