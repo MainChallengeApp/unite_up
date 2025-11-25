@@ -850,54 +850,41 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
 
     // Add swipe actions for current user
     if (isCurrentUser) {
-      return Slidable(
-        key: Key(goal.id),
-        closeOnScroll: true,
-        endActionPane: ActionPane(
-          motion: const StretchMotion(),
-          extentRatio: 0.45,
-          children: [
-            CustomSlidableAction(
-              onPressed: (_) {
-                HapticFeedback.lightImpact();
-                _showEditGoalDialog(context, theme, goal, currentChallenge);
-              },
-              backgroundColor: theme.colorScheme.primary,
-              foregroundColor: AppColors.white,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(AppIcons.edit, size: AppSizes.iconMedium),
-                  const SizedBox(height: AppSizes.spacing4),
-                  Text(
-                    'common.edit'.tr(),
-                    style: AppTextStyles.smallMedium,
-                  ),
-                ],
+      return ClipRRect(
+        borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
+        child: Slidable(
+          key: Key(goal.id),
+          closeOnScroll: true,
+          endActionPane: ActionPane(
+            motion: const ScrollMotion(),
+            extentRatio: 0.4,
+            children: [
+              SlidableAction(
+                onPressed: (_) {
+                  HapticFeedback.lightImpact();
+                  _showEditGoalDialog(context, theme, goal, currentChallenge);
+                },
+                backgroundColor: theme.colorScheme.primary,
+                foregroundColor: AppColors.white,
+                icon: AppIcons.edit,
+                label: 'common.edit'.tr(),
+                borderRadius: BorderRadius.zero,
               ),
-            ),
-            CustomSlidableAction(
-              onPressed: (_) {
-                HapticFeedback.mediumImpact();
-                _showDeleteGoalConfirmation(context, goal);
-              },
-              backgroundColor: AppColors.red,
-              foregroundColor: AppColors.white,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  const Icon(AppIcons.delete, size: AppSizes.iconMedium),
-                  const SizedBox(height: AppSizes.spacing4),
-                  Text(
-                    'common.delete'.tr(),
-                    style: AppTextStyles.smallMedium,
-                  ),
-                ],
+              SlidableAction(
+                onPressed: (_) {
+                  HapticFeedback.mediumImpact();
+                  _showDeleteGoalConfirmation(context, goal);
+                },
+                backgroundColor: AppColors.red,
+                foregroundColor: AppColors.white,
+                icon: AppIcons.delete,
+                label: 'common.delete'.tr(),
+                borderRadius: BorderRadius.zero,
               ),
-            ),
-          ],
+            ],
+          ),
+          child: goalCard,
         ),
-        child: goalCard,
       );
     }
 
@@ -998,7 +985,11 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
                 Provider.of<AppStateProvider>(
                   context,
                   listen: false,
-                ).updateGoal(updatedGoal, createEvent: true);
+                ).updateGoal(
+                  updatedGoal,
+                  createEvent: true,
+                  isProgressUpdate: true,
+                );
                 Navigator.pop(dialogContext);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
@@ -1126,7 +1117,11 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
                 Provider.of<AppStateProvider>(
                   context,
                   listen: false,
-                ).updateGoal(updatedGoal);
+                ).updateGoal(
+                  updatedGoal,
+                  createEvent: true,
+                  isProgressUpdate: false,
+                );
                 Navigator.pop(dialogContext);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(

@@ -78,8 +78,13 @@
     "deleteGoal": "Ziel löschen",
     "goalTitle": "Ziel Titel",
     "newGoalCreated": "Neues Ziel erstellt",
-    "goalUpdated": "Ziel erfolgreich aktualisiert",
-    "goalDeleted": "Ziel erfolgreich gelöscht",
+    "goalUpdated": "Ziel aktualisiert",
+    "goalCompletedByEdit": "Ziel erreicht! 🎉",
+    "achievedByLoweringTarget": "Ziel durch Anpassung erreicht!",
+    "goalCompletedDescription": "Dein aktueller Fortschritt erfüllt das aktualisierte Ziel",
+    "goalDeleted": "Ziel gelöscht",
+    "progressAtDeletion": "{progress}% abgeschlossen ({current}{unit})",
+    "noUnit": "Keine Einheit",
     "deleteGoalConfirmation": "Bist du sicher, dass du '{goal}' löschen möchtest? Diese Aktion kann nicht rückgängig gemacht werden.",
     "updateProgress": "Fortschritt aktualisieren",
     "progressUpdated": "Fortschritt erfolgreich aktualisiert",
@@ -108,7 +113,6 @@
     "overdue": "Überfällig",
     "daysLeft": "{days} Tage übrig",
     "enterTitle": "Bitte gib einen Zieltitel ein",
-    "enterValidValues": "Bitte gib gültige Zahlen ein",
     "endValueMustBeGreater": "Zielwert muss größer als Startwert sein",
     "categories": {
       "health": {

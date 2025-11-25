@@ -16,6 +16,12 @@ class EventModel {
   // For goals
   final GoalModel? goal;
 
+  // For goal updates (stores the old goal state)
+  final GoalModel? oldGoal;
+
+  // Track if goal was completed due to this update
+  final bool? goalCompletedByUpdate;
+
   EventModel({
     required this.id,
     required this.type,
@@ -23,6 +29,8 @@ class EventModel {
     this.message,
     this.progressEntry,
     this.goal,
+    this.oldGoal,
+    this.goalCompletedByUpdate,
   });
 
   factory EventModel.aiMessage(String message) {
@@ -70,6 +78,30 @@ class EventModel {
     );
   }
 
+  factory EventModel.goalUpdated(
+    GoalModel oldGoal,
+    GoalModel newGoal, {
+    bool? completedByUpdate,
+  }) {
+    return EventModel(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      type: EventTypeEnum.goalUpdated,
+      timestamp: DateTime.now(),
+      goal: newGoal,
+      oldGoal: oldGoal,
+      goalCompletedByUpdate: completedByUpdate,
+    );
+  }
+
+  factory EventModel.goalDeleted(GoalModel goal) {
+    return EventModel(
+      id: DateTime.now().millisecondsSinceEpoch.toString(),
+      type: EventTypeEnum.goalDeleted,
+      timestamp: DateTime.now(),
+      goal: goal,
+    );
+  }
+
   EventModel copyWith({
     String? id,
     EventTypeEnum? type,
@@ -77,6 +109,8 @@ class EventModel {
     String? message,
     ProgressEntryModel? progressEntry,
     GoalModel? goal,
+    GoalModel? oldGoal,
+    bool? goalCompletedByUpdate,
   }) {
     return EventModel(
       id: id ?? this.id,
@@ -85,6 +119,9 @@ class EventModel {
       message: message ?? this.message,
       progressEntry: progressEntry ?? this.progressEntry,
       goal: goal ?? this.goal,
+      oldGoal: oldGoal ?? this.oldGoal,
+      goalCompletedByUpdate:
+          goalCompletedByUpdate ?? this.goalCompletedByUpdate,
     );
   }
 }

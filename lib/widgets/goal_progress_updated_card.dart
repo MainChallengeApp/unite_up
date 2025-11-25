@@ -55,7 +55,9 @@ class GoalProgressUpdatedCard extends StatelessWidget {
                         padding: const EdgeInsets.all(AppSizes.spacing8),
                         decoration: BoxDecoration(
                           color: goal.isCompleted
-                              ? AppColors.green.withValues(alpha: AppOpacity.light)
+                              ? AppColors.green.withValues(
+                                  alpha: AppOpacity.light,
+                                )
                               : theme.colorScheme.secondary.withValues(
                                   alpha: AppOpacity.light,
                                 ),
@@ -85,6 +87,8 @@ class GoalProgressUpdatedCard extends StatelessWidget {
                                     ? AppColors.green
                                     : theme.colorScheme.secondary,
                               ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
                             ),
                             Text(
                               DateFormat(
@@ -96,10 +100,7 @@ class GoalProgressUpdatedCard extends StatelessWidget {
                         ),
                       ),
                       if (goal.isCompleted)
-                        Text(
-                          '🎉',
-                          style: AppTextStyles.baseXXLarge,
-                        ),
+                        Text('🎉', style: AppTextStyles.baseXXLarge),
                     ],
                   ),
                   const SizedBox(height: AppSizes.spacing12),
@@ -112,10 +113,7 @@ class GoalProgressUpdatedCard extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          goal.title,
-                          style: AppTextStyles.largeSemiBold,
-                        ),
+                        Text(goal.title, style: AppTextStyles.largeSemiBold),
                         const SizedBox(height: AppSizes.spacing12),
                         // Progress bar
                         ClipRRect(

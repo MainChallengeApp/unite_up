@@ -4,7 +4,9 @@ import 'package:unite_up/enums/event_type_enum.dart';
 import 'package:unite_up/models/event_model.dart';
 import 'package:unite_up/widgets/ai_message_card.dart';
 import 'package:unite_up/widgets/goal_created_card.dart';
+import 'package:unite_up/widgets/goal_deleted_card.dart';
 import 'package:unite_up/widgets/goal_progress_updated_card.dart';
+import 'package:unite_up/widgets/goal_updated_card.dart';
 import 'package:unite_up/widgets/progress_submitted_card.dart';
 import 'package:unite_up/widgets/user_message_card.dart';
 
@@ -33,6 +35,10 @@ class EventCard extends StatelessWidget {
         return GoalCreatedCard(event: event);
       case EventTypeEnum.goalProgressUpdated:
         return GoalProgressUpdatedCard(event: event);
+      case EventTypeEnum.goalUpdated:
+        return GoalUpdatedCard(event: event);
+      case EventTypeEnum.goalDeleted:
+        return GoalDeletedCard(event: event);
     }
   }
 }

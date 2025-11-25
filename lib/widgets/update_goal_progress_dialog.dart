@@ -118,7 +118,11 @@ class _UpdateGoalProgressDialogState extends State<UpdateGoalProgressDialog> {
     Provider.of<AppStateProvider>(
       context,
       listen: false,
-    ).updateGoal(updatedGoal, createEvent: true);
+    ).updateGoal(
+      updatedGoal,
+      createEvent: true,
+      isProgressUpdate: true,
+    );
     Navigator.pop(context);
   }
 

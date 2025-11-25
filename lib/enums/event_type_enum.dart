@@ -4,4 +4,6 @@ enum EventTypeEnum {
   progressSubmitted,
   goalCreated,
   goalProgressUpdated,
+  goalUpdated,
+  goalDeleted,
 }
