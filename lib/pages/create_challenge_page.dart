@@ -21,7 +21,6 @@ class CreateChallengePage extends StatefulWidget {
 class _CreateChallengePageState extends State<CreateChallengePage> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
-  final FocusNode _titleFocusNode = FocusNode();
   final FocusNode _descriptionFocusNode = FocusNode();
   final ScrollController _scrollController = ScrollController();
   final List<UserModel> _selectedMembers = [];
@@ -56,7 +55,6 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
   void dispose() {
     _titleController.dispose();
     _descriptionController.dispose();
-    _titleFocusNode.dispose();
     _descriptionFocusNode.dispose();
     _scrollController.dispose();
     super.dispose();
@@ -137,7 +135,6 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
       children: [
         CustomTextField(
           controller: _titleController,
-          focusNode: _titleFocusNode,
           labelText: 'challenges.create.titleLabel'.tr(),
           hintText: 'challenges.create.enterChallengeName'.tr(),
           icon: AppIcons.edit,
@@ -293,46 +290,44 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
   void _showMembersPicker() {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('challenges.create.addMembers'.tr()),
-        content: SizedBox(
-          width: double.maxFinite,
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: _availableUsers.length,
-            itemBuilder: (context, index) {
-              final user = _availableUsers[index];
-              final isSelected = _selectedMembers.contains(user);
+      builder: (dialogContext) => StatefulBuilder(
+        builder: (context, setDialogState) => AlertDialog(
+          title: Text('challenges.create.addMembers'.tr()),
+          content: SizedBox(
+            width: double.maxFinite,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: _availableUsers.length,
+              itemBuilder: (context, index) {
+                final user = _availableUsers[index];
+                final isSelected = _selectedMembers.contains(user);
 
-              return CheckboxListTile(
-                value: isSelected,
-                onChanged: (value) {
-                  setState(() {
-                    if (value == true) {
-                      _selectedMembers.add(user);
-                    } else {
-                      _selectedMembers.remove(user);
-                    }
-                  });
-                  Navigator.pop(context);
-                  Future.delayed(
-                    const Duration(milliseconds: 100),
-                    _showMembersPicker,
-                  );
-                },
-                title: Text(user.name),
-                subtitle: Text(user.username),
-                secondary: CircleAvatar(child: Text(user.name[0])),
-              );
-            },
+                return CheckboxListTile(
+                  value: isSelected,
+                  onChanged: (value) {
+                    setDialogState(() {
+                      if (value == true) {
+                        _selectedMembers.add(user);
+                      } else {
+                        _selectedMembers.remove(user);
+                      }
+                    });
+                    setState(() {});
+                  },
+                  title: Text(user.name),
+                  subtitle: Text(user.username),
+                  secondary: CircleAvatar(child: Text(user.name[0])),
+                );
+              },
+            ),
           ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(dialogContext),
+              child: Text('common.done'.tr()),
+            ),
+          ],
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text('common.done'.tr()),
-          ),
-        ],
       ),
     );
   }
