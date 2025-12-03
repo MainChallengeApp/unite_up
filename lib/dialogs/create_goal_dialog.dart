@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:unite_up/models/goal_model.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
+import 'package:unite_up/translations/translations.dart';
 import 'package:unite_up/widgets/custom_text_field.dart';
 
 class CreateGoalDialog extends StatefulWidget {
@@ -47,7 +48,7 @@ class _CreateGoalDialogState extends State<CreateGoalDialog> {
               CustomTextField(
                 controller: _titleController,
                 maxLength: AppTextLimits.goalTitleMaxLength,
-                labelText: 'goals.title'.tr(),
+                labelText: Translations.goalTitle(),
                 hintText: 'goals.titleHint'.tr(),
                 icon: AppIcons.edit,
                 isRemoveTextVisible: true,
@@ -56,12 +57,9 @@ class _CreateGoalDialogState extends State<CreateGoalDialog> {
               Row(
                 children: [
                   Expanded(
-                    child: TextField(
+                    child: CustomTextField(
                       controller: _startValueController,
-                      decoration: InputDecoration(
-                        labelText: 'goals.startValue'.tr(),
-                        border: const OutlineInputBorder(),
-                      ),
+                      labelText: 'goals.startValue'.tr(),
                       keyboardType: const TextInputType.numberWithOptions(
                         decimal: true,
                       ),
@@ -69,12 +67,9 @@ class _CreateGoalDialogState extends State<CreateGoalDialog> {
                   ),
                   const SizedBox(width: AppSizes.spacing12),
                   Expanded(
-                    child: TextField(
+                    child: CustomTextField(
                       controller: _endValueController,
-                      decoration: InputDecoration(
-                        labelText: 'goals.endValue'.tr(),
-                        border: const OutlineInputBorder(),
-                      ),
+                      labelText: 'goals.endValue'.tr(),
                       keyboardType: const TextInputType.numberWithOptions(
                         decimal: true,
                       ),
@@ -83,13 +78,11 @@ class _CreateGoalDialogState extends State<CreateGoalDialog> {
                 ],
               ),
               const SizedBox(height: AppSizes.spacing16),
-              TextField(
+              CustomTextField(
                 controller: _unitController,
-                decoration: InputDecoration(
-                  labelText: 'goals.unit'.tr(),
-                  hintText: 'goals.unitHint'.tr(),
-                  border: const OutlineInputBorder(),
-                ),
+                labelText: 'goals.unit'.tr(),
+                hintText: 'goals.unitHint'.tr(),
+                isRemoveTextVisible: true,
               ),
               const SizedBox(height: AppSizes.spacing16),
               Text(

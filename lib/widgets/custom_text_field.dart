@@ -4,8 +4,8 @@ import 'package:unite_up/core/constants/app_constants.dart';
 class CustomTextField extends StatefulWidget {
   final TextEditingController controller;
   final String labelText;
-  final String hintText;
-  final IconData icon;
+  final String? hintText;
+  final IconData? icon;
   final int? maxLines;
   final int? maxLength;
   final bool obscureText;
@@ -24,8 +24,8 @@ class CustomTextField extends StatefulWidget {
     super.key,
     required this.controller,
     required this.labelText,
-    required this.hintText,
-    required this.icon,
+    this.hintText,
+    this.icon,
     this.maxLines = 1,
     this.maxLength,
     this.obscureText = false,
@@ -113,12 +113,14 @@ class _CustomTextFieldState extends State<CustomTextField> {
         label: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(
-              widget.icon,
-              size: AppSizes.iconSmall,
-              color: _theme.iconTheme.color,
-            ),
-            const SizedBox(width: AppSizes.spacing8),
+            if (widget.icon != null) ...[
+              Icon(
+                widget.icon!,
+                size: AppSizes.iconSmall,
+                color: _theme.iconTheme.color,
+              ),
+              const SizedBox(width: AppSizes.spacing8),
+            ],
             Text(
               widget.labelText,
               style: AppTextStyles.baseBase.copyWith(

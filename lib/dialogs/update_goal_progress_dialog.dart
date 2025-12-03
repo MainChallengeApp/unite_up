@@ -190,3 +190,4 @@ class _UpdateGoalProgressDialogState extends State<UpdateGoalProgressDialog> {
     );
   }
 }
+

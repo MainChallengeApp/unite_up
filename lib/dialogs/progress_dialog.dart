@@ -423,3 +423,4 @@ class _ProgressDialogState extends State<ProgressDialog> {
     );
   }
 }
+

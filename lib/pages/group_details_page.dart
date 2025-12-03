@@ -4,12 +4,17 @@ import 'package:flutter/services.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'package:provider/provider.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
+import 'package:unite_up/dialogs/create_goal_dialog.dart';
+import 'package:unite_up/dialogs/delete_challenge_dialog.dart';
+import 'package:unite_up/dialogs/delete_goal_dialog.dart';
+import 'package:unite_up/dialogs/edit_challenge_dialog.dart';
+import 'package:unite_up/dialogs/edit_goal_dialog.dart';
+import 'package:unite_up/dialogs/quick_update_progress_dialog.dart';
 import 'package:unite_up/models/challenge_chat_model.dart';
 import 'package:unite_up/models/goal_model.dart';
 import 'package:unite_up/models/user_model.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
 import 'package:unite_up/services/user_service.dart';
-import 'package:unite_up/widgets/create_goal_dialog.dart';
 import 'package:unite_up/widgets/custom_app_bar.dart';
 import 'package:unite_up/widgets/custom_bottom_sheet.dart';
 import 'package:unite_up/widgets/custom_slidable_action_button.dart';
@@ -673,7 +678,7 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
       onTap: isCurrentUser
           ? () {
               HapticFeedback.lightImpact();
-              _showQuickUpdateProgress(context, theme, goal);
+              _showQuickUpdateProgress(context, goal);
             }
           : null,
       borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
@@ -867,7 +872,7 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
             CustomSlidableAction(
               onPressed: (_) {
                 HapticFeedback.lightImpact();
-                _showEditGoalDialog(context, theme, goal, currentChallenge);
+                _showEditGoalDialog(context, goal);
               },
               backgroundColor: Colors.transparent,
               padding: const EdgeInsets.symmetric(
@@ -909,280 +914,24 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
     );
   }
 
-  void _showQuickUpdateProgress(
-    BuildContext context,
-    ThemeData theme,
-    GoalModel goal,
-  ) {
-    final progressController = TextEditingController(
-      text: goal.currentValue.toString(),
-    );
-
+  void _showQuickUpdateProgress(BuildContext context, GoalModel goal) {
     showDialog(
       context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: Row(
-          children: [
-            Icon(AppIcons.stats, color: theme.colorScheme.primary),
-            const SizedBox(width: AppSizes.spacing12),
-            Expanded(
-              child: Text(
-                'goals.updateProgress'.tr(),
-                style: AppTextStyles.largeSemiBold,
-              ),
-            ),
-          ],
-        ),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(goal.title, style: AppTextStyles.mediumSemiBold),
-            const SizedBox(height: AppSizes.spacing16),
-            TextField(
-              controller: progressController,
-              keyboardType: const TextInputType.numberWithOptions(
-                decimal: true,
-              ),
-              decoration: InputDecoration(
-                labelText: 'goals.currentValue'.tr(),
-                suffixText: goal.unit,
-                border: const OutlineInputBorder(),
-                prefixIcon: Icon(
-                  AppIcons.flag,
-                  color: theme.colorScheme.primary,
-                ),
-              ),
-              autofocus: true,
-            ),
-            const SizedBox(height: AppSizes.spacing12),
-            Container(
-              padding: const EdgeInsets.all(AppSizes.spacing12),
-              decoration: BoxDecoration(
-                color: theme.colorScheme.primary.withValues(alpha: 0.05),
-                borderRadius: BorderRadius.circular(AppSizes.radiusSmall),
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'goals.target'.tr(),
-                    style: AppTextStyles.smallSecondary(context),
-                  ),
-                  Text(
-                    '${_formatValue(goal.endValue)} ${goal.unit ?? ""}',
-                    style: AppTextStyles.mediumSemiBold.copyWith(
-                      color: theme.colorScheme.primary,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext),
-            child: Text('common.cancel'.tr()),
-          ),
-          FilledButton(
-            onPressed: () {
-              final newValue = double.tryParse(progressController.text);
-              if (newValue != null) {
-                HapticFeedback.mediumImpact();
-                final updatedGoal = goal.copyWith(currentValue: newValue);
-                Provider.of<AppStateProvider>(
-                  context,
-                  listen: false,
-                ).updateGoal(
-                  updatedGoal,
-                  createEvent: true,
-                  isProgressUpdate: true,
-                );
-                Navigator.pop(dialogContext);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('goals.progressUpdated'.tr()),
-                    behavior: SnackBarBehavior.floating,
-                    backgroundColor: AppColors.green,
-                  ),
-                );
-              }
-            },
-            style: FilledButton.styleFrom(
-              backgroundColor: theme.colorScheme.primary,
-            ),
-            child: Text('common.save'.tr()),
-          ),
-        ],
-      ),
+      builder: (context) => QuickUpdateProgressDialog(goal: goal),
     );
   }
 
-  void _showEditGoalDialog(
-    BuildContext context,
-    ThemeData theme,
-    GoalModel goal,
-    ChallengeChatModel currentChallenge,
-  ) {
-    final titleController = TextEditingController(text: goal.title);
-    final startValueController = TextEditingController(
-      text: goal.startValue.toString(),
-    );
-    final endValueController = TextEditingController(
-      text: goal.endValue.toString(),
-    );
-    final unitController = TextEditingController(text: goal.unit ?? '');
-
+  void _showEditGoalDialog(BuildContext context, GoalModel goal) {
     showDialog(
       context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: Row(
-          children: [
-            Icon(AppIcons.edit, color: theme.colorScheme.primary),
-            const SizedBox(width: AppSizes.spacing12),
-            Expanded(
-              child: Text(
-                'goals.editGoal'.tr(),
-                style: AppTextStyles.largeSemiBold,
-              ),
-            ),
-          ],
-        ),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: titleController,
-                decoration: InputDecoration(
-                  labelText: 'goals.goalTitle'.tr(),
-                  border: const OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: AppSizes.spacing16),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: startValueController,
-                      keyboardType: const TextInputType.numberWithOptions(
-                        decimal: true,
-                      ),
-                      decoration: InputDecoration(
-                        labelText: 'goals.startValue'.tr(),
-                        border: const OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: AppSizes.spacing12),
-                  Expanded(
-                    child: TextField(
-                      controller: endValueController,
-                      keyboardType: const TextInputType.numberWithOptions(
-                        decimal: true,
-                      ),
-                      decoration: InputDecoration(
-                        labelText: 'goals.endValue'.tr(),
-                        border: const OutlineInputBorder(),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: AppSizes.spacing16),
-              TextField(
-                controller: unitController,
-                decoration: InputDecoration(
-                  labelText: 'goals.unit'.tr(),
-                  border: const OutlineInputBorder(),
-                  hintText: 'goals.unitHint'.tr(),
-                ),
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext),
-            child: Text('common.cancel'.tr()),
-          ),
-          FilledButton(
-            onPressed: () {
-              final title = titleController.text.trim();
-              final startValue = double.tryParse(startValueController.text);
-              final endValue = double.tryParse(endValueController.text);
-
-              if (title.isNotEmpty && startValue != null && endValue != null) {
-                HapticFeedback.mediumImpact();
-                final updatedGoal = goal.copyWith(
-                  title: title,
-                  startValue: startValue,
-                  endValue: endValue,
-                  unit: unitController.text.trim().isEmpty
-                      ? null
-                      : unitController.text.trim(),
-                );
-                Provider.of<AppStateProvider>(
-                  context,
-                  listen: false,
-                ).updateGoal(
-                  updatedGoal,
-                  createEvent: true,
-                  isProgressUpdate: false,
-                );
-                Navigator.pop(dialogContext);
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('goals.goalUpdated'.tr()),
-                    behavior: SnackBarBehavior.floating,
-                  ),
-                );
-              }
-            },
-            style: FilledButton.styleFrom(
-              backgroundColor: theme.colorScheme.primary,
-            ),
-            child: Text('common.save'.tr()),
-          ),
-        ],
-      ),
+      builder: (context) => EditGoalDialog(goal: goal),
     );
   }
 
   void _showDeleteGoalConfirmation(BuildContext context, GoalModel goal) {
     showDialog(
       context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: Text('goals.deleteGoal'.tr()),
-        content: Text(
-          'goals.deleteGoalConfirmation'.tr(namedArgs: {'goal': goal.title}),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(dialogContext),
-            child: Text('common.cancel'.tr()),
-          ),
-          FilledButton(
-            onPressed: () {
-              HapticFeedback.mediumImpact();
-              Provider.of<AppStateProvider>(
-                context,
-                listen: false,
-              ).deleteGoal(goal.id);
-              Navigator.pop(dialogContext);
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('goals.goalDeleted'.tr()),
-                  behavior: SnackBarBehavior.floating,
-                ),
-              );
-            },
-            style: FilledButton.styleFrom(backgroundColor: AppColors.red),
-            child: Text('common.delete'.tr()),
-          ),
-        ],
-      ),
+      builder: (context) => DeleteGoalDialog(goal: goal),
     );
   }
 
@@ -1223,97 +972,21 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
 
   void _showEditChallengeDialog(
     BuildContext context,
-    ChallengeChatModel currentChallenge,
+    ChallengeChatModel challenge,
   ) {
-    final nameController = TextEditingController(text: currentChallenge.name);
-    final descriptionController = TextEditingController(
-      text: currentChallenge.description ?? '',
-    );
-
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('challenges.edit'.tr()),
-        content: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              TextField(
-                controller: nameController,
-                decoration: InputDecoration(
-                  labelText: 'challenges.create.titleLabel'.tr(),
-                  border: const OutlineInputBorder(),
-                ),
-              ),
-              const SizedBox(height: AppSizes.spacing16),
-              TextField(
-                controller: descriptionController,
-                decoration: InputDecoration(
-                  labelText: 'challenges.create.descriptionLabel'.tr(),
-                  border: const OutlineInputBorder(),
-                ),
-                maxLines: 3,
-              ),
-            ],
-          ),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text('common.cancel'.tr()),
-          ),
-          FilledButton(
-            onPressed: () {
-              if (nameController.text.trim().isNotEmpty) {
-                final updatedChallenge = currentChallenge.copyWith(
-                  name: nameController.text.trim(),
-                  description: descriptionController.text.trim().isEmpty
-                      ? null
-                      : descriptionController.text.trim(),
-                );
-                Provider.of<AppStateProvider>(
-                  context,
-                  listen: false,
-                ).updateChallenge(updatedChallenge);
-                Navigator.pop(context);
-              }
-            },
-            child: Text('common.save'.tr()),
-          ),
-        ],
-      ),
+      builder: (context) => EditChallengeDialog(challenge: challenge),
     );
   }
 
   void _showDeleteChallengeConfirmation(
     BuildContext context,
-    ChallengeChatModel currentChallenge,
+    ChallengeChatModel challenge,
   ) {
     showDialog(
       context: context,
-      builder: (context) => AlertDialog(
-        title: Text('challenges.delete'.tr()),
-        content: Text('challenges.deleteConfirmation'.tr()),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(context),
-            child: Text('common.cancel'.tr()),
-          ),
-          FilledButton(
-            onPressed: () {
-              Provider.of<AppStateProvider>(
-                context,
-                listen: false,
-              ).deleteChallenge(currentChallenge.id);
-              Navigator.pop(context); // Close dialog
-              Navigator.pop(context); // Close group details
-              Navigator.pop(context); // Close chat page
-            },
-            style: FilledButton.styleFrom(backgroundColor: AppColors.red),
-            child: Text('common.delete'.tr()),
-          ),
-        ],
-      ),
+      builder: (context) => DeleteChallengeDialog(challenge: challenge),
     );
   }
 

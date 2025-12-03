@@ -387,15 +387,6 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
       appState.addChallenge(challenge);
 
       if (mounted) {
-        // Show success message
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text('challenges.create.success'.tr()),
-            behavior: SnackBarBehavior.floating,
-            backgroundColor: AppColors.green,
-          ),
-        );
-
         // Navigate to chat page
         Navigator.pushReplacement(
           context,
