@@ -7,6 +7,8 @@ import 'package:unite_up/models/progress_entry_model.dart';
 import 'package:unite_up/services/auth_service.dart';
 
 class AppStateProvider extends ChangeNotifier {
+  static const String anonymousUserId = 'user-1';
+
   final AuthService _authService = AuthService();
   final List<ChallengeChatModel> _challenges = [];
   String? _selectedChallengeId;
@@ -308,16 +310,19 @@ class AppStateProvider extends ChangeNotifier {
   // Authentication methods
   Future<void> signInWithGoogle() async {
     await _authService.signInWithGoogle();
+    _migrateAnonymousChallenges();
     notifyListeners();
   }
 
   Future<void> signInWithApple() async {
     await _authService.signInWithApple();
+    _migrateAnonymousChallenges();
     notifyListeners();
   }
 
   Future<void> signInWithEmail(String email, String password) async {
     await _authService.signInWithEmail(email, password);
+    _migrateAnonymousChallenges();
     notifyListeners();
   }
 
@@ -327,19 +332,49 @@ class AppStateProvider extends ChangeNotifier {
     String name,
   ) async {
     await _authService.signUpWithEmail(email, password, name);
+    _migrateAnonymousChallenges();
     notifyListeners();
+  }
+
+  void _migrateAnonymousChallenges() {
+    final userId = _authService.currentUser?.id;
+    if (userId == null) return;
+
+    for (int i = 0; i < _challenges.length; i++) {
+      final challenge = _challenges[i];
+
+      // Check if this challenge was created by the anonymous user
+      if (challenge.creatorId == anonymousUserId) {
+        // Update memberIds: replace anonymous ID with real user ID
+        final updatedMemberIds = challenge.memberIds
+            .map((id) => id == anonymousUserId ? userId : id)
+            .toList();
+        final goals = challenge.goals
+            .map(
+              (goal) => goal.userId == anonymousUserId
+                  ? goal.copyWith(userId: userId)
+                  : goal,
+            )
+            .toList();
+        final events = challenge.events
+            .map(
+              (event) => event.userId == anonymousUserId
+                  ? event.copyWith(userId: userId)
+                  : event,
+            )
+            .toList();
+        _challenges[i] = challenge.copyWith(
+          creatorId: userId,
+          memberIds: updatedMemberIds,
+          goals: goals,
+          events: events,
+        );
+      }
+    }
   }
 
   Future<void> signOut() async {
     await _authService.signOut();
-    notifyListeners();
-  }
-
-  // Reset for testing (optional)
-  void reset() {
-    _challenges.clear();
-    _selectedChallengeId = null;
-    _hasCompletedOnboarding = false;
     notifyListeners();
   }
 }

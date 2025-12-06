@@ -2,14 +2,14 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
+import 'package:unite_up/dialogs/create_goal_dialog.dart';
+import 'package:unite_up/dialogs/progress_dialog.dart';
+import 'package:unite_up/dialogs/update_goal_progress_dialog.dart';
 import 'package:unite_up/models/event_model.dart';
 import 'package:unite_up/models/progress_entry_model.dart';
 import 'package:unite_up/pages/group_details_page.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
 import 'package:unite_up/widgets/custom_app_bar.dart';
-import 'package:unite_up/dialogs/create_goal_dialog.dart';
-import 'package:unite_up/dialogs/progress_dialog.dart';
-import 'package:unite_up/dialogs/update_goal_progress_dialog.dart';
 import 'package:unite_up/widgets/event_card.dart';
 import 'package:unite_up/widgets/upload_selection_sheet.dart';
 
@@ -46,6 +46,7 @@ class _ChatPageState extends State<ChatPage> {
   Widget build(BuildContext context) {
     final appState = Provider.of<AppStateProvider>(context);
     final challenge = appState.currentChallenge;
+    final hasGoal = _userHasGoal(appState);
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
@@ -53,6 +54,7 @@ class _ChatPageState extends State<ChatPage> {
         appBar: CustomAppBar(titleWidget: _buildAppBarTitleWidget(challenge)),
         body: Column(
           children: [
+            if (!hasGoal) _buildCreateGoalBanner(),
             Expanded(
               child: appState.events.isEmpty
                   ? _buildEmptyState()
@@ -60,6 +62,97 @@ class _ChatPageState extends State<ChatPage> {
             ),
             _buildInputBar(appState),
           ],
+        ),
+      ),
+    );
+  }
+
+  bool _userHasGoal(AppStateProvider appState) {
+    final userId = appState.currentUser?.id ?? AppStateProvider.anonymousUserId;
+    final userGoals = appState.getGoalsForUser(userId);
+    return userGoals.isNotEmpty;
+  }
+
+  Widget _buildCreateGoalBanner() {
+    return Container(
+      margin: const EdgeInsets.all(AppSizes.spacing16),
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [
+            _theme.colorScheme.primary,
+            _theme.colorScheme.primary.withValues(alpha: 0.8),
+          ],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
+        boxShadow: [
+          BoxShadow(
+            color: _theme.colorScheme.primary.withValues(alpha: 0.3),
+            blurRadius: AppSizes.blurMedium,
+            offset: AppSizes.shadowOffsetSmall,
+          ),
+        ],
+      ),
+      child: Material(
+        color: AppColors.transparent,
+        child: InkWell(
+          onTap: _showCreateGoalDialog,
+          borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
+          child: Padding(
+            padding: const EdgeInsets.all(AppSizes.spacing16),
+            child: Row(
+              children: [
+                Container(
+                  width: AppSizes.iconXXLarge,
+                  height: AppSizes.iconXXLarge,
+                  decoration: BoxDecoration(
+                    color: AppColors.white.withValues(alpha: 0.2),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    AppIcons.flag,
+                    color: AppColors.white,
+                    size: AppSizes.iconLarge,
+                  ),
+                ),
+                const SizedBox(width: AppSizes.spacing16),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'chat.setYourGoal'.tr(),
+                        style: AppTextStyles.largeSemiBold.copyWith(
+                          color: AppColors.white,
+                        ),
+                      ),
+                      const SizedBox(height: AppSizes.spacing4),
+                      Text(
+                        'chat.setYourGoalDescription'.tr(),
+                        style: AppTextStyles.baseSmall.copyWith(
+                          color: AppColors.white.withValues(alpha: 0.9),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: AppSizes.spacing8),
+                Container(
+                  padding: const EdgeInsets.all(AppSizes.spacing8),
+                  decoration: BoxDecoration(
+                    color: AppColors.white.withValues(alpha: 0.2),
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    AppIcons.arrowForward,
+                    color: AppColors.white,
+                    size: AppSizes.iconSmall,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

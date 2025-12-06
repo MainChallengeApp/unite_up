@@ -7,6 +7,9 @@ class EventModel {
   final EventTypeEnum type;
   final DateTime timestamp;
 
+  // User who created this event (null for AI messages)
+  final String? userId;
+
   // For text messages
   final String? message;
 
@@ -26,6 +29,7 @@ class EventModel {
     required this.id,
     required this.type,
     required this.timestamp,
+    this.userId,
     this.message,
     this.progressEntry,
     this.goal,
@@ -106,6 +110,7 @@ class EventModel {
     String? id,
     EventTypeEnum? type,
     DateTime? timestamp,
+    String? userId,
     String? message,
     ProgressEntryModel? progressEntry,
     GoalModel? goal,
@@ -116,6 +121,7 @@ class EventModel {
       id: id ?? this.id,
       type: type ?? this.type,
       timestamp: timestamp ?? this.timestamp,
+      userId: userId ?? this.userId,
       message: message ?? this.message,
       progressEntry: progressEntry ?? this.progressEntry,
       goal: goal ?? this.goal,

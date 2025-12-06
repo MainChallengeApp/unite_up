@@ -106,7 +106,10 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       child: Theme(
-        data: _theme.copyWith(highlightColor: Colors.transparent),
+        data: _theme.copyWith(
+          highlightColor: Colors.transparent,
+          hoverColor: Colors.transparent,
+        ),
         child: BottomNavigationBar(
           currentIndex: _selectedIndex,
           onTap: _onItemTapped,

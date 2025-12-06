@@ -362,7 +362,8 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
 
     try {
       final appState = Provider.of<AppStateProvider>(context, listen: false);
-      final currentUserId = appState.currentUser?.id ?? 'user-1';
+      final currentUserId =
+          appState.currentUser?.id ?? AppStateProvider.anonymousUserId;
 
       final memberIds = <String>[];
       memberIds.add(currentUserId);
