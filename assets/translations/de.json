@@ -60,8 +60,8 @@
     "startJourney": "Challenge erstellen"
   },
   "goals": {
-    "groupDetails": "Gruppendetails",
-    "challengeDetails": "Challenge-Details",
+    "groupDetails": "Challenge Details",
+    "challengeDetails": "Challenge Details",
     "membersAndGoals": "Mitglieder & Ziele",
     "myGoals": "Meine Ziele",
     "totalGoals": "Gesamtziele",
@@ -183,6 +183,11 @@
       "members": "Mitglieder",
       "addMembers": "Mitglieder hinzufügen",
       "noMembersAdded": "Noch keine Mitglieder hinzugefügt",
+      "removeMember": "Mitglied entfernen",
+      "removeMemberConfirmation": "Bist du sicher, dass du {name} aus dieser Challenge entfernen möchtest?",
+      "memberRemoved": "Mitglied entfernt",
+      "memberAdded": "Mitglied hinzugefügt",
+      "manageMembers": "Mitglieder verwalten",
       "pleaseEnterTitle": "Bitte gib einen Titel ein",
       "pleaseSelectCategory": "Bitte wähle eine Kategorie",
       "titleTooLong": "Titel ist zu lang. Maximal 50 Zeichen erlaubt.",

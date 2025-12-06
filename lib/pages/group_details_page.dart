@@ -7,12 +7,12 @@ import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:unite_up/dialogs/create_goal_dialog.dart';
 import 'package:unite_up/dialogs/delete_challenge_dialog.dart';
 import 'package:unite_up/dialogs/delete_goal_dialog.dart';
-import 'package:unite_up/dialogs/edit_challenge_dialog.dart';
 import 'package:unite_up/dialogs/edit_goal_dialog.dart';
 import 'package:unite_up/dialogs/quick_update_progress_dialog.dart';
 import 'package:unite_up/models/challenge_chat_model.dart';
 import 'package:unite_up/models/goal_model.dart';
 import 'package:unite_up/models/user_model.dart';
+import 'package:unite_up/pages/create_challenge_page.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
 import 'package:unite_up/services/user_service.dart';
 import 'package:unite_up/widgets/custom_app_bar.dart';
@@ -52,7 +52,8 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final appState = Provider.of<AppStateProvider>(context);
-    final currentUserId = appState.currentUser?.id ?? 'user-1';
+    final currentUserId =
+        appState.currentUser?.id ?? AppStateProvider.anonymousUserId;
     final allUsers = UserModelService.getMockUserModels();
 
     // Get the latest challenge data from the provider
@@ -115,9 +116,7 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
 
     return Scaffold(
       appBar: CustomAppBar(
-        title: widget.challenge.isGroup
-            ? 'goals.groupDetails'.tr()
-            : 'goals.challengeDetails'.tr(),
+        title: 'goals.challengeDetails'.tr(),
         actions: [
           IconButton(
             icon: const Icon(Icons.more_vert),
@@ -953,7 +952,7 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
             color: theme.colorScheme.primary,
             onTap: () {
               Navigator.pop(context);
-              _showEditChallengeDialog(context, currentChallenge);
+              _navigateToEditChallenge(context, currentChallenge);
             },
           ),
           BottomSheetOption(
@@ -970,13 +969,15 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
     );
   }
 
-  void _showEditChallengeDialog(
+  void _navigateToEditChallenge(
     BuildContext context,
     ChallengeChatModel challenge,
   ) {
-    showDialog(
-      context: context,
-      builder: (context) => EditChallengeDialog(challenge: challenge),
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => CreateChallengePage(challenge: challenge),
+      ),
     );
   }
 

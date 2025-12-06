@@ -12,7 +12,11 @@ import 'package:unite_up/widgets/custom_app_bar.dart';
 import 'package:unite_up/widgets/custom_text_field.dart';
 
 class CreateChallengePage extends StatefulWidget {
-  const CreateChallengePage({super.key});
+  final ChallengeChatModel? challenge;
+
+  const CreateChallengePage({super.key, this.challenge});
+
+  bool get isEditMode => challenge != null;
 
   @override
   State<CreateChallengePage> createState() => _CreateChallengePageState();
@@ -24,12 +28,15 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
   final FocusNode _descriptionFocusNode = FocusNode();
   final ScrollController _scrollController = ScrollController();
   final List<UserModel> _selectedMembers = [];
-  final List<UserModel> _availableUsers = [];
-  String _selectedEmoji = '🎯';
+  late List<UserModel> _availableUsers;
+  late String _selectedEmoji;
   final GoalCategoryEnum _selectedCategory = GoalCategoryEnum.health;
-  bool _isCreating = false;
+  bool _isSaving = false;
+
+  bool get _isEditMode => widget.challenge != null;
 
   ThemeData get _theme => Theme.of(context);
+
   final List<String> _availableEmojis = [
     '🎯',
     '💪',
@@ -43,12 +50,37 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
     '✨',
     '🎉',
     '🌟',
+    '🏆',
+    '💎',
+    '🚀',
+    '⭐',
   ];
 
   @override
   void initState() {
     super.initState();
-    _availableUsers.addAll(UserModelService.getMockUserModels());
+    _availableUsers = UserModelService.getMockUserModels();
+    _selectedEmoji = widget.challenge?.emoji ?? '🎯';
+
+    if (_isEditMode) {
+      _titleController.text = widget.challenge!.name;
+      _descriptionController.text = widget.challenge!.description ?? '';
+      _initializeSelectedMembers();
+    }
+  }
+
+  void _initializeSelectedMembers() {
+    final appState = Provider.of<AppStateProvider>(context, listen: false);
+    final currentUserId =
+        appState.currentUser?.id ?? AppStateProvider.anonymousUserId;
+
+    // Add members that are in the challenge (excluding current user)
+    for (final user in _availableUsers) {
+      if (widget.challenge!.memberIds.contains(user.id) &&
+          user.id != currentUserId) {
+        _selectedMembers.add(user);
+      }
+    }
   }
 
   @override
@@ -64,11 +96,19 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
   Widget build(BuildContext context) {
     final appState = Provider.of<AppStateProvider>(context);
     final isAuthenticated = appState.isAuthenticated;
+    final currentUserId =
+        appState.currentUser?.id ?? AppStateProvider.anonymousUserId;
+    final isCreator =
+        !_isEditMode || widget.challenge!.creatorId == currentUserId;
 
     return GestureDetector(
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
-        appBar: CustomAppBar(title: 'challenges.createNewChallenge'.tr()),
+        appBar: CustomAppBar(
+          title: _isEditMode
+              ? 'challenges.edit'.tr()
+              : 'challenges.createNewChallenge'.tr(),
+        ),
         body: SingleChildScrollView(
           controller: _scrollController,
           padding: const EdgeInsets.all(AppSizes.spacing24),
@@ -81,9 +121,9 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
               _buildTitleField(),
               const SizedBox(height: AppSizes.spacing16),
               _buildDescriptionField(),
-              if (isAuthenticated) _buildMembersSection(),
+              if (isAuthenticated && isCreator) _buildMembersSection(),
               const SizedBox(height: AppSizes.spacing32),
-              _buildCreateButton(),
+              _buildActionButton(),
             ],
           ),
         ),
@@ -130,41 +170,31 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
   }
 
   Widget _buildTitleField() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CustomTextField(
-          controller: _titleController,
-          labelText: 'challenges.create.titleLabel'.tr(),
-          hintText: 'challenges.create.enterChallengeName'.tr(),
-          icon: AppIcons.edit,
-          maxLength: AppTextLimits.challengeTitleMaxLength,
-          textInputAction: TextInputAction.next,
-          onSubmitted: (_) {
-            _descriptionFocusNode.requestFocus();
-          },
-          isRemoveTextVisible: true,
-        ),
-      ],
+    return CustomTextField(
+      controller: _titleController,
+      labelText: 'challenges.create.titleLabel'.tr(),
+      hintText: 'challenges.create.enterChallengeName'.tr(),
+      icon: AppIcons.edit,
+      maxLength: AppTextLimits.challengeTitleMaxLength,
+      textInputAction: TextInputAction.next,
+      onSubmitted: (_) {
+        _descriptionFocusNode.requestFocus();
+      },
+      isRemoveTextVisible: true,
     );
   }
 
   Widget _buildDescriptionField() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        CustomTextField(
-          controller: _descriptionController,
-          focusNode: _descriptionFocusNode,
-          labelText: 'challenges.create.descriptionLabel'.tr(),
-          hintText: 'challenges.create.whatIsGroupAbout'.tr(),
-          icon: AppIcons.description,
-          maxLines: 3,
-          maxLength: AppTextLimits.challengeDescriptionMaxLength,
-          textInputAction: TextInputAction.newline,
-          isRemoveTextVisible: true,
-        ),
-      ],
+    return CustomTextField(
+      controller: _descriptionController,
+      focusNode: _descriptionFocusNode,
+      labelText: 'challenges.create.descriptionLabel'.tr(),
+      hintText: 'challenges.create.whatIsGroupAbout'.tr(),
+      icon: AppIcons.description,
+      maxLines: 3,
+      maxLength: AppTextLimits.challengeDescriptionMaxLength,
+      textInputAction: TextInputAction.newline,
+      isRemoveTextVisible: true,
     );
   }
 
@@ -218,18 +248,18 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
     );
   }
 
-  Widget _buildCreateButton() {
+  Widget _buildActionButton() {
     return SizedBox(
       width: double.infinity,
       child: FilledButton(
-        onPressed: _isCreating ? null : _createChallenge,
+        onPressed: _isSaving ? null : _saveChallenge,
         style: FilledButton.styleFrom(
           padding: const EdgeInsets.symmetric(vertical: AppSizes.spacing16),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
           ),
         ),
-        child: _isCreating
+        child: _isSaving
             ? const SizedBox(
                 height: AppSizes.iconMedium,
                 width: AppSizes.iconMedium,
@@ -239,7 +269,9 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                 ),
               )
             : Text(
-                'challenges.createChallenge'.tr(),
+                _isEditMode
+                    ? 'common.save'.tr()
+                    : 'challenges.createChallenge'.tr(),
                 style: AppTextStyles.largeSemiBold,
               ),
       ),
@@ -332,8 +364,8 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
     );
   }
 
-  Future<void> _createChallenge() async {
-    if (_isCreating) return;
+  Future<void> _saveChallenge() async {
+    if (_isSaving) return;
 
     if (_titleController.text.trim().isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -358,7 +390,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
       return;
     }
 
-    setState(() => _isCreating = true);
+    setState(() => _isSaving = true);
 
     try {
       final appState = Provider.of<AppStateProvider>(context, listen: false);
@@ -369,34 +401,51 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
       memberIds.add(currentUserId);
       memberIds.addAll(_selectedMembers.map((m) => m.id));
 
-      final challenge = ChallengeChatModel(
-        id: DateTime.now().millisecondsSinceEpoch.toString(),
-        name: _titleController.text.trim(),
-        description: _descriptionController.text.trim().isEmpty
-            ? null
-            : _descriptionController.text.trim(),
-        category: _selectedCategory,
-        emoji: _selectedEmoji,
-        memberIds: memberIds,
-        creatorId: currentUserId,
-        createdAt: DateTime.now(),
-      );
-
       // Simulate network delay
       await Future.delayed(const Duration(milliseconds: 500));
 
-      appState.addChallenge(challenge);
-
-      if (mounted) {
-        // Navigate to chat page
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(builder: (context) => const ChatPage()),
+      if (_isEditMode) {
+        // Update existing challenge
+        final updatedChallenge = widget.challenge!.copyWith(
+          name: _titleController.text.trim(),
+          description: _descriptionController.text.trim().isEmpty
+              ? null
+              : _descriptionController.text.trim(),
+          emoji: _selectedEmoji,
+          memberIds: memberIds,
         );
+        appState.updateChallenge(updatedChallenge);
+
+        if (mounted) {
+          Navigator.pop(context);
+        }
+      } else {
+        // Create new challenge
+        final challenge = ChallengeChatModel(
+          id: DateTime.now().millisecondsSinceEpoch.toString(),
+          name: _titleController.text.trim(),
+          description: _descriptionController.text.trim().isEmpty
+              ? null
+              : _descriptionController.text.trim(),
+          category: _selectedCategory,
+          emoji: _selectedEmoji,
+          memberIds: memberIds,
+          creatorId: currentUserId,
+          createdAt: DateTime.now(),
+        );
+
+        appState.addChallenge(challenge);
+
+        if (mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (context) => const ChatPage()),
+          );
+        }
       }
     } catch (e) {
       if (mounted) {
-        setState(() => _isCreating = false);
+        setState(() => _isSaving = false);
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
             content: Text('challenges.create.error'.tr()),
