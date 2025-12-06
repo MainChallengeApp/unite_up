@@ -73,6 +73,9 @@ class AppSizes {
   static const double containerLarge = 80.0;
   static const double containerHuge = 120.0;
 
+  // Dialog Sizes
+  static const double dialogWidth = 300.0;
+
   // Border Widths
   static const double borderThin = 1.0;
   static const double borderMedium = 1.5;

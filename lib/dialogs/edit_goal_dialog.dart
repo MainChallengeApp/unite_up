@@ -60,57 +60,60 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
           ),
         ],
       ),
-      content: SingleChildScrollView(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            TextField(
-              controller: _titleController,
-              decoration: InputDecoration(
-                labelText: 'goals.goalTitle'.tr(),
-                border: const OutlineInputBorder(),
+      content: SizedBox(
+        width: AppSizes.dialogWidth,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              TextField(
+                controller: _titleController,
+                decoration: InputDecoration(
+                  labelText: 'goals.goalTitle'.tr(),
+                  border: const OutlineInputBorder(),
+                ),
               ),
-            ),
-            const SizedBox(height: AppSizes.spacing16),
-            Row(
-              children: [
-                Expanded(
-                  child: TextField(
-                    controller: _startValueController,
-                    keyboardType: const TextInputType.numberWithOptions(
-                      decimal: true,
-                    ),
-                    decoration: InputDecoration(
-                      labelText: 'goals.startValue'.tr(),
-                      border: const OutlineInputBorder(),
+              const SizedBox(height: AppSizes.spacing16),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _startValueController,
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
+                      decoration: InputDecoration(
+                        labelText: 'goals.startValue'.tr(),
+                        border: const OutlineInputBorder(),
+                      ),
                     ),
                   ),
-                ),
-                const SizedBox(width: AppSizes.spacing12),
-                Expanded(
-                  child: TextField(
-                    controller: _endValueController,
-                    keyboardType: const TextInputType.numberWithOptions(
-                      decimal: true,
-                    ),
-                    decoration: InputDecoration(
-                      labelText: 'goals.endValue'.tr(),
-                      border: const OutlineInputBorder(),
+                  const SizedBox(width: AppSizes.spacing12),
+                  Expanded(
+                    child: TextField(
+                      controller: _endValueController,
+                      keyboardType: const TextInputType.numberWithOptions(
+                        decimal: true,
+                      ),
+                      decoration: InputDecoration(
+                        labelText: 'goals.endValue'.tr(),
+                        border: const OutlineInputBorder(),
+                      ),
                     ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: AppSizes.spacing16),
-            TextField(
-              controller: _unitController,
-              decoration: InputDecoration(
-                labelText: 'goals.unit'.tr(),
-                border: const OutlineInputBorder(),
-                hintText: 'goals.unitHint'.tr(),
+                ],
               ),
-            ),
-          ],
+              const SizedBox(height: AppSizes.spacing16),
+              TextField(
+                controller: _unitController,
+                decoration: InputDecoration(
+                  labelText: 'goals.unit'.tr(),
+                  border: const OutlineInputBorder(),
+                  hintText: 'goals.unitHint'.tr(),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       actions: [
@@ -147,11 +150,7 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
       Provider.of<AppStateProvider>(
         context,
         listen: false,
-      ).updateGoal(
-        updatedGoal,
-        createEvent: true,
-        isProgressUpdate: false,
-      );
+      ).updateGoal(updatedGoal, createEvent: true, isProgressUpdate: false);
       Navigator.pop(context);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -162,4 +161,3 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
     }
   }
 }
-

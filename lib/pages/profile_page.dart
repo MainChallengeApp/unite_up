@@ -72,7 +72,7 @@ class _ProfilePageState extends State<ProfilePage> {
         children: [
           ProfileHeader(name: user.displayName, email: user.email),
           const SizedBox(height: AppSizes.spacing32),
-          _buildStatsRow(),
+          _buildStatsRow(appState),
           const SizedBox(height: AppSizes.spacing32),
           _buildMenuItems(),
           const SizedBox(height: AppSizes.spacing32),
@@ -81,13 +81,36 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Widget _buildStatsRow() {
+  Widget _buildStatsRow(AppStateProvider appState) {
+    final userId = appState.currentUser?.id ?? AppStateProvider.anonymousUserId;
+
+    // Count total goals across all challenges for this user
+    int totalGoals = 0;
+    for (final challenge in appState.challenges) {
+      totalGoals += challenge.goals.where((g) => g.userId == userId).length;
+    }
+
+    // Count challenges
+    final challengesCount = appState.challenges.length;
+
+    // Followers count (mock for now)
+    const followersCount = 0;
+
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        ProfileStatCard(value: '12', label: 'profile.stats.goals'.tr()),
-        ProfileStatCard(value: '89', label: 'profile.stats.challenges'.tr()),
-        ProfileStatCard(value: '245', label: 'profile.stats.followers'.tr()),
+        ProfileStatCard(
+          value: totalGoals.toString(),
+          label: 'profile.stats.goals'.tr(),
+        ),
+        ProfileStatCard(
+          value: challengesCount.toString(),
+          label: 'profile.stats.challenges'.tr(),
+        ),
+        ProfileStatCard(
+          value: followersCount.toString(),
+          label: 'profile.stats.followers'.tr(),
+        ),
       ],
     );
   }

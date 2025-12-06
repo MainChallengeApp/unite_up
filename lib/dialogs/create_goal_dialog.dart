@@ -39,72 +39,75 @@ class _CreateGoalDialogState extends State<CreateGoalDialog> {
       title: Text('goals.createGoal'.tr()),
       content: GestureDetector(
         onTap: () => FocusScope.of(context).unfocus(),
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              CustomTextField(
-                controller: _titleController,
-                maxLength: AppTextLimits.goalTitleMaxLength,
-                labelText: 'goals.title'.tr(),
-                hintText: 'goals.titleHint'.tr(),
-                icon: AppIcons.edit,
-                isRemoveTextVisible: true,
-              ),
-              const SizedBox(height: AppSizes.spacing16),
-              Row(
-                children: [
-                  Expanded(
-                    child: CustomTextField(
-                      controller: _startValueController,
-                      labelText: 'goals.startValue'.tr(),
-                      keyboardType: const TextInputType.numberWithOptions(
-                        decimal: true,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: AppSizes.spacing12),
-                  Expanded(
-                    child: CustomTextField(
-                      controller: _endValueController,
-                      labelText: 'goals.endValue'.tr(),
-                      keyboardType: const TextInputType.numberWithOptions(
-                        decimal: true,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: AppSizes.spacing16),
-              CustomTextField(
-                controller: _unitController,
-                labelText: 'goals.unit'.tr(),
-                hintText: 'goals.unitHint'.tr(),
-                isRemoveTextVisible: true,
-              ),
-              const SizedBox(height: AppSizes.spacing16),
-              Text(
-                'goals.dates'.tr(),
-                style: AppTextStyles.mediumSemiBold.copyWith(
-                  color: _theme.colorScheme.onSurface,
+        child: SizedBox(
+          width: AppSizes.dialogWidth,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                CustomTextField(
+                  controller: _titleController,
+                  maxLength: AppTextLimits.goalTitleMaxLength,
+                  labelText: 'goals.title'.tr(),
+                  hintText: 'goals.titleHint'.tr(),
+                  icon: AppIcons.edit,
+                  isRemoveTextVisible: true,
                 ),
-              ),
-              const SizedBox(height: AppSizes.spacing12),
-              _buildDateSelector(
-                context,
-                'goals.startDate'.tr(),
-                _startDate,
-                _selectStartDate,
-              ),
-              const SizedBox(height: AppSizes.spacing12),
-              _buildDateSelector(
-                context,
-                'goals.endDate'.tr(),
-                _endDate,
-                _selectEndDate,
-              ),
-            ],
+                const SizedBox(height: AppSizes.spacing16),
+                Row(
+                  children: [
+                    Expanded(
+                      child: CustomTextField(
+                        controller: _startValueController,
+                        labelText: 'goals.startValue'.tr(),
+                        keyboardType: const TextInputType.numberWithOptions(
+                          decimal: true,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: AppSizes.spacing12),
+                    Expanded(
+                      child: CustomTextField(
+                        controller: _endValueController,
+                        labelText: 'goals.endValue'.tr(),
+                        keyboardType: const TextInputType.numberWithOptions(
+                          decimal: true,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: AppSizes.spacing16),
+                CustomTextField(
+                  controller: _unitController,
+                  labelText: 'goals.unit'.tr(),
+                  hintText: 'goals.unitHint'.tr(),
+                  isRemoveTextVisible: true,
+                ),
+                const SizedBox(height: AppSizes.spacing16),
+                Text(
+                  'goals.dates'.tr(),
+                  style: AppTextStyles.mediumSemiBold.copyWith(
+                    color: _theme.colorScheme.onSurface,
+                  ),
+                ),
+                const SizedBox(height: AppSizes.spacing12),
+                _buildDateSelector(
+                  context,
+                  'goals.startDate'.tr(),
+                  _startDate,
+                  _selectStartDate,
+                ),
+                const SizedBox(height: AppSizes.spacing12),
+                _buildDateSelector(
+                  context,
+                  'goals.endDate'.tr(),
+                  _endDate,
+                  _selectEndDate,
+                ),
+              ],
+            ),
           ),
         ),
       ),
