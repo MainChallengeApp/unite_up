@@ -105,21 +105,24 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      child: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        onTap: _onItemTapped,
-        type: BottomNavigationBarType.fixed,
-        backgroundColor: _theme.brightness == Brightness.dark
-            ? AppColors.darkSurface
-            : AppColors.white,
-        selectedItemColor: _theme.colorScheme.primary,
-        unselectedItemColor: _theme.iconTheme.color?.withValues(
-          alpha: AppOpacity.semiTransparent,
+      child: Theme(
+        data: _theme.copyWith(highlightColor: Colors.transparent),
+        child: BottomNavigationBar(
+          currentIndex: _selectedIndex,
+          onTap: _onItemTapped,
+          type: BottomNavigationBarType.fixed,
+          backgroundColor: _theme.brightness == Brightness.dark
+              ? AppColors.darkSurface
+              : AppColors.white,
+          selectedItemColor: _theme.colorScheme.primary,
+          unselectedItemColor: _theme.iconTheme.color?.withValues(
+            alpha: AppOpacity.semiTransparent,
+          ),
+          selectedFontSize: 12,
+          unselectedFontSize: 12,
+          elevation: AppSizes.elevationNone,
+          items: navItems,
         ),
-        selectedFontSize: 12,
-        unselectedFontSize: 12,
-        elevation: AppSizes.elevationNone,
-        items: navItems,
       ),
     );
   }

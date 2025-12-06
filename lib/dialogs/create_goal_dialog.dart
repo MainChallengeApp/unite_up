@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:unite_up/models/goal_model.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
-import 'package:unite_up/translations/translations.dart';
 import 'package:unite_up/widgets/custom_text_field.dart';
 
 class CreateGoalDialog extends StatefulWidget {
@@ -48,7 +47,7 @@ class _CreateGoalDialogState extends State<CreateGoalDialog> {
               CustomTextField(
                 controller: _titleController,
                 maxLength: AppTextLimits.goalTitleMaxLength,
-                labelText: Translations.goalTitle(),
+                labelText: 'goals.title'.tr(),
                 hintText: 'goals.titleHint'.tr(),
                 icon: AppIcons.edit,
                 isRemoveTextVisible: true,
