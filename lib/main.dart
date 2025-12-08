@@ -4,11 +4,15 @@ import 'package:provider/provider.dart';
 import 'package:unite_up/pages/home_page.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
 import 'package:unite_up/providers/theme_provider.dart';
+import 'package:unite_up/services/env_service.dart';
+import 'package:unite_up/services/supabase_service.dart';
 import 'package:unite_up/theme/app_theme.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
+  await EnvService.initialize();
+  await SupabaseService.initialize();
 
   runApp(
     EasyLocalization(
