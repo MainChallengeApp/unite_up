@@ -385,7 +385,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
           emoji: _selectedEmoji,
           memberIds: memberIds,
         );
-        appState.updateChallenge(updatedChallenge);
+        await appState.updateChallenge(updatedChallenge);
 
         if (mounted) {
           Navigator.pop(context);
@@ -405,7 +405,20 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
           createdAt: DateTime.now(),
         );
 
-        appState.addChallenge(challenge);
+        await appState.addChallenge(challenge);
+
+        // Check for errors
+        if (appState.challengesError != null && mounted) {
+          setState(() => _isSaving = false);
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(appState.challengesError!),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: AppColors.red,
+            ),
+          );
+          return;
+        }
 
         if (mounted) {
           Navigator.pushReplacement(

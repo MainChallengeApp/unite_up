@@ -177,9 +177,11 @@ class _CreateGoalDialogState extends State<CreateGoalDialog> {
 
     final appState = Provider.of<AppStateProvider>(context, listen: false);
     final currentUserId = appState.currentUser?.id ?? 'user-1';
+    final challengeId = appState.currentChallenge?.id ?? '';
 
     final goal = GoalModel(
       id: DateTime.now().millisecondsSinceEpoch.toString(),
+      challengeId: challengeId,
       userId: currentUserId,
       title: _titleController.text.trim(),
       startValue: startValue,

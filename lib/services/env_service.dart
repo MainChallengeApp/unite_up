@@ -27,8 +27,8 @@ class EnvService {
   /// Throws an exception if the variable is not set or empty.
   static String _getRequired(String key) {
     _ensureInitialized();
-    final value = dotenv.env[key];
-    if (value == null || value.isEmpty) {
+    final value = dotenv.env[key] ?? String.fromEnvironment(key);
+    if (value.isEmpty) {
       throw Exception('$key is not set in .env file');
     }
     return value;
@@ -37,7 +37,8 @@ class EnvService {
   /// Get an optional environment variable with a default value.
   static String getOptional(String key, {String defaultValue = ''}) {
     _ensureInitialized();
-    return dotenv.env[key] ?? defaultValue;
+    return dotenv.env[key] ??
+        String.fromEnvironment(key, defaultValue: defaultValue);
   }
 
   static void _ensureInitialized() {

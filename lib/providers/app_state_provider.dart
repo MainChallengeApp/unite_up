@@ -4,361 +4,155 @@ import 'package:unite_up/models/event_model.dart';
 import 'package:unite_up/models/goal_model.dart';
 import 'package:unite_up/models/progress_entry_model.dart';
 import 'package:unite_up/models/user_model.dart';
+import 'package:unite_up/providers/challenges_provider.dart';
 import 'package:unite_up/providers/users_provider.dart';
 
-/// Provider for managing app state (challenges, goals, etc.).
-/// User state is delegated to [UsersProvider].
+/// Provider for managing app state.
+/// Delegates user state to [UsersProvider] and challenge state to [ChallengesProvider].
 class AppStateProvider extends ChangeNotifier {
   static const String anonymousUserId = 'user-1';
 
   UsersProvider? _usersProvider;
-  final List<ChallengeChatModel> _challenges = [];
-  String? _selectedChallengeId;
+  ChallengesProvider? _challengesProvider;
   bool _hasCompletedOnboarding = false;
 
   /// Update the users provider reference (called by ProxyProvider).
   void updateUsersProvider(UsersProvider usersProvider) {
     if (_usersProvider != usersProvider) {
       _usersProvider = usersProvider;
-      // Listen for user changes to migrate anonymous challenges
       _usersProvider?.addListener(_onUserChanged);
     }
   }
 
+  /// Update the challenges provider reference (called by ProxyProvider).
+  void updateChallengesProvider(ChallengesProvider challengesProvider) {
+    if (_challengesProvider != challengesProvider) {
+      _challengesProvider = challengesProvider;
+      _challengesProvider?.addListener(_onChallengesChanged);
+    }
+  }
+
   void _onUserChanged() {
+    // Load challenges when user logs in
     if (_usersProvider?.isAuthenticated == true) {
-      _migrateAnonymousChallenges();
+      _challengesProvider?.loadChallenges();
+    } else {
+      _challengesProvider?.clear();
     }
     notifyListeners();
   }
 
-  // Getters
+  void _onChallengesChanged() {
+    if (_challengesProvider?.hasChallenges == true) {
+      _hasCompletedOnboarding = true;
+    }
+    notifyListeners();
+  }
+
+  // ===========================================================================
+  // GETTERS
+  // ===========================================================================
+
   UserModel? get currentUser => _usersProvider?.currentUser;
   bool get isAuthenticated => _usersProvider?.isAuthenticated ?? false;
-  List<ChallengeChatModel> get challenges => _challenges;
-  ChallengeChatModel? get currentChallenge => _selectedChallengeId != null
-      ? _challenges.firstWhere((c) => c.id == _selectedChallengeId)
-      : null;
-  List<EventModel> get events => currentChallenge?.events ?? [];
+  List<ChallengeChatModel> get challenges =>
+      _challengesProvider?.challenges ?? [];
+  ChallengeChatModel? get currentChallenge =>
+      _challengesProvider?.currentChallenge;
+  List<EventModel> get events => _challengesProvider?.events ?? [];
   bool get hasCompletedOnboarding => _hasCompletedOnboarding;
-  bool get hasChallenges => _challenges.isNotEmpty;
+  bool get hasChallenges => _challengesProvider?.hasChallenges ?? false;
+  bool get isLoadingChallenges => _challengesProvider?.isLoading ?? false;
+  String? get challengesError => _challengesProvider?.error;
 
-  // Add a new challenge
-  void addChallenge(ChallengeChatModel challenge) {
-    final events = <EventModel>[];
+  // ===========================================================================
+  // CHALLENGE OPERATIONS (delegate to ChallengesProvider)
+  // ===========================================================================
 
-    // Add welcome message for personal challenges
-    if (challenge.isPersonal) {
-      events.add(
-        EventModel.aiMessage(
-          'Great choice! 🎉 You\'ve created "${challenge.name}". '
-          'Use this space to document your progress, add updates, and track your journey. '
-          'Let\'s get started!',
-        ),
-      );
-    } else {
-      events.add(
-        EventModel.aiMessage(
-          'Welcome to "${challenge.name}"! 👥 '
-          'This group challenge has ${challenge.memberCount} members. '
-          'Share your progress, encourage each other, and achieve your goals together!',
-        ),
-      );
-    }
-
-    final challengeWithEvents = challenge.copyWith(events: events);
-    _challenges.add(challengeWithEvents);
-    _selectedChallengeId = challenge.id;
+  /// Add a new challenge.
+  Future<void> addChallenge(ChallengeChatModel challenge) async {
+    await _challengesProvider?.createChallenge(challenge);
     _hasCompletedOnboarding = true;
-
     notifyListeners();
   }
 
-  // Select a challenge to view
+  /// Select a challenge to view.
   void selectChallenge(String challengeId) {
-    if (_challenges.any((c) => c.id == challengeId)) {
-      _selectedChallengeId = challengeId;
-      notifyListeners();
-    }
+    _challengesProvider?.selectChallenge(challengeId);
   }
 
-  // Add user message to current challenge
-  void addMessage(String message) {
-    if (_selectedChallengeId == null) return;
-
-    final index = _challenges.indexWhere((c) => c.id == _selectedChallengeId);
-    if (index == -1) return;
-
-    final events = List<EventModel>.from(_challenges[index].events);
-    events.add(EventModel.userMessage(message));
-
-    _challenges[index] = _challenges[index].copyWith(events: events);
-    notifyListeners();
-
-    // Simulate AI response
-    Future.delayed(const Duration(milliseconds: 500), () {
-      final currentIndex = _challenges.indexWhere(
-        (c) => c.id == _selectedChallengeId,
-      );
-      if (currentIndex == -1) return;
-
-      final updatedEvents = List<EventModel>.from(
-        _challenges[currentIndex].events,
-      );
-      updatedEvents.add(
-        EventModel.aiMessage(
-          'Thanks for sharing! Keep documenting your progress. You\'re doing great! 🌟',
-        ),
-      );
-
-      _challenges[currentIndex] = _challenges[currentIndex].copyWith(
-        events: updatedEvents,
-      );
-      notifyListeners();
-    });
+  /// Update challenge (for editing).
+  Future<void> updateChallenge(ChallengeChatModel challenge) async {
+    await _challengesProvider?.updateChallenge(challenge);
   }
 
-  // Submit progress with attachments
-  void submitProgress(ProgressEntryModel entry) {
-    if (_selectedChallengeId == null) return;
-
-    final index = _challenges.indexWhere((c) => c.id == _selectedChallengeId);
-    if (index == -1) return;
-
-    final events = List<EventModel>.from(_challenges[index].events);
-    events.add(EventModel.progressSubmitted(entry));
-
-    events.add(
-      EventModel.aiMessage(
-        'Amazing progress! 🎉 Thanks for documenting your journey. '
-        'Keep up the great work!',
-      ),
-    );
-
-    _challenges[index] = _challenges[index].copyWith(events: events);
-    notifyListeners();
+  /// Delete challenge.
+  Future<void> deleteChallenge(String challengeId) async {
+    await _challengesProvider?.deleteChallenge(challengeId);
   }
 
-  // Edit a message
-  void editMessage(String eventId, String newMessage) {
-    if (_selectedChallengeId == null) return;
+  // ===========================================================================
+  // MESSAGES & EVENTS
+  // ===========================================================================
 
-    final challengeIndex = _challenges.indexWhere(
-      (c) => c.id == _selectedChallengeId,
-    );
-    if (challengeIndex == -1) return;
-
-    final events = List<EventModel>.from(_challenges[challengeIndex].events);
-    final eventIndex = events.indexWhere((e) => e.id == eventId);
-
-    if (eventIndex != -1) {
-      events[eventIndex] = events[eventIndex].copyWith(message: newMessage);
-      _challenges[challengeIndex] = _challenges[challengeIndex].copyWith(
-        events: events,
-      );
-      notifyListeners();
-    }
+  /// Add user message to current challenge.
+  Future<void> addMessage(String message) async {
+    await _challengesProvider?.addMessage(message);
   }
 
-  // Delete a message
-  void deleteMessage(String eventId) {
-    if (_selectedChallengeId == null) return;
-
-    final challengeIndex = _challenges.indexWhere(
-      (c) => c.id == _selectedChallengeId,
-    );
-    if (challengeIndex == -1) return;
-
-    final events = List<EventModel>.from(_challenges[challengeIndex].events);
-    events.removeWhere((e) => e.id == eventId);
-
-    _challenges[challengeIndex] = _challenges[challengeIndex].copyWith(
-      events: events,
-    );
-    notifyListeners();
+  /// Submit progress with attachments.
+  Future<void> submitProgress(ProgressEntryModel entry) async {
+    await _challengesProvider?.addProgress(entry);
   }
 
-  // Add a goal to the current challenge
-  void addGoal(GoalModel goal) {
-    if (_selectedChallengeId == null) return;
-
-    final challengeIndex = _challenges.indexWhere(
-      (c) => c.id == _selectedChallengeId,
-    );
-    if (challengeIndex == -1) return;
-
-    final goals = List<GoalModel>.from(_challenges[challengeIndex].goals);
-    goals.add(goal);
-
-    // Add chat event for goal creation
-    final events = List<EventModel>.from(_challenges[challengeIndex].events);
-    events.add(EventModel.goalCreated(goal));
-
-    _challenges[challengeIndex] = _challenges[challengeIndex].copyWith(
-      goals: goals,
-      events: events,
-    );
-    notifyListeners();
+  /// Edit a message.
+  Future<void> editMessage(String eventId, String newMessage) async {
+    await _challengesProvider?.editMessage(eventId, newMessage);
   }
 
-  // Update a goal
-  void updateGoal(
+  /// Delete a message.
+  Future<void> deleteMessage(String eventId) async {
+    await _challengesProvider?.deleteMessage(eventId);
+  }
+
+  // ===========================================================================
+  // GOALS
+  // ===========================================================================
+
+  /// Add a goal to the current challenge.
+  Future<void> addGoal(GoalModel goal) async {
+    await _challengesProvider?.addGoal(goal);
+  }
+
+  /// Update a goal.
+  Future<void> updateGoal(
     GoalModel updatedGoal, {
     bool createEvent = false,
     bool isProgressUpdate = false,
-  }) {
-    if (_selectedChallengeId == null) return;
-
-    final challengeIndex = _challenges.indexWhere(
-      (c) => c.id == _selectedChallengeId,
+  }) async {
+    await _challengesProvider?.updateGoal(
+      updatedGoal,
+      addEvent: createEvent,
+      isProgressUpdate: isProgressUpdate,
     );
-    if (challengeIndex == -1) return;
-
-    final goals = List<GoalModel>.from(_challenges[challengeIndex].goals);
-    final goalIndex = goals.indexWhere((g) => g.id == updatedGoal.id);
-
-    if (goalIndex != -1) {
-      final oldGoal = goals[goalIndex];
-      goals[goalIndex] = updatedGoal;
-
-      // Check if goal was completed by this update
-      final wasCompleted = oldGoal.isCompleted;
-      final isNowCompleted = updatedGoal.isCompleted;
-      final completedByThisUpdate = !wasCompleted && isNowCompleted;
-
-      // Optionally add chat event
-      if (createEvent) {
-        final events = List<EventModel>.from(
-          _challenges[challengeIndex].events,
-        );
-        if (isProgressUpdate) {
-          // For progress updates only
-          events.add(EventModel.goalProgressUpdated(updatedGoal));
-        } else {
-          // For goal edits (title, target, dates, etc.)
-          events.add(
-            EventModel.goalUpdated(
-              oldGoal,
-              updatedGoal,
-              completedByUpdate: completedByThisUpdate,
-            ),
-          );
-        }
-        _challenges[challengeIndex] = _challenges[challengeIndex].copyWith(
-          goals: goals,
-          events: events,
-        );
-      } else {
-        _challenges[challengeIndex] = _challenges[challengeIndex].copyWith(
-          goals: goals,
-        );
-      }
-
-      notifyListeners();
-    }
   }
 
-  // Delete a goal
-  void deleteGoal(String goalId, {bool createEvent = true}) {
-    if (_selectedChallengeId == null) return;
-
-    final challengeIndex = _challenges.indexWhere(
-      (c) => c.id == _selectedChallengeId,
-    );
-    if (challengeIndex == -1) return;
-
-    final goals = List<GoalModel>.from(_challenges[challengeIndex].goals);
-
-    // Find the goal before removing it (for the event)
-    final goalToDelete = goals.firstWhere(
-      (g) => g.id == goalId,
-      orElse: () => goals.first,
-    );
-
-    goals.removeWhere((g) => g.id == goalId);
-
-    if (createEvent) {
-      // Add chat event for goal deletion
-      final events = List<EventModel>.from(_challenges[challengeIndex].events);
-      events.add(EventModel.goalDeleted(goalToDelete));
-
-      _challenges[challengeIndex] = _challenges[challengeIndex].copyWith(
-        goals: goals,
-        events: events,
-      );
-    } else {
-      _challenges[challengeIndex] = _challenges[challengeIndex].copyWith(
-        goals: goals,
-      );
-    }
-
-    notifyListeners();
+  /// Delete a goal.
+  Future<void> deleteGoal(String goalId, {bool createEvent = true}) async {
+    await _challengesProvider?.deleteGoal(goalId, addEvent: createEvent);
   }
 
-  // Get goals for a specific user in current challenge
+  /// Get goals for a specific user in current challenge.
   List<GoalModel> getGoalsForUser(String userId) {
-    if (_selectedChallengeId == null) return [];
-
-    final challenge = _challenges.firstWhere(
-      (c) => c.id == _selectedChallengeId,
-      orElse: () => _challenges.first,
-    );
-
-    return challenge.goals.where((g) => g.userId == userId).toList();
+    return _challengesProvider?.getGoalsForUser(userId) ?? [];
   }
 
-  // Update challenge (for editing)
-  void updateChallenge(ChallengeChatModel challenge) {
-    final index = _challenges.indexWhere((c) => c.id == challenge.id);
-    if (index != -1) {
-      _challenges[index] = challenge;
-      notifyListeners();
-    }
-  }
+  // ===========================================================================
+  // LOADING
+  // ===========================================================================
 
-  // Delete challenge
-  void deleteChallenge(String challengeId) {
-    _challenges.removeWhere((c) => c.id == challengeId);
-    if (_selectedChallengeId == challengeId) {
-      _selectedChallengeId = null;
-    }
-    notifyListeners();
-  }
-
-  void _migrateAnonymousChallenges() {
-    final userId = _usersProvider?.currentUser?.id;
-    if (userId == null) return;
-
-    for (int i = 0; i < _challenges.length; i++) {
-      final challenge = _challenges[i];
-
-      // Check if this challenge was created by the anonymous user
-      if (challenge.creatorId == anonymousUserId) {
-        // Update memberIds: replace anonymous ID with real user ID
-        final updatedMemberIds = challenge.memberIds
-            .map((id) => id == anonymousUserId ? userId : id)
-            .toList();
-        final goals = challenge.goals
-            .map(
-              (goal) => goal.userId == anonymousUserId
-                  ? goal.copyWith(userId: userId)
-                  : goal,
-            )
-            .toList();
-        final events = challenge.events
-            .map(
-              (event) => event.userId == anonymousUserId
-                  ? event.copyWith(userId: userId)
-                  : event,
-            )
-            .toList();
-        _challenges[i] = challenge.copyWith(
-          creatorId: userId,
-          memberIds: updatedMemberIds,
-          goals: goals,
-          events: events,
-        );
-      }
-    }
+  /// Reload challenges from the database.
+  Future<void> reloadChallenges() async {
+    await _challengesProvider?.loadChallenges();
   }
 }

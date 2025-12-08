@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:unite_up/pages/home_page.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
+import 'package:unite_up/providers/challenges_provider.dart';
 import 'package:unite_up/providers/theme_provider.dart';
 import 'package:unite_up/providers/users_provider.dart';
 import 'package:unite_up/services/env_service.dart';
@@ -24,10 +25,17 @@ void main() async {
         providers: [
           ChangeNotifierProvider(create: (_) => ThemeProvider()),
           ChangeNotifierProvider(create: (_) => UsersProvider()),
-          ChangeNotifierProxyProvider<UsersProvider, AppStateProvider>(
+          ChangeNotifierProvider(create: (_) => ChallengesProvider()),
+          ChangeNotifierProxyProvider2<
+            UsersProvider,
+            ChallengesProvider,
+            AppStateProvider
+          >(
             create: (_) => AppStateProvider(),
-            update: (_, usersProvider, appState) =>
-                appState!..updateUsersProvider(usersProvider),
+            update: (_, usersProvider, challengesProvider, appState) =>
+                appState!
+                  ..updateUsersProvider(usersProvider)
+                  ..updateChallengesProvider(challengesProvider),
           ),
         ],
         child: const MyApp(),

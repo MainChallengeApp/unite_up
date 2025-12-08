@@ -1,5 +1,6 @@
 class GoalModel {
   final String id;
+  final String challengeId;
   final String userId;
   final String title;
   final double startValue;
@@ -8,9 +9,12 @@ class GoalModel {
   final DateTime startDate;
   final DateTime endDate;
   final String? unit; // e.g., "kg", "km", "hours", etc.
+  final DateTime createdAt;
+  final DateTime updatedAt;
 
   GoalModel({
     required this.id,
+    required this.challengeId,
     required this.userId,
     required this.title,
     required this.startValue,
@@ -19,7 +23,75 @@ class GoalModel {
     required this.startDate,
     required this.endDate,
     this.unit,
-  });
+    DateTime? createdAt,
+    DateTime? updatedAt,
+  }) : createdAt = createdAt ?? DateTime.now(),
+       updatedAt = updatedAt ?? DateTime.now();
+
+  /// Create from database JSON response.
+  factory GoalModel.fromJson(Map<String, dynamic> json) {
+    return GoalModel(
+      id: json['id'] as String,
+      challengeId: json['challenge_id'] as String,
+      userId: json['user_id'] as String,
+      title: json['title'] as String,
+      startValue: (json['start_value'] as num).toDouble(),
+      endValue: (json['end_value'] as num).toDouble(),
+      currentValue: (json['current_value'] as num).toDouble(),
+      startDate: DateTime.parse(json['start_date'] as String),
+      endDate: DateTime.parse(json['end_date'] as String),
+      unit: json['unit'] as String?,
+      createdAt: DateTime.parse(json['created_at'] as String),
+      updatedAt: DateTime.parse(json['updated_at'] as String),
+    );
+  }
+
+  /// Convert to JSON for database insert.
+  Map<String, dynamic> toJson() {
+    return {
+      'challenge_id': challengeId,
+      'user_id': userId,
+      'title': title,
+      'start_value': startValue,
+      'end_value': endValue,
+      'current_value': currentValue,
+      'start_date': startDate.toIso8601String(),
+      'end_date': endDate.toIso8601String(),
+      'unit': unit,
+    };
+  }
+
+  /// Convert to JSON for storing in event history.
+  Map<String, dynamic> toEventJson() {
+    return {
+      'id': id,
+      'challenge_id': challengeId,
+      'user_id': userId,
+      'title': title,
+      'start_value': startValue,
+      'end_value': endValue,
+      'current_value': currentValue,
+      'start_date': startDate.toIso8601String(),
+      'end_date': endDate.toIso8601String(),
+      'unit': unit,
+    };
+  }
+
+  /// Create from event JSON (stored in challenge_events).
+  factory GoalModel.fromEventJson(Map<String, dynamic> json) {
+    return GoalModel(
+      id: json['id'] as String,
+      challengeId: json['challenge_id'] as String,
+      userId: json['user_id'] as String,
+      title: json['title'] as String,
+      startValue: (json['start_value'] as num).toDouble(),
+      endValue: (json['end_value'] as num).toDouble(),
+      currentValue: (json['current_value'] as num).toDouble(),
+      startDate: DateTime.parse(json['start_date'] as String),
+      endDate: DateTime.parse(json['end_date'] as String),
+      unit: json['unit'] as String?,
+    );
+  }
 
   // Calculate progress percentage (works for both increasing and decreasing goals)
   double get progressPercentage {
@@ -56,6 +128,7 @@ class GoalModel {
 
   GoalModel copyWith({
     String? id,
+    String? challengeId,
     String? userId,
     String? title,
     double? startValue,
@@ -64,9 +137,12 @@ class GoalModel {
     DateTime? startDate,
     DateTime? endDate,
     String? unit,
+    DateTime? createdAt,
+    DateTime? updatedAt,
   }) {
     return GoalModel(
       id: id ?? this.id,
+      challengeId: challengeId ?? this.challengeId,
       userId: userId ?? this.userId,
       title: title ?? this.title,
       startValue: startValue ?? this.startValue,
@@ -75,6 +151,8 @@ class GoalModel {
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
       unit: unit ?? this.unit,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
     );
   }
 }
