@@ -1,6 +1,6 @@
 {
   "app": {
-    "title": "Unite Up"
+    "title": "UniteUp"
   },
   "common": {
     "cancel": "Cancel",
@@ -54,7 +54,7 @@
     "profile": "Profile"
   },
   "onboarding": {
-    "welcomeTo": "Welcome to\nUnite Up!",
+    "welcomeTo": "Welcome to\nUniteUp!",
     "description": "Transform your life one challenge at a time. Create your first personal challenge to track your progress and document your journey.",
     "chooseFocus": "Choose your focus",
     "startJourney": "Create Challenge"

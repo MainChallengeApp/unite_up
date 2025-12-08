@@ -1,11 +1,11 @@
 {
-    "name": "dare_u",
-    "short_name": "dare_u",
+    "name": "UniteUp",
+    "short_name": "UniteUp",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "Unite Up - Transform your life one challenge at a time.",
+    "description": "UniteUp - Transform your life one challenge at a time.",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

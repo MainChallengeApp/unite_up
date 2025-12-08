@@ -1,4 +1,4 @@
-/// Centralized duration constants for the Unite Up app
+/// Centralized duration constants for the UniteUp app
 class AppDurations {
   // Private constructor to prevent instantiation
   AppDurations._();

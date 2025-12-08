@@ -1,4 +1,4 @@
-# Unite Up - Life Improvement Challenge App
+# UniteUp - Life Improvement Challenge App
 
 A beautiful, modern Flutter application that helps users improve their lives through daily challenges. Transform your life one challenge at a time!
 

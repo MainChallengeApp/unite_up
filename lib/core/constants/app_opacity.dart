@@ -1,4 +1,4 @@
-/// Centralized opacity constants for the Unite Up app
+/// Centralized opacity constants for the UniteUp app
 class AppOpacity {
   // Private constructor to prevent instantiation
   AppOpacity._();

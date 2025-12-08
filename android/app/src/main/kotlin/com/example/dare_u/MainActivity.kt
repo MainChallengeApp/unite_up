@@ -1,4 +1,4 @@
-package com.example.dare_u
+package com.example.uniteup
 
 import io.flutter.embedding.android.FlutterActivity
 

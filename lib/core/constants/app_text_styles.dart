@@ -3,7 +3,7 @@ import 'package:unite_up/core/constants/app_colors.dart';
 import 'package:unite_up/core/constants/app_opacity.dart';
 import 'package:unite_up/core/constants/app_sizes.dart';
 
-/// Centralized text style constants for the Unite Up app
+/// Centralized text style constants for the UniteUp app
 class AppTextStyles {
   // Private constructor to prevent instantiation
   AppTextStyles._();

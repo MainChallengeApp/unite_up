@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// Centralized color constants for the Unite Up app
+/// Centralized color constants for the UniteUp app
 class AppColors {
   // Private constructor to prevent instantiation
   AppColors._();

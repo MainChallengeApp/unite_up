@@ -1,6 +1,6 @@
 {
   "app": {
-    "title": "Unite Up"
+    "title": "UniteUp"
   },
   "common": {
     "cancel": "Abbrechen",
@@ -54,7 +54,7 @@
     "profile": "Profil"
   },
   "onboarding": {
-    "welcomeTo": "Willkommen bei\nUnite Up!",
+    "welcomeTo": "Willkommen bei\nUniteUp!",
     "description": "Verändere dein Leben eine Challenge nach der anderen. Erstelle deine erste persönliche Challenge, um deinen Fortschritt zu verfolgen und deine Reise zu dokumentieren.",
     "chooseFocus": "Wähle deinen Fokus",
     "startJourney": "Challenge erstellen"
