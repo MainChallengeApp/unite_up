@@ -245,7 +245,9 @@
     "title": "Suchen",
     "searchUsers": "Benutzer suchen...",
     "noUsersFound": "Keine Benutzer gefunden",
-    "tryDifferentSearch": "Versuche einen anderen Suchbegriff"
+    "tryDifferentSearch": "Versuche einen anderen Suchbegriff",
+    "startSearching": "Nach Benutzern suchen",
+    "enterAtLeast2Chars": "Gib mindestens 2 Zeichen ein"
   },
   "profile": {
     "title": "Profil",

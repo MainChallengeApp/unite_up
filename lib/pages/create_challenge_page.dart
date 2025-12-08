@@ -7,7 +7,7 @@ import 'package:unite_up/models/challenge_chat_model.dart';
 import 'package:unite_up/models/user_model.dart';
 import 'package:unite_up/pages/chat_page.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
-import 'package:unite_up/services/user_service.dart';
+import 'package:unite_up/providers/users_provider.dart';
 import 'package:unite_up/widgets/custom_app_bar.dart';
 import 'package:unite_up/widgets/custom_text_field.dart';
 
@@ -28,7 +28,6 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
   final FocusNode _descriptionFocusNode = FocusNode();
   final ScrollController _scrollController = ScrollController();
   final List<UserModel> _selectedMembers = [];
-  late List<UserModel> _availableUsers;
   late String _selectedEmoji;
   final GoalCategoryEnum _selectedCategory = GoalCategoryEnum.health;
   bool _isSaving = false;
@@ -59,7 +58,6 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
   @override
   void initState() {
     super.initState();
-    _availableUsers = UserModelService.getMockUserModels();
     _selectedEmoji = widget.challenge?.emoji ?? '🎯';
 
     if (_isEditMode) {
@@ -69,16 +67,19 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
     }
   }
 
-  void _initializeSelectedMembers() {
+  Future<void> _initializeSelectedMembers() async {
     final appState = Provider.of<AppStateProvider>(context, listen: false);
+    final usersProvider = Provider.of<UsersProvider>(context, listen: false);
     final currentUserId =
         appState.currentUser?.id ?? AppStateProvider.anonymousUserId;
 
-    // Add members that are in the challenge (excluding current user)
-    for (final user in _availableUsers) {
-      if (widget.challenge!.memberIds.contains(user.id) &&
-          user.id != currentUserId) {
-        _selectedMembers.add(user);
+    // Fetch members from database (excluding current user)
+    for (final memberId in widget.challenge!.memberIds) {
+      if (memberId != currentUserId) {
+        final user = await usersProvider.getUserById(memberId);
+        if (user != null && mounted) {
+          setState(() => _selectedMembers.add(user));
+        }
       }
     }
   }
@@ -322,44 +323,14 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
   void _showMembersPicker() {
     showDialog(
       context: context,
-      builder: (dialogContext) => StatefulBuilder(
-        builder: (context, setDialogState) => AlertDialog(
-          title: Text('challenges.create.addMembers'.tr()),
-          content: SizedBox(
-            width: double.maxFinite,
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: _availableUsers.length,
-              itemBuilder: (context, index) {
-                final user = _availableUsers[index];
-                final isSelected = _selectedMembers.contains(user);
-
-                return CheckboxListTile(
-                  value: isSelected,
-                  onChanged: (value) {
-                    setDialogState(() {
-                      if (value == true) {
-                        _selectedMembers.add(user);
-                      } else {
-                        _selectedMembers.remove(user);
-                      }
-                    });
-                    setState(() {});
-                  },
-                  title: Text(user.name),
-                  subtitle: Text(user.username),
-                  secondary: CircleAvatar(child: Text(user.name[0])),
-                );
-              },
-            ),
-          ),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(dialogContext),
-              child: Text('common.done'.tr()),
-            ),
-          ],
-        ),
+      builder: (dialogContext) => _MemberSearchDialog(
+        selectedMembers: _selectedMembers,
+        onMembersChanged: (members) {
+          setState(() {
+            _selectedMembers.clear();
+            _selectedMembers.addAll(members);
+          });
+        },
       ),
     );
   }
@@ -474,7 +445,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
         children: [
           CircleAvatar(
             radius: AppSizes.spacing16,
-            child: Text(member.name[0], style: AppTextStyles.baseMedium),
+            child: Text(member.displayName[0], style: AppTextStyles.baseMedium),
           ),
           const SizedBox(width: AppSizes.spacing12),
           Expanded(
@@ -482,7 +453,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  member.name,
+                  member.displayName,
                   style: AppTextStyles.mediumWeight.copyWith(
                     color: _theme.brightness == Brightness.dark
                         ? AppColors.white
@@ -490,7 +461,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                   ),
                 ),
                 Text(
-                  member.username,
+                  member.username ?? '',
                   style: AppTextStyles.smallSecondary(context),
                 ),
               ],
@@ -508,6 +479,164 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
           ),
         ],
       ),
+    );
+  }
+}
+
+/// Dialog for searching and selecting members.
+class _MemberSearchDialog extends StatefulWidget {
+  final List<UserModel> selectedMembers;
+  final ValueChanged<List<UserModel>> onMembersChanged;
+
+  const _MemberSearchDialog({
+    required this.selectedMembers,
+    required this.onMembersChanged,
+  });
+
+  @override
+  State<_MemberSearchDialog> createState() => _MemberSearchDialogState();
+}
+
+class _MemberSearchDialogState extends State<_MemberSearchDialog> {
+  final TextEditingController _searchController = TextEditingController();
+  List<UserModel> _searchResults = [];
+  late List<UserModel> _selected;
+  bool _isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _selected = List.from(widget.selectedMembers);
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
+  }
+
+  Future<void> _search(String query) async {
+    if (query.length < 2) {
+      setState(() => _searchResults = []);
+      return;
+    }
+
+    setState(() => _isLoading = true);
+
+    try {
+      final usersProvider = Provider.of<UsersProvider>(context, listen: false);
+      final currentUserId = usersProvider.currentUser?.id;
+      final results = await usersProvider.searchUsers(query);
+
+      if (mounted) {
+        setState(() {
+          // Filter out current user from results
+          _searchResults = results.where((u) => u.id != currentUserId).toList();
+          _isLoading = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoading = false);
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AlertDialog(
+      title: Text('challenges.create.addMembers'.tr()),
+      content: SizedBox(
+        width: double.maxFinite,
+        height: 400,
+        child: Column(
+          children: [
+            TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                hintText: 'search.searchUsers'.tr(),
+                prefixIcon: const Icon(AppIcons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
+                ),
+              ),
+              onChanged: _search,
+            ),
+            const SizedBox(height: AppSizes.spacing16),
+            Expanded(
+              child: _isLoading
+                  ? const Center(child: CircularProgressIndicator())
+                  : _searchResults.isEmpty
+                  ? Center(
+                      child: Text(
+                        _searchController.text.length < 2
+                            ? 'search.enterAtLeast2Chars'.tr()
+                            : 'search.noUsersFound'.tr(),
+                        style: AppTextStyles.secondaryText(context),
+                      ),
+                    )
+                  : ListView.builder(
+                      itemCount: _searchResults.length,
+                      itemBuilder: (context, index) {
+                        final user = _searchResults[index];
+                        final isSelected = _selected.any(
+                          (u) => u.id == user.id,
+                        );
+
+                        return CheckboxListTile(
+                          value: isSelected,
+                          onChanged: (value) {
+                            setState(() {
+                              if (value == true) {
+                                _selected.add(user);
+                              } else {
+                                _selected.removeWhere((u) => u.id == user.id);
+                              }
+                            });
+                          },
+                          title: Text(user.displayName),
+                          subtitle: Text(user.username ?? ''),
+                          secondary: CircleAvatar(
+                            child: Text(user.displayName[0]),
+                          ),
+                        );
+                      },
+                    ),
+            ),
+            if (_selected.isNotEmpty) ...[
+              const Divider(),
+              Wrap(
+                spacing: AppSizes.spacing8,
+                children: _selected
+                    .map(
+                      (user) => Chip(
+                        label: Text(user.displayName),
+                        onDeleted: () {
+                          setState(() {
+                            _selected.removeWhere((u) => u.id == user.id);
+                          });
+                        },
+                      ),
+                    )
+                    .toList(),
+              ),
+            ],
+          ],
+        ),
+      ),
+      actions: [
+        TextButton(
+          onPressed: () => Navigator.pop(context),
+          child: Text('common.cancel'.tr()),
+        ),
+        FilledButton(
+          onPressed: () {
+            widget.onMembersChanged(_selected);
+            Navigator.pop(context);
+          },
+          child: Text('common.done'.tr()),
+        ),
+      ],
     );
   }
 }

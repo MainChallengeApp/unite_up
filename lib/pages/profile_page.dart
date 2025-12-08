@@ -82,7 +82,8 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   Widget _buildStatsRow(AppStateProvider appState) {
-    final userId = appState.currentUser?.id ?? AppStateProvider.anonymousUserId;
+    final user = appState.currentUser!;
+    final userId = user.id;
 
     // Count total goals across all challenges for this user
     int totalGoals = 0;
@@ -93,8 +94,8 @@ class _ProfilePageState extends State<ProfilePage> {
     // Count challenges
     final challengesCount = appState.challenges.length;
 
-    // Followers count (mock for now)
-    const followersCount = 0;
+    // Followers count from user model
+    final followersCount = user.followersCount;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,

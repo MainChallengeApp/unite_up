@@ -14,7 +14,7 @@ import 'package:unite_up/models/goal_model.dart';
 import 'package:unite_up/models/user_model.dart';
 import 'package:unite_up/pages/create_challenge_page.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
-import 'package:unite_up/services/user_service.dart';
+import 'package:unite_up/providers/users_provider.dart';
 import 'package:unite_up/widgets/custom_app_bar.dart';
 import 'package:unite_up/widgets/custom_bottom_sheet.dart';
 import 'package:unite_up/widgets/custom_slidable_action_button.dart';
@@ -32,6 +32,8 @@ class GroupDetailsPage extends StatefulWidget {
 class _GroupDetailsPageState extends State<GroupDetailsPage>
     with SingleTickerProviderStateMixin {
   late AnimationController _animationController;
+  List<UserModel> _members = [];
+  bool _isLoadingMembers = true;
 
   @override
   void initState() {
@@ -40,6 +42,61 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
       duration: AppDurations.animationNormal,
       vsync: this,
     )..forward();
+    _loadMembers();
+  }
+
+  Future<void> _loadMembers() async {
+    final appState = Provider.of<AppStateProvider>(context, listen: false);
+    final usersProvider = Provider.of<UsersProvider>(context, listen: false);
+    final currentUserId =
+        appState.currentUser?.id ?? AppStateProvider.anonymousUserId;
+
+    final currentChallenge = appState.challenges.firstWhere(
+      (c) => c.id == widget.challenge.id,
+      orElse: () => widget.challenge,
+    );
+
+    final members = <UserModel>[];
+
+    // For personal challenges, just add current user
+    if (currentChallenge.isPersonal) {
+      final currentUser = appState.currentUser;
+      if (currentUser != null) {
+        members.add(currentUser);
+      } else {
+        final now = DateTime.now();
+        members.add(
+          UserModel(
+            id: currentUserId,
+            email: 'anonymous@local',
+            displayName: 'You',
+            username: '@user',
+            authProvider: 'anonymous',
+            createdAt: now,
+            updatedAt: now,
+          ),
+        );
+      }
+    } else {
+      // For group challenges, fetch members from database
+      for (final memberId in currentChallenge.memberIds) {
+        if (memberId == currentUserId && appState.currentUser != null) {
+          members.add(appState.currentUser!);
+        } else {
+          final user = await usersProvider.getUserById(memberId);
+          if (user != null) {
+            members.add(user);
+          }
+        }
+      }
+    }
+
+    if (mounted) {
+      setState(() {
+        _members = members;
+        _isLoadingMembers = false;
+      });
+    }
   }
 
   @override
@@ -54,7 +111,6 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
     final appState = Provider.of<AppStateProvider>(context);
     final currentUserId =
         appState.currentUser?.id ?? AppStateProvider.anonymousUserId;
-    final allUsers = UserModelService.getMockUserModels();
 
     // Get the latest challenge data from the provider
     final currentChallenge = appState.challenges.firstWhere(
@@ -62,57 +118,7 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
       orElse: () => widget.challenge,
     );
 
-    // Get members of this challenge
-    var members = allUsers
-        .where((u) => currentChallenge.memberIds.contains(u.id))
-        .toList();
-
-    // Add current user if they're not in the mock list but are in challenge
-    if (appState.currentUser != null &&
-        currentChallenge.memberIds.contains(currentUserId) &&
-        !members.any((m) => m.id == currentUserId)) {
-      final currentUser = appState.currentUser!;
-      members.insert(
-        0,
-        UserModel(
-          id: currentUser.id,
-          name: currentUser.displayName,
-          username: '@${currentUser.email.split('@')[0]}',
-          followersCount: 0,
-          followingCount: 0,
-          completedChallengesCount: 0,
-        ),
-      );
-    }
-
-    // Ensure current user always appears for personal challenges
-    if (currentChallenge.isPersonal && members.isEmpty) {
-      final currentUser = appState.currentUser;
-      if (currentUser != null) {
-        members.add(
-          UserModel(
-            id: currentUser.id,
-            name: currentUser.displayName,
-            username: '@${currentUser.email.split('@')[0]}',
-            followersCount: 0,
-            followingCount: 0,
-            completedChallengesCount: 0,
-          ),
-        );
-      } else {
-        // Fallback for non-authenticated users
-        members.add(
-          UserModel(
-            id: currentUserId,
-            name: 'You',
-            username: '@user',
-            followersCount: 0,
-            followingCount: 0,
-            completedChallengesCount: 0,
-          ),
-        );
-      }
-    }
+    final members = _members;
 
     return Scaffold(
       appBar: CustomAppBar(
@@ -180,7 +186,14 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
               const SizedBox(height: AppSizes.spacing16),
 
               // Member cards
-              if (members.isEmpty)
+              if (_isLoadingMembers)
+                const Center(
+                  child: Padding(
+                    padding: EdgeInsets.all(AppSizes.spacing32),
+                    child: CircularProgressIndicator(),
+                  ),
+                )
+              else if (members.isEmpty)
                 _buildEmptyMembersState(context, theme)
               else
                 ...members.asMap().entries.map((entry) {
@@ -481,7 +494,7 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
                     alpha: AppOpacity.light,
                   ),
                   child: Text(
-                    member.name[0].toUpperCase(),
+                    member.displayName[0].toUpperCase(),
                     style: AppTextStyles.largeSemiBold.copyWith(
                       color: theme.colorScheme.primary,
                     ),
@@ -497,7 +510,7 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
                       children: [
                         Flexible(
                           child: Text(
-                            member.name,
+                            member.displayName,
                             style: AppTextStyles.largeSemiBold,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -528,7 +541,7 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
                       ],
                     ),
                     Text(
-                      member.username,
+                      member.username ?? '',
                       style: AppTextStyles.secondaryText(
                         context,
                         fontSize: AppSizes.fontMedium,

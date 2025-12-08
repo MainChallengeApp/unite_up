@@ -2,8 +2,8 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
-import 'package:unite_up/providers/app_state_provider.dart';
 import 'package:unite_up/providers/theme_provider.dart';
+import 'package:unite_up/providers/users_provider.dart';
 import 'package:unite_up/widgets/app_card_container.dart';
 import 'package:unite_up/widgets/custom_app_bar.dart';
 import 'package:unite_up/widgets/settings_card.dart';
@@ -56,10 +56,10 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Future<void> _handleLogout() async {
-    final appState = Provider.of<AppStateProvider>(context, listen: false);
+    final usersProvider = Provider.of<UsersProvider>(context, listen: false);
 
     try {
-      await appState.signOut();
+      await usersProvider.signOut();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(

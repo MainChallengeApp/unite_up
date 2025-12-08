@@ -68,7 +68,7 @@ class UserModelCard extends StatelessWidget {
 
   Widget _buildName(ThemeData theme) {
     return Text(
-      user.name,
+      user.displayName,
       style: AppTextStyles.largeSemiBold.copyWith(
         color: theme.brightness == Brightness.dark
             ? AppColors.white
@@ -81,7 +81,7 @@ class UserModelCard extends StatelessWidget {
 
   Widget _buildUsername(ThemeData theme) {
     return Text(
-      user.username,
+      user.username ?? '',
       style: AppTextStyles.baseRegular.copyWith(
         color: theme.iconTheme.color?.withValues(
           alpha: AppOpacity.mostlyOpaque,

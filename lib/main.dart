@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'package:unite_up/pages/home_page.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
 import 'package:unite_up/providers/theme_provider.dart';
+import 'package:unite_up/providers/users_provider.dart';
 import 'package:unite_up/services/env_service.dart';
 import 'package:unite_up/services/supabase_service.dart';
 import 'package:unite_up/theme/app_theme.dart';
@@ -22,7 +23,12 @@ void main() async {
       child: MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => ThemeProvider()),
-          ChangeNotifierProvider(create: (_) => AppStateProvider()),
+          ChangeNotifierProvider(create: (_) => UsersProvider()),
+          ChangeNotifierProxyProvider<UsersProvider, AppStateProvider>(
+            create: (_) => AppStateProvider(),
+            update: (_, usersProvider, appState) =>
+                appState!..updateUsersProvider(usersProvider),
+          ),
         ],
         child: const MyApp(),
       ),

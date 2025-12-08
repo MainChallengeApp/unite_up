@@ -1,22 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:unite_up/models/authenticated_user_model.dart';
 import 'package:unite_up/models/challenge_chat_model.dart';
 import 'package:unite_up/models/event_model.dart';
 import 'package:unite_up/models/goal_model.dart';
 import 'package:unite_up/models/progress_entry_model.dart';
-import 'package:unite_up/services/auth_service.dart';
+import 'package:unite_up/models/user_model.dart';
+import 'package:unite_up/providers/users_provider.dart';
 
+/// Provider for managing app state (challenges, goals, etc.).
+/// User state is delegated to [UsersProvider].
 class AppStateProvider extends ChangeNotifier {
   static const String anonymousUserId = 'user-1';
 
-  final AuthService _authService = AuthService();
+  UsersProvider? _usersProvider;
   final List<ChallengeChatModel> _challenges = [];
   String? _selectedChallengeId;
   bool _hasCompletedOnboarding = false;
 
+  /// Update the users provider reference (called by ProxyProvider).
+  void updateUsersProvider(UsersProvider usersProvider) {
+    if (_usersProvider != usersProvider) {
+      _usersProvider = usersProvider;
+      // Listen for user changes to migrate anonymous challenges
+      _usersProvider?.addListener(_onUserChanged);
+    }
+  }
+
+  void _onUserChanged() {
+    if (_usersProvider?.isAuthenticated == true) {
+      _migrateAnonymousChallenges();
+    }
+    notifyListeners();
+  }
+
   // Getters
-  AuthenticatedUserModel? get currentUser => _authService.currentUser;
-  bool get isAuthenticated => _authService.isAuthenticated;
+  UserModel? get currentUser => _usersProvider?.currentUser;
+  bool get isAuthenticated => _usersProvider?.isAuthenticated ?? false;
   List<ChallengeChatModel> get challenges => _challenges;
   ChallengeChatModel? get currentChallenge => _selectedChallengeId != null
       ? _challenges.firstWhere((c) => c.id == _selectedChallengeId)
@@ -307,37 +325,8 @@ class AppStateProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  // Authentication methods
-  Future<void> signInWithGoogle() async {
-    await _authService.signInWithGoogle();
-    _migrateAnonymousChallenges();
-    notifyListeners();
-  }
-
-  Future<void> signInWithApple() async {
-    await _authService.signInWithApple();
-    _migrateAnonymousChallenges();
-    notifyListeners();
-  }
-
-  Future<void> signInWithEmail(String email, String password) async {
-    await _authService.signInWithEmail(email, password);
-    _migrateAnonymousChallenges();
-    notifyListeners();
-  }
-
-  Future<void> signUpWithEmail(
-    String email,
-    String password,
-    String name,
-  ) async {
-    await _authService.signUpWithEmail(email, password, name);
-    _migrateAnonymousChallenges();
-    notifyListeners();
-  }
-
   void _migrateAnonymousChallenges() {
-    final userId = _authService.currentUser?.id;
+    final userId = _usersProvider?.currentUser?.id;
     if (userId == null) return;
 
     for (int i = 0; i < _challenges.length; i++) {
@@ -371,10 +360,5 @@ class AppStateProvider extends ChangeNotifier {
         );
       }
     }
-  }
-
-  Future<void> signOut() async {
-    await _authService.signOut();
-    notifyListeners();
   }
 }
