@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
-
 import 'package:unite_up/enums/event_type_enum.dart';
 import 'package:unite_up/models/event_model.dart';
-import 'package:unite_up/widgets/ai_message_card.dart';
 import 'package:unite_up/widgets/goal_created_card.dart';
 import 'package:unite_up/widgets/goal_deleted_card.dart';
 import 'package:unite_up/widgets/goal_progress_updated_card.dart';
@@ -27,8 +25,6 @@ class EventCard extends StatelessWidget {
     switch (event.type) {
       case EventTypeEnum.progressSubmitted:
         return ProgressSubmittedCard(event: event);
-      case EventTypeEnum.aiMessage:
-        return AIMessageCard(event: event);
       case EventTypeEnum.userMessage:
         return UserMessageCard(event: event);
       case EventTypeEnum.goalCreated:

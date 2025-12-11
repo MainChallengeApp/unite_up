@@ -8,7 +8,7 @@ class EventModel {
   final EventTypeEnum type;
   final DateTime timestamp;
 
-  // User who created this event (null for AI messages)
+  // User who created this event
   final String? userId;
 
   // For text messages
@@ -82,16 +82,6 @@ class EventModel {
       'goal_completed_by_update': goalCompletedByUpdate,
       'progress_data': progressEntry?.toJson(),
     };
-  }
-
-  factory EventModel.aiMessage(String challengeId, String message) {
-    return EventModel(
-      id: DateTime.now().millisecondsSinceEpoch.toString(),
-      challengeId: challengeId,
-      type: EventTypeEnum.aiMessage,
-      timestamp: DateTime.now(),
-      message: message,
-    );
   }
 
   factory EventModel.userMessage(

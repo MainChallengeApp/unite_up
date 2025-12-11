@@ -118,21 +118,6 @@ class ChallengesProvider extends ChangeNotifier {
         name: 'ChallengesProvider',
       );
 
-      // Add welcome message
-      final welcomeEvent = EventModel.aiMessage(
-        created.id,
-        created.isPersonal
-            ? 'Great choice! 🎉 You\'ve created "${created.name}". '
-                  'Use this space to document your progress, add updates, and track your journey. '
-                  'Let\'s get started!'
-            : 'Welcome to "${created.name}"! 👥 '
-                  'This group challenge has ${created.memberCount} members. '
-                  'Share your progress, encourage each other, and achieve your goals together!',
-      );
-
-      await _eventsDb.create(welcomeEvent);
-
-      // Reload to get the event
       final refreshed = await _challengesDb.getById(created.id);
       if (refreshed != null) {
         _challenges.insert(0, refreshed);
@@ -466,17 +451,6 @@ class ChallengesProvider extends ChangeNotifier {
         userId: currentUserId,
       );
       await _eventsDb.create(event);
-
-      // Simulate AI response
-      Future.delayed(const Duration(milliseconds: 500), () async {
-        final aiEvent = EventModel.aiMessage(
-          _selectedChallengeId!,
-          'Thanks for sharing! Keep documenting your progress. You\'re doing great! 🌟',
-        );
-        await _eventsDb.create(aiEvent);
-        await _refreshChallenge(_selectedChallengeId!);
-      });
-
       await _refreshChallenge(_selectedChallengeId!);
     } catch (e) {
       _error = e.toString();
@@ -495,15 +469,6 @@ class ChallengesProvider extends ChangeNotifier {
         userId: currentUserId,
       );
       await _eventsDb.create(event);
-
-      // Add AI response
-      final aiEvent = EventModel.aiMessage(
-        _selectedChallengeId!,
-        'Amazing progress! 🎉 Thanks for documenting your journey. '
-        'Remember to add a goal if you want to track specific metrics!',
-      );
-      await _eventsDb.create(aiEvent);
-
       await _refreshChallenge(_selectedChallengeId!);
     } catch (e) {
       _error = e.toString();
