@@ -27,15 +27,6 @@ class _ChatPageState extends State<ChatPage> {
   ThemeData get _theme => Theme.of(context);
 
   @override
-  void initState() {
-    super.initState();
-    // Scroll to bottom after the first frame is rendered
-    WidgetsBinding.instance.addPostFrameCallback((_) {
-      _scrollToBottom(animated: false);
-    });
-  }
-
-  @override
   void dispose() {
     _scrollController.dispose();
     _messageController.dispose();
@@ -233,24 +224,6 @@ class _ChatPageState extends State<ChatPage> {
     );
   }
 
-  void _scrollToBottom({bool animated = true}) {
-    if (_scrollController.hasClients) {
-      if (animated) {
-        Future.delayed(const Duration(milliseconds: 100), () {
-          if (_scrollController.hasClients) {
-            _scrollController.animateTo(
-              _scrollController.position.maxScrollExtent,
-              duration: const Duration(milliseconds: 300),
-              curve: Curves.easeOut,
-            );
-          }
-        });
-      } else {
-        _scrollController.jumpTo(_scrollController.position.maxScrollExtent);
-      }
-    }
-  }
-
   void _showProgressDialog() {
     showDialog(
       context: context,
@@ -261,7 +234,6 @@ class _ChatPageState extends State<ChatPage> {
           context,
           listen: false,
         ).submitProgress(result);
-        _scrollToBottom();
       }
     });
   }
@@ -274,7 +246,19 @@ class _ChatPageState extends State<ChatPage> {
       listen: false,
     ).addMessage(_messageController.text.trim());
     _messageController.clear();
-    _scrollToBottom();
+    _animateToBottom();
+  }
+
+  void _animateToBottom() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (_scrollController.hasClients) {
+        _scrollController.animateTo(
+          0,
+          duration: AppDurations.animationNormal,
+          curve: Curves.easeOut,
+        );
+      }
+    });
   }
 
   void _showUploadOptions() {
@@ -313,15 +297,18 @@ class _ChatPageState extends State<ChatPage> {
   }
 
   Widget _buildChatList(AppStateProvider appState) {
-    final groupedEvents = _groupEventsByDate(appState.events);
+    final events = appState.events;
+    final groupedEvents = _groupEventsByDate(events);
+    final itemCount = _calculateItemCount(groupedEvents);
 
     return ListView.builder(
       controller: _scrollController,
+      reverse: true,
       physics: const AlwaysScrollableScrollPhysics(),
-      padding: const EdgeInsets.only(bottom: AppSizes.spacing16),
-      itemCount: _calculateItemCount(groupedEvents),
+      padding: const EdgeInsets.only(top: AppSizes.spacing16),
+      itemCount: itemCount,
       itemBuilder: (context, index) {
-        return _buildListItem(context, groupedEvents, index);
+        return _buildListItemReversed(context, groupedEvents, index);
       },
     );
   }
@@ -348,22 +335,19 @@ class _ChatPageState extends State<ChatPage> {
     return count;
   }
 
-  Widget _buildListItem(
+  Widget _buildListItemReversed(
     BuildContext context,
     Map<String, List<EventModel>> groupedEvents,
     int index,
   ) {
     int currentIndex = 0;
+    final reversedEntries = groupedEvents.entries.toList().reversed;
 
-    for (final entry in groupedEvents.entries) {
-      // Date header
-      if (currentIndex == index) {
-        return _buildDateHeader(entry.key);
-      }
-      currentIndex++;
+    for (final entry in reversedEntries) {
+      final reversedEvents = entry.value.reversed.toList();
 
-      // Events for this date
-      for (final event in entry.value) {
+      // Events first (newest at index 0)
+      for (final event in reversedEvents) {
         if (currentIndex == index) {
           return EventCard(
             event: event,
@@ -373,6 +357,12 @@ class _ChatPageState extends State<ChatPage> {
         }
         currentIndex++;
       }
+
+      // Date header after events
+      if (currentIndex == index) {
+        return _buildDateHeader(entry.key);
+      }
+      currentIndex++;
     }
 
     return const SizedBox.shrink();
