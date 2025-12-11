@@ -48,3 +48,8 @@ app.*.map.json
 .fvm/
 
 .env
+.env.local
+
+# Supabase local development
+supabase/.branches
+supabase/.temp
