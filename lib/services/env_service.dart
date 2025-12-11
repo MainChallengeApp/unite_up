@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 /// Service class for accessing environment variables.
@@ -15,10 +13,7 @@ class EnvService {
   /// Must be called once before accessing any environment variables.
   static Future<void> initialize() async {
     if (_initialized) return;
-
-    // Try .env.local first for local development
-    final envFile = File('.env.local').existsSync() ? '.env.local' : '.env';
-    await dotenv.load(fileName: envFile);
+    await dotenv.load(fileName: '.env');
     _initialized = true;
   }
 
