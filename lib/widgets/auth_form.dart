@@ -55,28 +55,30 @@ class _AuthFormState extends State<AuthForm> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       padding: const EdgeInsets.all(AppSizes.spacing24),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const SizedBox(height: AppSizes.spacing32),
-          _buildTitle(),
-          const SizedBox(height: AppSizes.spacing32),
-          _buildSocialLoginButtons(),
-          const SizedBox(height: AppSizes.spacing16),
-          _buildDivider(),
-          const SizedBox(height: AppSizes.spacing16),
-          if (!widget.isLoginMode) ...[
-            _buildNameField(),
+      child: AutofillGroup(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const SizedBox(height: AppSizes.spacing32),
+            _buildTitle(),
+            const SizedBox(height: AppSizes.spacing32),
+            _buildSocialLoginButtons(),
             const SizedBox(height: AppSizes.spacing16),
+            _buildDivider(),
+            const SizedBox(height: AppSizes.spacing16),
+            if (!widget.isLoginMode) ...[
+              _buildNameField(),
+              const SizedBox(height: AppSizes.spacing16),
+            ],
+            _buildEmailField(),
+            const SizedBox(height: AppSizes.spacing16),
+            _buildPasswordField(),
+            const SizedBox(height: AppSizes.spacing24),
+            _buildSubmitButton(),
+            const SizedBox(height: AppSizes.spacing24),
+            _buildToggleButton(),
           ],
-          _buildEmailField(),
-          const SizedBox(height: AppSizes.spacing16),
-          _buildPasswordField(),
-          const SizedBox(height: AppSizes.spacing24),
-          _buildSubmitButton(),
-          const SizedBox(height: AppSizes.spacing24),
-          _buildToggleButton(),
-        ],
+        ),
       ),
     );
   }
@@ -100,6 +102,7 @@ class _AuthFormState extends State<AuthForm> {
       icon: AppIcons.email,
       keyboardType: TextInputType.emailAddress,
       isRemoveTextVisible: true,
+      autofillHints: [AutofillHints.email],
     );
   }
 
@@ -119,6 +122,7 @@ class _AuthFormState extends State<AuthForm> {
         });
       },
       alwaysShowSuffixIcon: true,
+      autofillHints: [AutofillHints.password],
     );
   }
 

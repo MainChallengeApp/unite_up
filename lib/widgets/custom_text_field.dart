@@ -19,6 +19,7 @@ class CustomTextField extends StatefulWidget {
   final FocusNode? focusNode;
   final TextInputAction? textInputAction;
   final ValueChanged<String>? onSubmitted;
+  final List<String>? autofillHints;
 
   const CustomTextField({
     super.key,
@@ -39,6 +40,7 @@ class CustomTextField extends StatefulWidget {
     this.focusNode,
     this.textInputAction,
     this.onSubmitted,
+    this.autofillHints,
   });
 
   @override
@@ -100,6 +102,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       obscureText: widget.obscureText,
       keyboardType: widget.keyboardType,
       textCapitalization: widget.textCapitalization,
+      autofillHints: widget.autofillHints,
       decoration: InputDecoration(
         hintText: widget.hintText,
         filled: true,
