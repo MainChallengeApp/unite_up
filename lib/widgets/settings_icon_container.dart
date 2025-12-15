@@ -1,17 +1,17 @@
-import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:flutter/material.dart';
+import 'package:unite_up/core/constants/app_constants.dart';
 
 /// Icon container for settings cards with rounded square background.
 class SettingsIconContainer extends StatelessWidget {
   final IconData icon;
-  final Color color;
-  final Color backgroundColor;
+  final Color? color;
+  final Color? backgroundColor;
 
   const SettingsIconContainer({
     super.key,
     required this.icon,
-    required this.color,
-    required this.backgroundColor,
+    this.backgroundColor,
+    this.color,
   });
 
   @override
@@ -20,15 +20,23 @@ class SettingsIconContainer extends StatelessWidget {
       width: AppSizes.containerSmall,
       height: AppSizes.containerSmall,
       decoration: BoxDecoration(
-        color: backgroundColor,
+        color:
+            backgroundColor ??
+            Theme.of(
+              context,
+            ).colorScheme.primary.withValues(alpha: AppOpacity.veryLight),
         borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
       ),
       child: Icon(
         icon,
-        color: color,
+        color:
+            color ??
+            Theme.of(
+              context,
+            ).iconTheme.color?.withValues(alpha: AppOpacity.mostlyOpaque) ??
+            Theme.of(context).colorScheme.primary,
         size: AppSizes.iconLarge,
       ),
     );
   }
 }
-

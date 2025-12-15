@@ -45,4 +45,13 @@ class SupabaseService {
   /// Stream of authentication state changes.
   static Stream<AuthState> get authStateChanges =>
       client.auth.onAuthStateChange;
+
+  static deleteUser() async {
+    return await client.functions.invoke(
+      'delete-user',
+      headers: {
+        'Authorization': 'Bearer ${client.auth.currentSession?.accessToken}',
+      },
+    );
+  }
 }

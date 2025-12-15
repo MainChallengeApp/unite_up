@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
+import 'package:unite_up/dialogs/delete_user_dialog.dart';
 import 'package:unite_up/providers/theme_provider.dart';
 import 'package:unite_up/providers/users_provider.dart';
 import 'package:unite_up/widgets/app_card_container.dart';
@@ -19,6 +20,10 @@ class SettingsPage extends StatefulWidget {
 
 class _SettingsPageState extends State<SettingsPage> {
   ThemeData get _theme => Theme.of(context);
+  late final _usersProvider = Provider.of<UsersProvider>(
+    context,
+    listen: false,
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -46,9 +51,9 @@ class _SettingsPageState extends State<SettingsPage> {
             subtitle: '1.0.0',
           ),
           const SizedBox(height: AppSizes.spacing32),
-          _buildSectionTitle('settings.account'.tr()),
+          _buildSectionTitle('settings.account.title'.tr()),
           const SizedBox(height: AppSizes.spacing12),
-          _buildLogoutButton(),
+          _buildAccountCard(),
           const SizedBox(height: AppSizes.spacing24),
         ],
       ),
@@ -56,10 +61,8 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Future<void> _handleLogout() async {
-    final usersProvider = Provider.of<UsersProvider>(context, listen: false);
-
     try {
-      await usersProvider.signOut();
+      await _usersProvider.signOut();
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
@@ -85,24 +88,34 @@ class _SettingsPageState extends State<SettingsPage> {
 
   Widget _buildLogoutButton() {
     return SettingsCard(
-      icon: SettingsIconContainer(
-        icon: AppIcons.logout,
-        color: _theme.colorScheme.error,
-        backgroundColor: _theme.colorScheme.error.withValues(
-          alpha: AppOpacity.light,
-        ),
-      ),
+      icon: SettingsIconContainer(icon: AppIcons.logout),
       title: 'auth.signOut'.tr(),
-      titleColor: _theme.colorScheme.error,
       onTap: _handleLogout,
+      trailing: Icon(AppIcons.arrowForward, size: AppSizes.iconMedium),
+      isFirst: true,
+    );
+  }
+
+  Widget _buildDeleteAccountButton() {
+    return SettingsCard(
+      icon: SettingsIconContainer(
+        icon: AppIcons.delete,
+        color: _theme.colorScheme.error,
+      ),
+      titleColor: _theme.colorScheme.error,
+      title: 'settings.account.deleteAccount'.tr(),
+      onTap: _handleDeleteAccount,
       trailing: Icon(
         AppIcons.arrowForward,
-        color: _theme.colorScheme.error.withValues(
-          alpha: AppOpacity.mostlyOpaque,
-        ),
         size: AppSizes.iconMedium,
+        color: _theme.colorScheme.error,
       ),
+      isLast: true,
     );
+  }
+
+  Future<void> _handleDeleteAccount() async {
+    showDialog(context: context, builder: (context) => DeleteUserDialog());
   }
 
   Widget _buildSectionTitle(String title) {
@@ -361,6 +374,22 @@ class _SettingsPageState extends State<SettingsPage> {
       ),
       title: title,
       subtitle: subtitle,
+    );
+  }
+
+  _buildAccountCard() {
+    return AppCardContainer(
+      child: Column(
+        children: [
+          _buildLogoutButton(),
+          Divider(
+            height: AppSizes.dividerHeight,
+            thickness: 1,
+            color: _theme.dividerColor.withValues(alpha: AppOpacity.light),
+          ),
+          _buildDeleteAccountButton(),
+        ],
+      ),
     );
   }
 }

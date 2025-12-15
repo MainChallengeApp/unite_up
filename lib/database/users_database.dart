@@ -25,30 +25,6 @@ class UsersDatabase {
     return UserModel.fromJson(response);
   }
 
-  /// Fetch a user by username.
-  Future<UserModel?> getByUsername(String username) async {
-    final response = await _client
-        .from(_tableName)
-        .select()
-        .eq('username', username)
-        .maybeSingle();
-
-    if (response == null) return null;
-    return UserModel.fromJson(response);
-  }
-
-  /// Fetch a user by email.
-  Future<UserModel?> getByEmail(String email) async {
-    final response = await _client
-        .from(_tableName)
-        .select()
-        .eq('email', email)
-        .maybeSingle();
-
-    if (response == null) return null;
-    return UserModel.fromJson(response);
-  }
-
   /// Search users by display name or username.
   Future<List<UserModel>> search(String query, {int limit = 20}) async {
     final response = await _client
@@ -129,5 +105,10 @@ class UsersDatabase {
       'increment_completed_challenges_count',
       params: {'user_id': id},
     );
+  }
+
+  /// Delete a user by ID.
+  Future<void> deleteById(String id) async {
+    await _client.from(_tableName).delete().eq('id', id);
   }
 }

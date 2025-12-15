@@ -301,7 +301,12 @@
     },
     "about": "About",
     "version": "Version",
-    "account": "Account"
+    "account": {
+      "title": "Account",
+      "deleteAccount": "Delete Account",
+      "deleteAccountConfirmation": "Are you sure you want to delete your account?\nThis action cannot be undone.",
+      "deleteAccountConfirmationButton": "Delete Account"
+    }
   },
   "empty": {
     "noData": "No data available"

@@ -212,11 +212,6 @@ class UsersProvider extends ChangeNotifier {
     return user;
   }
 
-  /// Get a user by username.
-  Future<UserModel?> getUserByUsername(String username) async {
-    return _usersDb.getByUsername(username);
-  }
-
   /// Search users by name or username.
   Future<List<UserModel>> searchUsers(String query, {int limit = 20}) async {
     final users = await _usersDb.search(query, limit: limit);
@@ -269,5 +264,14 @@ class UsersProvider extends ChangeNotifier {
   /// Clear the user cache.
   void clearCache() {
     _userCache.clear();
+  }
+
+  // delete the current user's account
+  Future<void> deleteAccount() async {
+    await _usersDb.deleteById(currentUserId!);
+    await SupabaseService.deleteUser();
+    _currentUser = null;
+    _userCache.clear();
+    notifyListeners();
   }
 }
