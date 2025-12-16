@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:unite_up/pages/home_page.dart';
+import 'package:unite_up/pages/waitlist_page.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
 import 'package:unite_up/providers/challenges_provider.dart';
 import 'package:unite_up/providers/theme_provider.dart';
@@ -9,12 +11,16 @@ import 'package:unite_up/providers/users_provider.dart';
 import 'package:unite_up/services/env_service.dart';
 import 'package:unite_up/services/supabase_service.dart';
 import 'package:unite_up/theme/app_theme.dart';
+import 'package:unite_up/utils/web_utils.dart'
+    if (dart.library.io) 'package:unite_up/utils/mobile_utils.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
   await EnvService.initialize();
   await SupabaseService.initialize();
+
+  configureUrlStrategy();
 
   runApp(
     EasyLocalization(
@@ -38,20 +44,27 @@ void main() async {
                   ..updateChallengesProvider(challengesProvider),
           ),
         ],
-        child: const MyApp(),
+        child: MyApp(),
       ),
     ),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+
+  final GoRouter _router = GoRouter(
+    routes: [
+      GoRoute(path: '/', builder: (context, state) => HomePage()),
+      GoRoute(path: '/waitlist', builder: (context, state) => WaitlistPage()),
+    ],
+  );
 
   @override
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
-    return MaterialApp(
+    return MaterialApp.router(
       title: 'UniteUp',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
@@ -60,7 +73,7 @@ class MyApp extends StatelessWidget {
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      home: const HomePage(),
+      routerConfig: _router,
     );
   }
 }

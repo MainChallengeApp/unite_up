@@ -17,14 +17,10 @@ class EnvService {
     _initialized = true;
   }
 
-  /// Supabase project URL.
   static String get supabaseUrl => _getRequired('SUPABASE_URL');
-
-  /// Supabase anonymous key for client-side access.
   static String get supabaseAnonKey => _getRequired('SUPABASE_ANON_KEY');
+  static String get waitlistUrl => _getRequired('WAITLIST_URL');
 
-  /// Get a required environment variable.
-  /// Throws an exception if the variable is not set or empty.
   static String _getRequired(String key) {
     _ensureInitialized();
     final value = dotenv.env[key] ?? String.fromEnvironment(key);
@@ -34,7 +30,6 @@ class EnvService {
     return value;
   }
 
-  /// Get an optional environment variable with a default value.
   static String getOptional(String key, {String defaultValue = ''}) {
     _ensureInitialized();
     return dotenv.env[key] ??
