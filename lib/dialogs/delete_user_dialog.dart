@@ -49,6 +49,12 @@ class _DeleteUserDialogState extends State<DeleteUserDialog> {
       await Provider.of<UsersProvider>(context, listen: false).deleteAccount();
       Navigator.pop(context);
       Navigator.pop(context);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('settings.account.success'.tr()),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
     } on Error catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(

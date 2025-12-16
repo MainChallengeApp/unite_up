@@ -305,7 +305,8 @@
       "title": "Account",
       "deleteAccount": "Delete Account",
       "deleteAccountConfirmation": "Are you sure you want to delete your account?\nThis action cannot be undone.",
-      "deleteAccountConfirmationButton": "Delete Account"
+      "deleteAccountConfirmationButton": "Delete Account",
+      "success": "Successfully deleted Account"
     }
   },
   "empty": {

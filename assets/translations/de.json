@@ -305,7 +305,8 @@
       "title": "Konto",
       "deleteAccount": "Konto löschen",
       "deleteAccountConfirmation": "Bist du sicher, dass du dein Konto löschen möchtest?\nDiese Aktion kann nicht rückgängig gemacht werden.",
-      "deleteAccountConfirmationButton": "Konto löschen"
+      "deleteAccountConfirmationButton": "Konto löschen",
+      "success": "Konto erfolgreich gelöscht"
     }
   },
   "empty": {
