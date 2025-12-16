@@ -8,8 +8,8 @@
       "flutterMode": "debug",
       "deviceId": "chrome",
       "args": [
-        "--web-port=8080"
-      ]
+        "--web-port=5000"
+      ],
     }
   ]
 }
