@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:unite_up/pages/email_confirmed_successfully_page.dart';
 import 'package:unite_up/pages/home_page.dart';
 import 'package:unite_up/pages/waitlist_page.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
@@ -57,6 +58,10 @@ class MyApp extends StatelessWidget {
     routes: [
       GoRoute(path: '/', builder: (context, state) => HomePage()),
       GoRoute(path: '/waitlist', builder: (context, state) => WaitlistPage()),
+      GoRoute(
+        path: '/email-confirmed',
+        builder: (context, state) => EmailConfirmedSuccessfullyPage(),
+      ),
     ],
   );
 

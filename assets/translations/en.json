@@ -47,7 +47,8 @@
       "password": "Password",
       "enterPassword": "Enter your password"
     },
-    "confirmEmail": "Confirm your email"
+    "confirmEmail": "Confirm your email",
+    "emailConfirmedSuccessfully": "You confirmed you email successfully.\n You can close this site."
   },
   "navigation": {
     "search": "Search",

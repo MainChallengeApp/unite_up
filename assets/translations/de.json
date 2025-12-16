@@ -47,7 +47,8 @@
       "password": "Passwort",
       "enterPassword": "Gib dein Passwort ein"
     },
-    "confirmEmail": "Bestätige deine E-Mail"
+    "confirmEmail": "Bestätige deine E-Mail",
+    "emailConfirmedSuccessfully": "Du hast deine Email erfolgreich bestätigt.\n Du kannst die Seite schließen."
   },
   "navigation": {
     "search": "Suchen",

@@ -3,8 +3,10 @@
 branch="$(git rev-parse --abbrev-ref HEAD 2>/dev/null)"
 
 if [ "$branch" = "prod" ]; then
+  echo "we are on prod"
   cp .env.prod .env
 else
+echo "we are on test"
   cp .env.test .env
 fi
 
