@@ -46,7 +46,8 @@
       "enterEmail": "Gib deine E-Mail ein",
       "password": "Passwort",
       "enterPassword": "Gib dein Passwort ein"
-    }
+    },
+    "confirmEmail": "Bestätige deine E-Mail"
   },
   "navigation": {
     "search": "Suchen",

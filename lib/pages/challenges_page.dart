@@ -267,7 +267,7 @@ class _ChallengesPageState extends State<ChallengesPage>
             // CTA Button
             ElevatedButton.icon(
               onPressed: () => _createNewChallenge(context),
-              icon: const Icon(AppIcons.add, size: 22),
+              icon: const Icon(AppIcons.add, size: AppSizes.iconLarge),
               label: Text(
                 'challenges.createChallenge'.tr(),
                 style: AppTextStyles.mediumSemiBold,

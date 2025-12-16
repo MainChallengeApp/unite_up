@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:unite_up/pages/confirm_email_page.dart';
 import 'package:unite_up/providers/users_provider.dart';
 import 'package:unite_up/widgets/auth_form.dart';
 
@@ -19,6 +20,8 @@ class _AuthPageState extends State<AuthPage> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
+
+  late final _userProvider = Provider.of<UsersProvider>(context, listen: false);
 
   @override
   void dispose() {
@@ -46,8 +49,6 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   Future<void> _handleEmailAuth() async {
-    final usersProvider = Provider.of<UsersProvider>(context, listen: false);
-
     if (_emailController.text.isEmpty || _passwordController.text.isEmpty) {
       _showSnackBar('auth.pleaseFillAllFields'.tr());
       return;
@@ -62,18 +63,22 @@ class _AuthPageState extends State<AuthPage> {
 
     try {
       if (_isLoginMode) {
-        await usersProvider.signInWithEmail(
+        await _userProvider.signInWithEmail(
           _emailController.text.trim(),
           _passwordController.text,
         );
         _showSnackBar('auth.loginSuccess'.tr());
       } else {
-        await usersProvider.signUpWithEmail(
+        await _userProvider.signUpWithEmail(
           email: _emailController.text.trim(),
           password: _passwordController.text,
           displayName: _nameController.text.trim(),
         );
         _showSnackBar('auth.accountCreatedSuccess'.tr());
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ConfirmEmailPage()),
+        );
       }
 
       _emailController.clear();
@@ -87,11 +92,10 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   Future<void> _handleGoogleSignIn() async {
-    final usersProvider = Provider.of<UsersProvider>(context, listen: false);
     setState(() => _isGoogleLoading = true);
 
     try {
-      await usersProvider.signInWithGoogle();
+      await _userProvider.signInWithGoogle();
       _showSnackBar('auth.signedInWithGoogle'.tr());
     } catch (e) {
       _showSnackBar('${'common.error'.tr()}: ${e.toString()}');
@@ -101,11 +105,10 @@ class _AuthPageState extends State<AuthPage> {
   }
 
   Future<void> _handleAppleSignIn() async {
-    final usersProvider = Provider.of<UsersProvider>(context, listen: false);
     setState(() => _isAppleLoading = true);
 
     try {
-      await usersProvider.signInWithApple();
+      await _userProvider.signInWithApple();
       _showSnackBar('auth.signedInWithApple'.tr());
     } catch (e) {
       _showSnackBar('${'common.error'.tr()}: ${e.toString()}');

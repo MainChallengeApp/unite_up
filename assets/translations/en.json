@@ -46,7 +46,8 @@
       "enterEmail": "Enter your email",
       "password": "Password",
       "enterPassword": "Enter your password"
-    }
+    },
+    "confirmEmail": "Confirm your email"
   },
   "navigation": {
     "search": "Search",

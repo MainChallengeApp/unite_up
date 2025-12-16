@@ -72,6 +72,9 @@ supabase link --project-ref <project-id>
 
 # Push migrations to remote
 supabase db push
+
+# Push config
+supabase config push
 ```
 
 ## Migration Files

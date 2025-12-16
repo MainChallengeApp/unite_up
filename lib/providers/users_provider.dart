@@ -20,12 +20,14 @@ class UsersProvider extends ChangeNotifier {
   bool _isLoading = false;
   String? _error;
   StreamSubscription<AuthState>? _authSubscription;
+  User? _currentSupabaseUser;
 
   // Cache for fetched user profiles
   final Map<String, UserModel> _userCache = {};
 
   // Getters
   UserModel? get currentUser => _currentUser;
+  User? get currentSupabaseUser => _currentSupabaseUser;
   bool get isAuthenticated => _currentUser != null;
   bool get isLoading => _isLoading;
   String? get error => _error;
@@ -120,17 +122,20 @@ class UsersProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      await SupabaseService.client.auth.signUp(
+      final result = await SupabaseService.client.auth.signUp(
         email: email,
         password: password,
         data: {'display_name': displayName},
       );
+      _currentSupabaseUser = result.user;
       // Auth state listener will handle loading the user
     } catch (e) {
       _error = e.toString();
       _isLoading = false;
       notifyListeners();
       rethrow;
+    } finally {
+      notifyListeners();
     }
   }
 
@@ -148,6 +153,7 @@ class UsersProvider extends ChangeNotifier {
   Future<void> signOut() async {
     await SupabaseService.client.auth.signOut();
     _currentUser = null;
+    _currentSupabaseUser = null;
     _userCache.clear();
     notifyListeners();
   }
