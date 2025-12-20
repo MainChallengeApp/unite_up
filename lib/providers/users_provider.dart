@@ -5,6 +5,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:unite_up/database/user_follows_database.dart';
 import 'package:unite_up/database/users_database.dart';
 import 'package:unite_up/models/user_model.dart';
+import 'package:unite_up/services/env_service.dart';
 import 'package:unite_up/services/supabase_service.dart';
 
 /// Provider for managing user state and authentication.
@@ -126,6 +127,7 @@ class UsersProvider extends ChangeNotifier {
         email: email,
         password: password,
         data: {'display_name': displayName},
+        emailRedirectTo: EnvService.emailRedirectURL,
       );
       _currentSupabaseUser = result.user;
       // Auth state listener will handle loading the user
