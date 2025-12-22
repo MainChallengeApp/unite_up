@@ -71,7 +71,7 @@ class _ConfirmEmailPageState extends State<ConfirmEmailPage> {
       width: AppSizes.containerHuge,
       height: AppSizes.containerHuge,
       decoration: BoxDecoration(
-        color: theme.colorScheme.primaryContainer,
+        color: theme.colorScheme.primary.withValues(alpha: AppOpacity.light),
         shape: BoxShape.circle,
       ),
       child: Center(
