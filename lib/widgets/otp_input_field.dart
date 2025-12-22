@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
 
 /// A widget for entering OTP (One-Time Password) verification codes.
+/// Supports both typing individual digits and pasting the full code.
 class OtpInputField extends StatefulWidget {
   final int length;
   final ValueChanged<String> onCompleted;
@@ -20,98 +21,108 @@ class OtpInputField extends StatefulWidget {
 }
 
 class _OtpInputFieldState extends State<OtpInputField> {
-  late List<TextEditingController> _controllers;
-  late List<FocusNode> _focusNodes;
+  late final TextEditingController _controller;
+  late final FocusNode _focusNode;
 
   @override
   void initState() {
     super.initState();
-    _controllers = List.generate(
-      widget.length,
-      (_) => TextEditingController(),
-    );
-    _focusNodes = List.generate(widget.length, (_) => FocusNode());
+    _controller = TextEditingController();
+    _focusNode = FocusNode();
+    _focusNode.addListener(() => setState(() {}));
   }
 
   @override
   void dispose() {
-    for (final controller in _controllers) {
-      controller.dispose();
-    }
-    for (final node in _focusNodes) {
-      node.dispose();
-    }
+    _controller.dispose();
+    _focusNode.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final boxWidth = AppSizes.containerSmall;
+    final totalWidth = (boxWidth + AppSizes.spacing4 * 2) * widget.length;
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: List.generate(widget.length, (index) {
-        return Container(
-          width: AppSizes.containerSmall,
-          height: AppSizes.containerMedium,
-          margin: EdgeInsets.symmetric(horizontal: AppSizes.spacing4),
-          child: TextField(
-            controller: _controllers[index],
-            focusNode: _focusNodes[index],
-            keyboardType: TextInputType.number,
-            textAlign: TextAlign.center,
-            maxLength: 1,
-            style: AppTextStyles.xxLargeSemiBold,
-            decoration: InputDecoration(
-              counterText: '',
-              filled: true,
-              fillColor: theme.colorScheme.surfaceContainerHighest,
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
-                borderSide: BorderSide.none,
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
-                borderSide: BorderSide(
-                  color: theme.colorScheme.primary,
-                  width: AppSizes.borderThick,
+    return SizedBox(
+      width: totalWidth,
+      height: AppSizes.containerMedium,
+      child: Stack(
+        children: [
+          // Visible digit boxes (behind)
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: List.generate(widget.length, (index) {
+              final hasValue = index < _controller.text.length;
+              final isActive =
+                  _focusNode.hasFocus && index == _controller.text.length;
+
+              return AnimatedContainer(
+                duration: AppDurations.animationFast,
+                width: boxWidth,
+                height: AppSizes.containerMedium,
+                margin: const EdgeInsets.symmetric(
+                  horizontal: AppSizes.spacing4,
                 ),
-              ),
-            ),
-            inputFormatters: [FilteringTextInputFormatter.digitsOnly],
-            onChanged: (value) => _onDigitChanged(index, value),
+                decoration: BoxDecoration(
+                  color: theme.colorScheme.surfaceContainerHighest,
+                  borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
+                  border: Border.all(
+                    color: isActive
+                        ? theme.colorScheme.primary
+                        : Colors.transparent,
+                    width: AppSizes.borderThick,
+                  ),
+                ),
+                child: Center(
+                  child: Text(
+                    hasValue ? _controller.text[index] : '',
+                    style: AppTextStyles.xxLargeSemiBold,
+                  ),
+                ),
+              );
+            }),
           ),
-        );
-      }),
+          // Invisible TextField on top for input and paste support
+          Positioned.fill(
+            child: TextField(
+              controller: _controller,
+              focusNode: _focusNode,
+              keyboardType: TextInputType.number,
+              autofocus: false,
+              enableSuggestions: false,
+              autocorrect: false,
+              showCursor: false,
+              style: const TextStyle(color: Colors.transparent),
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                counterText: '',
+                fillColor: Colors.transparent,
+                filled: true,
+              ),
+              inputFormatters: [
+                FilteringTextInputFormatter.digitsOnly,
+                LengthLimitingTextInputFormatter(widget.length),
+              ],
+              onChanged: _onTextChanged,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
-  void _onDigitChanged(int index, String value) {
-    if (value.isNotEmpty) {
-      // Move to next field
-      if (index < widget.length - 1) {
-        _focusNodes[index + 1].requestFocus();
-      } else {
-        // Last field - unfocus and check completion
-        _focusNodes[index].unfocus();
-      }
-    } else {
-      // Move to previous field on delete
-      if (index > 0) {
-        _focusNodes[index - 1].requestFocus();
-      }
-    }
+  void _onTextChanged(String value) {
+    setState(() {});
 
-    _notifyChanges();
-  }
+    widget.onChanged?.call(value);
 
-  void _notifyChanges() {
-    final otp = _controllers.map((c) => c.text).join();
-    widget.onChanged?.call(otp);
-
-    if (otp.length == widget.length) {
-      widget.onCompleted(otp);
+    if (value.length == widget.length) {
+      _focusNode.unfocus();
+      widget.onCompleted(value);
     }
   }
 }
-
