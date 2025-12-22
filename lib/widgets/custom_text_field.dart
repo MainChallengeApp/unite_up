@@ -103,6 +103,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
       keyboardType: widget.keyboardType,
       textCapitalization: widget.textCapitalization,
       autofillHints: widget.autofillHints,
+      enableSuggestions: !widget.obscureText,
+      autocorrect: !widget.obscureText,
       decoration: InputDecoration(
         hintText: widget.hintText,
         filled: true,

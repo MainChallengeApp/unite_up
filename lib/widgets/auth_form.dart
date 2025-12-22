@@ -40,6 +40,18 @@ class AuthForm extends StatefulWidget {
 class _AuthFormState extends State<AuthForm> {
   bool _isPasswordVisible = false;
 
+  final _nameFocusNode = FocusNode();
+  final _emailFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
+
+  @override
+  void dispose() {
+    _nameFocusNode.dispose();
+    _emailFocusNode.dispose();
+    _passwordFocusNode.dispose();
+    super.dispose();
+  }
+
   @override
   void didUpdateWidget(AuthForm oldWidget) {
     super.didUpdateWidget(oldWidget);
@@ -91,6 +103,10 @@ class _AuthFormState extends State<AuthForm> {
       icon: AppIcons.personOutline,
       textCapitalization: TextCapitalization.words,
       isRemoveTextVisible: true,
+      autofillHints: const [AutofillHints.name],
+      focusNode: _nameFocusNode,
+      textInputAction: TextInputAction.next,
+      onSubmitted: (_) => _emailFocusNode.requestFocus(),
     );
   }
 
@@ -102,7 +118,13 @@ class _AuthFormState extends State<AuthForm> {
       icon: AppIcons.email,
       keyboardType: TextInputType.emailAddress,
       isRemoveTextVisible: true,
-      autofillHints: [AutofillHints.email],
+      // iOS looks for 'username' hint to pair with 'password' for credential saving
+      autofillHints: widget.isLoginMode
+          ? const [AutofillHints.username]
+          : const [AutofillHints.newUsername],
+      focusNode: _emailFocusNode,
+      textInputAction: TextInputAction.next,
+      onSubmitted: (_) => _passwordFocusNode.requestFocus(),
     );
   }
 
@@ -122,7 +144,12 @@ class _AuthFormState extends State<AuthForm> {
         });
       },
       alwaysShowSuffixIcon: true,
-      autofillHints: [AutofillHints.password],
+      autofillHints: widget.isLoginMode
+          ? const [AutofillHints.password]
+          : const [AutofillHints.newPassword],
+      focusNode: _passwordFocusNode,
+      textInputAction: TextInputAction.done,
+      onSubmitted: (_) => widget.onSubmit(),
     );
   }
 

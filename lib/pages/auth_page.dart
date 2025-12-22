@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:unite_up/pages/confirm_email_page.dart';
 import 'package:unite_up/providers/users_provider.dart';
@@ -68,6 +69,9 @@ class _AuthPageState extends State<AuthPage> {
           _passwordController.text,
         );
         _showSnackBar('auth.loginSuccess'.tr());
+        // Trigger iOS/Android password manager to save credentials
+        // Must be called while fields still have values
+        TextInput.finishAutofillContext(shouldSave: true);
       } else {
         await _userProvider.signUpWithEmail(
           email: _emailController.text.trim(),
@@ -75,12 +79,18 @@ class _AuthPageState extends State<AuthPage> {
           displayName: _nameController.text.trim(),
         );
         _showSnackBar('auth.accountCreatedSuccess'.tr());
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ConfirmEmailPage()),
-        );
+        // Trigger iOS/Android password manager to save credentials
+        // Must be called while fields still have values
+        TextInput.finishAutofillContext(shouldSave: true);
+        if (mounted) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const ConfirmEmailPage()),
+          );
+        }
       }
 
+      // Clear fields after autofill context is finished
       _emailController.clear();
       _passwordController.clear();
       _nameController.clear();
