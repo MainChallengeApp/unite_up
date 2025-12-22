@@ -165,6 +165,56 @@ class UsersProvider extends ChangeNotifier {
     await SupabaseService.client.auth.resetPasswordForEmail(email);
   }
 
+  /// Verify email OTP code after signup.
+  Future<void> verifyEmailOtp({
+    required String email,
+    required String token,
+  }) async {
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
+
+    try {
+      final response = await SupabaseService.client.auth.verifyOTP(
+        email: email,
+        token: token,
+        type: OtpType.signup,
+      );
+
+      if (response.user == null) {
+        throw Exception('Email verification failed');
+      }
+
+      _currentSupabaseUser = response.user;
+      // Auth state listener will handle loading the user
+    } catch (e) {
+      _error = e.toString();
+      _isLoading = false;
+      notifyListeners();
+      rethrow;
+    }
+  }
+
+  /// Resend email OTP for signup confirmation.
+  Future<void> resendSignupOtp(String email) async {
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
+
+    try {
+      await SupabaseService.client.auth.resend(
+        type: OtpType.signup,
+        email: email,
+      );
+    } catch (e) {
+      _error = e.toString();
+      rethrow;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
   // ============================================================================
   // Profile Management
   // ============================================================================

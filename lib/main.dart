@@ -61,8 +61,6 @@ class MyApp extends StatelessWidget {
       GoRoute(
         path: '/email-confirmed',
         builder: (context, state) {
-          print('context $context');
-          print('state $state');
           return EmailConfirmedSuccessfullyPage();
         },
       ),

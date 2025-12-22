@@ -48,7 +48,16 @@
       "enterPassword": "Gib dein Passwort ein"
     },
     "confirmEmail": "Bestätige deine E-Mail",
-    "emailConfirmedSuccessfully": "Du hast deine Email erfolgreich bestätigt.\n Du kannst die Seite schließen."
+    "emailConfirmedSuccessfully": "Du hast deine Email erfolgreich bestätigt.\n Du kannst die Seite schließen.",
+    "verifyYourEmail": "E-Mail verifizieren",
+    "verificationCodeSent": "Wir haben einen 6-stelligen Code gesendet an\n{email}",
+    "verifyEmail": "E-Mail bestätigen",
+    "didntReceiveCode": "Keinen Code erhalten?",
+    "resendCode": "Code erneut senden",
+    "resendCodeIn": "Code erneut senden in {seconds}s",
+    "emailVerifiedSuccess": "E-Mail erfolgreich verifiziert!",
+    "codeSentAgain": "Bestätigungscode erneut gesendet!",
+    "emailNotFound": "E-Mail nicht gefunden. Bitte erneut registrieren."
   },
   "navigation": {
     "search": "Suchen",

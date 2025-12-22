@@ -25,6 +25,7 @@ class AppIcons {
   static const IconData description = Icons.description_outlined;
   static const IconData edit = Icons.edit_rounded;
   static const IconData email = Icons.email_outlined;
+  static const IconData markEmailUnread = Icons.mark_email_unread_outlined;
   static const IconData file = Icons.insert_drive_file_rounded;
   static const IconData flag = Icons.flag_rounded;
   static const IconData flagOutline = Icons.flag_outlined;
