@@ -74,7 +74,11 @@ supabase link --project-ref <project-id>
 supabase db push
 
 # Push config
-supabase config push
+
+    # Test Environment
+    sh scripts/push_config_test.sh
+    # Prod Environment
+    sh scripts/push_config_prod.sh
 ```
 
 ## Migration Files
