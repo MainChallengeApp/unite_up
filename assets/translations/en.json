@@ -17,7 +17,9 @@
     "yes": "Yes",
     "no": "No",
     "you": "You",
-    "or": "or"
+    "or": "or",
+    "continue": "Continue",
+    "backToHome": "Back to Home"
   },
   "auth": {
     "signIn": "Sign In",
@@ -57,7 +59,10 @@
     "resendCodeIn": "Resend code in {seconds}s",
     "emailVerifiedSuccess": "Email verified successfully!",
     "codeSentAgain": "Verification code sent again!",
-    "emailNotFound": "Email not found. Please try signing up again."
+    "emailNotFound": "Email not found. Please try signing up again.",
+    "verifyingEmail": "Verifying your email...",
+    "emailConfirmationFailed": "Email confirmation failed",
+    "invalidConfirmationLink": "Invalid confirmation link"
   },
   "navigation": {
     "search": "Search",

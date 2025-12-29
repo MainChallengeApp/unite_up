@@ -61,7 +61,12 @@ class MyApp extends StatelessWidget {
       GoRoute(
         path: '/email-confirmed',
         builder: (context, state) {
-          return EmailConfirmedSuccessfullyPage();
+          final tokenHash = state.uri.queryParameters['token_hash'];
+          final type = state.uri.queryParameters['type'];
+          return EmailConfirmedSuccessfullyPage(
+            tokenHash: tokenHash,
+            type: type,
+          );
         },
       ),
     ],

@@ -31,4 +31,3 @@ class WaitlistPageContent extends StatelessWidget {
     return const HtmlElementView(viewType: 'iframeElement');
   }
 }
-

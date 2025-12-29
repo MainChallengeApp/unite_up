@@ -17,7 +17,9 @@
     "yes": "Ja",
     "no": "Nein",
     "you": "Du",
-    "or": "oder"
+    "or": "oder",
+    "continue": "Weiter",
+    "backToHome": "Zurück zur Startseite"
   },
   "auth": {
     "signIn": "Anmelden",
@@ -57,7 +59,10 @@
     "resendCodeIn": "Code erneut senden in {seconds}s",
     "emailVerifiedSuccess": "E-Mail erfolgreich verifiziert!",
     "codeSentAgain": "Bestätigungscode erneut gesendet!",
-    "emailNotFound": "E-Mail nicht gefunden. Bitte erneut registrieren."
+    "emailNotFound": "E-Mail nicht gefunden. Bitte erneut registrieren.",
+    "verifyingEmail": "E-Mail wird verifiziert...",
+    "emailConfirmationFailed": "E-Mail-Bestätigung fehlgeschlagen",
+    "invalidConfirmationLink": "Ungültiger Bestätigungslink"
   },
   "navigation": {
     "search": "Suchen",

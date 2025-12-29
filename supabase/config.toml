@@ -199,7 +199,7 @@ otp_expiry = 3600
 # content_path = "./supabase/templates/invite.html"
 
 [auth.email.template.confirmation]
-subject = "UniteUp Confirm you email"
+subject = "UniteUp confirm your email"
 content_path = "./supabase/templates/confirmation.html"
 
 [auth.sms]
