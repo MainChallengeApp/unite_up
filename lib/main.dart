@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:unite_up/pages/email_confirmed_successfully_page.dart';
 import 'package:unite_up/pages/home_page.dart';
+import 'package:unite_up/pages/reset_password_page.dart';
 import 'package:unite_up/pages/waitlist_page.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
 import 'package:unite_up/providers/challenges_provider.dart';
@@ -67,6 +68,14 @@ class MyApp extends StatelessWidget {
             tokenHash: tokenHash,
             type: type,
           );
+        },
+      ),
+      GoRoute(
+        path: '/reset-password',
+        builder: (context, state) {
+          final tokenHash = state.uri.queryParameters['token_hash'];
+          final type = state.uri.queryParameters['type'];
+          return ResetPasswordPage(tokenHash: tokenHash, type: type);
         },
       ),
     ],

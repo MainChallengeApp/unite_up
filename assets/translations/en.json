@@ -62,7 +62,33 @@
     "emailNotFound": "Email not found. Please try signing up again.",
     "verifyingEmail": "Verifying your email...",
     "emailConfirmationFailed": "Email confirmation failed",
-    "invalidConfirmationLink": "Invalid confirmation link"
+    "invalidConfirmationLink": "Invalid confirmation link",
+    "forgotPassword": {
+      "link": "Forgot password?",
+      "title": "Reset Password",
+      "description": "Enter your email address and we'll send you a link to reset your password.",
+      "sendLink": "Send Reset Link",
+      "emailSent": "Reset Link Sent!",
+      "checkInbox": "Check your inbox at {email} for instructions to reset your password.",
+      "enterEmail": "Please enter your email address"
+    },
+    "resetPassword": {
+      "title": "Create New Password",
+      "description": "Enter your new password below.",
+      "verifying": "Verifying your reset link...",
+      "invalidLink": "Invalid or expired reset link",
+      "linkExpired": "This password reset link has expired. Please request a new one.",
+      "newPassword": "New Password",
+      "enterNewPassword": "Enter your new password",
+      "confirmPassword": "Confirm Password",
+      "confirmNewPassword": "Confirm your new password",
+      "updatePassword": "Update Password",
+      "success": "Password Updated!",
+      "successDescription": "Your password has been updated successfully. You can now sign in with your new password.",
+      "fillAllFields": "Please fill in all fields",
+      "passwordTooShort": "Password must be at least 6 characters",
+      "passwordsDoNotMatch": "Passwords do not match"
+    }
   },
   "navigation": {
     "search": "Search",

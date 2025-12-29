@@ -21,6 +21,7 @@ class EnvService {
   static String get supabaseAnonKey => _getRequired('SUPABASE_ANON_KEY');
   static String get waitlistUrl => _getRequired('WAITLIST_URL');
   static String get emailRedirectURL => _getRequired('EMAIL_REDIRECT_URL');
+  static String get resetPasswordURL => _getRequired('RESET_PASSWORD_URL');
 
   static String _getRequired(String key) {
     _ensureInitialized();

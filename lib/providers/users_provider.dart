@@ -162,7 +162,10 @@ class UsersProvider extends ChangeNotifier {
 
   /// Send password reset email.
   Future<void> sendPasswordResetEmail(String email) async {
-    await SupabaseService.client.auth.resetPasswordForEmail(email);
+    await SupabaseService.client.auth.resetPasswordForEmail(
+      email,
+      redirectTo: EnvService.resetPasswordURL,
+    );
   }
 
   /// Verify email OTP code after signup.

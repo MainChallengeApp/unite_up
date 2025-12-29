@@ -62,7 +62,33 @@
     "emailNotFound": "E-Mail nicht gefunden. Bitte erneut registrieren.",
     "verifyingEmail": "E-Mail wird verifiziert...",
     "emailConfirmationFailed": "E-Mail-Bestätigung fehlgeschlagen",
-    "invalidConfirmationLink": "Ungültiger Bestätigungslink"
+    "invalidConfirmationLink": "Ungültiger Bestätigungslink",
+    "forgotPassword": {
+      "link": "Passwort vergessen?",
+      "title": "Passwort zurücksetzen",
+      "description": "Gib deine E-Mail-Adresse ein und wir senden dir einen Link zum Zurücksetzen deines Passworts.",
+      "sendLink": "Link senden",
+      "emailSent": "Link gesendet!",
+      "checkInbox": "Prüfe deinen Posteingang bei {email} für Anweisungen zum Zurücksetzen deines Passworts.",
+      "enterEmail": "Bitte gib deine E-Mail-Adresse ein"
+    },
+    "resetPassword": {
+      "title": "Neues Passwort erstellen",
+      "description": "Gib unten dein neues Passwort ein.",
+      "verifying": "Dein Link wird überprüft...",
+      "invalidLink": "Ungültiger oder abgelaufener Link",
+      "linkExpired": "Dieser Link zum Zurücksetzen ist abgelaufen. Bitte fordere einen neuen an.",
+      "newPassword": "Neues Passwort",
+      "enterNewPassword": "Gib dein neues Passwort ein",
+      "confirmPassword": "Passwort bestätigen",
+      "confirmNewPassword": "Bestätige dein neues Passwort",
+      "updatePassword": "Passwort aktualisieren",
+      "success": "Passwort aktualisiert!",
+      "successDescription": "Dein Passwort wurde erfolgreich aktualisiert. Du kannst dich jetzt mit deinem neuen Passwort anmelden.",
+      "fillAllFields": "Bitte fülle alle Felder aus",
+      "passwordTooShort": "Das Passwort muss mindestens 6 Zeichen lang sein",
+      "passwordsDoNotMatch": "Die Passwörter stimmen nicht überein"
+    }
   },
   "navigation": {
     "search": "Suchen",

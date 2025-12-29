@@ -14,6 +14,7 @@ class AuthForm extends StatefulWidget {
   final VoidCallback onToggleMode;
   final VoidCallback? onGoogleSignIn;
   final VoidCallback? onAppleSignIn;
+  final VoidCallback? onForgotPassword;
   final bool isLoading;
   final bool isGoogleLoading;
   final bool isAppleLoading;
@@ -28,6 +29,7 @@ class AuthForm extends StatefulWidget {
     required this.onToggleMode,
     this.onGoogleSignIn,
     this.onAppleSignIn,
+    this.onForgotPassword,
     this.isLoading = false,
     this.isGoogleLoading = false,
     this.isAppleLoading = false,
@@ -85,6 +87,10 @@ class _AuthFormState extends State<AuthForm> {
             _buildEmailField(),
             const SizedBox(height: AppSizes.spacing16),
             _buildPasswordField(),
+            if (widget.isLoginMode && widget.onForgotPassword != null) ...[
+              const SizedBox(height: AppSizes.spacing8),
+              _buildForgotPasswordLink(),
+            ],
             const SizedBox(height: AppSizes.spacing24),
             _buildSubmitButton(),
             const SizedBox(height: AppSizes.spacing24),
@@ -231,7 +237,25 @@ class _AuthFormState extends State<AuthForm> {
     );
   }
 
-  _buildTitle() {
+  Widget _buildForgotPasswordLink() {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: TextButton(
+        onPressed: widget.onForgotPassword,
+        style: TextButton.styleFrom(
+          padding: EdgeInsets.zero,
+          minimumSize: Size.zero,
+          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ),
+        child: Text(
+          'auth.forgotPassword.link'.tr(),
+          style: AppTextStyles.baseSmall,
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTitle() {
     return Center(
       child: Text(
         widget.isLoginMode

@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:unite_up/dialogs/forgot_password_dialog.dart';
 import 'package:unite_up/pages/confirm_email_page.dart';
 import 'package:unite_up/providers/users_provider.dart';
 import 'package:unite_up/widgets/auth_form.dart';
@@ -43,6 +44,7 @@ class _AuthPageState extends State<AuthPage> {
       onToggleMode: () => setState(() => _isLoginMode = !_isLoginMode),
       onGoogleSignIn: _handleGoogleSignIn,
       onAppleSignIn: _handleAppleSignIn,
+      onForgotPassword: _handleForgotPassword,
       isLoading: _isLoading,
       isGoogleLoading: _isGoogleLoading,
       isAppleLoading: _isAppleLoading,
@@ -125,6 +127,13 @@ class _AuthPageState extends State<AuthPage> {
     } finally {
       if (mounted) setState(() => _isAppleLoading = false);
     }
+  }
+
+  void _handleForgotPassword() {
+    showDialog(
+      context: context,
+      builder: (context) => const ForgotPasswordDialog(),
+    );
   }
 
   void _showSnackBar(String message) {
