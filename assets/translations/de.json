@@ -352,6 +352,10 @@
       "usernameHint": "Wähle einen eindeutigen Benutzernamen",
       "usernameRequired": "Benutzername ist erforderlich",
       "usernameTaken": "Dieser Benutzername ist bereits vergeben",
+      "email": "E-Mail",
+      "emailHint": "Gib deine E-Mail-Adresse ein",
+      "emailRequired": "E-Mail ist erforderlich",
+      "emailConfirmationSent": "Bestätigungs-E-Mail an deine neue Adresse gesendet",
       "bio": "Über mich",
       "bioHint": "Erzähl uns etwas über dich",
       "success": "Profil erfolgreich aktualisiert"
@@ -359,10 +363,22 @@
     "account": {
       "title": "Konto",
       "editProfile": "Profil bearbeiten",
+      "changeEmail": "E-Mail ändern",
       "deleteAccount": "Konto löschen",
       "deleteAccountConfirmation": "Bist du sicher, dass du dein Konto löschen möchtest?\nDiese Aktion kann nicht rückgängig gemacht werden.",
       "deleteAccountConfirmationButton": "Konto löschen",
       "success": "Konto erfolgreich gelöscht"
+    },
+    "changeEmail": {
+      "title": "E-Mail ändern",
+      "description": "Gib deine neue E-Mail-Adresse ein. Wir senden dir einen Bestätigungslink zur Verifizierung.",
+      "newEmail": "Neue E-Mail",
+      "newEmailHint": "Gib deine neue E-Mail-Adresse ein",
+      "enterEmail": "Bitte gib eine E-Mail-Adresse ein",
+      "sameEmail": "Die neue E-Mail muss sich von der aktuellen unterscheiden",
+      "sendConfirmation": "Bestätigung senden",
+      "emailSent": "Bestätigung gesendet!",
+      "checkInbox": "Prüfe deinen Posteingang bei {email} und klicke auf den Bestätigungslink, um die Änderung abzuschließen."
     }
   },
   "empty": {

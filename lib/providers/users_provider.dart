@@ -34,6 +34,10 @@ class UsersProvider extends ChangeNotifier {
   String? get error => _error;
   String? get currentUserId => SupabaseService.client.auth.currentUser?.id;
 
+  /// Get the current user's email from auth session (source of truth).
+  String? get currentUserEmail =>
+      SupabaseService.client.auth.currentUser?.email;
+
   void _init() {
     _authSubscription = SupabaseService.authStateChanges.listen(
       _onAuthStateChanged,
@@ -257,6 +261,14 @@ class UsersProvider extends ChangeNotifier {
       _isLoading = false;
       notifyListeners();
     }
+  }
+
+  /// Update the current user's email address.
+  /// This sends a confirmation email to the new address.
+  Future<void> updateEmail(String newEmail) async {
+    await SupabaseService.client.auth.updateUser(
+      UserAttributes(email: newEmail),
+    );
   }
 
   /// Check if a username is available.

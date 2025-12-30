@@ -352,6 +352,10 @@
       "usernameHint": "Choose a unique username",
       "usernameRequired": "Username is required",
       "usernameTaken": "This username is already taken",
+      "email": "Email",
+      "emailHint": "Enter your email address",
+      "emailRequired": "Email is required",
+      "emailConfirmationSent": "Confirmation email sent to your new address",
       "bio": "Bio",
       "bioHint": "Tell us about yourself",
       "success": "Profile updated successfully"
@@ -359,10 +363,22 @@
     "account": {
       "title": "Account",
       "editProfile": "Edit Profile",
+      "changeEmail": "Change Email",
       "deleteAccount": "Delete Account",
       "deleteAccountConfirmation": "Are you sure you want to delete your account?\nThis action cannot be undone.",
       "deleteAccountConfirmationButton": "Delete Account",
       "success": "Successfully deleted Account"
+    },
+    "changeEmail": {
+      "title": "Change Email",
+      "description": "Enter your new email address. We'll send a confirmation link to verify the change.",
+      "newEmail": "New Email",
+      "newEmailHint": "Enter your new email address",
+      "enterEmail": "Please enter an email address",
+      "sameEmail": "New email must be different from current email",
+      "sendConfirmation": "Send Confirmation",
+      "emailSent": "Confirmation Sent!",
+      "checkInbox": "Check your inbox at {email} and click the confirmation link to complete the change."
     }
   },
   "empty": {

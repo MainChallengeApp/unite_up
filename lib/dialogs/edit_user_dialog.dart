@@ -82,7 +82,6 @@ class _EditUserDialogState extends State<EditUserDialog> {
                   ),
                 ),
               ],
-              const SizedBox(height: AppSizes.spacing16),
               // _buildBioField(),
             ],
           ),

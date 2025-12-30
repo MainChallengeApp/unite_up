@@ -2,6 +2,7 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
+import 'package:unite_up/dialogs/change_email_dialog.dart';
 import 'package:unite_up/dialogs/delete_user_dialog.dart';
 import 'package:unite_up/dialogs/edit_user_dialog.dart';
 import 'package:unite_up/providers/theme_provider.dart';
@@ -387,6 +388,12 @@ class _SettingsPageState extends State<SettingsPage> {
             thickness: 1,
             color: _theme.dividerColor.withValues(alpha: AppOpacity.light),
           ),
+          _buildChangeEmailButton(),
+          Divider(
+            height: AppSizes.dividerHeight,
+            thickness: 1,
+            color: _theme.dividerColor.withValues(alpha: AppOpacity.light),
+          ),
           _buildLogoutButton(),
           Divider(
             height: AppSizes.dividerHeight,
@@ -409,12 +416,31 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
+  Widget _buildChangeEmailButton() {
+    return SettingsCard(
+      icon: SettingsIconContainer(icon: AppIcons.email),
+      title: 'settings.account.changeEmail'.tr(),
+      onTap: _handleChangeEmail,
+      trailing: Icon(AppIcons.arrowForward, size: AppSizes.iconMedium),
+    );
+  }
+
   void _handleEditProfile() {
     final currentUser = _usersProvider.currentUser;
     if (currentUser != null) {
       showDialog(
         context: context,
         builder: (context) => EditUserDialog(user: currentUser),
+      );
+    }
+  }
+
+  void _handleChangeEmail() {
+    final currentEmail = _usersProvider.currentUserEmail;
+    if (currentEmail != null) {
+      showDialog(
+        context: context,
+        builder: (context) => ChangeEmailDialog(currentEmail: currentEmail),
       );
     }
   }

@@ -68,7 +68,6 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
         members.add(
           UserModel(
             id: currentUserId,
-            email: 'anonymous@local',
             displayName: 'You',
             username: '@user',
             authProvider: 'anonymous',
