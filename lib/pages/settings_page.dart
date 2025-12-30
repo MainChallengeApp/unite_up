@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:unite_up/dialogs/delete_user_dialog.dart';
+import 'package:unite_up/dialogs/edit_user_dialog.dart';
 import 'package:unite_up/providers/theme_provider.dart';
 import 'package:unite_up/providers/users_provider.dart';
 import 'package:unite_up/widgets/app_card_container.dart';
@@ -92,7 +93,6 @@ class _SettingsPageState extends State<SettingsPage> {
       title: 'auth.signOut'.tr(),
       onTap: _handleLogout,
       trailing: Icon(AppIcons.arrowForward, size: AppSizes.iconMedium),
-      isFirst: true,
     );
   }
 
@@ -377,10 +377,16 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
-  _buildAccountCard() {
+  Widget _buildAccountCard() {
     return AppCardContainer(
       child: Column(
         children: [
+          _buildEditProfileButton(),
+          Divider(
+            height: AppSizes.dividerHeight,
+            thickness: 1,
+            color: _theme.dividerColor.withValues(alpha: AppOpacity.light),
+          ),
           _buildLogoutButton(),
           Divider(
             height: AppSizes.dividerHeight,
@@ -391,5 +397,25 @@ class _SettingsPageState extends State<SettingsPage> {
         ],
       ),
     );
+  }
+
+  Widget _buildEditProfileButton() {
+    return SettingsCard(
+      icon: SettingsIconContainer(icon: AppIcons.edit),
+      title: 'settings.account.editProfile'.tr(),
+      onTap: _handleEditProfile,
+      trailing: Icon(AppIcons.arrowForward, size: AppSizes.iconMedium),
+      isFirst: true,
+    );
+  }
+
+  void _handleEditProfile() {
+    final currentUser = _usersProvider.currentUser;
+    if (currentUser != null) {
+      showDialog(
+        context: context,
+        builder: (context) => EditUserDialog(user: currentUser),
+      );
+    }
   }
 }

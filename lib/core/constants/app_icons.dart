@@ -5,6 +5,7 @@ class AppIcons {
   AppIcons._();
 
   static const IconData add = Icons.add_rounded;
+  static const IconData alternateEmail = Icons.alternate_email_rounded;
   static const IconData ai = Icons.auto_awesome_rounded;
   static const IconData apple = FontAwesomeIcons.apple;
   static const IconData arrowBack = Icons.arrow_back_ios_new_rounded;

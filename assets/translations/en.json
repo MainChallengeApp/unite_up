@@ -343,8 +343,21 @@
     },
     "about": "About",
     "version": "Version",
+    "editProfile": {
+      "title": "Edit Profile",
+      "displayName": "Display Name",
+      "displayNameHint": "Enter your display name",
+      "displayNameRequired": "Display name is required",
+      "username": "Username",
+      "usernameHint": "Choose a unique username",
+      "usernameTaken": "This username is already taken",
+      "bio": "Bio",
+      "bioHint": "Tell us about yourself",
+      "success": "Profile updated successfully"
+    },
     "account": {
       "title": "Account",
+      "editProfile": "Edit Profile",
       "deleteAccount": "Delete Account",
       "deleteAccountConfirmation": "Are you sure you want to delete your account?\nThis action cannot be undone.",
       "deleteAccountConfirmationButton": "Delete Account",

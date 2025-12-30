@@ -11,5 +11,10 @@ class AppTextLimits {
   static const int goalTitleMaxLength = 50;
   static const int goalDescriptionMaxLength = 200;
 
+  // User profile limits
+  static const int displayNameMaxLength = 50;
+  static const int usernameMaxLength = 30;
+  static const int bioMaxLength = 200;
+
   AppTextLimits._();
 }
