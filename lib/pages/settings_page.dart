@@ -462,9 +462,12 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   void _handleChangePassword() {
-    showDialog(
-      context: context,
-      builder: (context) => const ChangePasswordDialog(),
-    );
+    final currentEmail = _usersProvider.currentUserEmail;
+    if (currentEmail != null) {
+      showDialog(
+        context: context,
+        builder: (context) => ChangePasswordDialog(currentEmail: currentEmail),
+      );
+    }
   }
 }

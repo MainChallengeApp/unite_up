@@ -1,18 +1,22 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:unite_up/services/supabase_service.dart';
 import 'package:unite_up/widgets/custom_text_field.dart';
 
 class ChangePasswordDialog extends StatefulWidget {
-  const ChangePasswordDialog({super.key});
+  final String currentEmail;
+
+  const ChangePasswordDialog({super.key, required this.currentEmail});
 
   @override
   State<ChangePasswordDialog> createState() => _ChangePasswordDialogState();
 }
 
 class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
+  late TextEditingController _emailController;
   final _passwordController = TextEditingController();
   final _confirmPasswordController = TextEditingController();
 
@@ -22,7 +26,14 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
   bool _isConfirmPasswordVisible = false;
 
   @override
+  void initState() {
+    super.initState();
+    _emailController = TextEditingController(text: widget.currentEmail);
+  }
+
+  @override
   void dispose() {
+    _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
     super.dispose();
@@ -38,48 +49,67 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
   }
 
   Widget _buildFormContent() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'settings.changePassword.description'.tr(),
-          style: AppTextStyles.baseMedium,
-        ),
-        const SizedBox(height: AppSizes.spacing16),
-        CustomTextField(
-          controller: _passwordController,
-          labelText: 'settings.changePassword.newPassword'.tr(),
-          hintText: 'settings.changePassword.newPasswordHint'.tr(),
-          icon: AppIcons.lock,
-          obscureText: !_isPasswordVisible,
-          suffixIcon:
-              _isPasswordVisible ? AppIcons.visibilityOff : AppIcons.visibility,
-          onSuffixIconPressed: () {
-            setState(() => _isPasswordVisible = !_isPasswordVisible);
-          },
-          alwaysShowSuffixIcon: true,
-          textInputAction: TextInputAction.next,
-        ),
-        const SizedBox(height: AppSizes.spacing16),
-        CustomTextField(
-          controller: _confirmPasswordController,
-          labelText: 'settings.changePassword.confirmPassword'.tr(),
-          hintText: 'settings.changePassword.confirmPasswordHint'.tr(),
-          icon: AppIcons.lock,
-          obscureText: !_isConfirmPasswordVisible,
-          suffixIcon: _isConfirmPasswordVisible
-              ? AppIcons.visibilityOff
-              : AppIcons.visibility,
-          onSuffixIconPressed: () {
-            setState(
-                () => _isConfirmPasswordVisible = !_isConfirmPasswordVisible);
-          },
-          alwaysShowSuffixIcon: true,
-          textInputAction: TextInputAction.done,
-          onSubmitted: (_) => _changePassword(),
-        ),
-      ],
+    return AutofillGroup(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'settings.changePassword.description'.tr(),
+            style: AppTextStyles.baseMedium,
+          ),
+          const SizedBox(height: AppSizes.spacing16),
+          // Hidden email field for password manager to identify the account
+          Visibility(
+            visible: false,
+            child: TextField(
+              controller: _emailController,
+              readOnly: true,
+              autofillHints: const [AutofillHints.username],
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.zero,
+              ),
+            ),
+          ),
+          CustomTextField(
+            controller: _passwordController,
+            labelText: 'settings.changePassword.newPassword'.tr(),
+            hintText: 'settings.changePassword.newPasswordHint'.tr(),
+            icon: AppIcons.lock,
+            obscureText: !_isPasswordVisible,
+            suffixIcon: _isPasswordVisible
+                ? AppIcons.visibilityOff
+                : AppIcons.visibility,
+            onSuffixIconPressed: () {
+              setState(() => _isPasswordVisible = !_isPasswordVisible);
+            },
+            alwaysShowSuffixIcon: true,
+            textInputAction: TextInputAction.next,
+            autofillHints: const [AutofillHints.newPassword],
+          ),
+          const SizedBox(height: AppSizes.spacing16),
+          CustomTextField(
+            controller: _confirmPasswordController,
+            labelText: 'settings.changePassword.confirmPassword'.tr(),
+            hintText: 'settings.changePassword.confirmPasswordHint'.tr(),
+            icon: AppIcons.lock,
+            obscureText: !_isConfirmPasswordVisible,
+            suffixIcon: _isConfirmPasswordVisible
+                ? AppIcons.visibilityOff
+                : AppIcons.visibility,
+            onSuffixIconPressed: () {
+              setState(
+                () => _isConfirmPasswordVisible = !_isConfirmPasswordVisible,
+              );
+            },
+            alwaysShowSuffixIcon: true,
+            textInputAction: TextInputAction.done,
+            onSubmitted: (_) => _changePassword(),
+            autofillHints: const [AutofillHints.newPassword],
+          ),
+        ],
+      ),
     );
   }
 
@@ -164,6 +194,8 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
       await SupabaseService.client.auth.updateUser(
         UserAttributes(password: password),
       );
+      // Notify password manager to save the new credentials
+      TextInput.finishAutofillContext();
       setState(() => _isSuccess = true);
     } catch (e) {
       _showSnackBar('${'common.error'.tr()}: ${e.toString()}');
@@ -178,4 +210,3 @@ class _ChangePasswordDialogState extends State<ChangePasswordDialog> {
     );
   }
 }
-

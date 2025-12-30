@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:unite_up/providers/users_provider.dart';
@@ -42,26 +43,29 @@ class _ChangeEmailDialogState extends State<ChangeEmailDialog> {
   }
 
   Widget _buildFormContent() {
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          'settings.changeEmail.description'.tr(),
-          style: AppTextStyles.baseMedium,
-        ),
-        const SizedBox(height: AppSizes.spacing16),
-        CustomTextField(
-          controller: _emailController,
-          labelText: 'settings.changeEmail.newEmail'.tr(),
-          hintText: 'settings.changeEmail.newEmailHint'.tr(),
-          icon: AppIcons.email,
-          keyboardType: TextInputType.emailAddress,
-          isRemoveTextVisible: true,
-          textInputAction: TextInputAction.done,
-          onSubmitted: (_) => _changeEmail(),
-        ),
-      ],
+    return AutofillGroup(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'settings.changeEmail.description'.tr(),
+            style: AppTextStyles.baseMedium,
+          ),
+          const SizedBox(height: AppSizes.spacing16),
+          CustomTextField(
+            controller: _emailController,
+            labelText: 'settings.changeEmail.newEmail'.tr(),
+            hintText: 'settings.changeEmail.newEmailHint'.tr(),
+            icon: AppIcons.email,
+            keyboardType: TextInputType.emailAddress,
+            isRemoveTextVisible: true,
+            textInputAction: TextInputAction.done,
+            onSubmitted: (_) => _changeEmail(),
+            autofillHints: const [AutofillHints.email],
+          ),
+        ],
+      ),
     );
   }
 
@@ -143,6 +147,8 @@ class _ChangeEmailDialogState extends State<ChangeEmailDialog> {
         context,
         listen: false,
       ).updateEmail(newEmail);
+      // Notify password manager to save the new credentials
+      TextInput.finishAutofillContext();
       setState(() => _emailSent = true);
     } catch (e) {
       _showSnackBar('${'common.error'.tr()}: ${e.toString()}');
