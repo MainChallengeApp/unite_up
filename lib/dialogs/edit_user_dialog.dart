@@ -30,10 +30,10 @@ class _EditUserDialogState extends State<EditUserDialog> {
   void initState() {
     super.initState();
     _displayNameController = TextEditingController(
-      text: widget.user.displayName,
+      text: widget.user.displayName ?? '',
     );
     _usernameController = TextEditingController(
-      text: widget.user.username ?? '',
+      text: widget.user.username,
     );
     _bioController = TextEditingController(text: widget.user.bio ?? '');
 
@@ -174,11 +174,11 @@ class _EditUserDialogState extends State<EditUserDialog> {
     final username = _usernameController.text.trim();
     final bio = _bioController.text.trim();
 
-    // Validate display name
-    if (displayName.isEmpty) {
+    // Validate username (required)
+    if (username.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('settings.editProfile.displayNameRequired'.tr()),
+          content: Text('settings.editProfile.usernameRequired'.tr()),
           behavior: SnackBarBehavior.floating,
           backgroundColor: AppColors.red,
         ),
@@ -195,7 +195,7 @@ class _EditUserDialogState extends State<EditUserDialog> {
       final usersProvider = Provider.of<UsersProvider>(context, listen: false);
 
       // Check username availability if changed
-      if (username.isNotEmpty && username != widget.user.username) {
+      if (username != widget.user.username) {
         final isAvailable = await usersProvider.isUsernameAvailable(username);
         if (!isAvailable) {
           setState(() {
@@ -209,8 +209,8 @@ class _EditUserDialogState extends State<EditUserDialog> {
       HapticFeedback.mediumImpact();
 
       await usersProvider.updateProfile(
-        displayName: displayName,
-        username: username.isEmpty ? null : username,
+        displayName: displayName.isEmpty ? null : displayName,
+        username: username,
         bio: bio.isEmpty ? null : bio,
       );
 

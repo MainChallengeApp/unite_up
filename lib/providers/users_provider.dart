@@ -116,7 +116,7 @@ class UsersProvider extends ChangeNotifier {
   Future<void> signUpWithEmail({
     required String email,
     required String password,
-    required String displayName,
+    required String username,
   }) async {
     _isLoading = true;
     _error = null;
@@ -126,7 +126,7 @@ class UsersProvider extends ChangeNotifier {
       final result = await SupabaseService.client.auth.signUp(
         email: email,
         password: password,
-        data: {'display_name': displayName},
+        data: {'username': username},
         emailRedirectTo: EnvService.emailRedirectURL,
       );
       _currentSupabaseUser = result.user;

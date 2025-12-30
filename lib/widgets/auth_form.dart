@@ -106,12 +106,12 @@ class _AuthFormState extends State<AuthForm> {
   Widget _buildNameField() {
     return CustomTextField(
       controller: widget.nameController,
-      labelText: 'auth.fields.fullName'.tr(),
-      hintText: 'auth.fields.enterFullName'.tr(),
+      labelText: 'auth.fields.username'.tr(),
+      hintText: 'auth.fields.enterUsername'.tr(),
       icon: AppIcons.personOutline,
-      textCapitalization: TextCapitalization.words,
+      textCapitalization: TextCapitalization.none,
       isRemoveTextVisible: true,
-      autofillHints: const [AutofillHints.name],
+      autofillHints: const [AutofillHints.username],
       focusNode: _nameFocusNode,
       textInputAction: TextInputAction.next,
       onSubmitted: (_) => _emailFocusNode.requestFocus(),

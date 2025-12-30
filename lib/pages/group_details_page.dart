@@ -494,7 +494,7 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
                     alpha: AppOpacity.light,
                   ),
                   child: Text(
-                    member.displayName[0].toUpperCase(),
+                    member.name[0].toUpperCase(),
                     style: AppTextStyles.largeSemiBold.copyWith(
                       color: theme.colorScheme.primary,
                     ),
@@ -510,7 +510,7 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
                       children: [
                         Flexible(
                           child: Text(
-                            member.displayName,
+                            member.name,
                             style: AppTextStyles.largeSemiBold,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -541,7 +541,7 @@ class _GroupDetailsPageState extends State<GroupDetailsPage>
                       ],
                     ),
                     Text(
-                      member.username ?? '',
+                      '@${member.username}',
                       style: AppTextStyles.secondaryText(
                         context,
                         fontSize: AppSizes.fontMedium,

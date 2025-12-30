@@ -74,9 +74,7 @@ class EventCardWrapper extends StatelessWidget {
           : Future.value(null),
       builder: (context, snapshot) {
         final user = snapshot.data;
-        final userInitial = user?.displayName.isNotEmpty == true
-            ? user!.displayName[0].toUpperCase()
-            : '?';
+        final userInitial = user != null ? user.name[0].toUpperCase() : '?';
 
         return Padding(
           padding: const EdgeInsets.symmetric(

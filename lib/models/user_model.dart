@@ -1,8 +1,8 @@
 class UserModel {
   final String id;
   final String email;
-  final String displayName;
-  final String? username;
+  final String username;
+  final String? displayName;
   final String? avatarUrl;
   final String? bio;
   final String authProvider;
@@ -18,8 +18,8 @@ class UserModel {
   UserModel({
     required this.id,
     required this.email,
-    required this.displayName,
-    this.username,
+    required this.username,
+    this.displayName,
     this.avatarUrl,
     this.bio,
     required this.authProvider,
@@ -36,8 +36,8 @@ class UserModel {
     return UserModel(
       id: json['id'] as String,
       email: json['email'] as String,
-      displayName: json['display_name'] as String,
-      username: json['username'] as String?,
+      username: json['username'] as String,
+      displayName: json['display_name'] as String?,
       avatarUrl: json['avatar_url'] as String?,
       bio: json['bio'] as String?,
       authProvider: json['auth_provider'] as String? ?? 'email',
@@ -54,8 +54,8 @@ class UserModel {
     return {
       'id': id,
       'email': email,
-      'display_name': displayName,
       'username': username,
+      'display_name': displayName,
       'avatar_url': avatarUrl,
       'bio': bio,
       'auth_provider': authProvider,
@@ -68,26 +68,30 @@ class UserModel {
   /// Convert to JSON for profile updates (excludes read-only fields).
   Map<String, dynamic> toUpdateJson() {
     return {
-      'display_name': displayName,
       'username': username,
+      'display_name': displayName,
       'avatar_url': avatarUrl,
       'bio': bio,
     };
   }
 
+  /// Returns the display name for UI, falling back to username if not set.
+  String get name => displayName ?? username;
+
   String get initials {
-    final names = displayName.split(' ');
+    final displayText = name;
+    final names = displayText.split(' ');
     if (names.length >= 2) {
       return '${names[0][0]}${names[1][0]}'.toUpperCase();
     }
-    return displayName.isNotEmpty ? displayName[0].toUpperCase() : '?';
+    return displayText.isNotEmpty ? displayText[0].toUpperCase() : '?';
   }
 
   UserModel copyWith({
     String? id,
     String? email,
-    String? displayName,
     String? username,
+    String? displayName,
     String? avatarUrl,
     String? bio,
     String? authProvider,
@@ -101,8 +105,8 @@ class UserModel {
     return UserModel(
       id: id ?? this.id,
       email: email ?? this.email,
-      displayName: displayName ?? this.displayName,
       username: username ?? this.username,
+      displayName: displayName ?? this.displayName,
       avatarUrl: avatarUrl ?? this.avatarUrl,
       bio: bio ?? this.bio,
       authProvider: authProvider ?? this.authProvider,

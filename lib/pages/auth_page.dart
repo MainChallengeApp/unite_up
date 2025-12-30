@@ -22,7 +22,7 @@ class _AuthPageState extends State<AuthPage> {
   // bool _isAppleLoading = false;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
 
   late final _userProvider = Provider.of<UsersProvider>(context, listen: false);
 
@@ -30,7 +30,7 @@ class _AuthPageState extends State<AuthPage> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
-    _nameController.dispose();
+    _usernameController.dispose();
     super.dispose();
   }
 
@@ -38,7 +38,7 @@ class _AuthPageState extends State<AuthPage> {
   Widget build(BuildContext context) {
     return AuthForm(
       isLoginMode: _isLoginMode,
-      nameController: _nameController,
+      nameController: _usernameController,
       emailController: _emailController,
       passwordController: _passwordController,
       onSubmit: _handleEmailAuth,
@@ -59,8 +59,10 @@ class _AuthPageState extends State<AuthPage> {
       return;
     }
 
-    if (!_isLoginMode && _nameController.text.isEmpty) {
-      _showSnackBar('auth.pleaseEnterName'.tr());
+    final username = _usernameController.text.trim();
+
+    if (!_isLoginMode && username.isEmpty) {
+      _showSnackBar('auth.pleaseEnterUsername'.tr());
       return;
     }
 
@@ -77,10 +79,18 @@ class _AuthPageState extends State<AuthPage> {
         // Must be called while fields still have values
         TextInput.finishAutofillContext(shouldSave: true);
       } else {
+        // Check if username is available
+        final isAvailable = await _userProvider.isUsernameAvailable(username);
+        if (!isAvailable) {
+          _showSnackBar('auth.usernameTaken'.tr());
+          setState(() => _isLoading = false);
+          return;
+        }
+
         await _userProvider.signUpWithEmail(
           email: _emailController.text.trim(),
           password: _passwordController.text,
-          displayName: _nameController.text.trim(),
+          username: username,
         );
         _showSnackBar('auth.accountCreatedSuccess'.tr());
         // Trigger iOS/Android password manager to save credentials
@@ -97,7 +107,7 @@ class _AuthPageState extends State<AuthPage> {
       // Clear fields after autofill context is finished
       _emailController.clear();
       _passwordController.clear();
-      _nameController.clear();
+      _usernameController.clear();
     } catch (e) {
       _showSnackBar('${'common.error'.tr()}: ${e.toString()}');
     } finally {

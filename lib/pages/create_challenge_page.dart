@@ -458,7 +458,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
         children: [
           CircleAvatar(
             radius: AppSizes.spacing16,
-            child: Text(member.displayName[0], style: AppTextStyles.baseMedium),
+            child: Text(member.name[0], style: AppTextStyles.baseMedium),
           ),
           const SizedBox(width: AppSizes.spacing12),
           Expanded(
@@ -466,7 +466,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  member.displayName,
+                  member.name,
                   style: AppTextStyles.mediumWeight.copyWith(
                     color: _theme.brightness == Brightness.dark
                         ? AppColors.white
@@ -474,7 +474,7 @@ class _CreateChallengePageState extends State<CreateChallengePage> {
                   ),
                 ),
                 Text(
-                  member.username ?? '',
+                  '@${member.username}',
                   style: AppTextStyles.smallSecondary(context),
                 ),
               ],
@@ -607,10 +607,10 @@ class _MemberSearchDialogState extends State<_MemberSearchDialog> {
                               }
                             });
                           },
-                          title: Text(user.displayName),
-                          subtitle: Text(user.username ?? ''),
+                          title: Text(user.name),
+                          subtitle: Text('@${user.username}'),
                           secondary: CircleAvatar(
-                            child: Text(user.displayName[0]),
+                            child: Text(user.name[0]),
                           ),
                         );
                       },
@@ -623,7 +623,7 @@ class _MemberSearchDialogState extends State<_MemberSearchDialog> {
                 children: _selected
                     .map(
                       (user) => Chip(
-                        label: Text(user.displayName),
+                        label: Text(user.name),
                         onDeleted: () {
                           setState(() {
                             _selected.removeWhere((u) => u.id == user.id);

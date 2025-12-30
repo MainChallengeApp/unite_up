@@ -208,9 +208,7 @@ class UserMessageCard extends StatelessWidget {
           : Future.value(null),
       builder: (context, snapshot) {
         final user = snapshot.data;
-        final userInitial = user?.displayName.isNotEmpty == true
-            ? user!.displayName[0].toUpperCase()
-            : '?';
+        final userInitial = user != null ? user.name[0].toUpperCase() : '?';
 
         return Padding(
           padding: const EdgeInsets.symmetric(
@@ -274,7 +272,7 @@ class UserMessageCard extends StatelessWidget {
                             bottom: AppSizes.spacing4,
                           ),
                           child: Text(
-                            user.displayName,
+                            user.name,
                             style: AppTextStyles.smallMedium.copyWith(
                               color: theme.colorScheme.tertiary,
                               fontWeight: FontWeight.w600,

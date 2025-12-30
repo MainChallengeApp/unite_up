@@ -45,12 +45,12 @@ class AuthService {
   Future<UserModel> signUpWithEmail({
     required String email,
     required String password,
-    required String displayName,
+    required String username,
   }) async {
     final response = await _client.auth.signUp(
       email: email,
       password: password,
-      data: {'display_name': displayName},
+      data: {'username': username},
     );
 
     if (response.user == null) {
