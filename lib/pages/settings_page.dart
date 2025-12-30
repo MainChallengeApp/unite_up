@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:unite_up/dialogs/change_email_dialog.dart';
+import 'package:unite_up/dialogs/change_password_dialog.dart';
 import 'package:unite_up/dialogs/delete_user_dialog.dart';
 import 'package:unite_up/dialogs/edit_user_dialog.dart';
 import 'package:unite_up/providers/theme_provider.dart';
@@ -394,6 +395,12 @@ class _SettingsPageState extends State<SettingsPage> {
             thickness: 1,
             color: _theme.dividerColor.withValues(alpha: AppOpacity.light),
           ),
+          _buildChangePasswordButton(),
+          Divider(
+            height: AppSizes.dividerHeight,
+            thickness: 1,
+            color: _theme.dividerColor.withValues(alpha: AppOpacity.light),
+          ),
           _buildLogoutButton(),
           Divider(
             height: AppSizes.dividerHeight,
@@ -425,6 +432,15 @@ class _SettingsPageState extends State<SettingsPage> {
     );
   }
 
+  Widget _buildChangePasswordButton() {
+    return SettingsCard(
+      icon: SettingsIconContainer(icon: AppIcons.lock),
+      title: 'settings.account.changePassword'.tr(),
+      onTap: _handleChangePassword,
+      trailing: Icon(AppIcons.arrowForward, size: AppSizes.iconMedium),
+    );
+  }
+
   void _handleEditProfile() {
     final currentUser = _usersProvider.currentUser;
     if (currentUser != null) {
@@ -443,5 +459,12 @@ class _SettingsPageState extends State<SettingsPage> {
         builder: (context) => ChangeEmailDialog(currentEmail: currentEmail),
       );
     }
+  }
+
+  void _handleChangePassword() {
+    showDialog(
+      context: context,
+      builder: (context) => const ChangePasswordDialog(),
+    );
   }
 }

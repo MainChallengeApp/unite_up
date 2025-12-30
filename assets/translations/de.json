@@ -364,6 +364,7 @@
       "title": "Konto",
       "editProfile": "Profil bearbeiten",
       "changeEmail": "E-Mail ändern",
+      "changePassword": "Passwort ändern",
       "deleteAccount": "Konto löschen",
       "deleteAccountConfirmation": "Bist du sicher, dass du dein Konto löschen möchtest?\nDiese Aktion kann nicht rückgängig gemacht werden.",
       "deleteAccountConfirmationButton": "Konto löschen",
@@ -379,6 +380,20 @@
       "sendConfirmation": "Bestätigung senden",
       "emailSent": "Bestätigung gesendet!",
       "checkInbox": "Prüfe deinen Posteingang bei {email} und klicke auf den Bestätigungslink, um die Änderung abzuschließen."
+    },
+    "changePassword": {
+      "title": "Passwort ändern",
+      "description": "Gib unten dein neues Passwort ein.",
+      "newPassword": "Neues Passwort",
+      "newPasswordHint": "Gib dein neues Passwort ein",
+      "confirmPassword": "Passwort bestätigen",
+      "confirmPasswordHint": "Bestätige dein neues Passwort",
+      "update": "Passwort aktualisieren",
+      "fillAllFields": "Bitte fülle alle Felder aus",
+      "passwordTooShort": "Das Passwort muss mindestens 6 Zeichen lang sein",
+      "passwordsDoNotMatch": "Die Passwörter stimmen nicht überein",
+      "success": "Passwort aktualisiert!",
+      "successDescription": "Dein Passwort wurde erfolgreich aktualisiert."
     }
   },
   "empty": {

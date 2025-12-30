@@ -364,6 +364,7 @@
       "title": "Account",
       "editProfile": "Edit Profile",
       "changeEmail": "Change Email",
+      "changePassword": "Change Password",
       "deleteAccount": "Delete Account",
       "deleteAccountConfirmation": "Are you sure you want to delete your account?\nThis action cannot be undone.",
       "deleteAccountConfirmationButton": "Delete Account",
@@ -379,6 +380,20 @@
       "sendConfirmation": "Send Confirmation",
       "emailSent": "Confirmation Sent!",
       "checkInbox": "Check your inbox at {email} and click the confirmation link to complete the change."
+    },
+    "changePassword": {
+      "title": "Change Password",
+      "description": "Enter your new password below.",
+      "newPassword": "New Password",
+      "newPasswordHint": "Enter your new password",
+      "confirmPassword": "Confirm Password",
+      "confirmPasswordHint": "Confirm your new password",
+      "update": "Update Password",
+      "fillAllFields": "Please fill in all fields",
+      "passwordTooShort": "Password must be at least 6 characters",
+      "passwordsDoNotMatch": "Passwords do not match",
+      "success": "Password Updated!",
+      "successDescription": "Your password has been updated successfully."
     }
   },
   "empty": {
