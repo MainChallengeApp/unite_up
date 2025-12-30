@@ -17,8 +17,9 @@ class AuthPage extends StatefulWidget {
 class _AuthPageState extends State<AuthPage> {
   bool _isLoginMode = false;
   bool _isLoading = false;
-  bool _isGoogleLoading = false;
-  bool _isAppleLoading = false;
+  // TODO: Re-enable when Google/Apple login is configured
+  // bool _isGoogleLoading = false;
+  // bool _isAppleLoading = false;
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
@@ -42,12 +43,13 @@ class _AuthPageState extends State<AuthPage> {
       passwordController: _passwordController,
       onSubmit: _handleEmailAuth,
       onToggleMode: () => setState(() => _isLoginMode = !_isLoginMode),
-      onGoogleSignIn: _handleGoogleSignIn,
-      onAppleSignIn: _handleAppleSignIn,
+      // TODO: Re-enable when Google/Apple login is configured
+      // onGoogleSignIn: _handleGoogleSignIn,
+      // onAppleSignIn: _handleAppleSignIn,
       onForgotPassword: _handleForgotPassword,
       isLoading: _isLoading,
-      isGoogleLoading: _isGoogleLoading,
-      isAppleLoading: _isAppleLoading,
+      // isGoogleLoading: _isGoogleLoading,
+      // isAppleLoading: _isAppleLoading,
     );
   }
 
@@ -103,31 +105,32 @@ class _AuthPageState extends State<AuthPage> {
     }
   }
 
-  Future<void> _handleGoogleSignIn() async {
-    setState(() => _isGoogleLoading = true);
-
-    try {
-      await _userProvider.signInWithGoogle();
-      _showSnackBar('auth.signedInWithGoogle'.tr());
-    } catch (e) {
-      _showSnackBar('${'common.error'.tr()}: ${e.toString()}');
-    } finally {
-      if (mounted) setState(() => _isGoogleLoading = false);
-    }
-  }
-
-  Future<void> _handleAppleSignIn() async {
-    setState(() => _isAppleLoading = true);
-
-    try {
-      await _userProvider.signInWithApple();
-      _showSnackBar('auth.signedInWithApple'.tr());
-    } catch (e) {
-      _showSnackBar('${'common.error'.tr()}: ${e.toString()}');
-    } finally {
-      if (mounted) setState(() => _isAppleLoading = false);
-    }
-  }
+  // TODO: Re-enable when Google/Apple login is configured
+  // Future<void> _handleGoogleSignIn() async {
+  //   setState(() => _isGoogleLoading = true);
+  //
+  //   try {
+  //     await _userProvider.signInWithGoogle();
+  //     _showSnackBar('auth.signedInWithGoogle'.tr());
+  //   } catch (e) {
+  //     _showSnackBar('${'common.error'.tr()}: ${e.toString()}');
+  //   } finally {
+  //     if (mounted) setState(() => _isGoogleLoading = false);
+  //   }
+  // }
+  //
+  // Future<void> _handleAppleSignIn() async {
+  //   setState(() => _isAppleLoading = true);
+  //
+  //   try {
+  //     await _userProvider.signInWithApple();
+  //     _showSnackBar('auth.signedInWithApple'.tr());
+  //   } catch (e) {
+  //     _showSnackBar('${'common.error'.tr()}: ${e.toString()}');
+  //   } finally {
+  //     if (mounted) setState(() => _isAppleLoading = false);
+  //   }
+  // }
 
   void _handleForgotPassword() {
     showDialog(

@@ -1,9 +1,10 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
-import 'package:unite_up/enums/auth_provider_enum.dart';
+// TODO: Re-enable when Google/Apple login is configured
+// import 'package:unite_up/enums/auth_provider_enum.dart';
 import 'package:unite_up/widgets/custom_text_field.dart';
-import 'package:unite_up/widgets/social_login_button.dart';
+// import 'package:unite_up/widgets/social_login_button.dart';
 
 class AuthForm extends StatefulWidget {
   final bool isLoginMode;
@@ -76,10 +77,11 @@ class _AuthFormState extends State<AuthForm> {
             const SizedBox(height: AppSizes.spacing32),
             _buildTitle(),
             const SizedBox(height: AppSizes.spacing32),
-            _buildSocialLoginButtons(),
-            const SizedBox(height: AppSizes.spacing16),
-            _buildDivider(),
-            const SizedBox(height: AppSizes.spacing16),
+            // TODO: Re-enable when Google/Apple login is configured
+            // _buildSocialLoginButtons(),
+            // const SizedBox(height: AppSizes.spacing16),
+            // _buildDivider(),
+            // const SizedBox(height: AppSizes.spacing16),
             if (!widget.isLoginMode) ...[
               _buildNameField(),
               const SizedBox(height: AppSizes.spacing16),
@@ -191,38 +193,40 @@ class _AuthFormState extends State<AuthForm> {
     );
   }
 
-  Widget _buildDivider() {
-    return Row(
-      children: [
-        const Expanded(child: Divider()),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: AppSizes.spacing16),
-          child: Text('common.or'.tr(), style: AppTextStyles.baseMedium),
-        ),
-        const Expanded(child: Divider()),
-      ],
-    );
-  }
+  // TODO: Re-enable when Google/Apple login is configured
+  // Widget _buildDivider() {
+  //   return Row(
+  //     children: [
+  //       const Expanded(child: Divider()),
+  //       Padding(
+  //         padding: const EdgeInsets.symmetric(horizontal: AppSizes.spacing16),
+  //         child: Text('common.or'.tr(), style: AppTextStyles.baseMedium),
+  //       ),
+  //       const Expanded(child: Divider()),
+  //     ],
+  //   );
+  // }
 
-  Widget _buildSocialLoginButtons() {
-    return Column(
-      children: [
-        if (widget.onGoogleSignIn != null)
-          SocialLoginButton(
-            provider: AuthProviderEnum.google,
-            onPressed: widget.onGoogleSignIn!,
-            isLoading: widget.isGoogleLoading,
-          ),
-        const SizedBox(height: AppSizes.spacing12),
-        if (widget.onAppleSignIn != null)
-          SocialLoginButton(
-            provider: AuthProviderEnum.apple,
-            onPressed: widget.onAppleSignIn!,
-            isLoading: widget.isAppleLoading,
-          ),
-      ],
-    );
-  }
+  // TODO: Re-enable when Google/Apple login is configured
+  // Widget _buildSocialLoginButtons() {
+  //   return Column(
+  //     children: [
+  //       if (widget.onGoogleSignIn != null)
+  //         SocialLoginButton(
+  //           provider: AuthProviderEnum.google,
+  //           onPressed: widget.onGoogleSignIn!,
+  //           isLoading: widget.isGoogleLoading,
+  //         ),
+  //       const SizedBox(height: AppSizes.spacing12),
+  //       if (widget.onAppleSignIn != null)
+  //         SocialLoginButton(
+  //           provider: AuthProviderEnum.apple,
+  //           onPressed: widget.onAppleSignIn!,
+  //           isLoading: widget.isAppleLoading,
+  //         ),
+  //     ],
+  //   );
+  // }
 
   Widget _buildToggleButton() {
     return Builder(
