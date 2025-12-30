@@ -2,9 +2,9 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
+import 'package:unite_up/core/constants/app_icons.dart';
 import 'package:unite_up/core/constants/app_sizes.dart';
 import 'package:unite_up/core/constants/app_text_styles.dart';
-import 'package:unite_up/core/constants/app_icons.dart';
 import 'package:unite_up/services/supabase_service.dart';
 import 'package:unite_up/widgets/custom_text_field.dart';
 
@@ -12,11 +12,7 @@ class ResetPasswordPage extends StatefulWidget {
   final String? tokenHash;
   final String? type;
 
-  const ResetPasswordPage({
-    super.key,
-    this.tokenHash,
-    this.type,
-  });
+  const ResetPasswordPage({super.key, this.tokenHash, this.type});
 
   @override
   State<ResetPasswordPage> createState() => _ResetPasswordPageState();
@@ -168,7 +164,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
         SizedBox(height: AppSizes.spacing16),
         Text(
           'auth.resetPassword.title'.tr(),
-          style: AppTextStyles.baseXXLarge.copyWith(fontWeight: FontWeight.w600),
+          style: AppTextStyles.baseXXLarge.copyWith(
+            fontWeight: FontWeight.w600,
+          ),
           textAlign: TextAlign.center,
         ),
         SizedBox(height: AppSizes.spacing8),
@@ -184,8 +182,9 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
           hintText: 'auth.resetPassword.enterNewPassword'.tr(),
           icon: AppIcons.lock,
           obscureText: !_isPasswordVisible,
-          suffixIcon:
-              _isPasswordVisible ? AppIcons.visibilityOff : AppIcons.visibility,
+          suffixIcon: _isPasswordVisible
+              ? AppIcons.visibilityOff
+              : AppIcons.visibility,
           onSuffixIconPressed: () {
             setState(() => _isPasswordVisible = !_isPasswordVisible);
           },
@@ -204,7 +203,8 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
               : AppIcons.visibility,
           onSuffixIconPressed: () {
             setState(
-                () => _isConfirmPasswordVisible = !_isConfirmPasswordVisible);
+              () => _isConfirmPasswordVisible = !_isConfirmPasswordVisible,
+            );
           },
           alwaysShowSuffixIcon: true,
           textInputAction: TextInputAction.done,
@@ -314,4 +314,3 @@ class _ResetPasswordPageState extends State<ResetPasswordPage> {
     );
   }
 }
-

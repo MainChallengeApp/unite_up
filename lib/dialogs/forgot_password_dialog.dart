@@ -125,8 +125,10 @@ class _ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
     setState(() => _isLoading = true);
 
     try {
-      await Provider.of<UsersProvider>(context, listen: false)
-          .sendPasswordResetEmail(email);
+      await Provider.of<UsersProvider>(
+        context,
+        listen: false,
+      ).sendPasswordResetEmail(email);
       setState(() => _emailSent = true);
     } catch (e) {
       _showSnackBar('${'common.error'.tr()}: ${e.toString()}');
@@ -141,4 +143,3 @@ class _ForgotPasswordDialogState extends State<ForgotPasswordDialog> {
     );
   }
 }
-

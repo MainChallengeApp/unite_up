@@ -19,7 +19,7 @@ class EditUserDialog extends StatefulWidget {
 class _EditUserDialogState extends State<EditUserDialog> {
   late TextEditingController _displayNameController;
   late TextEditingController _usernameController;
-  late TextEditingController _bioController;
+  // late TextEditingController _bioController;
 
   bool _isLoading = false;
   String? _usernameError;
@@ -32,10 +32,8 @@ class _EditUserDialogState extends State<EditUserDialog> {
     _displayNameController = TextEditingController(
       text: widget.user.displayName ?? '',
     );
-    _usernameController = TextEditingController(
-      text: widget.user.username,
-    );
-    _bioController = TextEditingController(text: widget.user.bio ?? '');
+    _usernameController = TextEditingController(text: widget.user.username);
+    // _bioController = TextEditingController(text: widget.user.bio ?? '');
 
     // Listen for username changes to enforce lowercase and valid characters
     _usernameController.addListener(_formatUsername);
@@ -46,7 +44,7 @@ class _EditUserDialogState extends State<EditUserDialog> {
     _usernameController.removeListener(_formatUsername);
     _displayNameController.dispose();
     _usernameController.dispose();
-    _bioController.dispose();
+    // _bioController.dispose();
     super.dispose();
   }
 
@@ -85,7 +83,7 @@ class _EditUserDialogState extends State<EditUserDialog> {
                 ),
               ],
               const SizedBox(height: AppSizes.spacing16),
-              _buildBioField(),
+              // _buildBioField(),
             ],
           ),
         ),
@@ -138,16 +136,16 @@ class _EditUserDialogState extends State<EditUserDialog> {
     );
   }
 
-  Widget _buildBioField() {
-    return CustomTextField(
-      controller: _bioController,
-      labelText: 'settings.editProfile.bio'.tr(),
-      hintText: 'settings.editProfile.bioHint'.tr(),
-      maxLines: 3,
-      maxLength: AppTextLimits.bioMaxLength,
-      isRemoveTextVisible: true,
-    );
-  }
+  // Widget _buildBioField() {
+  //   return CustomTextField(
+  //     controller: _bioController,
+  //     labelText: 'settings.editProfile.bio'.tr(),
+  //     hintText: 'settings.editProfile.bioHint'.tr(),
+  //     maxLines: 3,
+  //     maxLength: AppTextLimits.bioMaxLength,
+  //     isRemoveTextVisible: true,
+  //   );
+  // }
 
   void _formatUsername() {
     final text = _usernameController.text;
@@ -172,7 +170,7 @@ class _EditUserDialogState extends State<EditUserDialog> {
   Future<void> _saveProfile() async {
     final displayName = _displayNameController.text.trim();
     final username = _usernameController.text.trim();
-    final bio = _bioController.text.trim();
+    // final bio = _bioController.text.trim();
 
     // Validate username (required)
     if (username.isEmpty) {
@@ -211,7 +209,7 @@ class _EditUserDialogState extends State<EditUserDialog> {
       await usersProvider.updateProfile(
         displayName: displayName.isEmpty ? null : displayName,
         username: username,
-        bio: bio.isEmpty ? null : bio,
+        // bio: bio.isEmpty ? null : bio,
       );
 
       if (mounted) {

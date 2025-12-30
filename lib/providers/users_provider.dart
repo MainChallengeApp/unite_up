@@ -236,10 +236,18 @@ class UsersProvider extends ChangeNotifier {
 
     try {
       final updates = <String, dynamic>{};
-      if (displayName != null) updates['display_name'] = displayName;
-      if (username != null) updates['username'] = username;
-      if (avatarUrl != null) updates['avatar_url'] = avatarUrl;
-      if (bio != null) updates['bio'] = bio;
+      if (username != null) {
+        updates['username'] = username;
+      }
+      if (displayName != null || currentUser!.displayName != null) {
+        updates['display_name'] = displayName;
+      }
+      if (avatarUrl != null || currentUser!.avatarUrl != null) {
+        updates['avatar_url'] = avatarUrl;
+      }
+      if (bio != null || currentUser!.bio != null) {
+        updates['bio'] = bio;
+      }
 
       if (updates.isNotEmpty) {
         _currentUser = await _usersDb.update(_currentUser!.id, updates);

@@ -70,7 +70,7 @@ class _ProfilePageState extends State<ProfilePage> {
       padding: const EdgeInsets.all(AppSizes.spacing16),
       child: Column(
         children: [
-          ProfileHeader(name: user.name, email: user.email),
+          ProfileHeader(username: user.username, displayName: user.displayName),
           const SizedBox(height: AppSizes.spacing32),
           _buildStatsRow(appState),
           const SizedBox(height: AppSizes.spacing32),

@@ -2,10 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
 
 class ProfileHeader extends StatelessWidget {
-  final String name;
-  final String email;
+  final String username;
+  final String? displayName;
 
-  const ProfileHeader({super.key, required this.name, required this.email});
+  const ProfileHeader({
+    super.key,
+    required this.username,
+    this.displayName,
+  });
+
+  bool get _hasDisplayName =>
+      displayName != null && displayName!.trim().isNotEmpty;
 
   @override
   Widget build(BuildContext context) {
@@ -16,9 +23,11 @@ class ProfileHeader extends StatelessWidget {
         const SizedBox(height: AppSizes.spacing20),
         _buildAvatar(theme),
         const SizedBox(height: AppSizes.spacing20),
-        _buildName(theme),
-        const SizedBox(height: AppSizes.spacing4),
-        _buildEmail(theme),
+        _buildPrimaryText(theme),
+        if (_hasDisplayName) ...[
+          const SizedBox(height: AppSizes.spacing4),
+          _buildSecondaryText(theme),
+        ],
       ],
     );
   }
@@ -46,9 +55,12 @@ class ProfileHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildName(ThemeData theme) {
+  /// Shows display_name in big font when set, otherwise username.
+  Widget _buildPrimaryText(ThemeData theme) {
+    final primaryText = _hasDisplayName ? displayName! : username;
+
     return Text(
-      name,
+      primaryText,
       style: AppTextStyles.baseBold.copyWith(
         fontSize: AppSizes.iconLarge,
         color: theme.brightness == Brightness.dark
@@ -58,9 +70,10 @@ class ProfileHeader extends StatelessWidget {
     );
   }
 
-  Widget _buildEmail(ThemeData theme) {
+  /// Shows username in smaller font when display_name is set.
+  Widget _buildSecondaryText(ThemeData theme) {
     return Text(
-      email,
+      '@$username',
       style: AppTextStyles.baseMedium.copyWith(
         color: theme.iconTheme.color?.withValues(
           alpha: AppOpacity.mostlyOpaque,
