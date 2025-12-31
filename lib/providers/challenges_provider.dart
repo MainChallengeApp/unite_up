@@ -268,10 +268,24 @@ class ChallengesProvider extends ChangeNotifier {
     }
   }
 
-  /// Delete a challenge.
+  /// Delete a challenge (if creator) or leave it (if member).
   Future<void> deleteChallenge(String challengeId) async {
     try {
-      await _challengesDb.delete(challengeId);
+      final challenge = _challenges.firstWhere(
+        (c) => c.id == challengeId,
+        orElse: () => throw Exception('Challenge not found'),
+      );
+
+      final isCreator = challenge.creatorId == currentUserId;
+
+      if (isCreator) {
+        // Creator can delete the challenge
+        await _challengesDb.delete(challengeId);
+      } else {
+        // Non-creator members leave the challenge instead
+        await _challengesDb.removeMember(challengeId, currentUserId!);
+      }
+
       _challenges.removeWhere((c) => c.id == challengeId);
       if (_selectedChallengeId == challengeId) {
         _selectedChallengeId = null;

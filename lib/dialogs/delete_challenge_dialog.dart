@@ -17,24 +17,35 @@ class DeleteChallengeDialog extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appState = Provider.of<AppStateProvider>(context, listen: false);
+    final isCreator = challenge.creatorId == appState.currentUser?.id;
+
+    final title =
+        isCreator ? 'challenges.delete'.tr() : 'challenges.leave'.tr();
+    final content = isCreator
+        ? 'challenges.deleteConfirmation'.tr()
+        : 'challenges.leaveConfirmation'.tr();
+    final buttonText =
+        isCreator ? 'common.delete'.tr() : 'common.leave'.tr();
+
     return AlertDialog(
-      title: Text('challenges.delete'.tr()),
-      content: Text('challenges.deleteConfirmation'.tr()),
+      title: Text(title),
+      content: Text(content),
       actions: [
         TextButton(
           onPressed: () => Navigator.pop(context),
           child: Text('common.cancel'.tr()),
         ),
         FilledButton(
-          onPressed: () => _deleteChallenge(context),
+          onPressed: () => _deleteOrLeaveChallenge(context),
           style: FilledButton.styleFrom(backgroundColor: AppColors.red),
-          child: Text('common.delete'.tr()),
+          child: Text(buttonText),
         ),
       ],
     );
   }
 
-  void _deleteChallenge(BuildContext context) {
+  void _deleteOrLeaveChallenge(BuildContext context) {
     Provider.of<AppStateProvider>(
       context,
       listen: false,
