@@ -9,17 +9,25 @@ import 'profile_page.dart';
 import 'search_page.dart';
 
 class HomePage extends StatefulWidget {
+  static final GlobalKey<HomePageState> globalKey = GlobalKey<HomePageState>();
+
   const HomePage({super.key});
 
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomePage> createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class HomePageState extends State<HomePage> {
   int _selectedIndex = 1;
   bool _wasAuthenticated = false;
 
   ThemeData get _theme => Theme.of(context);
+
+  void navigateToTab(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {

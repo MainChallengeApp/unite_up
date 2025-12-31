@@ -296,10 +296,12 @@
     "title": "Profile",
     "follow": "Follow",
     "following": "Following",
+    "noFollowers": "No followers yet",
+    "noFollowing": "Not following anyone yet",
     "stats": {
-      "goals": "Goals",
       "challenges": "Challenges",
-      "followers": "Followers"
+      "followers": "Followers",
+      "following": "Following"
     },
     "menu": {
       "achievements": "Achievements",

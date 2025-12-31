@@ -57,7 +57,10 @@ class MyApp extends StatelessWidget {
 
   final GoRouter _router = GoRouter(
     routes: [
-      GoRoute(path: '/', builder: (context, state) => HomePage()),
+      GoRoute(
+        path: '/',
+        builder: (context, state) => HomePage(key: HomePage.globalKey),
+      ),
       GoRoute(path: '/waitlist', builder: (context, state) => WaitlistPage()),
       GoRoute(
         path: '/email-confirmed',

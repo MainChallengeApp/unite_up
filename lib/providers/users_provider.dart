@@ -330,16 +330,19 @@ class UsersProvider extends ChangeNotifier {
     return _userFollowsDb.isFollowing(userId);
   }
 
-  /// Get list of users that the current user is following.
-  Future<List<UserModel>> getFollowing({int limit = 50}) async {
-    if (_currentUser == null) return [];
-    return _userFollowsDb.getFollowing(_currentUser!.id, limit: limit);
+  /// Get list of users that a user is following.
+  Future<List<UserModel>> getFollowing(String userId, {int limit = 50}) async {
+    return _userFollowsDb.getFollowing(userId, limit: limit);
   }
 
-  /// Get list of users that follow the current user.
-  Future<List<UserModel>> getFollowers({int limit = 50}) async {
-    if (_currentUser == null) return [];
-    return _userFollowsDb.getFollowers(_currentUser!.id, limit: limit);
+  /// Get list of users that follow a user.
+  Future<List<UserModel>> getFollowers(String userId, {int limit = 50}) async {
+    return _userFollowsDb.getFollowers(userId, limit: limit);
+  }
+
+  /// Get follow status for multiple users at once.
+  Future<Map<String, bool>> getFollowStatusBatch(List<String> userIds) async {
+    return _userFollowsDb.getFollowStatusBatch(userIds);
   }
 
   /// Clear the user cache.

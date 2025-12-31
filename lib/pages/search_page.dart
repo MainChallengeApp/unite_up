@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
-import 'package:unite_up/database/user_follows_database.dart';
 import 'package:unite_up/models/user_model.dart';
 import 'package:unite_up/providers/users_provider.dart';
 import 'package:unite_up/widgets/custom_app_bar.dart';
@@ -93,20 +92,15 @@ class _SearchPageState extends State<SearchPage> {
     final usersProvider = Provider.of<UsersProvider>(context, listen: false);
     final currentUserId = usersProvider.currentUser?.id;
 
-    // If not authenticated, just return users as-is
     if (currentUserId == null) return users;
 
-    // Filter out the current user from results and get follow status for others
     final otherUsers = users.where((u) => u.id != currentUserId).toList();
     final userIds = otherUsers.map((u) => u.id).toList();
 
     if (userIds.isEmpty) return users;
 
-    // Batch fetch follow status
-    final followStatus = await UserFollowsDatabase.instance
-        .getFollowStatusBatch(userIds);
+    final followStatus = await usersProvider.getFollowStatusBatch(userIds);
 
-    // Update users with follow status
     return users.map((user) {
       if (user.id == currentUserId) return user;
       return user.copyWith(isFollowing: followStatus[user.id] ?? false);

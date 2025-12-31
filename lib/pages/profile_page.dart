@@ -3,11 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:unite_up/pages/auth_page.dart';
+import 'package:unite_up/pages/home_page.dart';
 import 'package:unite_up/pages/settings_page.dart';
+import 'package:unite_up/pages/user_list_page.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
 import 'package:unite_up/widgets/custom_app_bar.dart';
 import 'package:unite_up/widgets/profile_header.dart';
-import 'package:unite_up/widgets/profile_menu_item.dart';
 import 'package:unite_up/widgets/profile_stat_card.dart';
 
 class ProfilePage extends StatefulWidget {
@@ -42,6 +43,30 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  void _navigateToChallenges() {
+    HomePage.globalKey.currentState?.navigateToTab(1);
+  }
+
+  void _navigateToFollowers(String userId) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            UserListPage(userId: userId, listType: UserListType.followers),
+      ),
+    );
+  }
+
+  void _navigateToFollowing(String userId) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) =>
+            UserListPage(userId: userId, listType: UserListType.following),
+      ),
+    );
+  }
+
   PreferredSizeWidget _buildAppBar(bool isAuthenticated) {
     return CustomAppBar(
       title: 'profile.title'.tr(),
@@ -73,9 +98,6 @@ class _ProfilePageState extends State<ProfilePage> {
           ProfileHeader(username: user.username, displayName: user.displayName),
           const SizedBox(height: AppSizes.spacing32),
           _buildStatsRow(appState),
-          const SizedBox(height: AppSizes.spacing32),
-          _buildMenuItems(),
-          const SizedBox(height: AppSizes.spacing32),
         ],
       ),
     );
@@ -83,68 +105,28 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget _buildStatsRow(AppStateProvider appState) {
     final user = appState.currentUser!;
-    final userId = user.id;
 
-    // Count total goals across all challenges for this user
-    int totalGoals = 0;
-    for (final challenge in appState.challenges) {
-      totalGoals += challenge.goals.where((g) => g.userId == userId).length;
-    }
-
-    // Count challenges
     final challengesCount = appState.challenges.length;
-
-    // Followers count from user model
     final followersCount = user.followersCount;
+    final followingCount = user.followingCount;
 
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
         ProfileStatCard(
-          value: totalGoals.toString(),
-          label: 'profile.stats.goals'.tr(),
-        ),
-        ProfileStatCard(
           value: challengesCount.toString(),
           label: 'profile.stats.challenges'.tr(),
+          onTap: _navigateToChallenges,
         ),
         ProfileStatCard(
           value: followersCount.toString(),
           label: 'profile.stats.followers'.tr(),
+          onTap: () => _navigateToFollowers(user.id),
         ),
-      ],
-    );
-  }
-
-  Widget _buildMenuItems() {
-    return Column(
-      children: [
-        ProfileMenuItem(
-          icon: AppIcons.trophy,
-          title: 'profile.menu.achievements'.tr(),
-          subtitle: 'profile.menu.viewAccomplishments'.tr(),
-          onTap: () {},
-        ),
-        const SizedBox(height: AppSizes.spacing12),
-        ProfileMenuItem(
-          icon: AppIcons.stats,
-          title: 'profile.menu.statistics'.tr(),
-          subtitle: 'profile.menu.trackProgress'.tr(),
-          onTap: () {},
-        ),
-        const SizedBox(height: AppSizes.spacing12),
-        ProfileMenuItem(
-          icon: AppIcons.notifications,
-          title: 'profile.menu.notifications'.tr(),
-          subtitle: 'profile.menu.manageAlerts'.tr(),
-          onTap: () {},
-        ),
-        const SizedBox(height: AppSizes.spacing12),
-        ProfileMenuItem(
-          icon: AppIcons.settings,
-          title: 'profile.menu.settings'.tr(),
-          subtitle: 'profile.menu.appPreferences'.tr(),
-          onTap: _navigateToSettings,
+        ProfileStatCard(
+          value: followingCount.toString(),
+          label: 'profile.stats.following'.tr(),
+          onTap: () => _navigateToFollowing(user.id),
         ),
       ],
     );
