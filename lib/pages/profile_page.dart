@@ -91,16 +91,36 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget _buildProfileView(AppStateProvider appState) {
     final user = appState.currentUser!;
 
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(AppSizes.spacing16),
-      child: Column(
-        children: [
-          ProfileHeader(username: user.username, displayName: user.displayName),
-          const SizedBox(height: AppSizes.spacing32),
-          _buildStatsRow(appState),
-        ],
-      ),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return RefreshIndicator(
+          onRefresh: () => _onRefresh(appState),
+          child: SingleChildScrollView(
+            physics: const AlwaysScrollableScrollPhysics(),
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minHeight: constraints.maxHeight),
+              child: Padding(
+                padding: const EdgeInsets.all(AppSizes.spacing16),
+                child: Column(
+                  children: [
+                    ProfileHeader(
+                      username: user.username,
+                      displayName: user.displayName,
+                    ),
+                    const SizedBox(height: AppSizes.spacing32),
+                    _buildStatsRow(appState),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        );
+      },
     );
+  }
+
+  Future<void> _onRefresh(AppStateProvider appState) async {
+    await appState.reloadProfile();
   }
 
   Widget _buildStatsRow(AppStateProvider appState) {

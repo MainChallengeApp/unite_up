@@ -66,22 +66,29 @@ class _ChallengesPageState extends State<ChallengesPage>
         showBackButton: false,
         actions: _buildAppBarActions(context),
       ),
-      body: challenges.isEmpty
-          ? _buildEmptyState(context)
-          : ListView.builder(
-              itemCount: challenges.length,
-              itemBuilder: (context, index) {
-                return Padding(
-                  padding: const EdgeInsets.only(
-                    bottom: AppSizes.spacing16,
-                    left: AppSizes.spacing16,
-                    right: AppSizes.spacing16,
-                  ),
-                  child: _buildChallengeCard(context, challenges[index]),
-                );
-              },
-            ),
+      body: RefreshIndicator(
+        onRefresh: () => _onRefresh(appState),
+        child: challenges.isEmpty
+            ? _buildEmptyState(context)
+            : ListView.builder(
+                itemCount: challenges.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                      bottom: AppSizes.spacing16,
+                      left: AppSizes.spacing16,
+                      right: AppSizes.spacing16,
+                    ),
+                    child: _buildChallengeCard(context, challenges[index]),
+                  );
+                },
+              ),
+      ),
     );
+  }
+
+  Future<void> _onRefresh(AppStateProvider appState) async {
+    await appState.reloadChallenges();
   }
 
   Widget? _buildAppBarLeading() {
@@ -202,17 +209,23 @@ class _ChallengesPageState extends State<ChallengesPage>
   }
 
   Widget _buildEmptyState(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.only(
-          left: AppSizes.spacing32,
-          right: AppSizes.spacing32,
-          bottom: AppSizes.spacing48,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          mainAxisSize: MainAxisSize.min,
-          children: [
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        return SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(minHeight: constraints.maxHeight),
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  left: AppSizes.spacing32,
+                  right: AppSizes.spacing32,
+                  bottom: AppSizes.spacing48,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
             // Animated Icon with heartbeat effect
             AnimatedBuilder(
               animation: _scaleAnimation,
@@ -288,6 +301,10 @@ class _ChallengesPageState extends State<ChallengesPage>
           ],
         ),
       ),
+            ),
+          ),
+        );
+      },
     );
   }
 

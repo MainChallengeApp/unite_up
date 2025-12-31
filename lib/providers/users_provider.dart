@@ -92,6 +92,11 @@ class UsersProvider extends ChangeNotifier {
     }
   }
 
+  /// Reload the current user's profile from the database.
+  Future<void> reloadCurrentUser() async {
+    await _loadCurrentUser();
+  }
+
   // ============================================================================
   // Authentication
   // ============================================================================

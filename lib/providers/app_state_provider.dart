@@ -155,4 +155,9 @@ class AppStateProvider extends ChangeNotifier {
   Future<void> reloadChallenges() async {
     await _challengesProvider?.loadChallenges();
   }
+
+  /// Reload the current user's profile from the database.
+  Future<void> reloadProfile() async {
+    await _usersProvider?.reloadCurrentUser();
+  }
 }
