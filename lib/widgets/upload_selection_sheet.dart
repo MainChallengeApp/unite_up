@@ -28,38 +28,38 @@ class UploadSelectionSheet extends StatelessWidget {
             Navigator.pop(context, 'goal_progress');
           },
         ),
-        BottomSheetOption(
-          icon: AppIcons.image,
-          label: 'chat.uploadImage'.tr(),
-          color: theme.colorScheme.secondary,
-          onTap: () {
-            Navigator.pop(context, 'image');
-          },
-        ),
-        BottomSheetOption(
-          icon: AppIcons.video,
-          label: 'chat.uploadVideo'.tr(),
-          color: theme.colorScheme.secondary,
-          onTap: () {
-            Navigator.pop(context, 'video');
-          },
-        ),
-        BottomSheetOption(
-          icon: AppIcons.audio,
-          label: 'chat.uploadAudio'.tr(),
-          color: AppColors.orange,
-          onTap: () {
-            Navigator.pop(context, 'audio');
-          },
-        ),
-        BottomSheetOption(
-          icon: AppIcons.file,
-          label: 'chat.uploadFile'.tr(),
-          color: AppColors.green,
-          onTap: () {
-            Navigator.pop(context, 'file');
-          },
-        ),
+        // BottomSheetOption(
+        //   icon: AppIcons.image,
+        //   label: 'chat.uploadImage'.tr(),
+        //   color: theme.colorScheme.secondary,
+        //   onTap: () {
+        //     Navigator.pop(context, 'image');
+        //   },
+        // ),
+        // BottomSheetOption(
+        //   icon: AppIcons.video,
+        //   label: 'chat.uploadVideo'.tr(),
+        //   color: theme.colorScheme.secondary,
+        //   onTap: () {
+        //     Navigator.pop(context, 'video');
+        //   },
+        // ),
+        // BottomSheetOption(
+        //   icon: AppIcons.audio,
+        //   label: 'chat.uploadAudio'.tr(),
+        //   color: AppColors.orange,
+        //   onTap: () {
+        //     Navigator.pop(context, 'audio');
+        //   },
+        // ),
+        // BottomSheetOption(
+        //   icon: AppIcons.file,
+        //   label: 'chat.uploadFile'.tr(),
+        //   color: AppColors.green,
+        //   onTap: () {
+        //     Navigator.pop(context, 'file');
+        //   },
+        // ),
       ],
     );
   }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
+import 'package:unite_up/core/utils/decimal_input_formatter.dart';
 import 'package:unite_up/models/goal_model.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
 
@@ -82,6 +83,7 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
                       keyboardType: const TextInputType.numberWithOptions(
                         decimal: true,
                       ),
+                      inputFormatters: [DecimalInputFormatter()],
                       decoration: InputDecoration(
                         labelText: 'goals.startValue'.tr(),
                         border: const OutlineInputBorder(),
@@ -95,6 +97,7 @@ class _EditGoalDialogState extends State<EditGoalDialog> {
                       keyboardType: const TextInputType.numberWithOptions(
                         decimal: true,
                       ),
+                      inputFormatters: [DecimalInputFormatter()],
                       decoration: InputDecoration(
                         labelText: 'goals.endValue'.tr(),
                         border: const OutlineInputBorder(),

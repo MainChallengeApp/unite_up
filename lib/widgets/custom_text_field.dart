@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
 
 class CustomTextField extends StatefulWidget {
@@ -20,6 +21,7 @@ class CustomTextField extends StatefulWidget {
   final TextInputAction? textInputAction;
   final ValueChanged<String>? onSubmitted;
   final List<String>? autofillHints;
+  final List<TextInputFormatter>? inputFormatters;
 
   const CustomTextField({
     super.key,
@@ -41,6 +43,7 @@ class CustomTextField extends StatefulWidget {
     this.textInputAction,
     this.onSubmitted,
     this.autofillHints,
+    this.inputFormatters,
   });
 
   @override
@@ -103,6 +106,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
       keyboardType: widget.keyboardType,
       textCapitalization: widget.textCapitalization,
       autofillHints: widget.autofillHints,
+      inputFormatters: widget.inputFormatters,
       enableSuggestions: !widget.obscureText,
       autocorrect: !widget.obscureText,
       decoration: InputDecoration(

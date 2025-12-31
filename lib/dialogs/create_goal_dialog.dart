@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
+import 'package:unite_up/core/utils/decimal_input_formatter.dart';
 import 'package:unite_up/models/goal_model.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
 import 'package:unite_up/widgets/custom_text_field.dart';
@@ -64,6 +66,7 @@ class _CreateGoalDialogState extends State<CreateGoalDialog> {
                         keyboardType: const TextInputType.numberWithOptions(
                           decimal: true,
                         ),
+                        inputFormatters: [DecimalInputFormatter()],
                       ),
                     ),
                     const SizedBox(width: AppSizes.spacing12),
@@ -74,6 +77,7 @@ class _CreateGoalDialogState extends State<CreateGoalDialog> {
                         keyboardType: const TextInputType.numberWithOptions(
                           decimal: true,
                         ),
+                        inputFormatters: [DecimalInputFormatter()],
                       ),
                     ),
                   ],
