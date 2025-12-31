@@ -1,13 +1,22 @@
 #!/bin/bash
 
-branch="$(git rev-parse --abbrev-ref HEAD 2>/dev/null)"
+if [ -z "$1" ]; then
+  echo "Usage: ./build.sh <prod|test>"
+  exit 1
+fi
 
-if [ "$branch" = "prod" ]; then
-  echo "we are on prod"
+ENV=$1
+
+if [ "$ENV" = "prod" ]; then
+  echo "Building for PROD"
   cp .env.prod .env
-else
-echo "we are on test"
+elif [ "$ENV" = "test" ]; then
+  echo "Building for TEST"
   cp .env.test .env
+else
+  echo "Invalid environment: $ENV"
+  echo "Usage: ./build.sh <prod|test>"
+  exit 1
 fi
 
 echo SUPABASE_URL=$SUPABASE_URL >> .env
