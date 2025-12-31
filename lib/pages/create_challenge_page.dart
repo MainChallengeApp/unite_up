@@ -512,14 +512,16 @@ class _MemberSearchDialog extends StatefulWidget {
 
 class _MemberSearchDialogState extends State<_MemberSearchDialog> {
   final TextEditingController _searchController = TextEditingController();
-  List<UserModel> _searchResults = [];
+  List<UserModel> _followers = [];
+  List<UserModel> _filteredFollowers = [];
   late List<UserModel> _selected;
-  bool _isLoading = false;
+  bool _isLoading = true;
 
   @override
   void initState() {
     super.initState();
     _selected = List.from(widget.selectedMembers);
+    _loadFollowers();
   }
 
   @override
@@ -528,31 +530,43 @@ class _MemberSearchDialogState extends State<_MemberSearchDialog> {
     super.dispose();
   }
 
-  Future<void> _search(String query) async {
-    if (query.length < 2) {
-      setState(() => _searchResults = []);
-      return;
-    }
-
-    setState(() => _isLoading = true);
-
+  Future<void> _loadFollowers() async {
     try {
       final usersProvider = Provider.of<UsersProvider>(context, listen: false);
       final currentUserId = usersProvider.currentUser?.id;
-      final results = await usersProvider.searchUsers(query);
 
-      if (mounted) {
-        setState(() {
-          // Filter out current user from results
-          _searchResults = results.where((u) => u.id != currentUserId).toList();
-          _isLoading = false;
-        });
+      if (currentUserId != null) {
+        final followers = await usersProvider.getFollowers(currentUserId);
+
+        if (mounted) {
+          setState(() {
+            _followers = followers;
+            _filteredFollowers = followers;
+            _isLoading = false;
+          });
+        }
       }
     } catch (e) {
       if (mounted) {
         setState(() => _isLoading = false);
       }
     }
+  }
+
+  void _filterFollowers(String query) {
+    if (query.isEmpty) {
+      setState(() => _filteredFollowers = _followers);
+      return;
+    }
+
+    final lowerQuery = query.toLowerCase();
+    setState(() {
+      _filteredFollowers = _followers.where((user) {
+        final name = user.name.toLowerCase();
+        final username = user.username.toLowerCase();
+        return name.contains(lowerQuery) || username.contains(lowerQuery);
+      }).toList();
+    });
   }
 
   @override
@@ -573,48 +587,55 @@ class _MemberSearchDialogState extends State<_MemberSearchDialog> {
                   borderRadius: BorderRadius.circular(AppSizes.radiusMedium),
                 ),
               ),
-              onChanged: _search,
+              onChanged: _filterFollowers,
             ),
             const SizedBox(height: AppSizes.spacing16),
             Expanded(
               child: _isLoading
                   ? const Center(child: CircularProgressIndicator())
-                  : _searchResults.isEmpty
-                  ? Center(
-                      child: Text(
-                        _searchController.text.length < 2
-                            ? 'search.enterAtLeast2Chars'.tr()
-                            : 'search.noUsersFound'.tr(),
-                        style: AppTextStyles.secondaryText(context),
-                      ),
-                    )
-                  : ListView.builder(
-                      itemCount: _searchResults.length,
-                      itemBuilder: (context, index) {
-                        final user = _searchResults[index];
-                        final isSelected = _selected.any(
-                          (u) => u.id == user.id,
-                        );
-
-                        return CheckboxListTile(
-                          value: isSelected,
-                          onChanged: (value) {
-                            setState(() {
-                              if (value == true) {
-                                _selected.add(user);
-                              } else {
-                                _selected.removeWhere((u) => u.id == user.id);
-                              }
-                            });
-                          },
-                          title: Text(user.name),
-                          subtitle: Text('@${user.username}'),
-                          secondary: CircleAvatar(
-                            child: Text(user.name[0]),
+                  : _followers.isEmpty
+                      ? Center(
+                          child: Text(
+                            'profile.noFollowers'.tr(),
+                            style: AppTextStyles.secondaryText(context),
                           ),
-                        );
-                      },
-                    ),
+                        )
+                      : _filteredFollowers.isEmpty
+                          ? Center(
+                              child: Text(
+                                'search.noUsersFound'.tr(),
+                                style: AppTextStyles.secondaryText(context),
+                              ),
+                            )
+                          : ListView.builder(
+                              itemCount: _filteredFollowers.length,
+                              itemBuilder: (context, index) {
+                                final user = _filteredFollowers[index];
+                                final isSelected = _selected.any(
+                                  (u) => u.id == user.id,
+                                );
+
+                                return CheckboxListTile(
+                                  value: isSelected,
+                                  onChanged: (value) {
+                                    setState(() {
+                                      if (value == true) {
+                                        _selected.add(user);
+                                      } else {
+                                        _selected.removeWhere(
+                                          (u) => u.id == user.id,
+                                        );
+                                      }
+                                    });
+                                  },
+                                  title: Text(user.name),
+                                  subtitle: Text('@${user.username}'),
+                                  secondary: CircleAvatar(
+                                    child: Text(user.name[0]),
+                                  ),
+                                );
+                              },
+                            ),
             ),
             if (_selected.isNotEmpty) ...[
               const Divider(),
