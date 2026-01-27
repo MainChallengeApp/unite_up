@@ -39,4 +39,14 @@ class AppColors {
   static const Color blue = Color(0xFF2196F3);
   static const Color purple = Color(0xFF9C27B0);
   static const Color orange = Color(0xFFFF9800);
+
+  // Notification Colors - Light
+  static const Color lightEmerald = Color(0xFF10B981);
+  static const Color lightAmber = Color(0xFFF59E0B);
+  static const Color lightSky = Color(0xFF3B82F6);
+
+  // Notification Colors - Dark
+  static const Color darkEmerald = Color(0xFF34D399);
+  static const Color darkAmber = Color(0xFFFBBF24);
+  static const Color darkSky = Color(0xFF60A5FA);
 }

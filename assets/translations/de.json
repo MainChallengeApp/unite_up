@@ -403,5 +403,29 @@
   },
   "empty": {
     "noData": "Keine Daten verfügbar"
+  },
+  "notifications": {
+    "title": "Benachrichtigungen",
+    "markAllRead": "Alle als gelesen markieren",
+    "followBack": "Zurückfolgen",
+    "challengeNoLongerMember": "Du bist nicht mehr Mitglied dieser Challenge",
+    "empty": {
+      "title": "Noch keine Benachrichtigungen",
+      "subtitle": "Wenn du Benachrichtigungen erhältst, erscheinen sie hier"
+    },
+    "types": {
+      "newFollower": "Neuer Follower",
+      "challengeInvite": "Challenge-Einladung",
+      "goalCompleted": "Ziel erreicht",
+      "progressUpdate": "Fortschritt-Update",
+      "system": "System"
+    },
+    "mock": {
+      "followBody": "{} folgt dir jetzt",
+      "inviteBody": "{} hat dich zu '{}' eingeladen",
+      "goalBody": "Glückwunsch! Du hast '{}' abgeschlossen",
+      "progressBody": "{} hat Fortschritt bei '{}' gemacht",
+      "systemBody": "Willkommen bei UniteUp! Starte heute deine erste Challenge."
+    }
   }
 }

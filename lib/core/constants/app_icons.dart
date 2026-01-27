@@ -37,6 +37,7 @@ class AppIcons {
   static const IconData lock = Icons.lock_outline_rounded;
   static const IconData login = Icons.login;
   static const IconData logout = Icons.logout_rounded;
+  static const IconData mailOutline = Icons.mail_outline_rounded;
   static const IconData notifications = Icons.notifications_outlined;
   static const IconData people = Icons.people_outline_rounded;
   static const IconData person = Icons.person_rounded;
@@ -47,6 +48,7 @@ class AppIcons {
   static const IconData send = Icons.send_rounded;
   static const IconData settings = Icons.settings_outlined;
   static const IconData stats = Icons.bar_chart_rounded;
+  static const IconData trendingUp = Icons.trending_up_rounded;
   static const IconData trophy = Icons.emoji_events_rounded;
   static const IconData upload = Icons.upload_rounded;
   static const IconData video = Icons.videocam_rounded;

@@ -4,9 +4,11 @@ import 'package:provider/provider.dart';
 import 'package:unite_up/core/constants/app_constants.dart';
 import 'package:unite_up/pages/auth_page.dart';
 import 'package:unite_up/pages/home_page.dart';
+import 'package:unite_up/pages/notification_center_page.dart';
 import 'package:unite_up/pages/settings_page.dart';
 import 'package:unite_up/pages/user_list_page.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
+import 'package:unite_up/providers/notifications_provider.dart';
 import 'package:unite_up/widgets/custom_app_bar.dart';
 import 'package:unite_up/widgets/profile_header.dart';
 import 'package:unite_up/widgets/profile_stat_card.dart';
@@ -43,6 +45,13 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  void _navigateToNotifications() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const NotificationCenterPage()),
+    );
+  }
+
   void _navigateToChallenges() {
     HomePage.globalKey.currentState?.navigateToTab(1);
   }
@@ -73,6 +82,7 @@ class _ProfilePageState extends State<ProfilePage> {
       showBackButton: false,
       actions: isAuthenticated
           ? [
+              _buildNotificationButton(),
               IconButton(
                 icon: const Icon(AppIcons.settings),
                 onPressed: _navigateToSettings,
@@ -81,6 +91,27 @@ class _ProfilePageState extends State<ProfilePage> {
               const SizedBox(width: AppSizes.spacing8),
             ]
           : null,
+    );
+  }
+
+  Widget _buildNotificationButton() {
+    return Consumer<NotificationsProvider>(
+      builder: (context, notificationsProvider, child) {
+        final unreadCount = notificationsProvider.unreadCount;
+
+        return IconButton(
+          icon: Badge(
+            isLabelVisible: unreadCount > 0,
+            label: Text(
+              unreadCount > 99 ? '99+' : unreadCount.toString(),
+              style: const TextStyle(fontSize: AppSizes.fontSmall),
+            ),
+            child: const Icon(AppIcons.notifications),
+          ),
+          onPressed: _navigateToNotifications,
+          tooltip: 'notifications.title'.tr(),
+        );
+      },
     );
   }
 

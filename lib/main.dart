@@ -8,6 +8,7 @@ import 'package:unite_up/pages/reset_password_page.dart';
 import 'package:unite_up/pages/waitlist_page.dart';
 import 'package:unite_up/providers/app_state_provider.dart';
 import 'package:unite_up/providers/challenges_provider.dart';
+import 'package:unite_up/providers/notifications_provider.dart';
 import 'package:unite_up/providers/theme_provider.dart';
 import 'package:unite_up/providers/users_provider.dart';
 import 'package:unite_up/services/env_service.dart';
@@ -34,6 +35,7 @@ void main() async {
           ChangeNotifierProvider(create: (_) => ThemeProvider()),
           ChangeNotifierProvider(create: (_) => UsersProvider()),
           ChangeNotifierProvider(create: (_) => ChallengesProvider()),
+          ChangeNotifierProvider(create: (_) => NotificationsProvider()),
           ChangeNotifierProxyProvider2<
             UsersProvider,
             ChallengesProvider,

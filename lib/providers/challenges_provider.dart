@@ -252,16 +252,36 @@ class ChallengesProvider extends ChangeNotifier {
   /// Update a challenge.
   Future<void> updateChallenge(ChallengeChatModel challenge) async {
     try {
-      final updated = await _challengesDb.update(
+      // Update challenge fields
+      await _challengesDb.update(
         challenge.id,
         challenge.toUpdateJson(),
       );
 
-      final index = _challenges.indexWhere((c) => c.id == challenge.id);
-      if (index != -1) {
-        _challenges[index] = updated;
-        notifyListeners();
+      // Handle member changes
+      final oldMemberIds = await _challengesDb.getMemberIds(challenge.id);
+      final newMemberIds = challenge.memberIds;
+
+      // Find members to add (in new list but not in old)
+      final membersToAdd =
+          newMemberIds.where((id) => !oldMemberIds.contains(id)).toList();
+
+      // Find members to remove (in old list but not in new)
+      final membersToRemove =
+          oldMemberIds.where((id) => !newMemberIds.contains(id)).toList();
+
+      // Add new members
+      for (final memberId in membersToAdd) {
+        await _challengesDb.addMember(challenge.id, memberId);
       }
+
+      // Remove old members
+      for (final memberId in membersToRemove) {
+        await _challengesDb.removeMember(challenge.id, memberId);
+      }
+
+      // Refresh to get updated data
+      await _refreshChallenge(challenge.id);
     } catch (e) {
       _error = e.toString();
       notifyListeners();
